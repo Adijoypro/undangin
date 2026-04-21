@@ -202,22 +202,24 @@ export default function LandingPage() {
             </div>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="flex overflow-x-auto pb-12 gap-8 snap-x snap-mandatory hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
             {/* The VVIP Series */}
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="group cursor-pointer block"
+              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
             >
-              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#0A0A0A] relative border border-white/10 group-hover:border-[#D4AF37]/50 transition-all duration-700">
+              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#0A0A0A] relative border border-white/10 group-hover:border-[#D4AF37]/50 transition-all duration-700 shadow-xl">
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-10"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
                   <p className="font-serif text-[#D4AF37] mb-4 text-sm italic tracking-widest">The VVIP Series</p>
                   <h3 className="font-script text-6xl text-white mb-8 drop-shadow-2xl transform group-hover:scale-105 transition-transform duration-700">Ultra Luxury</h3>
-                  <div className="px-8 py-3 bg-[#D4AF37] text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Live Demo</div>
+                  <div className="px-8 py-3 bg-[#D4AF37] text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
                 </div>
+                {/* Live Demo Iframe */}
+                <iframe src="/demo/ultra-luxury" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-black"></iframe>
               </div>
               <div className="mt-8 text-center">
                 <h4 className="font-serif text-2xl font-bold mb-2">Onyx & Rose Gold</h4>
@@ -227,19 +229,20 @@ export default function LandingPage() {
 
             {/* The Dark Series */}
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="group cursor-pointer block"
+              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
             >
-              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#111] relative border border-white/10 group-hover:border-white/50 transition-all duration-700">
+              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#111] relative border border-white/10 group-hover:border-white/50 transition-all duration-700 shadow-xl">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-80 z-10"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
                   <p className="font-serif text-gray-300 mb-4 text-sm italic tracking-widest">The Dark Series</p>
                   <h3 className="font-serif text-5xl text-white mb-8 font-light uppercase tracking-widest transform group-hover:scale-105 transition-transform duration-700">Cinematic</h3>
-                  <div className="px-8 py-3 bg-white text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Live Demo</div>
+                  <div className="px-8 py-3 bg-white text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
                 </div>
+                <iframe src="/demo/cinematic-dark" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-black"></iframe>
               </div>
               <div className="mt-8 text-center">
                 <h4 className="font-serif text-2xl font-bold mb-2">Midnight Elegance</h4>
@@ -249,18 +252,19 @@ export default function LandingPage() {
 
             {/* The Premium Series */}
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="group cursor-pointer block"
+              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
             >
               <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#f5f5f0] relative border border-white/10 group-hover:border-[#9baca0] transition-all duration-700 shadow-[inset_0_0_50px_rgba(0,0,0,0.05)]">
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
                   <p className="font-serif text-[#9baca0] mb-4 text-sm italic tracking-widest">The Premium Series</p>
                   <h3 className="font-script text-6xl text-[#2c332e] mb-8 transform group-hover:scale-105 transition-transform duration-700">Green Minimalist</h3>
-                  <div className="px-8 py-3 bg-[#9baca0] text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Live Demo</div>
+                  <div className="px-8 py-3 bg-[#9baca0] text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
                 </div>
+                <iframe src="/demo/premium" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-white"></iframe>
               </div>
               <div className="mt-8 text-center">
                 <h4 className="font-serif text-2xl font-bold mb-2">Sage Splendor</h4>
@@ -268,26 +272,49 @@ export default function LandingPage() {
               </div>
             </motion.div>
 
-            {/* The Renaissance Series - NEW */}
+            {/* The Renaissance Series */}
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="group cursor-pointer block"
+              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
             >
               <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#F9F6F0] relative border border-[#D4AF37]/20 group-hover:border-[#D4AF37] transition-all duration-700 shadow-xl">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 mix-blend-multiply"></div>
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
                   <p className="font-serif text-[#7C8C77] mb-4 text-sm italic tracking-widest uppercase">The Heritage Series</p>
                   <h3 className="font-display text-5xl text-[#2B2B2B] mb-8 font-bold transform group-hover:scale-105 transition-transform duration-700">Renaissance</h3>
-                  <div className="px-8 py-3 bg-[#7C8C77] text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Lihat Detail</div>
+                  <div className="px-8 py-3 bg-[#7C8C77] text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
                 </div>
+                <iframe src="/demo/renaissance-garden" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-[#F9F6F0]"></iframe>
               </div>
               <div className="mt-8 text-center">
                 <h4 className="font-serif text-2xl font-bold mb-2">Renaissance Garden</h4>
                 <p className={`text-sm ${theme.textMuted}`}>Klasik Eropa dengan ornamen bunga vintage.</p>
+              </div>
+            </motion.div>
+            {/* The Majestic Eternity Series */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
+            >
+              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#0A1C14] relative border border-[#D4AF37]/20 group-hover:border-[#D4AF37] transition-all duration-700 shadow-[0_0_30px_rgba(212,175,55,0.15)]">
+                <div className="absolute inset-0 bg-gradient-to-b from-[#0A1C14] via-transparent to-[#0A1C14] z-10"></div>
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
+                  <p className="font-serif text-[#D4AF37] mb-4 text-sm italic tracking-widest uppercase">The Royal Series</p>
+                  <h3 className="font-script text-5xl text-white mb-8 font-bold transform group-hover:scale-105 transition-transform duration-700">Majestic Eternity</h3>
+                  <div className="px-8 py-3 bg-[#06120C] border border-[#D4AF37] text-[#D4AF37] rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
+                </div>
+                <iframe src="/demo/majestic-eternity" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-[#0A1C14]"></iframe>
+              </div>
+              <div className="mt-8 text-center">
+                <h4 className="font-serif text-2xl font-bold mb-2">Majestic Eternity</h4>
+                <p className={`text-sm ${theme.textMuted}`}>Kemegahan abadi dengan palet emerald & gold.</p>
               </div>
             </motion.div>
           </div>
