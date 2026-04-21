@@ -1,0 +1,83 @@
+import PremiumTheme from "@/components/themes/PremiumTheme";
+import CinematicDarkTheme from "@/components/themes/CinematicDarkTheme";
+import UltraLuxuryTheme from "@/components/themes/UltraLuxuryTheme";
+import MajesticEternityTheme from "@/components/themes/MajesticEternityTheme";
+import RenaissanceGardenTheme from "@/components/themes/RenaissanceGardenTheme";
+import { notFound } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+
+export default async function InvitationPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const supabase = await createClient();
+
+  const { data: dbData } = await supabase
+    .from("invitations")
+    .select("*")
+    .eq("slug", resolvedParams.slug)
+    .single();
+
+  if (!dbData) {
+    notFound();
+  }
+
+  // Fetch Guestbook entries
+  const { data: guestbookData } = await supabase
+    .from("guestbook")
+    .select("*")
+    .eq("invitation_id", dbData.id)
+    .order("created_at", { ascending: false });
+
+  // Map Supabase data to our component structure
+  const mappedData = {
+    id: dbData.id,
+    slug: dbData.slug,
+    theme: dbData.theme,
+    bride: {
+      name: dbData.bride_name,
+      fullName: dbData.bride_fullname,
+      parents: "Bapak Budi & Ibu Siti", // TODO: Separate parents fields in DB
+      photo: dbData.bride_photo || "https://images.unsplash.com/photo-1546804784-81647414ee00?q=80&w=800&auto=format&fit=crop",
+    },
+    groom: {
+      name: dbData.groom_name,
+      fullName: dbData.groom_fullname,
+      parents: "Bapak Joko & Ibu Sri", // TODO: Separate parents fields in DB
+      photo: dbData.groom_photo || "https://images.unsplash.com/photo-1550005809-91ad75fb315f?q=80&w=800&auto=format&fit=crop",
+    },
+    event: {
+      date: dbData.event_date || "14 Februari 2027",
+      dateFormatted: { day: "Minggu", date: "14", monthYear: "Februari 2027" }, // Can be parsed dynamically later
+      time: dbData.event_time || "08:00 - Selesai",
+      locationName: dbData.event_location || "Gedung Serbaguna",
+      locationAddress: dbData.event_address || "Jakarta",
+      mapsLink: dbData.maps_link || "https://maps.google.com"
+    },
+    loveStory: [
+      "Pertama kali bertemu di sebuah cafe kecil di sudut kota. Tidak ada yang spesial hari itu, namun takdir punya rencananya sendiri.",
+      "Setelah bertahun-tahun saling mengenal, kami memutuskan untuk melangkah ke jenjang yang lebih serius."
+    ],
+    quote: dbData.quote || "Dan di antara tanda-tanda kebesaran-Nya...",
+    gift: {
+      bankName: dbData.bank_name || "BCA",
+      accountNumber: dbData.account_number || "1234567890",
+      accountName: dbData.account_name || (dbData.bride_name + " & " + dbData.groom_name)
+    },
+    musicUrl: dbData.music_url || "https://cdn.pixabay.com/download/audio/2022/05/16/audio_18dc903e1e.mp3?filename=wedding-piano-111166.mp3",
+    guestbook: guestbookData || []
+  };
+
+  // Theme Router Logic based on Supabase
+  switch (mappedData.theme) {
+    case "cinematic":
+      return <CinematicDarkTheme data={mappedData} />;
+    case "ultra-luxury":
+      return <UltraLuxuryTheme data={mappedData} />;
+    case "majestic-eternity":
+      return <MajesticEternityTheme data={mappedData} />;
+    case "renaissance-garden":
+      return <RenaissanceGardenTheme data={mappedData} />;
+    case "premium":
+    default:
+      return <PremiumTheme data={mappedData} />;
+  }
+}
