@@ -73,3 +73,15 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--color-wedding-gold); border-radius: 10px; }
 
 .parallax-target { transition: transform 0.2s ease-out; }
+
+/* 8. INFINITE MARQUEE SLIDER */
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 1rem)); }
+}
