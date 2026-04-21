@@ -9,7 +9,7 @@ export default function LandingPage() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-  
+
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
@@ -40,9 +40,9 @@ export default function LandingPage() {
 
   return (
     <div className={`min-h-screen ${theme.bg} ${theme.text} font-sans selection:bg-[#D4AF37] selection:text-black overflow-hidden transition-colors duration-1000`} ref={containerRef}>
-      
+
       {/* NAVBAR */}
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -58,9 +58,9 @@ export default function LandingPage() {
               <a href="#fitur" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Fitur</a>
               <a href="#template" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Tema</a>
               <Link href="/dashboard" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Dasbor</Link>
-              
+
               {/* Animated Dark/Light Mode Toggle */}
-              <motion.button 
+              <motion.button
                 onClick={() => setIsDark(!isDark)}
                 className={`w-10 h-10 rounded-full flex items-center justify-center border ${theme.border} ${isDark ? 'hover:bg-white/10' : 'hover:bg-black/5'} transition-colors`}
                 whileHover={{ scale: 1.1 }}
@@ -92,18 +92,18 @@ export default function LandingPage() {
 
       {/* HERO SECTION */}
       <section className="relative pt-40 pb-32 px-4 min-h-screen flex items-center justify-center">
-        <motion.div 
+        <motion.div
           animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           className={`absolute top-1/4 -left-1/4 w-[800px] h-[800px] rounded-full ${isDark ? 'bg-[#D4AF37]/10' : 'bg-[#D4AF37]/20'} blur-[80px] pointer-events-none transition-colors duration-1000 will-change-transform`}
         />
-        <motion.div 
+        <motion.div
           animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           className={`absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full ${isDark ? 'bg-white/5' : 'bg-[#D4AF37]/10'} blur-[60px] pointer-events-none transition-colors duration-1000 will-change-transform`}
         />
-        
-        <motion.div 
+
+        <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
           variants={staggerContainer}
           initial="hidden"
@@ -114,16 +114,16 @@ export default function LandingPage() {
             <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse shadow-[0_0_10px_#D4AF37]"></span>
             Platform SaaS Undangan Premium
           </motion.div>
-          
+
           <motion.h1 variants={fadeInUp} className="text-5xl md:text-8xl font-serif font-bold tracking-tight mb-8 leading-[1.1]">
             Undangan Digital <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] italic">Mahakarya</span>.
           </motion.h1>
-          
+
           <motion.p variants={fadeInUp} className={`text-lg md:text-2xl ${theme.textMuted} mb-12 max-w-3xl mx-auto font-light leading-relaxed transition-colors duration-1000`}>
             Standar baru industri pernikahan. Desain sinematik eksklusif, animasi <span className={theme.text}>jaw-dropping</span>, dan manajemen tamu cerdas untuk menyempurnakan hari bahagia Anda.
           </motion.p>
-          
+
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row justify-center items-center gap-6">
             <Link href="/login" className="w-full sm:w-auto px-10 py-5 bg-[#D4AF37] text-black font-bold hover:bg-[#F3E5AB] transition-all duration-500 text-sm uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(212,175,55,0.3)]">
               Buat Mahakarya
@@ -138,7 +138,7 @@ export default function LandingPage() {
       {/* LUXURY FEATURES */}
       <section id="fitur" className={`py-32 px-4 relative border-t ${theme.border} transition-colors duration-1000`}>
         <div className="max-w-7xl mx-auto">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -148,7 +148,7 @@ export default function LandingPage() {
             <h2 className="font-serif text-5xl md:text-6xl mb-6">Kemewahan dalam Detail</h2>
             <p className={`${theme.textMuted} text-lg max-w-2xl mx-auto transition-colors duration-1000`}>Dirancang khusus untuk klien VVIP. Setiap piksel dipikirkan dengan presisi untuk memukau tamu undangan Anda.</p>
           </motion.div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
@@ -167,7 +167,7 @@ export default function LandingPage() {
                 icon: "🎵"
               }
             ].map((feat, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -187,9 +187,9 @@ export default function LandingPage() {
       {/* TEMPLATES DEMO */}
       <section id="template" className={`py-32 px-4 border-t ${theme.border} relative overflow-hidden transition-colors duration-1000`}>
         <div className={`absolute inset-0 ${isDark ? 'bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)]'} bg-[size:100px_100px] pointer-events-none [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]`}></div>
-        
+
         <div className="max-w-7xl mx-auto relative z-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -204,7 +204,7 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             {/* The VVIP Series */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -214,9 +214,9 @@ export default function LandingPage() {
               <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#0A0A0A] relative border border-white/10 group-hover:border-[#D4AF37]/50 transition-all duration-700">
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-10"></div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20">
-                    <p className="font-serif text-[#D4AF37] mb-4 text-sm italic tracking-widest">The VVIP Series</p>
-                    <h3 className="font-script text-6xl text-white mb-8 drop-shadow-2xl transform group-hover:scale-105 transition-transform duration-700">Ultra Luxury</h3>
-                    <div className="px-8 py-3 bg-[#D4AF37] text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Live Demo</div>
+                  <p className="font-serif text-[#D4AF37] mb-4 text-sm italic tracking-widest">The VVIP Series</p>
+                  <h3 className="font-script text-6xl text-white mb-8 drop-shadow-2xl transform group-hover:scale-105 transition-transform duration-700">Ultra Luxury</h3>
+                  <div className="px-8 py-3 bg-[#D4AF37] text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Live Demo</div>
                 </div>
               </div>
               <div className="mt-8 text-center">
@@ -224,9 +224,9 @@ export default function LandingPage() {
                 <p className={`text-sm ${theme.textMuted}`}>Mawar emas animasi, gelap yang megah.</p>
               </div>
             </motion.div>
-            
+
             {/* The Dark Series */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -236,9 +236,9 @@ export default function LandingPage() {
               <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#111] relative border border-white/10 group-hover:border-white/50 transition-all duration-700">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-80 z-10"></div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20">
-                    <p className="font-serif text-gray-300 mb-4 text-sm italic tracking-widest">The Dark Series</p>
-                    <h3 className="font-serif text-5xl text-white mb-8 font-light uppercase tracking-widest transform group-hover:scale-105 transition-transform duration-700">Cinematic</h3>
-                    <div className="px-8 py-3 bg-white text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Live Demo</div>
+                  <p className="font-serif text-gray-300 mb-4 text-sm italic tracking-widest">The Dark Series</p>
+                  <h3 className="font-serif text-5xl text-white mb-8 font-light uppercase tracking-widest transform group-hover:scale-105 transition-transform duration-700">Cinematic</h3>
+                  <div className="px-8 py-3 bg-white text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Live Demo</div>
                 </div>
               </div>
               <div className="mt-8 text-center">
@@ -248,7 +248,7 @@ export default function LandingPage() {
             </motion.div>
 
             {/* The Premium Series */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -257,9 +257,9 @@ export default function LandingPage() {
             >
               <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#f5f5f0] relative border border-white/10 group-hover:border-[#9baca0] transition-all duration-700 shadow-[inset_0_0_50px_rgba(0,0,0,0.05)]">
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20">
-                    <p className="font-serif text-[#9baca0] mb-4 text-sm italic tracking-widest">The Premium Series</p>
-                    <h3 className="font-script text-6xl text-[#2c332e] mb-8 transform group-hover:scale-105 transition-transform duration-700">Ayu & Phinisi</h3>
-                    <div className="px-8 py-3 bg-[#9baca0] text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Live Demo</div>
+                  <p className="font-serif text-[#9baca0] mb-4 text-sm italic tracking-widest">The Premium Series</p>
+                  <h3 className="font-script text-6xl text-[#2c332e] mb-8 transform group-hover:scale-105 transition-transform duration-700">Green Minimalist</h3>
+                  <div className="px-8 py-3 bg-[#9baca0] text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Live Demo</div>
                 </div>
               </div>
               <div className="mt-8 text-center">
@@ -274,7 +274,7 @@ export default function LandingPage() {
       {/* PRICING */}
       <section id="harga" className={`py-32 px-4 relative border-t ${theme.border} transition-colors duration-1000`}>
         <div className="max-w-7xl mx-auto">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -287,7 +287,7 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Starter */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -311,7 +311,7 @@ export default function LandingPage() {
             </motion.div>
 
             {/* WO PRO */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -336,7 +336,7 @@ export default function LandingPage() {
             </motion.div>
 
             {/* ENTERPRISE */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -367,7 +367,7 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-[#D4AF37] opacity-10"></div>
         <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] ${isDark ? 'bg-[#D4AF37]/20' : 'bg-[#D4AF37]/40'} blur-[150px] rounded-full pointer-events-none transition-colors duration-1000`}></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -376,7 +376,7 @@ export default function LandingPage() {
           >
             Siap Mengukir Sejarah?
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -399,7 +399,7 @@ export default function LandingPage() {
       </section>
 
       {/* FOOTER LUXURY */}
-      <motion.footer 
+      <motion.footer
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -417,7 +417,7 @@ export default function LandingPage() {
                 Kami percaya setiap kisah cinta layak diceritakan dengan cara yang paling elegan dan tidak terlupakan.
               </p>
             </div>
-            
+
             <div>
               <h4 className={`text-xs font-bold uppercase tracking-[0.2em] ${isDark ? 'text-white' : 'text-black'} mb-6`}>Platform</h4>
               <ul className={`space-y-4 text-sm ${theme.textMuted}`}>
@@ -427,7 +427,7 @@ export default function LandingPage() {
                 <li><Link href="/login" className="hover:text-[#D4AF37] transition-colors">Sign In</Link></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className={`text-xs font-bold uppercase tracking-[0.2em] ${isDark ? 'text-white' : 'text-black'} mb-6`}>Eksklusif</h4>
               <ul className={`space-y-4 text-sm ${theme.textMuted}`}>
@@ -437,15 +437,15 @@ export default function LandingPage() {
               </ul>
             </div>
           </div>
-          
+
           {/* Huge Animated Marquee / Title */}
           <div className="py-12 border-y border-white/5 mb-12 overflow-hidden flex whitespace-nowrap">
-            <motion.div 
+            <motion.div
               animate={{ x: [0, -1035] }}
               transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
               className={`font-serif text-[10vw] font-bold opacity-10 tracking-widest ${isDark ? 'text-white' : 'text-black'} uppercase`}
             >
-              Undangin • Premium SaaS • Undangin • Premium SaaS • 
+              Undangin • Premium SaaS • Undangin • Premium SaaS •
             </motion.div>
           </div>
 
