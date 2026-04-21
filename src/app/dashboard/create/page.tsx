@@ -43,8 +43,9 @@ export default async function CreateInvitationPage() {
                 <select name="theme" id="theme" className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-wedding-gold/50 focus:border-wedding-gold transition-colors appearance-none" required defaultValue="premium">
                   <option value="premium">Premium (Sage & Gold)</option>
                   <option value="cinematic-dark">Cinematic Dark (Black & White)</option>
-                  <option value="ultra-luxury">Ultra Luxury (Onyx & Rose Gold)</option>
-                  <option value="majestic-eternity">Majestic Eternity (Emerald & Gold) - NEW DEWA TIER</option>
+                  <option value="ultra-luxury">The Ultra Luxury (Onyx & Rose Gold)</option>
+                  <option value="renaissance-garden">The Renaissance Garden (Vintage Floral)</option>
+                  <option value="majestic-eternity">Majestic Eternity (Emerald & Gold) - DEWA TIER</option>
                 </select>
               </div>
             </div>

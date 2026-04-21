@@ -58,6 +58,7 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
                   <option value="premium">The Royal Split-Door (Sage & Gold)</option>
                   <option value="cinematic-dark">The Cinematic Dark (Framer Motion)</option>
                   <option value="ultra-luxury">The Ultra Luxury (Onyx & Rose Gold)</option>
+                  <option value="renaissance-garden">The Renaissance Garden (Vintage Floral)</option>
                   <option value="majestic-eternity">Majestic Eternity (Emerald & Gold) - DEWA TIER</option>
                 </select>
               </div>
