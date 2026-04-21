@@ -267,6 +267,94 @@ export default function LandingPage() {
                 <p className={`text-sm ${theme.textMuted}`}>Desain bersih dengan sentuhan warna alam.</p>
               </div>
             </motion.div>
+
+            {/* The Renaissance Series - NEW */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="group cursor-pointer block"
+            >
+              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#F9F6F0] relative border border-[#D4AF37]/20 group-hover:border-[#D4AF37] transition-all duration-700 shadow-xl">
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 mix-blend-multiply"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10"></div>
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20">
+                  <p className="font-serif text-[#7C8C77] mb-4 text-sm italic tracking-widest uppercase">The Heritage Series</p>
+                  <h3 className="font-display text-5xl text-[#2B2B2B] mb-8 font-bold transform group-hover:scale-105 transition-transform duration-700">Renaissance</h3>
+                  <div className="px-8 py-3 bg-[#7C8C77] text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">Lihat Detail</div>
+                </div>
+              </div>
+              <div className="mt-8 text-center">
+                <h4 className="font-serif text-2xl font-bold mb-2">Renaissance Garden</h4>
+                <p className={`text-sm ${theme.textMuted}`}>Klasik Eropa dengan ornamen bunga vintage.</p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHY US - SaaS COMPETITIVE SECTION */}
+      <section className={`py-32 px-4 transition-colors duration-1000`}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className="text-[#D4AF37] font-bold uppercase tracking-[0.3em] text-xs mb-4 block">Teknologi Mutakhir</span>
+              <h2 className="font-serif text-5xl md:text-6xl mb-8 leading-tight">Lebih dari Sekadar Undangan Online.</h2>
+              <p className={`text-lg ${theme.textMuted} mb-10 leading-relaxed transition-colors duration-1000`}>
+                Kami membangun ekosistem digital untuk hari pernikahan Anda. Dari manajemen tamu hingga pengingat otomatis, semua dirancang untuk mengurangi beban kerja Anda.
+              </p>
+              
+              <div className="space-y-6">
+                {[
+                  { title: "RSVP & Guest Management", desc: "Pantau kehadiran tamu secara real-time dari dashboard eksklusif Anda." },
+                  { title: "Smart RSVP via WhatsApp", desc: "Konfirmasi kehadiran otomatis yang terintegrasi langsung dengan WA." },
+                  { title: "QR Code Check-in", desc: "Sistem absensi tamu super cepat di lokasi acara. Profesional & modern." }
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-4">
+                    <div className="w-6 h-6 rounded-full bg-[#D4AF37]/20 flex items-center justify-center text-[#D4AF37] flex-shrink-0 mt-1">✓</div>
+                    <div>
+                      <h4 className="font-bold text-lg mb-1">{item.title}</h4>
+                      <p className={`text-sm ${theme.textMuted}`}>{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative aspect-square md:aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/20 to-transparent z-10"></div>
+              <img 
+                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80" 
+                className="w-full h-full object-cover grayscale-[20%] hover:scale-105 transition-transform duration-1000" 
+                alt="Dashboard Preview"
+              />
+              <div className="absolute bottom-8 left-8 right-8 p-6 bg-black/60 backdrop-blur-md border border-white/10 rounded-xl z-20">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-white font-bold">Dashboard Undangan</span>
+                  <span className="text-[#D4AF37] text-xs font-bold uppercase tracking-widest">LIVE TRACKING</span>
+                </div>
+                <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "75%" }}
+                    transition={{ duration: 2, delay: 0.5 }}
+                    className="h-full bg-[#D4AF37]"
+                  ></motion.div>
+                </div>
+                <p className="text-white/60 text-[10px] mt-2 italic">750 dari 1000 Tamu telah konfirmasi hadir</p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
