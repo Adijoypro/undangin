@@ -4,6 +4,80 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
+const SHOWCASE_THEMES = [
+  {
+    id: "ultra-luxury",
+    series: "The VVIP Series",
+    title: "Ultra Luxury",
+    name: "Onyx & Rose Gold",
+    desc: "Mawar emas animasi, gelap yang megah.",
+    bgClass: "bg-[#0A0A0A]",
+    frameClass: "border-white/10 group-hover:border-[#D4AF37]/50 shadow-xl",
+    gradientClass: "bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-10",
+    seriesColor: "text-[#D4AF37]",
+    titleClass: "font-script text-6xl text-white drop-shadow-2xl",
+    btnClass: "bg-[#D4AF37] text-black",
+    iframeBg: "bg-black"
+  },
+  {
+    id: "cinematic-dark",
+    series: "The Dark Series",
+    title: "Cinematic",
+    name: "Midnight Elegance",
+    desc: "Tipografi kuat dengan transisi mulus.",
+    bgClass: "bg-[#111]",
+    frameClass: "border-white/10 group-hover:border-white/50 shadow-xl",
+    gradientClass: "bg-gradient-to-b from-transparent to-black opacity-80 z-10",
+    seriesColor: "text-gray-300",
+    titleClass: "font-serif text-5xl text-white font-light uppercase tracking-widest",
+    btnClass: "bg-white text-black",
+    iframeBg: "bg-black"
+  },
+  {
+    id: "premium",
+    series: "The Premium Series",
+    title: "Green Minimalist",
+    name: "Sage Splendor",
+    desc: "Desain bersih dengan sentuhan warna alam.",
+    bgClass: "bg-[#f5f5f0]",
+    frameClass: "border-white/10 group-hover:border-[#9baca0] shadow-[inset_0_0_50px_rgba(0,0,0,0.05)]",
+    gradientClass: "",
+    seriesColor: "text-[#9baca0]",
+    titleClass: "font-script text-6xl text-[#2c332e]",
+    btnClass: "bg-[#9baca0] text-white",
+    iframeBg: "bg-white"
+  },
+  {
+    id: "renaissance-garden",
+    series: "The Heritage Series",
+    title: "Renaissance",
+    name: "Renaissance Garden",
+    desc: "Klasik Eropa dengan ornamen bunga vintage.",
+    bgClass: "bg-[#F9F6F0]",
+    frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-xl",
+    gradientClass: "bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 mix-blend-multiply z-0",
+    extraGradient: "bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10",
+    seriesColor: "text-[#7C8C77] uppercase",
+    titleClass: "font-display text-5xl text-[#2B2B2B] font-bold",
+    btnClass: "bg-[#7C8C77] text-white",
+    iframeBg: "bg-[#F9F6F0]"
+  },
+  {
+    id: "majestic-eternity",
+    series: "The Royal Series",
+    title: "Majestic Eternity",
+    name: "Majestic Eternity",
+    desc: "Kemegahan abadi dengan palet emerald & gold.",
+    bgClass: "bg-[#0A1C14]",
+    frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-[0_0_30px_rgba(212,175,55,0.15)]",
+    gradientClass: "bg-gradient-to-b from-[#0A1C14] via-transparent to-[#0A1C14] z-10",
+    seriesColor: "text-[#D4AF37] uppercase",
+    titleClass: "font-script text-5xl text-white font-bold",
+    btnClass: "bg-[#06120C] border border-[#D4AF37] text-[#D4AF37]",
+    iframeBg: "bg-[#0A1C14]"
+  }
+];
+
 export default function LandingPage() {
   const [isDark, setIsDark] = useState(true);
 
@@ -203,80 +277,8 @@ export default function LandingPage() {
           </motion.div>
 
           <div className="overflow-hidden w-full relative">
-            <div className="flex gap-8 animate-marquee w-max py-8">
-              {[
-                {
-                  id: "ultra-luxury",
-                  series: "The VVIP Series",
-                  title: "Ultra Luxury",
-                  name: "Onyx & Rose Gold",
-                  desc: "Mawar emas animasi, gelap yang megah.",
-                  bgClass: "bg-[#0A0A0A]",
-                  frameClass: "border-white/10 group-hover:border-[#D4AF37]/50 shadow-xl",
-                  gradientClass: "bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-10",
-                  seriesColor: "text-[#D4AF37]",
-                  titleClass: "font-script text-6xl text-white drop-shadow-2xl",
-                  btnClass: "bg-[#D4AF37] text-black",
-                  iframeBg: "bg-black"
-                },
-                {
-                  id: "cinematic-dark",
-                  series: "The Dark Series",
-                  title: "Cinematic",
-                  name: "Midnight Elegance",
-                  desc: "Tipografi kuat dengan transisi mulus.",
-                  bgClass: "bg-[#111]",
-                  frameClass: "border-white/10 group-hover:border-white/50 shadow-xl",
-                  gradientClass: "bg-gradient-to-b from-transparent to-black opacity-80 z-10",
-                  seriesColor: "text-gray-300",
-                  titleClass: "font-serif text-5xl text-white font-light uppercase tracking-widest",
-                  btnClass: "bg-white text-black",
-                  iframeBg: "bg-black"
-                },
-                {
-                  id: "premium",
-                  series: "The Premium Series",
-                  title: "Green Minimalist",
-                  name: "Sage Splendor",
-                  desc: "Desain bersih dengan sentuhan warna alam.",
-                  bgClass: "bg-[#f5f5f0]",
-                  frameClass: "border-white/10 group-hover:border-[#9baca0] shadow-[inset_0_0_50px_rgba(0,0,0,0.05)]",
-                  gradientClass: "",
-                  seriesColor: "text-[#9baca0]",
-                  titleClass: "font-script text-6xl text-[#2c332e]",
-                  btnClass: "bg-[#9baca0] text-white",
-                  iframeBg: "bg-white"
-                },
-                {
-                  id: "renaissance-garden",
-                  series: "The Heritage Series",
-                  title: "Renaissance",
-                  name: "Renaissance Garden",
-                  desc: "Klasik Eropa dengan ornamen bunga vintage.",
-                  bgClass: "bg-[#F9F6F0]",
-                  frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-xl",
-                  gradientClass: "bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 mix-blend-multiply z-0",
-                  extraGradient: "bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10",
-                  seriesColor: "text-[#7C8C77] uppercase",
-                  titleClass: "font-display text-5xl text-[#2B2B2B] font-bold",
-                  btnClass: "bg-[#7C8C77] text-white",
-                  iframeBg: "bg-[#F9F6F0]"
-                },
-                {
-                  id: "majestic-eternity",
-                  series: "The Royal Series",
-                  title: "Majestic Eternity",
-                  name: "Majestic Eternity",
-                  desc: "Kemegahan abadi dengan palet emerald & gold.",
-                  bgClass: "bg-[#0A1C14]",
-                  frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-[0_0_30px_rgba(212,175,55,0.15)]",
-                  gradientClass: "bg-gradient-to-b from-[#0A1C14] via-transparent to-[#0A1C14] z-10",
-                  seriesColor: "text-[#D4AF37] uppercase",
-                  titleClass: "font-script text-5xl text-white font-bold",
-                  btnClass: "bg-[#06120C] border border-[#D4AF37] text-[#D4AF37]",
-                  iframeBg: "bg-[#0A1C14]"
-                }
-              ].flatMap(x => [x, x]).map((t, i) => (
+            <div className="flex gap-8 animate-marquee hover:[animation-play-state:paused] w-max py-8">
+              {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
                 <div key={i} className="min-w-[85vw] sm:min-w-[400px] shrink-0 group block">
                   <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass}`}>
                     {t.gradientClass && <div className={`absolute inset-0 ${t.gradientClass}`}></div>}
@@ -380,7 +382,7 @@ export default function LandingPage() {
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Starter */}
+            {/* Free Trial */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -388,23 +390,22 @@ export default function LandingPage() {
               transition={{ duration: 0.8 }}
               className={`p-10 rounded-2xl border ${theme.border} ${theme.cardBg} ${theme.cardHover} transition-all duration-500`}
             >
-              <h3 className="font-serif text-3xl mb-2">Starter</h3>
-              <p className={`text-sm ${theme.textMuted} mb-10 transition-colors duration-1000`}>Sempurna untuk satu perayaan istimewa.</p>
+              <h3 className="font-serif text-3xl mb-2">Uji Coba</h3>
+              <p className={`text-sm ${theme.textMuted} mb-10 transition-colors duration-1000`}>Buat draft undangan tanpa biaya.</p>
               <div className="mb-10 flex items-baseline gap-2">
                 <span className={`text-sm ${theme.textMuted} font-bold uppercase tracking-widest transition-colors duration-1000`}>Rp</span>
-                <span className="text-5xl font-serif">150</span>
-                <span className={theme.textMuted}>rb</span>
+                <span className="text-5xl font-serif">0</span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${theme.textMuted} transition-colors duration-1000`}>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 1 Kredit Undangan</li>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Semua Tema Premium</li>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Custom Musik Latar</li>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> RSVP & Guestbook</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Akses Semua Tema</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Live Preview Editor</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Draft Tidak Terbatas</li>
+                <li className="flex items-center gap-4 opacity-50"><span className="text-gray-400">✧</span> Tidak Bisa Dipublikasi/Export</li>
               </ul>
-              <Link href="/login" className={`block text-center w-full py-4 border ${theme.border} font-bold text-xs uppercase tracking-[0.2em] ${theme.buttonInverse} transition-colors duration-500`}>Pilih Starter</Link>
+              <Link href="/login" className={`block text-center w-full py-4 border ${theme.border} font-bold text-xs uppercase tracking-[0.2em] ${theme.buttonInverse} transition-colors duration-500`}>Coba Gratis</Link>
             </motion.div>
 
-            {/* WO PRO */}
+            {/* PREMIUM */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -412,24 +413,24 @@ export default function LandingPage() {
               transition={{ duration: 0.8 }}
               className={`p-10 rounded-2xl border border-[#D4AF37] ${isDark ? 'bg-gradient-to-b from-[#1a1500] to-black' : 'bg-gradient-to-b from-[#FFFDF5] to-white'} relative shadow-[0_0_50px_rgba(212,175,55,0.1)] transform md:-translate-y-4 transition-colors duration-1000`}
             >
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D4AF37] text-black px-6 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em]">Rekomendasi</div>
-              <h3 className="font-serif text-3xl mb-2 text-[#D4AF37]">WO Pro</h3>
-              <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-10 transition-colors duration-1000`}>Lebih hemat untuk Wedding Organizer.</p>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D4AF37] text-black px-6 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em]">Paling Laris</div>
+              <h3 className="font-serif text-3xl mb-2 text-[#D4AF37]">Premium</h3>
+              <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-10 transition-colors duration-1000`}>Publikasi undangan & fitur lengkap.</p>
               <div className="mb-10 flex items-baseline gap-2">
                 <span className="text-sm text-[#D4AF37] font-bold uppercase tracking-widest">Rp</span>
-                <span className="text-5xl font-serif text-[#D4AF37]">500</span>
-                <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>rb</span>
+                <span className="text-5xl font-serif text-[#D4AF37]">99</span>
+                <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>rb <span className="line-through text-xs ml-1">Rp 199.000</span></span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-1000`}>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 5 Kredit Undangan</li>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Akses Tema Ultra Luxury</li>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Analitik Dashboard</li>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Prioritas Server (Cepat)</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 1 Kredit Publikasi / Export</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Tanpa Watermark</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Manajemen Tamu & RSVP</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Custom Musik Latar</li>
               </ul>
-              <Link href="/login" className={`block text-center w-full py-4 bg-[#D4AF37] text-black font-bold text-xs uppercase tracking-[0.2em] hover:opacity-80 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all`}>Mulai Pro</Link>
+              <Link href="/login" className={`block text-center w-full py-4 bg-[#D4AF37] text-black font-bold text-xs uppercase tracking-[0.2em] hover:opacity-80 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all`}>Aktifkan Premium</Link>
             </motion.div>
 
-            {/* ENTERPRISE */}
+            {/* WO PRO / ENTERPRISE */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -437,17 +438,17 @@ export default function LandingPage() {
               transition={{ duration: 0.8 }}
               className={`p-10 rounded-2xl border ${theme.border} ${theme.cardBg} ${theme.cardHover} transition-all duration-500`}
             >
-              <h3 className="font-serif text-3xl mb-2">Enterprise</h3>
-              <p className={`text-sm ${theme.textMuted} mb-10 transition-colors duration-1000`}>Biro jodoh atau agensi besar.</p>
+              <h3 className="font-serif text-3xl mb-2">WO / Agensi</h3>
+              <p className={`text-sm ${theme.textMuted} mb-10 transition-colors duration-1000`}>Paket hemat untuk profesional.</p>
               <div className="mb-10 flex items-baseline gap-2">
                 <span className={`text-sm ${theme.textMuted} font-bold uppercase tracking-widest transition-colors duration-1000`}>Rp</span>
-                <span className="text-5xl font-serif">1.5</span>
-                <span className={theme.textMuted}>Juta</span>
+                <span className="text-5xl font-serif">450</span>
+                <span className={theme.textMuted}>rb</span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${theme.textMuted} transition-colors duration-1000`}>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 20 Kredit Undangan</li>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Harga Termurah</li>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Request Tema Eksklusif</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 10 Kredit Publikasi</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Harga Lebih Murah / Kredit</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Prioritas Server (Cepat)</li>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> VIP Support 24/7</li>
               </ul>
               <Link href="/login" className={`block text-center w-full py-4 border ${theme.border} font-bold text-xs uppercase tracking-[0.2em] ${theme.buttonInverse} transition-colors duration-500`}>Hubungi Sales</Link>
