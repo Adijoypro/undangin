@@ -297,7 +297,8 @@ export default function LandingPage() {
               ))}
             </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* WHY US - SaaS COMPETITIVE SECTION */}
       <section className={`py-32 px-4 transition-colors duration-1000`}>

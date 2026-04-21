@@ -206,8 +206,8 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
             <div className="flex flex-col md:flex-row items-center justify-center gap-16 md:gap-32">
               <div className="text-center group">
                 <div className="w-48 h-64 md:w-64 md:h-80 mx-auto rounded-full overflow-hidden border-2 border-[#D4AF37]/30 mb-8 relative">
-                  {data.bride.photoUrl ? (
-                    <Image src={data.bride.photoUrl} alt="Bride" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  {data.bride.photo ? (
+                    <Image src={data.bride.photo} alt="Bride" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                   ) : (
                     <div className="w-full h-full bg-[#0A1C14]"></div>
                   )}
@@ -220,8 +220,8 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
 
               <div className="text-center group">
                 <div className="w-48 h-64 md:w-64 md:h-80 mx-auto rounded-full overflow-hidden border-2 border-[#D4AF37]/30 mb-8 relative">
-                  {data.groom.photoUrl ? (
-                    <Image src={data.groom.photoUrl} alt="Groom" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                  {data.groom.photo ? (
+                    <Image src={data.groom.photo} alt="Groom" fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                   ) : (
                     <div className="w-full h-full bg-[#0A1C14]"></div>
                   )}
