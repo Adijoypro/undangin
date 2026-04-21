@@ -102,6 +102,13 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       ref={containerRef} 
       className="bg-[#050505] text-white min-h-screen font-sans selection:bg-white/30 overflow-x-hidden relative pb-32"
     >
+      {/* Background Image */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {data.couplePhoto && (
+          <img src={data.couplePhoto} className="w-full h-full object-cover opacity-[0.15] grayscale mix-blend-luminosity" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80"></div>
+      </div>
       {/* Dynamic Spotlight Background */}
       <div 
         className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-300"

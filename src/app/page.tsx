@@ -202,122 +202,100 @@ export default function LandingPage() {
             </div>
           </motion.div>
 
-          <div className="flex overflow-x-auto pb-12 gap-8 snap-x snap-mandatory hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
-            {/* The VVIP Series */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
-            >
-              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#0A0A0A] relative border border-white/10 group-hover:border-[#D4AF37]/50 transition-all duration-700 shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-10"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
-                  <p className="font-serif text-[#D4AF37] mb-4 text-sm italic tracking-widest">The VVIP Series</p>
-                  <h3 className="font-script text-6xl text-white mb-8 drop-shadow-2xl transform group-hover:scale-105 transition-transform duration-700">Ultra Luxury</h3>
-                  <div className="px-8 py-3 bg-[#D4AF37] text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
+          <div className="overflow-hidden w-full relative">
+            <div className="flex gap-8 animate-marquee w-max py-8">
+              {[
+                {
+                  id: "ultra-luxury",
+                  series: "The VVIP Series",
+                  title: "Ultra Luxury",
+                  name: "Onyx & Rose Gold",
+                  desc: "Mawar emas animasi, gelap yang megah.",
+                  bgClass: "bg-[#0A0A0A]",
+                  frameClass: "border-white/10 group-hover:border-[#D4AF37]/50 shadow-xl",
+                  gradientClass: "bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-10",
+                  seriesColor: "text-[#D4AF37]",
+                  titleClass: "font-script text-6xl text-white drop-shadow-2xl",
+                  btnClass: "bg-[#D4AF37] text-black",
+                  iframeBg: "bg-black"
+                },
+                {
+                  id: "cinematic-dark",
+                  series: "The Dark Series",
+                  title: "Cinematic",
+                  name: "Midnight Elegance",
+                  desc: "Tipografi kuat dengan transisi mulus.",
+                  bgClass: "bg-[#111]",
+                  frameClass: "border-white/10 group-hover:border-white/50 shadow-xl",
+                  gradientClass: "bg-gradient-to-b from-transparent to-black opacity-80 z-10",
+                  seriesColor: "text-gray-300",
+                  titleClass: "font-serif text-5xl text-white font-light uppercase tracking-widest",
+                  btnClass: "bg-white text-black",
+                  iframeBg: "bg-black"
+                },
+                {
+                  id: "premium",
+                  series: "The Premium Series",
+                  title: "Green Minimalist",
+                  name: "Sage Splendor",
+                  desc: "Desain bersih dengan sentuhan warna alam.",
+                  bgClass: "bg-[#f5f5f0]",
+                  frameClass: "border-white/10 group-hover:border-[#9baca0] shadow-[inset_0_0_50px_rgba(0,0,0,0.05)]",
+                  gradientClass: "",
+                  seriesColor: "text-[#9baca0]",
+                  titleClass: "font-script text-6xl text-[#2c332e]",
+                  btnClass: "bg-[#9baca0] text-white",
+                  iframeBg: "bg-white"
+                },
+                {
+                  id: "renaissance-garden",
+                  series: "The Heritage Series",
+                  title: "Renaissance",
+                  name: "Renaissance Garden",
+                  desc: "Klasik Eropa dengan ornamen bunga vintage.",
+                  bgClass: "bg-[#F9F6F0]",
+                  frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-xl",
+                  gradientClass: "bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 mix-blend-multiply z-0",
+                  extraGradient: "bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10",
+                  seriesColor: "text-[#7C8C77] uppercase",
+                  titleClass: "font-display text-5xl text-[#2B2B2B] font-bold",
+                  btnClass: "bg-[#7C8C77] text-white",
+                  iframeBg: "bg-[#F9F6F0]"
+                },
+                {
+                  id: "majestic-eternity",
+                  series: "The Royal Series",
+                  title: "Majestic Eternity",
+                  name: "Majestic Eternity",
+                  desc: "Kemegahan abadi dengan palet emerald & gold.",
+                  bgClass: "bg-[#0A1C14]",
+                  frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-[0_0_30px_rgba(212,175,55,0.15)]",
+                  gradientClass: "bg-gradient-to-b from-[#0A1C14] via-transparent to-[#0A1C14] z-10",
+                  seriesColor: "text-[#D4AF37] uppercase",
+                  titleClass: "font-script text-5xl text-white font-bold",
+                  btnClass: "bg-[#06120C] border border-[#D4AF37] text-[#D4AF37]",
+                  iframeBg: "bg-[#0A1C14]"
+                }
+              ].flatMap(x => [x, x]).map((t, i) => (
+                <div key={i} className="min-w-[85vw] sm:min-w-[400px] shrink-0 group block">
+                  <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass}`}>
+                    {t.gradientClass && <div className={`absolute inset-0 ${t.gradientClass}`}></div>}
+                    {t.extraGradient && <div className={`absolute inset-0 ${t.extraGradient}`}></div>}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
+                      <p className={`font-serif mb-4 text-sm italic tracking-widest ${t.seriesColor}`}>{t.series}</p>
+                      <h3 className={`mb-8 transform group-hover:scale-105 transition-transform duration-700 ${t.titleClass}`}>{t.title}</h3>
+                      <div className={`px-8 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-bold ${t.btnClass}`}>Arahkan untuk Demo</div>
+                    </div>
+                    {/* Live Demo Iframe */}
+                    <iframe src={`/demo/${t.id}`} loading="lazy" className={`absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none ${t.iframeBg}`}></iframe>
+                  </div>
+                  <div className="mt-8 text-center">
+                    <h4 className="font-serif text-2xl font-bold mb-2">{t.name}</h4>
+                    <p className={`text-sm ${theme.textMuted}`}>{t.desc}</p>
+                  </div>
                 </div>
-                {/* Live Demo Iframe */}
-                <iframe src="/demo/ultra-luxury" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-black"></iframe>
-              </div>
-              <div className="mt-8 text-center">
-                <h4 className="font-serif text-2xl font-bold mb-2">Onyx & Rose Gold</h4>
-                <p className={`text-sm ${theme.textMuted}`}>Mawar emas animasi, gelap yang megah.</p>
-              </div>
-            </motion.div>
-
-            {/* The Dark Series */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
-            >
-              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#111] relative border border-white/10 group-hover:border-white/50 transition-all duration-700 shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-80 z-10"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
-                  <p className="font-serif text-gray-300 mb-4 text-sm italic tracking-widest">The Dark Series</p>
-                  <h3 className="font-serif text-5xl text-white mb-8 font-light uppercase tracking-widest transform group-hover:scale-105 transition-transform duration-700">Cinematic</h3>
-                  <div className="px-8 py-3 bg-white text-black rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
-                </div>
-                <iframe src="/demo/cinematic-dark" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-black"></iframe>
-              </div>
-              <div className="mt-8 text-center">
-                <h4 className="font-serif text-2xl font-bold mb-2">Midnight Elegance</h4>
-                <p className={`text-sm ${theme.textMuted}`}>Tipografi kuat dengan transisi mulus.</p>
-              </div>
-            </motion.div>
-
-            {/* The Premium Series */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
-            >
-              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#f5f5f0] relative border border-white/10 group-hover:border-[#9baca0] transition-all duration-700 shadow-[inset_0_0_50px_rgba(0,0,0,0.05)]">
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
-                  <p className="font-serif text-[#9baca0] mb-4 text-sm italic tracking-widest">The Premium Series</p>
-                  <h3 className="font-script text-6xl text-[#2c332e] mb-8 transform group-hover:scale-105 transition-transform duration-700">Green Minimalist</h3>
-                  <div className="px-8 py-3 bg-[#9baca0] text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
-                </div>
-                <iframe src="/demo/premium" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-white"></iframe>
-              </div>
-              <div className="mt-8 text-center">
-                <h4 className="font-serif text-2xl font-bold mb-2">Sage Splendor</h4>
-                <p className={`text-sm ${theme.textMuted}`}>Desain bersih dengan sentuhan warna alam.</p>
-              </div>
-            </motion.div>
-
-            {/* The Renaissance Series */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
-            >
-              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#F9F6F0] relative border border-[#D4AF37]/20 group-hover:border-[#D4AF37] transition-all duration-700 shadow-xl">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 mix-blend-multiply"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
-                  <p className="font-serif text-[#7C8C77] mb-4 text-sm italic tracking-widest uppercase">The Heritage Series</p>
-                  <h3 className="font-display text-5xl text-[#2B2B2B] mb-8 font-bold transform group-hover:scale-105 transition-transform duration-700">Renaissance</h3>
-                  <div className="px-8 py-3 bg-[#7C8C77] text-white rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
-                </div>
-                <iframe src="/demo/renaissance-garden" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-[#F9F6F0]"></iframe>
-              </div>
-              <div className="mt-8 text-center">
-                <h4 className="font-serif text-2xl font-bold mb-2">Renaissance Garden</h4>
-                <p className={`text-sm ${theme.textMuted}`}>Klasik Eropa dengan ornamen bunga vintage.</p>
-              </div>
-            </motion.div>
-            {/* The Majestic Eternity Series */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="min-w-[85vw] sm:min-w-[400px] shrink-0 snap-center group block"
-            >
-              <div className="rounded-2xl overflow-hidden aspect-[9/16] bg-[#0A1C14] relative border border-[#D4AF37]/20 group-hover:border-[#D4AF37] transition-all duration-700 shadow-[0_0_30px_rgba(212,175,55,0.15)]">
-                <div className="absolute inset-0 bg-gradient-to-b from-[#0A1C14] via-transparent to-[#0A1C14] z-10"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
-                  <p className="font-serif text-[#D4AF37] mb-4 text-sm italic tracking-widest uppercase">The Royal Series</p>
-                  <h3 className="font-script text-5xl text-white mb-8 font-bold transform group-hover:scale-105 transition-transform duration-700">Majestic Eternity</h3>
-                  <div className="px-8 py-3 bg-[#06120C] border border-[#D4AF37] text-[#D4AF37] rounded-full text-xs uppercase tracking-[0.2em] font-bold">Arahkan untuk Demo</div>
-                </div>
-                <iframe src="/demo/majestic-eternity" loading="lazy" className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none bg-[#0A1C14]"></iframe>
-              </div>
-              <div className="mt-8 text-center">
-                <h4 className="font-serif text-2xl font-bold mb-2">Majestic Eternity</h4>
-                <p className={`text-sm ${theme.textMuted}`}>Kemegahan abadi dengan palet emerald & gold.</p>
-              </div>
-            </motion.div>
-          </div>
+              ))}
+            </div>
         </div>
       </section>
 

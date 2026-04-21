@@ -14,6 +14,7 @@ export interface InvitationData {
     parents: string;
     photo: string;
   };
+  couplePhoto?: string;
   event: {
     date: string;
     dateFormatted: {
@@ -52,14 +53,15 @@ export const dummyData: InvitationData = {
     name: "Ayu",
     fullName: "Ayu Saraswati, S.E.",
     parents: "Bapak Budi & Ibu Siti",
-    photo: "https://images.unsplash.com/photo-1546804784-81647414ee00?q=80&w=800&auto=format&fit=crop",
+    photo: "/assets/demo/bride.png",
   },
   groom: {
     name: "Bima",
     fullName: "Bima Aryasena, S.T.",
     parents: "Bapak Joko & Ibu Sri",
-    photo: "https://images.unsplash.com/photo-1550005809-91ad75fb315f?q=80&w=800&auto=format&fit=crop",
+    photo: "/assets/demo/groom.png",
   },
+  couplePhoto: "/assets/demo/couple.png",
   event: {
     date: "14 Februari 2027",
     dateFormatted: {

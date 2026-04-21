@@ -157,8 +157,8 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
         <motion.section style={{ y: heroY, opacity: heroOpacity }}
           className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <img src="/assets/renaissance/garden-bg.jpg" className="w-full h-full object-cover opacity-50"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+            <img src={data.couplePhoto || "/assets/renaissance/garden-bg.jpg"} className="w-full h-full object-cover opacity-50"
+              onError={(e) => { (e.target as HTMLImageElement).src = "/assets/renaissance/garden-bg.jpg"; }} />
             <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, ${palette.bg}66, ${palette.bg}cc)` }}></div>
           </div>
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="relative z-10 text-center px-4 py-20">

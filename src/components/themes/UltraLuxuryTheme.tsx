@@ -184,6 +184,9 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           {/* VVIP Background Asset */}
           <div className="absolute inset-0 z-0">
             <img src="/assets/marble-bg.png" className="w-full h-full object-cover opacity-25 mix-blend-overlay" />
+            {data.couplePhoto && (
+              <img src={data.couplePhoto} className="absolute inset-0 w-full h-full object-cover opacity-[0.15] mix-blend-luminosity grayscale" />
+            )}
             <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
           </div>
 

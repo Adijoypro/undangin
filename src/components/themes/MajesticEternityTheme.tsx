@@ -12,14 +12,15 @@ interface InvitationData {
     name: string;
     fullName: string;
     parents: string;
-    photoUrl?: string;
+    photo: string;
   };
   groom: {
     name: string;
     fullName: string;
     parents: string;
-    photoUrl?: string;
+    photo: string;
   };
+  couplePhoto?: string;
   event: {
     date: string;
     time: string;
@@ -134,8 +135,8 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
         {/* HERO */}
         <section className="relative min-h-[100dvh] flex flex-col items-center justify-center p-6 text-center">
           <div className="absolute inset-0 bg-[#0A1C14]">
-            {data.bride.photoUrl ? (
-              <Image src={data.bride.photoUrl} alt="Hero" fill className="object-cover opacity-30 mix-blend-luminosity" />
+            {(data.couplePhoto || data.bride.photo) ? (
+              <Image src={data.couplePhoto || data.bride.photo} alt="Hero" fill className="object-cover opacity-30 mix-blend-luminosity" />
             ) : (
               <div className="absolute inset-0 bg-gradient-to-b from-[#0A1C14] to-black"></div>
             )}
