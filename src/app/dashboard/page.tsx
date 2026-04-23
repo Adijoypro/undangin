@@ -178,9 +178,9 @@ export default async function DashboardPage() {
             <span className="text-[10px] font-bold text-wedding-gold uppercase tracking-widest">Arahkan untuk Demo</span>
           </div>
           
-          <div className="relative overflow-x-auto pb-6 no-scrollbar snap-x snap-mandatory">
-            <div className="flex justify-center w-full">
-              <div className="flex gap-4 sm:gap-8 px-6 py-2">
+          <div className="relative">
+            <div className="flex flex-nowrap overflow-x-auto pb-8 no-scrollbar snap-x snap-mandatory justify-start md:justify-center">
+              <div className="flex gap-6 sm:gap-8 px-4 md:px-0">
                 {[
                   { id: "ultra-luxury", name: "Ultra Luxury", color: "bg-black", text: "text-white" },
                   { id: "cinematic-dark", name: "Cinematic Dark", color: "bg-gray-900", text: "text-white" },
