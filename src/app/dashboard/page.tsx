@@ -50,9 +50,13 @@ export default async function DashboardPage() {
       <nav className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Undangin Logo" className="w-10 h-10 object-contain" />
-              <span className="font-serif text-xl font-bold text-wedding-text hidden sm:inline">Undangin</span>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <img src="/logo.png" alt="Undangin Logo" className="w-10 h-10 object-contain" />
+                <span className="font-serif text-xl font-bold text-wedding-text hidden sm:inline">Undangin</span>
+              </div>
+              <div className="h-6 w-[1px] bg-gray-200 hidden sm:block"></div>
+              <a href="/" className="text-sm font-bold text-gray-500 hover:text-wedding-gold transition-colors">Beranda</a>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
               <div className="bg-wedding-gold/10 px-3 py-1.5 rounded-lg flex items-center gap-2">
@@ -175,8 +179,8 @@ export default async function DashboardPage() {
           </div>
           
           <div className="relative overflow-x-auto pb-6 no-scrollbar snap-x snap-mandatory">
-            <div className="flex lg:justify-center min-w-full">
-              <div className="flex gap-4 sm:gap-6 px-4 py-2 w-max lg:w-auto">
+            <div className="flex justify-center w-full">
+              <div className="flex gap-4 sm:gap-8 px-6 py-2">
                 {[
                   { id: "ultra-luxury", name: "Ultra Luxury", color: "bg-black", text: "text-white" },
                   { id: "cinematic-dark", name: "Cinematic Dark", color: "bg-gray-900", text: "text-white" },
