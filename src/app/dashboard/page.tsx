@@ -175,29 +175,33 @@ export default async function DashboardPage() {
           </div>
           
           <div className="relative overflow-x-auto pb-6 no-scrollbar snap-x snap-mandatory">
-            <div className="flex gap-4 w-max px-2">
-              {[
-                { id: "ultra-luxury", name: "Ultra Luxury", color: "bg-black", text: "text-white" },
-                { id: "cinematic-dark", name: "Cinematic Dark", color: "bg-gray-900", text: "text-white" },
-                { id: "premium", name: "Premium Sage", color: "bg-[#7C8C77]", text: "text-white" },
-                { id: "renaissance-garden", name: "Renaissance", color: "bg-[#F9F6F0]", text: "text-gray-800" },
-                { id: "majestic-eternity", name: "Majestic", color: "bg-[#0A1C14]", text: "text-white" }
-              ].map((theme) => (
-                <div key={theme.id} className="w-[200px] sm:w-[240px] snap-center shrink-0 group">
-                  <div className={`aspect-[9/14] rounded-xl overflow-hidden ${theme.color} border border-gray-200 relative shadow-sm group-hover:shadow-md transition-all group-hover:scale-[1.02]`}>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center z-10 group-hover:opacity-0 transition-opacity">
-                      <h4 className={`font-serif text-lg font-bold ${theme.text}`}>{theme.name}</h4>
-                      <p className="text-[8px] text-wedding-gold font-bold uppercase tracking-widest mt-1">Lihat Detail</p>
+            <div className="flex lg:justify-center min-w-full">
+              <div className="flex gap-4 sm:gap-6 px-4 py-2 w-max lg:w-auto">
+                {[
+                  { id: "ultra-luxury", name: "Ultra Luxury", color: "bg-black", text: "text-white" },
+                  { id: "cinematic-dark", name: "Cinematic Dark", color: "bg-gray-900", text: "text-white" },
+                  { id: "premium", name: "Premium Sage", color: "bg-[#7C8C77]", text: "text-white" },
+                  { id: "renaissance-garden", name: "Renaissance", color: "bg-[#F9F6F0]", text: "text-gray-800" },
+                  { id: "majestic-eternity", name: "Majestic", color: "bg-[#0A1C14]", text: "text-white" }
+                ].map((theme) => (
+                  <div key={theme.id} className="w-[180px] sm:w-[220px] snap-center shrink-0 group">
+                    <div className={`aspect-[9/15] rounded-2xl overflow-hidden ${theme.color} border border-gray-100 relative shadow-md group-hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2`}>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center z-10 group-hover:opacity-0 transition-opacity duration-300">
+                        <h4 className={`font-serif text-base sm:text-lg font-bold ${theme.text}`}>{theme.name}</h4>
+                        <div className="w-8 h-[1px] bg-wedding-gold mt-2"></div>
+                        <p className="text-[7px] sm:text-[8px] text-wedding-gold font-bold uppercase tracking-[0.2em] mt-3">Lihat Demo</p>
+                      </div>
+                      {/* Live Preview Iframe */}
+                      <iframe 
+                        src={`/demo/${theme.id}`} 
+                        className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20 border-none scale-[0.4] origin-top pointer-events-none"
+                        style={{ width: '250%', height: '250%' }}
+                      ></iframe>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent group-hover:opacity-0 transition-opacity"></div>
                     </div>
-                    {/* Live Preview Iframe - Hidden by default, shown on hover */}
-                    <iframe 
-                      src={`/demo/${theme.id}`} 
-                      className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 border-none scale-[0.5] origin-top"
-                      style={{ width: '200%', height: '200%' }}
-                    ></iframe>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
