@@ -5,6 +5,43 @@ import MajesticEternityTheme from "@/components/themes/MajesticEternityTheme";
 import RenaissanceGardenTheme from "@/components/themes/RenaissanceGardenTheme";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { Metadata } from "next";
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const resolvedParams = await params;
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("invitations")
+    .select("bride_name, groom_name, couple_photo, quote")
+    .eq("slug", resolvedParams.slug)
+    .single();
+
+  if (!data) return { title: "Undangan Digital | Undangin" };
+
+  const title = `The Wedding of ${data.bride_name} & ${data.groom_name}`;
+  const description = data.quote || "Kami mengundang Anda untuk hadir dan memberikan doa restu di hari bahagia kami.";
+  const image = data.couple_photo || "/og-image.png"; // Fallback image
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [image],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
 
 export default async function InvitationPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;

@@ -126,7 +126,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-tr from-[#D4AF37] to-[#F3E5AB] rounded-full flex items-center justify-center text-black font-bold font-serif shadow-[0_0_15px_rgba(212,175,55,0.4)]">U</div>
+              <img src="/logo.png" alt="Undangin Logo" className="w-10 h-10 object-contain" />
               <span className="font-serif text-2xl font-bold tracking-widest">Undangin</span>
             </div>
             <div className="hidden md:flex space-x-8 items-center">
@@ -279,9 +279,13 @@ export default function LandingPage() {
             </div>
           </motion.div>
 
-          <div className="relative overflow-hidden py-10" onMouseEnter={() => setSliderPaused(true)} onMouseLeave={() => setSliderPaused(false)}>
+          <div 
+            className="relative overflow-x-auto pb-10 no-scrollbar snap-x snap-mandatory lg:overflow-visible lg:pb-0" 
+            onMouseEnter={() => setSliderPaused(true)} 
+            onMouseLeave={() => setSliderPaused(false)}
+          >
             <motion.div 
-              className="flex gap-8 w-max"
+              className="flex gap-6 sm:gap-8 w-max px-4 lg:px-0"
               animate={sliderPaused ? {} : { x: ["0%", "-50%"] }}
               transition={{ 
                 duration: 60, 
@@ -290,7 +294,7 @@ export default function LandingPage() {
               }}
             >
               {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES, ...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
-                <div key={i} className="min-w-[85vw] sm:min-w-[400px] shrink-0 group block cursor-pointer">
+                <div key={i} className="min-w-[85vw] sm:min-w-[400px] shrink-0 group block cursor-pointer snap-center">
                   <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02] group-hover:shadow-2xl`}>
                     {t.gradientClass && <div className={`absolute inset-0 ${t.gradientClass}`}></div>}
                     {t.extraGradient && <div className={`absolute inset-0 ${t.extraGradient}`}></div>}
@@ -516,7 +520,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-4 gap-12 mb-20">
             <div className="col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-tr from-[#D4AF37] to-[#F3E5AB] rounded-full flex items-center justify-center text-black font-bold font-serif">U</div>
+                <img src="/logo.png" alt="Undangin Logo" className="w-12 h-12 object-contain" />
                 <span className={`font-serif text-3xl font-bold tracking-widest ${isDark ? 'text-white' : 'text-black'}`}>Undangin</span>
               </div>
               <p className={`${theme.textMuted} max-w-sm font-light leading-relaxed mb-8`}>

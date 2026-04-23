@@ -16,14 +16,18 @@ export async function submitRSVP(formData: FormData) {
     return { error: "Data tidak lengkap" };
   }
 
+  // Simple XSS protection: strip HTML tags
+  const cleanName = name.replace(/<[^>]*>?/gm, '');
+  const cleanMessage = message.replace(/<[^>]*>?/gm, '');
+
   const { error } = await supabase
     .from("guestbook")
     .insert([
       {
         invitation_id: invitationId,
-        name,
+        name: cleanName,
         attendance,
-        message
+        message: cleanMessage
       }
     ]);
 

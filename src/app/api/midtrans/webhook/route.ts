@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import crypto from "crypto";
 
-// Need a direct supabase client for webhook since it's an external callback
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
 export async function POST(request: Request) {
+  // Need a direct supabase client for webhook since it's an external callback
+  const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
   try {
     const body = await request.json();
     const { 
@@ -31,7 +31,23 @@ export async function POST(request: Request) {
 
     // 2. Handle Success Status
     if (transaction_status === "capture" || transaction_status === "settlement") {
-      const creditsToAdd = parseInt(creditsStr);
+      // SECURE CALCULATION: Don't trust custom_field2 for credit amount
+      // Calculate credits based on the actual money received (gross_amount)
+      const amount = Math.floor(parseFloat(gross_amount));
+      let creditsToAdd = 0;
+
+      if (amount >= 349000) {
+        creditsToAdd = 20;
+      } else if (amount >= 199000) {
+        creditsToAdd = 10;
+      } else if (amount >= 49000) {
+        creditsToAdd = 1;
+      }
+
+      if (creditsToAdd === 0) {
+        console.error(`Invalid payment amount: ${gross_amount} for user ${userId}`);
+        return NextResponse.json({ message: "Invalid Amount" }, { status: 400 });
+      }
       
       // Get current credits
       const { data: profile } = await supabaseAdmin

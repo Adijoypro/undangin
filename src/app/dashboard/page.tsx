@@ -50,10 +50,9 @@ export default async function DashboardPage() {
       <nav className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-wedding-gold rounded-full flex items-center justify-center text-white font-bold font-serif">U</div>
-              <span className="font-serif text-xl font-bold text-wedding-text hidden sm:inline">Dasbor Undangin</span>
-              <span className="font-serif text-xl font-bold text-wedding-text sm:hidden italic">U</span>
+            <div className="flex items-center gap-3">
+              <img src="/logo.png" alt="Undangin Logo" className="w-10 h-10 object-contain" />
+              <span className="font-serif text-xl font-bold text-wedding-text hidden sm:inline">Undangin</span>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">
               <div className="bg-wedding-gold/10 px-3 py-1.5 rounded-lg flex items-center gap-2">
@@ -166,6 +165,41 @@ export default async function DashboardPage() {
               <p className="text-xs text-gray-400">Buat undangan pertama Anda.</p>
             </div>
           )}
+        </div>
+
+        {/* NEW: THEME CATALOG SECTION */}
+        <div className="mt-16 mb-12">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-serif font-bold text-wedding-text">Katalog Tema Premium</h2>
+            <span className="text-[10px] font-bold text-wedding-gold uppercase tracking-widest">Arahkan untuk Demo</span>
+          </div>
+          
+          <div className="relative overflow-x-auto pb-6 no-scrollbar snap-x snap-mandatory">
+            <div className="flex gap-4 w-max px-2">
+              {[
+                { id: "ultra-luxury", name: "Ultra Luxury", color: "bg-black", text: "text-white" },
+                { id: "cinematic-dark", name: "Cinematic Dark", color: "bg-gray-900", text: "text-white" },
+                { id: "premium", name: "Premium Sage", color: "bg-[#7C8C77]", text: "text-white" },
+                { id: "renaissance-garden", name: "Renaissance", color: "bg-[#F9F6F0]", text: "text-gray-800" },
+                { id: "majestic-eternity", name: "Majestic", color: "bg-[#0A1C14]", text: "text-white" }
+              ].map((theme) => (
+                <div key={theme.id} className="w-[200px] sm:w-[240px] snap-center shrink-0 group">
+                  <div className={`aspect-[9/14] rounded-xl overflow-hidden ${theme.color} border border-gray-200 relative shadow-sm group-hover:shadow-md transition-all group-hover:scale-[1.02]`}>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center z-10 group-hover:opacity-0 transition-opacity">
+                      <h4 className={`font-serif text-lg font-bold ${theme.text}`}>{theme.name}</h4>
+                      <p className="text-[8px] text-wedding-gold font-bold uppercase tracking-widest mt-1">Lihat Detail</p>
+                    </div>
+                    {/* Live Preview Iframe - Hidden by default, shown on hover */}
+                    <iframe 
+                      src={`/demo/${theme.id}`} 
+                      className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 border-none scale-[0.5] origin-top"
+                      style={{ width: '200%', height: '200%' }}
+                    ></iframe>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </main>
     </div>

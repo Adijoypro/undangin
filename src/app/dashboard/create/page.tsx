@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createInvitation } from "./actions";
+import ThemeSelector from "./ThemeSelector";
 
 export default async function CreateInvitationPage() {
   const supabase = await createClient();
@@ -18,7 +19,6 @@ export default async function CreateInvitationPage() {
             <div className="flex items-center gap-4">
               <a href="/dashboard" className="text-sm font-bold text-gray-500 hover:text-wedding-gold">← Kembali</a>
               <span className="font-serif text-xl font-bold text-wedding-text">Buat Undangan</span>
-            </div>
             </div>
           </div>
         </div>
@@ -39,15 +39,8 @@ export default async function CreateInvitationPage() {
                 </div>
                 <p className="text-[10px] text-gray-400 mt-1">Hanya huruf kecil dan strip (-).</p>
               </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-500 mb-1">Pilih Tema</label>
-                <select name="theme" id="theme" className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-wedding-gold/50 focus:border-wedding-gold transition-colors appearance-none" required defaultValue="premium">
-                  <option value="premium">Premium (Sage & Gold)</option>
-                  <option value="cinematic-dark">Cinematic Dark (Black & White)</option>
-                  <option value="ultra-luxury">The Ultra Luxury (Onyx & Rose Gold)</option>
-                  <option value="renaissance-garden">The Renaissance Garden (Vintage Floral)</option>
-                  <option value="majestic-eternity">Majestic Eternity (Emerald & Gold) - DEWA TIER</option>
-                </select>
+              <div className="md:col-span-2">
+                <ThemeSelector />
               </div>
             </div>
           </section>

@@ -127,6 +127,22 @@ export async function updateInvitation(formData: FormData) {
   if (couplePhotoUrl) updateData.couple_photo = couplePhotoUrl;
   if (musicUrl) updateData.music_url = musicUrl;
 
+  // 1. Check if slug is already taken by ANOTHER invitation
+  const { data: existingSlug } = await supabase
+    .from("invitations")
+    .select("id")
+    .eq("slug", slug.toLowerCase().replace(/\s+/g, '-'))
+    .neq("id", id)
+    .single();
+
+  if (existingSlug) {
+    // If slug exists, we can't update to it. 
+    // For now, let's just log and redirect back with an error if possible, 
+    // but a redirect to dashboard with a simple check is safest for now.
+    console.error("Slug conflict detected!");
+    return redirect(`/dashboard/edit/${id}?error=slug_taken`);
+  }
+
   const { error } = await supabase
     .from("invitations")
     .update(updateData)
@@ -135,7 +151,6 @@ export async function updateInvitation(formData: FormData) {
 
   if (error) {
     console.error("Database Update Error:", error.message);
-    // You might want to handle unique constraint violation for slug here
   }
 
   revalidatePath("/dashboard");

@@ -94,3 +94,12 @@ body {
 .animate-gradient-x {
   animation: gradient-x 3s ease infinite;
 }
+
+/* 9. UTILITIES */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
