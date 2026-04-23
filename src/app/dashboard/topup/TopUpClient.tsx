@@ -69,9 +69,9 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
 
   return (
     <>
-      {/* Midtrans Snap Script (Sandbox) - Change to production URL later */}
+      {/* Midtrans Snap Script (Production) */}
       <Script 
-        src="https://app.sandbox.midtrans.com/snap/snap.js" 
+        src="https://app.midtrans.com/snap/snap.js" 
         data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
         strategy="lazyOnload"
       />

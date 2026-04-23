@@ -7,7 +7,10 @@ export async function POST(request: Request) {
 
     // Use environment variables for Midtrans Keys
     // Fallback to Midtrans sandbox dummy keys for demonstration if env not set
-    const serverKey = process.env.MIDTRANS_SERVER_KEY || "SB-Mid-server-jRk17aQv4uTf_s7iHj3r3VbJ";
+    const serverKey = process.env.MIDTRANS_SERVER_KEY;
+    if (!serverKey) {
+      return NextResponse.json({ message: "Konfigurasi pembayaran belum lengkap." }, { status: 500 });
+    }
     const authString = Buffer.from(`${serverKey}:`).toString("base64");
 
     const orderId = `UNDANGIN-${packageId}-${Date.now()}`;
@@ -34,7 +37,7 @@ export async function POST(request: Request) {
       custom_field2: credits.toString(),
     };
 
-    const response = await fetch("https://app.sandbox.midtrans.com/snap/v1/transactions", {
+    const response = await fetch("https://app.midtrans.com/snap/v1/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +51,7 @@ export async function POST(request: Request) {
 
     if (!response.ok) {
       console.error("Midtrans Error:", data);
-      return NextResponse.json({ message: "Gagal memproses ke Midtrans." }, { status: 500 });
+      return NextResponse.json({ message: "Gagal memproses ke Midtrans. Pastikan Key Production benar." }, { status: 500 });
     }
 
     return NextResponse.json({ token: data.token, orderId });
