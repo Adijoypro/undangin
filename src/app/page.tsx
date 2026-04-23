@@ -286,15 +286,16 @@ export default function LandingPage() {
           >
             <motion.div 
               className="flex gap-6 sm:gap-8 w-max px-4 lg:px-0"
-              animate={sliderPaused ? {} : { x: ["0%", "-50%"] }}
+              // Disable auto-animation on mobile to prevent conflict with native snap scroll
+              animate={typeof window !== 'undefined' && window.innerWidth < 1024 ? {} : (sliderPaused ? {} : { x: ["0%", "-50%"] })}
               transition={{ 
                 duration: 60, 
                 repeat: Infinity, 
                 ease: "linear" 
               }}
             >
-              {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES, ...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
-                <div key={i} className="min-w-[85vw] sm:min-w-[400px] shrink-0 group block cursor-pointer snap-center">
+              {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
+                <div key={i} className="min-w-[80vw] sm:min-w-[400px] shrink-0 group block cursor-pointer snap-center">
                   <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02] group-hover:shadow-2xl`}>
                     {t.gradientClass && <div className={`absolute inset-0 ${t.gradientClass}`}></div>}
                     {t.extraGradient && <div className={`absolute inset-0 ${t.extraGradient}`}></div>}
