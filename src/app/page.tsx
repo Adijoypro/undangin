@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 const SHOWCASE_THEMES = [
   {
@@ -81,9 +82,21 @@ const SHOWCASE_THEMES = [
 export default function LandingPage() {
   const [isDark, setIsDark] = useState(true);
   const [sliderPaused, setSliderPaused] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const supabase = createClient();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (data?.user) {
+        setUser(data.user);
+      }
+    };
+    checkUser();
+  }, []);
 
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -159,7 +172,12 @@ export default function LandingPage() {
                 </AnimatePresence>
               </motion.button>
 
-              <Link href="/login" className="bg-[#D4AF37] text-black px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[#F3E5AB] transition-all shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)]">Mulai</Link>
+              <Link 
+                href={user ? "/dashboard" : "/login"}
+                className={`px-10 py-4 bg-[#D4AF37] text-black rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#F3E5AB] transition-all duration-500 shadow-[0_10px_30px_rgba(212,175,55,0.3)] hover:shadow-[0_15px_40px_rgba(212,175,55,0.5)] hover:-translate-y-1`}
+              >
+                {user ? "Lanjut ke Dasbor" : "Mulai Desain Sekarang"}
+              </Link>
             </div>
           </div>
         </div>
@@ -202,9 +220,12 @@ export default function LandingPage() {
           </motion.p>
 
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row justify-center items-center gap-6">
-            <Link href="/login" className="w-full sm:w-auto px-10 py-5 bg-[#D4AF37] text-black font-bold hover:bg-[#F3E5AB] transition-all duration-500 text-sm uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(212,175,55,0.3)]">
-              Buat Mahakarya
-            </Link>
+              <Link 
+                href={user ? "/dashboard" : "/login"} 
+                className={`text-xs font-bold uppercase tracking-[0.2em] px-6 py-2.5 rounded-full border border-[#D4AF37] ${user ? 'bg-[#D4AF37] text-black' : 'text-[#D4AF37] hover:bg-[#D4AF37]/10'} transition-all duration-500 shadow-[0_0_15px_rgba(212,175,55,0.2)]`}
+              >
+                {user ? "Buka Dasbor" : "Masuk"}
+              </Link>
             <a href="#template" className={`w-full sm:w-auto px-10 py-5 border ${theme.border} font-bold hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-500 text-sm uppercase tracking-[0.2em] ${isDark ? 'bg-white/5' : 'bg-black/5'} backdrop-blur-sm`}>
               Lihat Demo
             </a>
