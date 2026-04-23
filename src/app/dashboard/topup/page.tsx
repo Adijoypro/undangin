@@ -19,22 +19,22 @@ export default async function TopUpPage() {
       id: "pkg_1",
       name: "Starter Pack",
       credits: 1,
-      price: 150000,
+      price: 49000,
       description: "Cocok untuk pasangan yang hanya butuh 1 undangan."
     },
     {
       id: "pkg_5",
-      name: "Wedding Organizer Pro",
-      credits: 5,
-      price: 500000,
+      name: "Agensi Wedding",
+      credits: 10,
+      price: 199000,
       description: "Lebih hemat! Cocok untuk WO atau Agency."
     },
     {
       id: "pkg_20",
       name: "Enterprise Unlimited",
       credits: 20,
-      price: 1500000,
-      description: "Harga termurah per undangan untuk bisnis Anda."
+      price: 349000,
+      description: "Harga terbaik untuk bisnis undangan massal Anda."
     }
   ];
 

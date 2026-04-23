@@ -224,39 +224,66 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
 
       {/* 3. PROFILES */}
       <section className="min-h-screen relative z-10 flex items-center px-4 py-32 max-w-6xl mx-auto">
-        <div className="w-full grid md:grid-cols-2 gap-20 items-center">
+        <div className="w-full grid md:grid-cols-2 gap-12 md:gap-24 items-center">
           
-          <motion.div style={{ y: leftPhotoY }} className="relative group">
-            <div className="aspect-[3/4] w-full max-w-sm overflow-hidden rounded-sm relative border border-white/10">
-              <motion.div 
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="w-full h-full"
-              >
-                <img src={data.bride.photo} className="w-full h-full object-cover filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" alt="Bride" />
-              </motion.div>
-              <div className="absolute bottom-6 left-6 right-6 p-6 bg-black/40 backdrop-blur-xl border border-white/10 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                <h3 className="font-serif text-2xl mb-1">{data.bride.fullName}</h3>
-                <p className="text-xs text-gray-400 font-sans uppercase tracking-widest">The Bride</p>
+          {/* BRIDE */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUpVariant}
+            className="relative"
+          >
+            <div className="relative aspect-[3/4] w-full max-w-md mx-auto group">
+              {/* Decorative Arch Frame */}
+              <div className="absolute -inset-4 border border-white/10 rounded-t-full pointer-events-none group-hover:border-white/30 transition-colors duration-700"></div>
+              <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20">
+                <motion.img 
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 1.5 }}
+                  src={data.bride.photo} 
+                  className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
+                  alt={data.bride.name} 
+                />
+              </div>
+              <div className="mt-8 text-center">
+                <h3 className="font-serif text-3xl md:text-5xl mb-2 tracking-tight text-white">{data.bride.name}</h3>
+                <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-4 font-bold">Mempelai Wanita</p>
+                <div className="w-10 h-px bg-white/20 mx-auto mb-4"></div>
+                <p className="font-serif italic text-gray-400 text-sm leading-relaxed">{data.bride.parents}</p>
               </div>
             </div>
           </motion.div>
 
-          <motion.div style={{ y: rightPhotoY }} className="relative group md:mt-48">
-            <div className="aspect-[3/4] w-full max-w-sm overflow-hidden rounded-sm relative border border-white/10 ml-auto">
-              <motion.div 
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="w-full h-full"
-              >
-                <img src={data.groom.photo} className="w-full h-full object-cover filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" alt="Groom" />
-              </motion.div>
-              <div className="absolute bottom-6 left-6 right-6 p-6 bg-black/40 backdrop-blur-xl border border-white/10 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                <h3 className="font-serif text-2xl mb-1">{data.groom.fullName}</h3>
-                <p className="text-xs text-gray-400 font-sans uppercase tracking-widest">The Groom</p>
+          {/* GROOM */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUpVariant}
+            className="relative md:mt-32"
+          >
+            <div className="relative aspect-[3/4] w-full max-w-md mx-auto group">
+              {/* Decorative Arch Frame */}
+              <div className="absolute -inset-4 border border-white/10 rounded-t-full pointer-events-none group-hover:border-white/30 transition-colors duration-700"></div>
+              <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20">
+                <motion.img 
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 1.5 }}
+                  src={data.groom.photo} 
+                  className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
+                  alt={data.groom.name} 
+                />
+              </div>
+              <div className="mt-8 text-center">
+                <h3 className="font-serif text-3xl md:text-5xl mb-2 tracking-tight text-white">{data.groom.name}</h3>
+                <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-4 font-bold">Mempelai Pria</p>
+                <div className="w-10 h-px bg-white/20 mx-auto mb-4"></div>
+                <p className="font-serif italic text-gray-400 text-sm leading-relaxed">{data.groom.parents}</p>
               </div>
             </div>
           </motion.div>
+          
         </div>
       </section>
 

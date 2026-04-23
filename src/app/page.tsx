@@ -80,6 +80,7 @@ const SHOWCASE_THEMES = [
 
 export default function LandingPage() {
   const [isDark, setIsDark] = useState(true);
+  const [sliderPaused, setSliderPaused] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
@@ -189,9 +190,11 @@ export default function LandingPage() {
             Platform SaaS Undangan Premium
           </motion.div>
 
-          <motion.h1 variants={fadeInUp} className="text-5xl md:text-8xl font-serif font-bold tracking-tight mb-8 leading-[1.1]">
+          <motion.h1 variants={fadeInUp} className="text-6xl md:text-9xl font-serif font-bold tracking-tighter mb-8 leading-[0.9]">
             Undangan Digital <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] italic">Mahakarya</span>.
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-white to-[#D4AF37] bg-[length:200%_auto] animate-gradient-x italic">
+              Mahakarya
+            </span>
           </motion.h1>
 
           <motion.p variants={fadeInUp} className={`text-lg md:text-2xl ${theme.textMuted} mb-12 max-w-3xl mx-auto font-light leading-relaxed transition-colors duration-1000`}>
@@ -253,9 +256,9 @@ export default function LandingPage() {
                 <h3 className="font-serif text-2xl text-[#D4AF37] mb-4">{feat.title}</h3>
                 <p className={`${theme.textMuted} leading-relaxed font-light transition-colors duration-1000`}>{feat.desc}</p>
               </motion.div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
       </section>
 
       {/* TEMPLATES DEMO */}
@@ -276,11 +279,19 @@ export default function LandingPage() {
             </div>
           </motion.div>
 
-          <div className="overflow-hidden w-full relative">
-            <div className="flex gap-8 animate-marquee hover:[animation-play-state:paused] w-max py-8">
-              {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
-                <div key={i} className="min-w-[85vw] sm:min-w-[400px] shrink-0 group block">
-                  <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass}`}>
+          <div className="relative overflow-hidden py-10" onMouseEnter={() => setSliderPaused(true)} onMouseLeave={() => setSliderPaused(false)}>
+            <motion.div 
+              className="flex gap-8 w-max"
+              animate={sliderPaused ? {} : { x: ["0%", "-50%"] }}
+              transition={{ 
+                duration: 60, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+            >
+              {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES, ...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
+                <div key={i} className="min-w-[85vw] sm:min-w-[400px] shrink-0 group block cursor-pointer">
+                  <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02] group-hover:shadow-2xl`}>
                     {t.gradientClass && <div className={`absolute inset-0 ${t.gradientClass}`}></div>}
                     {t.extraGradient && <div className={`absolute inset-0 ${t.extraGradient}`}></div>}
                     <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
@@ -297,7 +308,7 @@ export default function LandingPage() {
                   </div>
                 </div>
               ))}
-            </div>
+            </motion.div>
         </div>
       </div>
     </section>
@@ -418,8 +429,8 @@ export default function LandingPage() {
               <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-10 transition-colors duration-1000`}>Publikasi undangan & fitur lengkap.</p>
               <div className="mb-10 flex items-baseline gap-2">
                 <span className="text-sm text-[#D4AF37] font-bold uppercase tracking-widest">Rp</span>
-                <span className="text-5xl font-serif text-[#D4AF37]">99</span>
-                <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>rb <span className="line-through text-xs ml-1">Rp 199.000</span></span>
+                <span className="text-5xl font-serif text-[#D4AF37]">49</span>
+                <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>rb <span className="line-through text-xs ml-1">Rp 99.000</span></span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-1000`}>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 1 Kredit Publikasi / Export</li>
@@ -442,7 +453,7 @@ export default function LandingPage() {
               <p className={`text-sm ${theme.textMuted} mb-10 transition-colors duration-1000`}>Paket hemat untuk profesional.</p>
               <div className="mb-10 flex items-baseline gap-2">
                 <span className={`text-sm ${theme.textMuted} font-bold uppercase tracking-widest transition-colors duration-1000`}>Rp</span>
-                <span className="text-5xl font-serif">450</span>
+                <span className="text-5xl font-serif">199</span>
                 <span className={theme.textMuted}>rb</span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${theme.textMuted} transition-colors duration-1000`}>

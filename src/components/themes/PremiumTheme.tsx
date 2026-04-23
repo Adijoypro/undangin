@@ -143,15 +143,24 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
 
         {/* HERO */}
         <section className="min-h-[100svh] flex flex-col items-center justify-center relative px-4 z-10">
+            <div className="absolute inset-0 z-0">
+                <img 
+                    src={data.couplePhoto || data.bride.photo} 
+                    className="w-full h-full object-cover opacity-20 grayscale mix-blend-overlay" 
+                    alt="Hero"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5] via-transparent to-[#FAF8F5]"></div>
+            </div>
             <div className="text-center relative z-10 w-full">
                 <p className="font-sans uppercase tracking-[0.5em] text-wedding-sage mb-6 text-xs font-bold" data-aos="fade-down">Tasyakuran Pernikahan</p>
                 <div className="flex flex-col items-center justify-center">
                     <h2 className="font-script text-8xl md:text-[140px] leading-[0.7] gold-foil py-4" data-aos="zoom-in">{data.bride.name}</h2>
                     <span className="font-script text-6xl md:text-8xl text-wedding-sage/40 -mt-2 mb-2" data-aos="fade-in">&amp;</span>
-                    <h2 className="font-script text-8xl md:text-[140px] leading-[0.7] gold-foil py-4 ml-12 md:ml-32" data-aos="zoom-in">{data.groom.name}</h2>
+                    <h2 className="font-script text-8xl md:text-[140px] leading-[0.7] gold-foil py-4" data-aos="zoom-in" data-aos-delay="200">{data.groom.name}</h2>
                 </div>
-                <div className="w-px h-24 bg-gradient-to-b from-wedding-gold to-transparent mx-auto mt-12 mb-8" data-aos="fade-up"></div>
-                <p className="text-xl md:text-2xl font-serif text-wedding-text tracking-[0.4em] uppercase" data-aos="fade-up">{data.event.date}</p>
+                <div className="mt-12 inline-block border-y border-wedding-gold/30 py-4 px-12" data-aos="fade-up" data-aos-delay="400">
+                    <p className="font-serif italic text-wedding-text text-xl">{data.event.date}</p>
+                </div>
                 <div className="mt-12 w-full flex justify-center" data-aos="fade-up">
                     <CountdownTimer targetDate={data.event.date} theme="premium" />
                 </div>

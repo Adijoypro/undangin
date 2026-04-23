@@ -83,5 +83,14 @@ body {
 }
 @keyframes marquee {
   0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-50% - 1rem)); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
 }

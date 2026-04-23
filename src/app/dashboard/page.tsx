@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import PublishButton from "@/components/dashboard/PublishButton";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -12,6 +13,15 @@ export default async function DashboardPage() {
   if (!user) {
     return redirect("/login");
   }
+
+  // Fetch user's profile for credits
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("credits")
+    .eq("id", user.id)
+    .single();
+
+  const userCredits = profile?.credits || 0;
 
   // Fetch user's invitations with guestbook relations
   const { data: invitations } = await supabase
@@ -34,9 +44,6 @@ export default async function DashboardPage() {
     });
   }
 
-  // Placeholder for User Credit (Future: Fetch from DB)
-  const userCredits = 5;
-
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 font-sans">
       {/* NAVBAR */}
@@ -45,101 +52,97 @@ export default async function DashboardPage() {
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-wedding-gold rounded-full flex items-center justify-center text-white font-bold font-serif">U</div>
-              <span className="font-serif text-xl font-bold text-wedding-text">Dasbor Undangin</span>
+              <span className="font-serif text-xl font-bold text-wedding-text hidden sm:inline">Dasbor Undangin</span>
+              <span className="font-serif text-xl font-bold text-wedding-text sm:hidden italic">U</span>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-500">{user.email}</span>
-              <form action={async () => {
-                "use server";
-                const supabase = await createClient();
-                await supabase.auth.signOut();
-                redirect("/login");
-              }}>
-                <button className="text-sm font-bold text-red-500 hover:underline">Keluar</button>
-              </form>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="bg-wedding-gold/10 px-3 py-1.5 rounded-lg flex items-center gap-2">
+                <svg className="w-4 h-4 text-wedding-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span className="text-xs font-bold text-wedding-gold">{userCredits} Kredit</span>
+              </div>
+              <Link href="/dashboard/topup" className="bg-wedding-text text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-gray-800 transition-colors">
+                Top Up
+              </Link>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* MAIN */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-          <div>
-            <h1 className="text-3xl font-serif font-bold text-wedding-text">Selamat Datang!</h1>
-            <p className="text-gray-500 text-sm mt-1">Pantau performa undangan dan daftar tamu Anda di sini.</p>
+      {/* CONTENT */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        {/* Analytics Grid - OPTIMIZED FOR MOBILE */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
+          <div className="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3 sm:gap-4 hover:border-wedding-gold/20 transition-all">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-wedding-gold/10 rounded-xl sm:rounded-2xl flex items-center justify-center text-wedding-gold shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </div>
+            <div className="min-w-0">
+              <p className="text-[9px] sm:text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5 sm:mb-1 truncate">Undangan</p>
+              <p className="text-xl sm:text-2xl font-serif font-bold text-gray-800 leading-none">{totalInvitations}</p>
+            </div>
           </div>
           
-          <div className="bg-white px-4 py-3 rounded-xl shadow-sm border border-wedding-gold/20 flex items-center gap-4">
-            <div>
-              <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Sisa Saldo Kredit</p>
-              <p className="font-serif text-xl font-bold text-wedding-gold">{userCredits} Undangan</p>
+          <div className="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3 sm:gap-4 hover:border-wedding-sage/20 transition-all">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-wedding-sage/10 rounded-xl sm:rounded-2xl flex items-center justify-center text-wedding-sage shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
             </div>
-            <Link href="/dashboard/topup" className="bg-wedding-text text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-wedding-gold transition-colors">
-              Top Up
-            </Link>
+            <div className="min-w-0">
+              <p className="text-[9px] sm:text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5 sm:mb-1 truncate">RSVP</p>
+              <p className="text-xl sm:text-2xl font-serif font-bold text-gray-800 leading-none">{totalRSVP}</p>
+            </div>
           </div>
-        </div>
 
-        {/* ANALYTICS CARDS */}
-        <div className="grid grid-cols-3 gap-6 mb-10">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-500">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"></path></svg>
+          <div className="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3 sm:gap-4 hover:border-green-100 transition-all">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-50 rounded-xl sm:rounded-2xl flex items-center justify-center text-green-500 shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
-            <div>
-              <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Total Undangan</p>
-              <p className="text-2xl font-serif font-bold text-gray-800">{totalInvitations}</p>
+            <div className="min-w-0">
+              <p className="text-[9px] sm:text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5 sm:mb-1 truncate">Hadir</p>
+              <p className="text-xl sm:text-2xl font-serif font-bold text-gray-800 leading-none">{totalHadir}</p>
             </div>
           </div>
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-            <div className="w-12 h-12 bg-wedding-sage/10 rounded-full flex items-center justify-center text-wedding-sage">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+
+          <div className="bg-white p-3 sm:p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3 sm:gap-4 hover:border-wedding-gold/20 transition-all">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-50 rounded-xl sm:rounded-2xl flex items-center justify-center text-gray-400 shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
             </div>
-            <div>
-              <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Total Ucapan (RSVP)</p>
-              <p className="text-2xl font-serif font-bold text-gray-800">{totalRSVP}</p>
-            </div>
-          </div>
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-            <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center text-green-500">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Tamu Akan Hadir</p>
-              <p className="text-2xl font-serif font-bold text-gray-800">{totalHadir}</p>
+            <div className="min-w-0">
+              <p className="text-[9px] sm:text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5 sm:mb-1 truncate">Growth</p>
+              <p className="text-xl sm:text-2xl font-serif font-bold text-gray-800 leading-none">High</p>
             </div>
           </div>
         </div>
         
-        <h2 className="text-xl font-serif font-bold text-wedding-text mb-6">Daftar Undangan Anda</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-serif font-bold text-wedding-text">Daftar Undangan Anda</h2>
+          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{totalInvitations} Item</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Create New Invite Card */}
           <Link href="/dashboard/create">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-dashed border-wedding-gold text-center group cursor-pointer hover:bg-wedding-gold/5 transition-colors h-full">
+            <div className="bg-white p-8 rounded-2xl shadow-sm border border-dashed border-wedding-gold text-center group cursor-pointer hover:bg-wedding-gold/5 transition-colors h-full flex flex-col justify-center">
               <div className="w-12 h-12 bg-wedding-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                 <svg className="w-6 h-6 text-wedding-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
               </div>
-              <h3 className="font-bold mb-2">Buat Undangan Baru</h3>
-              <p className="text-xs text-gray-500">Mulai rancang undangan digital Anda.</p>
+              <h3 className="font-bold mb-1 text-gray-800">Buat Baru</h3>
+              <p className="text-[10px] text-gray-500 uppercase tracking-widest">Mulai Desain Sekarang</p>
             </div>
           </Link>
 
           {/* List of Invitations */}
           {invitations && invitations.length > 0 ? (
             invitations.map((invitation) => (
-              <div key={invitation.id} className="bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col justify-between hover:shadow-lg transition-shadow">
+              <div key={invitation.id} className="bg-white p-6 rounded-2xl shadow-md border border-gray-100 flex flex-col justify-between hover:shadow-lg transition-all">
                 <div>
                   <div className="flex justify-between items-start mb-4">
-                    <span className="bg-wedding-sage/10 text-wedding-sage text-[10px] uppercase tracking-widest px-3 py-1 rounded-full font-bold">
-                      {invitation.theme === 'cinematic' || invitation.theme === 'cinematic-dark' ? 'Cinematic Dark' : 
-                       invitation.theme === 'ultra-luxury' ? 'Ultra Luxury' : 
-                       invitation.theme === 'majestic-eternity' ? 'Majestic Eternity' : 
-                       'Premium Sage'}
+                    <span className="bg-wedding-sage/10 text-wedding-sage text-[9px] uppercase tracking-widest px-2 py-0.5 rounded font-bold border border-wedding-sage/20">
+                      {invitation.theme}
                     </span>
+                    <PublishButton invitationId={invitation.id} status={invitation.status} />
                   </div>
-                  <h3 className="font-serif text-2xl text-wedding-text mb-1">{invitation.bride_name} & {invitation.groom_name}</h3>
-                  <p className="text-sm text-gray-500 mb-4">/{invitation.slug}</p>
+                  <h3 className="font-serif text-2xl text-wedding-text mb-1 line-clamp-1">{invitation.bride_name} & {invitation.groom_name}</h3>
+                  <p className="text-[10px] text-gray-400 font-mono tracking-tighter">undangin.com/{invitation.slug}</p>
                 </div>
                 
                 <div className="flex items-center gap-2 pt-4 border-t border-gray-100">

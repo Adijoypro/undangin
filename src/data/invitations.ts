@@ -41,6 +41,11 @@ export interface InvitationData {
     message: string;
     created_at: string;
   }>;
+  turut_mengundang?: string;
+  bride_father?: string;
+  bride_mother?: string;
+  groom_father?: string;
+  groom_mother?: string;
 }
 
 export const dummyDatabase: InvitationData[] = [];
@@ -84,6 +89,7 @@ export const dummyData: InvitationData = {
     accountNumber: "1234567890",
     accountName: "Ayu Saraswati"
   },
-  musicUrl: "/music/wedding-song.mp3",
-  guestbook: []
+  musicUrl: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_18dc903e1e.mp3?filename=wedding-piano-111166.mp3",
+  guestbook: [],
+  turut_mengundang: "Keluarga Besar Bapak Budi, Keluarga Besar Bapak Joko, Kerabat & Sahabat"
 };

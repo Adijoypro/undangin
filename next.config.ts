@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
     // Biar gak ganggu pas build di Vercel
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
 };
 
 export default nextConfig;

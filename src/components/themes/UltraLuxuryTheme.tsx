@@ -234,7 +234,12 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                 </div>
                 <h3 className="text-4xl mb-4 font-serif text-[#D4AF37]/90">{data.bride.fullName}</h3>
                 <p className="font-sans text-[11px] uppercase tracking-[0.4em] text-gray-500 mb-2">Putri Dari</p>
-                <p className="text-base text-gray-400 italic font-light max-w-xs">{data.bride.parents}</p>
+                <p className="text-base text-gray-400 italic font-light max-w-xs">
+                  {data.bride_father && data.bride_mother 
+                    ? `Bpk. ${data.bride_father} & Ibu ${data.bride_mother}`
+                    : data.bride.parents
+                  }
+                </p>
               </motion.div>
               
               {/* Groom */}
@@ -248,11 +253,28 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                 </div>
                 <h3 className="text-4xl mb-4 font-serif text-[#D4AF37]/90">{data.groom.fullName}</h3>
                 <p className="font-sans text-[11px] uppercase tracking-[0.4em] text-gray-500 mb-2">Putra Dari</p>
-                <p className="text-base text-gray-400 italic font-light max-w-xs">{data.groom.parents}</p>
+                <p className="text-base text-gray-400 italic font-light max-w-xs">
+                  {data.groom_father && data.groom_mother 
+                    ? `Bpk. ${data.groom_father} & Ibu ${data.groom_mother}`
+                    : data.groom.parents
+                  }
+                </p>
               </motion.div>
             </div>
           </div>
         </section>
+
+        {/* TURUT MENGUNDANG */}
+        {data.turut_mengundang && (
+          <section className="py-24 px-6 bg-[#050505] relative border-y border-white/5">
+            <div className="max-w-3xl mx-auto text-center" data-aos="fade-up">
+              <h2 className="font-serif text-[#D4AF37] text-2xl uppercase tracking-[0.4em] mb-12">Turut Mengundang</h2>
+              <div className="text-gray-400 font-light whitespace-pre-line leading-loose italic tracking-widest">
+                {data.turut_mengundang}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* 3. EVENT */}
         <section className="relative py-48 bg-[#030303] flex items-center justify-center overflow-hidden">
