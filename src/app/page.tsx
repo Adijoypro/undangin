@@ -232,15 +232,31 @@ export default function LandingPage() {
             Standar baru industri pernikahan. Desain sinematik eksklusif, animasi <span className={theme.text}>jaw-dropping</span>, dan manajemen tamu cerdas untuk menyempurnakan hari bahagia Anda.
           </motion.p>
 
-          <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row justify-center items-center gap-6">
-              <Link 
-                href={user ? "/dashboard" : "/login"} 
-                className={`text-xs font-bold uppercase tracking-[0.2em] px-6 py-2.5 rounded-full border border-[#D4AF37] ${user ? 'bg-[#D4AF37] text-black' : 'text-[#D4AF37] hover:bg-[#D4AF37]/10'} transition-all duration-500 shadow-[0_0_15px_rgba(212,175,55,0.2)]`}
+          <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <Link href={user ? "/dashboard" : "/login"} className="w-full sm:w-auto">
+              <motion.button
+                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(212, 175, 55, 0.4)" }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full px-10 py-5 bg-gradient-to-r from-[#D4AF37] to-[#B8962E] text-white rounded-full font-bold text-lg shadow-xl shadow-[#D4AF37]/20 flex items-center justify-center gap-3 group relative overflow-hidden"
               >
-                {user ? "Buka Dasbor" : "Masuk"}
-              </Link>
-            <a href="#template" className={`w-full sm:w-auto px-10 py-5 border ${theme.border} font-bold hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-500 text-sm uppercase tracking-[0.2em] ${isDark ? 'bg-white/5' : 'bg-black/5'} backdrop-blur-sm`}>
-              Lihat Demo
+                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                <span>Buat Undangan Gratis</span>
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+              </motion.button>
+            </Link>
+            
+            <a href="#template" className="w-full sm:w-auto">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`w-full px-10 py-5 backdrop-blur-md border rounded-full font-bold text-lg transition-all flex items-center justify-center gap-3 shadow-lg ${
+                  isDark 
+                  ? 'bg-white/10 border-white/20 text-white hover:bg-white/20' 
+                  : 'bg-black/5 border-black/10 text-black hover:bg-black/10'
+                }`}
+              >
+                <span>Lihat Koleksi Tema</span>
+              </motion.button>
             </a>
           </motion.div>
         </motion.div>
@@ -537,25 +553,26 @@ export default function LandingPage() {
           >
             Siap Mengukir Sejarah?
           </motion.h2>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(212, 175, 55, 0.5)" }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-10 px-12 py-5 bg-gradient-to-r from-[#D4AF37] to-[#B8962E] text-white rounded-full font-bold text-xl shadow-2xl relative group overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+            Mulai Wujudkan Undangan Impianmu
+          </motion.button>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className={`text-xl ${isDark ? 'text-gray-300' : 'text-gray-800'} mb-12 font-light transition-colors duration-1000`}
+            className={`text-xl ${isDark ? 'text-gray-300' : 'text-gray-800'} mt-8 font-light transition-colors duration-1000`}
           >
             Buat mahakarya undangan digital Anda hari ini dan tinggalkan kesan mendalam bagi tamu undangan tercinta.
           </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <Link href="/login" className="inline-block px-12 py-6 bg-[#D4AF37] text-black font-bold hover:bg-white hover:text-black transition-all duration-500 text-sm uppercase tracking-[0.2em] shadow-[0_0_50px_rgba(212,175,55,0.4)] hover:shadow-[0_0_80px_rgba(212,175,55,0.6)]">
-              Mulai Eksplorasi
-            </Link>
-          </motion.div>
         </div>
       </section>
 

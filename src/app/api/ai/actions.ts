@@ -11,7 +11,7 @@ export async function generateRomanticQuote(brideName: string, groomName: string
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const prompt = `Buatkan kutipan romantis yang puitis dan bermakna untuk undangan pernikahan antara ${brideName} dan ${groomName}. 
     Kutipan harus dalam Bahasa Indonesia, elegan, tidak terlalu panjang (maksimal 3 kalimat), dan menyentuh hati. 
