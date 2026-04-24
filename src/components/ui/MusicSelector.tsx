@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { updateInvitationMusic } from "@/app/api/invitation/music/actions";
+import { toast } from "sonner";
 
 interface MusicSelectorProps {
   id: string;
@@ -12,7 +13,7 @@ interface MusicSelectorProps {
 }
 
 const PRESET_MUSIC = [
-  { name: "Beautiful in White", artist: "Shane Filan", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" }, // Placeholder URLs for demo
+  { name: "Beautiful in White", artist: "Shane Filan", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
   { name: "A Thousand Years", artist: "Christina Perri", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
   { name: "Perfect", artist: "Ed Sheeran", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
   { name: "Can't Help Falling in Love", artist: "Kina Grannis", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
@@ -20,7 +21,7 @@ const PRESET_MUSIC = [
 ];
 
 export default function MusicSelector({ id, slug, currentMusicUrl, onClose }: MusicSelectorProps) {
-  const [selectedUrl, setSelectedUrl] = useState(currentMusicUrl);
+  const [selectedUrl] = useState(currentMusicUrl);
   const [isUploading, setIsUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const audioPreviewRef = useRef<HTMLAudioElement | null>(null);
@@ -44,10 +45,10 @@ export default function MusicSelector({ id, slug, currentMusicUrl, onClose }: Mu
     const res = await updateInvitationMusic(id, slug, url, file);
     setIsUploading(false);
     if (res.success) {
-      alert("Musik berhasil diperbarui!");
-      window.location.reload();
+      toast.success("Musik berhasil diperbarui!");
+      setTimeout(() => window.location.reload(), 1000);
     } else {
-      alert("Gagal memperbarui musik: " + res.message);
+      toast.error("Gagal memperbarui musik: " + res.message);
     }
   };
 
@@ -55,7 +56,7 @@ export default function MusicSelector({ id, slug, currentMusicUrl, onClose }: Mu
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        alert("File terlalu besar (Maks 10MB)");
+        toast.error("File terlalu besar (Maks 10MB)");
         return;
       }
       handleSave("", file);

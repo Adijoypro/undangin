@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { publishInvitation } from "@/app/dashboard/edit/[id]/actions";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import ConfirmModal from "../ui/ConfirmModal";
 
 interface PublishButtonProps {
   invitationId: string;
@@ -11,6 +13,7 @@ interface PublishButtonProps {
 
 export default function PublishButton({ invitationId, status }: PublishButtonProps) {
   const [loading, setLoading] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
 
   if (status === "published") {
@@ -22,36 +25,47 @@ export default function PublishButton({ invitationId, status }: PublishButtonPro
   }
 
   const handlePublish = async () => {
-    if (!confirm("Publikasikan undangan ini? Tindakan ini akan memotong 1 Kredit.")) return;
-    
     setLoading(true);
+    setShowConfirm(false);
     try {
       const result = await publishInvitation(invitationId);
       if (result.success) {
-        alert(result.message);
+        toast.success(result.message);
         router.refresh();
       } else {
-        alert(result.message);
+        toast.error(result.message);
       }
     } catch (err) {
-      alert("Terjadi kesalahan sistem.");
+      toast.error("Terjadi kesalahan sistem.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <button
-      onClick={handlePublish}
-      disabled={loading}
-      className="bg-wedding-gold text-white text-[9px] uppercase tracking-widest px-2 py-0.5 rounded font-bold hover:bg-yellow-600 disabled:opacity-50 flex items-center gap-1"
-    >
-      {loading ? "..." : (
-        <>
-          <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-          Publikasikan (1 Kredit)
-        </>
-      )}
-    </button>
+    <>
+      <button
+        onClick={() => setShowConfirm(true)}
+        disabled={loading}
+        className="bg-wedding-gold text-white text-[9px] uppercase tracking-widest px-2 py-0.5 rounded font-bold hover:bg-yellow-600 disabled:opacity-50 flex items-center gap-1"
+      >
+        {loading ? "..." : (
+          <>
+            <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            Publikasikan (1 Kredit)
+          </>
+        )}
+      </button>
+
+      {/* CONFIRM MODAL */}
+      <ConfirmModal 
+        isOpen={showConfirm}
+        title="Publikasikan Undangan?"
+        message="Tindakan ini akan memotong 1 Kredit dari akun Anda. Undangan akan segera aktif secara publik."
+        onConfirm={handlePublish}
+        onCancel={() => setShowConfirm(false)}
+        confirmLabel="Ya, Publikasikan"
+      />
+    </>
   );
 }

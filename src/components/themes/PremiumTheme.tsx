@@ -7,9 +7,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
+import { toast } from "sonner";
 
 export default function PremiumTheme({ data }: { data: InvitationData }) {
-  const [showToast, setShowToast] = useState(false);
 
 
   const createCalendarLink = () => {
@@ -43,8 +43,7 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
+      toast.success("Nomor rekening tersalin ke clipboard");
     });
   };
 
@@ -59,10 +58,10 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
     
     setIsSubmitting(false);
     if (result.success) {
-      alert("Terima kasih atas doa dan kehadiran Anda!");
+      toast.success("Terima kasih atas doa dan kehadiran Anda!");
       (document.getElementById("rsvp-form") as HTMLFormElement).reset();
     } else {
-      alert("Gagal mengirim pesan, silakan coba lagi.");
+      toast.error(result.error || "Gagal mengirim pesan, silakan coba lagi.");
     }
   };
 
@@ -211,6 +210,11 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
             <p className="font-sans text-sm text-gray-500 mb-8 leading-relaxed">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.</p>
             
             <form id="rsvp-form" action={handleRSVP} className="space-y-6">
+              {/* Honeypot field for spam protection */}
+              <div className="hidden">
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+              </div>
+              
               <div>
                 <input type="text" name="name" required placeholder="Nama Lengkap" className="w-full p-4 border border-gray-200 rounded-xl focus:border-wedding-gold outline-none bg-gray-50 font-sans text-sm" />
               </div>
@@ -277,10 +281,6 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
         </footer>
       </main>
 
-      {/* TOAST */}
-      <div className={`fixed z-[9999] top-10 left-1/2 -translate-x-1/2 bg-white text-wedding-text px-8 py-4 border border-wedding-gold/30 font-sans text-xs font-bold uppercase tracking-widest shadow-2xl flex items-center gap-3 transition-all duration-300 ${showToast ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'}`}>
-          <span>Tersalin ke clipboard</span>
-      </div>
     </>
   );
 }

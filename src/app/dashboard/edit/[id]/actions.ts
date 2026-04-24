@@ -56,51 +56,59 @@ export async function updateInvitation(formData: FormData) {
   let couplePhotoUrl = currentData?.couple_photo;
   let musicUrl = currentData?.music_url;
 
+
+  // --- VALIDASI FILE (SECURITY FIX) ---
+  const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+  const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10MB
+  const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+  const ALLOWED_AUDIO_TYPES = ["audio/mpeg", "audio/wav", "audio/mp3"];
+
+  const validateFile = (file: File, allowedTypes: string[], maxSize: number, label: string) => {
+    if (file && file.size > 0) {
+      if (!allowedTypes.includes(file.type)) {
+        throw new Error(`Format file ${label} tidak didukung. Gunakan ${allowedTypes.join(", ")}`);
+      }
+      if (file.size > maxSize) {
+        throw new Error(`Ukuran ${label} terlalu besar. Maksimal ${maxSize / (1024 * 1024)}MB`);
+      }
+      return true;
+    }
+    return false;
+  };
+
   try {
-    if (bridePhotoFile && bridePhotoFile.size > 0) {
+    if (validateFile(bridePhotoFile, ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE, "Foto Mempelai Wanita")) {
       const fileName = `${Date.now()}_bride_${bridePhotoFile.name.replace(/\s+/g, "_")}`;
       const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, bridePhotoFile);
-      if (error) {
-        console.error("Bride Photo Upload Error:", error.message);
-      } else if (data) {
-        bridePhotoUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
-      }
+      if (error) throw new Error("Gagal upload foto mempelai wanita");
+      bridePhotoUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
     }
 
-    if (groomPhotoFile && groomPhotoFile.size > 0) {
+    if (validateFile(groomPhotoFile, ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE, "Foto Mempelai Pria")) {
       const fileName = `${Date.now()}_groom_${groomPhotoFile.name.replace(/\s+/g, "_")}`;
       const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, groomPhotoFile);
-      if (error) {
-        console.error("Groom Photo Upload Error:", error.message);
-      } else if (data) {
-        groomPhotoUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
-      }
+      if (error) throw new Error("Gagal upload foto mempelai pria");
+      groomPhotoUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
     }
 
-    if (couplePhotoFile && couplePhotoFile.size > 0) {
+    if (validateFile(couplePhotoFile, ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE, "Foto Berdua")) {
       const fileName = `${Date.now()}_couple_${couplePhotoFile.name.replace(/\s+/g, "_")}`;
       const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, couplePhotoFile);
-      if (error) {
-        console.error("Couple Photo Upload Error:", error.message);
-      } else if (data) {
-        couplePhotoUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
-      }
+      if (error) throw new Error("Gagal upload foto berdua");
+      couplePhotoUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
     }
 
-    // Handle Music: Prioritize File Upload, then Catalog Selection
-    if (musicFile && musicFile.size > 0) {
+    if (validateFile(musicFile, ALLOWED_AUDIO_TYPES, MAX_AUDIO_SIZE, "Musik")) {
       const fileName = `${Date.now()}_music_${musicFile.name.replace(/\s+/g, "_")}`;
       const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, musicFile);
-      if (error) {
-        console.error("Music Upload Error:", error.message);
-      } else if (data) {
-        musicUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
-      }
+      if (error) throw new Error("Gagal upload musik");
+      musicUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
     } else if (selectedMusicUrl) {
       musicUrl = selectedMusicUrl;
     }
   } catch (err: any) {
-    console.error("Critical Storage Error:", err.message);
+    console.error("Storage Error:", err.message);
+    return redirect(`/dashboard/edit/${id}?error=${encodeURIComponent(err.message)}`);
   }
 
   const updateData: any = {
@@ -191,14 +199,18 @@ export async function publishInvitation(invitationId: string) {
     return { success: true, message: "Undangan sudah aktif!" };
   }
 
-  // Check for Unlimited Bypass (If credits > 1000, don't deduct)
-  if (profile.credits < 1000) {
-    const { error: deductError } = await supabase
-      .from("profiles")
-      .update({ credits: profile.credits - 1 })
-      .eq("id", user.id);
+  // 2. Deduct Credit using Secure RPC (SECURITY FIX: Atomic Transaction)
+  if (currentInv?.status !== 'published') {
+    // Check if user has unlimited credits bypass
+    if (profile.credits < 1000) {
+      const { data: deductSuccess, error: deductError } = await supabase.rpc('deduct_invitation_credit', {
+        user_id_param: user.id
+      });
 
-    if (deductError) return { success: false, message: "Gagal memotong kredit." };
+      if (deductError || !deductSuccess) {
+        return { success: false, message: "Kredit tidak cukup atau gagal memproses kredit." };
+      }
+    }
   }
 
   // 3. Update Invitation Status

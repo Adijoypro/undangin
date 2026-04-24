@@ -5,6 +5,8 @@ import InvitationCover from "./InvitationCover";
 import { deleteGuestbookEntry } from "@/app/api/guestbook/delete/actions";
 import MusicSelector from "../ui/MusicSelector";
 import { AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
+import ConfirmModal from "../ui/ConfirmModal";
 
 interface ThemeWrapperProps {
   data: any;
@@ -16,6 +18,7 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
   const [isOpened, setIsOpened] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showMusicSelector, setShowMusicSelector] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Analytics Calculation
@@ -28,16 +31,24 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
       setIsOpened(true);
     }
 
-    (window as any).handleDeleteEntry = async (id: string) => {
-      if (confirm("Hapus ucapan ini?")) {
-        const res = await deleteGuestbookEntry(id, data.slug);
-        if (res.success) {
-          alert("Ucapan berhasil dihapus.");
-          window.location.reload(); 
-        }
-      }
+    (window as any).handleDeleteEntry = (id: string) => {
+      setDeletingId(id);
     };
   }, [data.slug]);
+
+  const confirmDelete = async () => {
+    if (!deletingId) return;
+    
+    const res = await deleteGuestbookEntry(deletingId, data.slug);
+    if (res.success) {
+      toast.success("Ucapan berhasil dihapus");
+      setDeletingId(null);
+      setTimeout(() => window.location.reload(), 1000);
+    } else {
+      toast.error("Gagal menghapus ucapan");
+      setDeletingId(null);
+    }
+  };
 
   const handleOpen = () => {
     setIsOpened(true);
@@ -154,6 +165,16 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
           />
         )}
       </AnimatePresence>
+      {/* CONFIRM MODAL */}
+      <ConfirmModal 
+        isOpen={!!deletingId}
+        title="Hapus Ucapan?"
+        message="Ucapan yang dihapus tidak dapat dikembalikan. Lanjutkan?"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeletingId(null)}
+        confirmLabel="Hapus"
+        isDanger
+      />
     </div>
   );
 }

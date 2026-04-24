@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { Toaster } from "sonner";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="id" className={`scroll-smooth ${cinzel.variable} ${greatVibes.variable} ${montserrat.variable} ${cormorant.variable}`}>
       <body className="font-sans antialiased bg-wedding-base text-wedding-text">
+        <Toaster position="top-center" richColors />
         {children}
       </body>
     </html>

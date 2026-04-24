@@ -11,14 +11,25 @@ export async function submitRSVP(formData: FormData) {
   const attendance = formData.get("attendance") as string;
   const message = formData.get("message") as string;
   const slug = formData.get("slug") as string;
+  const honeypot = formData.get("website") as string; // Honeypot field
+
+  // 1. Honeypot check (Bots often fill all fields)
+  if (honeypot) {
+    return { error: "Bot detected" };
+  }
 
   if (!invitationId || !name || !message) {
     return { error: "Data tidak lengkap" };
   }
 
-  // Simple XSS protection: strip HTML tags
-  const cleanName = name.replace(/<[^>]*>?/gm, '');
-  const cleanMessage = message.replace(/<[^>]*>?/gm, '');
+  // 2. Simple XSS protection: More robust cleaning
+  const cleanName = name.replace(/<[^>]*>?/gm, '').substring(0, 50);
+  const cleanMessage = message.replace(/<[^>]*>?/gm, '').substring(0, 500);
+
+  // 3. Prevent excessive message length
+  if (message.length > 1000) {
+    return { error: "Pesan terlalu panjang (Maks 1000 karakter)" };
+  }
 
   const { error } = await supabase
     .from("guestbook")
