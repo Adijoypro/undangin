@@ -4,6 +4,7 @@ import { updateInvitation } from "./actions";
 import MusicSelector from "@/components/dashboard/MusicSelector";
 import ThemeSelector from "../../create/ThemeSelector";
 import SubmitButton from "@/components/dashboard/SubmitButton";
+import LogoutButton from "@/components/dashboard/LogoutButton";
 
 export default async function EditInvitationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -35,6 +36,7 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
               <a href="/dashboard" className="text-sm font-bold text-gray-500 hover:text-wedding-gold">← Kembali</a>
               <span className="font-serif text-xl font-bold text-wedding-text">Edit Undangan</span>
             </div>
+            <LogoutButton />
           </div>
         </div>
       </nav>

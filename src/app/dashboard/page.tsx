@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import PublishButton from "@/components/dashboard/PublishButton";
+import LogoutButton from "@/components/dashboard/LogoutButton";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -66,6 +67,7 @@ export default async function DashboardPage() {
               <Link href="/dashboard/topup" className="bg-wedding-text text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-gray-800 transition-colors">
                 Top Up
               </Link>
+              <LogoutButton />
             </div>
           </div>
         </div>

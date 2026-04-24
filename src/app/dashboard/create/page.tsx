@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createInvitation } from "./actions";
 import ThemeSelector from "./ThemeSelector";
 import SubmitButton from "@/components/dashboard/SubmitButton";
+import LogoutButton from "@/components/dashboard/LogoutButton";
 
 export default async function CreateInvitationPage() {
   const supabase = await createClient();
@@ -21,6 +22,7 @@ export default async function CreateInvitationPage() {
               <a href="/dashboard" className="text-sm font-bold text-gray-500 hover:text-wedding-gold">← Kembali</a>
               <span className="font-serif text-xl font-bold text-wedding-text">Buat Undangan</span>
             </div>
+            <LogoutButton />
           </div>
         </div>
       </nav>
