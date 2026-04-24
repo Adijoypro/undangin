@@ -142,15 +142,11 @@ export default function LandingPage() {
               <img src="/logo.png" alt="Undangin Logo" className="w-10 h-10 object-contain" />
               <span className="font-serif text-2xl font-bold tracking-widest">Undangin</span>
             </div>
-            <div className="hidden md:flex space-x-8 items-center">
-              <a href="#fitur" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Fitur</a>
-              <a href="#template" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Tema</a>
-              <Link href="/dashboard" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Dasbor</Link>
-
-              {/* Animated Dark/Light Mode Toggle */}
+            <div className="flex items-center gap-3">
+              {/* Theme Toggle - Visible on all platforms */}
               <motion.button
                 onClick={() => setIsDark(!isDark)}
-                className={`w-10 h-10 rounded-full flex items-center justify-center border ${theme.border} ${isDark ? 'hover:bg-white/10' : 'hover:bg-black/5'} transition-colors`}
+                className={`w-10 h-10 rounded-full flex items-center justify-center border ${theme.border} ${isDark ? 'hover:bg-white/10' : 'hover:bg-black/5'} transition-colors mr-2`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 aria-label="Toggle Theme"
@@ -172,12 +168,28 @@ export default function LandingPage() {
                 </AnimatePresence>
               </motion.button>
 
-              <Link 
-                href={user ? "/dashboard" : "/login"}
-                className={`px-10 py-4 bg-[#D4AF37] text-black rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#F3E5AB] transition-all duration-500 shadow-[0_10px_30px_rgba(212,175,55,0.3)] hover:shadow-[0_15px_40px_rgba(212,175,55,0.5)] hover:-translate-y-1`}
-              >
-                {user ? "Lanjut ke Dasbor" : "Mulai Desain Sekarang"}
-              </Link>
+              <div className="hidden md:flex space-x-8 items-center">
+                <a href="#fitur" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Fitur</a>
+                <a href="#template" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Tema</a>
+                <Link href="/dashboard" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Dasbor</Link>
+
+                <Link 
+                  href={user ? "/dashboard" : "/login"}
+                  className={`px-10 py-4 bg-[#D4AF37] text-black rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#F3E5AB] transition-all duration-500 shadow-[0_10px_30px_rgba(212,175,55,0.3)] hover:shadow-[0_15px_40px_rgba(212,175,55,0.5)] hover:-translate-y-1`}
+                >
+                  {user ? "Lanjut ke Dasbor" : "Mulai Desain Sekarang"}
+                </Link>
+              </div>
+
+              {/* Mobile CTA (Minimal) */}
+              <div className="md:hidden">
+                <Link 
+                  href={user ? "/dashboard" : "/login"}
+                  className="px-6 py-3 bg-[#D4AF37] text-black rounded-full font-bold uppercase tracking-widest text-[10px] shadow-lg"
+                >
+                  {user ? "Dasbor" : "Mulai"}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

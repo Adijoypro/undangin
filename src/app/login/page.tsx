@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { login, signup } from "./actions";
+import LoginButtons from "./LoginButtons";
 
-export default function LoginPage() {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ message?: string }> }) {
+  const { message } = await searchParams;
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
@@ -10,6 +12,12 @@ export default function LoginPage() {
           <h1 className="font-serif text-3xl text-wedding-text mb-2">Masuk ke Dasbor</h1>
           <p className="text-gray-500 text-sm">Kelola undangan digital Anda dari satu tempat.</p>
         </div>
+
+        {message && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-xs rounded-xl text-center font-bold">
+            {message === "Could not authenticate user" ? "Email atau password salah." : message}
+          </div>
+        )}
 
         <form className="space-y-6">
           <div>
@@ -33,14 +41,7 @@ export default function LoginPage() {
             />
           </div>
           
-          <div className="flex flex-col gap-3">
-            <button formAction={login} className="w-full py-4 bg-wedding-text text-white rounded-xl font-bold hover:bg-wedding-gold transition-colors uppercase tracking-widest text-sm shadow-lg hover:shadow-wedding-gold/30">
-              Masuk
-            </button>
-            <button formAction={signup} className="w-full py-4 border border-wedding-gold text-wedding-gold rounded-xl font-bold hover:bg-wedding-gold/10 transition-colors uppercase tracking-widest text-sm">
-              Daftar Baru
-            </button>
-          </div>
+          <LoginButtons />
         </form>
 
       </div>
