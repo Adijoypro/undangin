@@ -179,8 +179,9 @@ export default async function DashboardPage() {
           </div>
           
           <div className="relative">
-            <div className="flex flex-nowrap overflow-x-auto pb-8 no-scrollbar snap-x snap-mandatory justify-start md:justify-center">
-              <div className="flex gap-6 sm:gap-8 px-4 md:px-0">
+            {/* Optimized Scroll Container for Mobile */}
+            <div className="overflow-x-auto pb-8 no-scrollbar snap-x snap-mandatory -mx-4 px-4 [ -webkit-overflow-scrolling:touch ]">
+              <div className="flex gap-5 sm:gap-8 w-max">
                 {[
                   { id: "ultra-luxury", name: "Ultra Luxury", color: "bg-black", text: "text-white" },
                   { id: "cinematic-dark", name: "Cinematic Dark", color: "bg-gray-900", text: "text-white" },
@@ -188,19 +189,21 @@ export default async function DashboardPage() {
                   { id: "renaissance-garden", name: "Renaissance", color: "bg-[#F9F6F0]", text: "text-gray-800" },
                   { id: "majestic-eternity", name: "Majestic", color: "bg-[#0A1C14]", text: "text-white" }
                 ].map((theme) => (
-                  <div key={theme.id} className="w-[180px] sm:w-[220px] snap-center shrink-0 group">
-                    <div className={`aspect-[9/15] rounded-2xl overflow-hidden ${theme.color} border border-gray-100 relative shadow-md group-hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2`}>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center z-10 group-hover:opacity-0 transition-opacity duration-300">
-                        <h4 className={`font-serif text-base sm:text-lg font-bold ${theme.text}`}>{theme.name}</h4>
+                  <div key={theme.id} className="w-[200px] sm:w-[240px] snap-center shrink-0 group">
+                    <div className={`aspect-[9/16] rounded-2xl overflow-hidden ${theme.color} border border-gray-100 relative shadow-md group-hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2`}>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10 group-hover:opacity-0 transition-opacity duration-300">
+                        <h4 className={`font-serif text-lg font-bold ${theme.text}`}>{theme.name}</h4>
                         <div className="w-8 h-[1px] bg-wedding-gold mt-2"></div>
-                        <p className="text-[7px] sm:text-[8px] text-wedding-gold font-bold uppercase tracking-[0.2em] mt-3">Lihat Demo</p>
+                        <p className="text-[9px] text-wedding-gold font-bold uppercase tracking-[0.2em] mt-4">Ketuk untuk Demo</p>
                       </div>
-                      {/* Live Preview Iframe */}
-                      <iframe 
-                        src={`/demo/${theme.id}`} 
-                        className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20 border-none scale-[0.4] origin-top pointer-events-none"
-                        style={{ width: '250%', height: '250%' }}
-                      ></iframe>
+                      {/* Live Preview Iframe - Fixed Scale */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20 bg-white">
+                         <iframe 
+                          src={`/demo/${theme.id}`} 
+                          className="w-full h-full border-none pointer-events-none"
+                          title={`Demo ${theme.name}`}
+                        ></iframe>
+                      </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent group-hover:opacity-0 transition-opacity"></div>
                     </div>
                   </div>
