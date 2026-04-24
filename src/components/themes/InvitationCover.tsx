@@ -7,9 +7,10 @@ interface InvitationCoverProps {
   bride: string;
   groom: string;
   onOpen: () => void;
+  forcedOpen?: boolean;
 }
 
-export default function InvitationCover({ bride, groom, onOpen }: InvitationCoverProps) {
+export default function InvitationCover({ bride, groom, onOpen, forcedOpen = false }: InvitationCoverProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
@@ -17,9 +18,11 @@ export default function InvitationCover({ bride, groom, onOpen }: InvitationCove
     onOpen(); // Trigger music playback in parent
   };
 
+  const isActuallyOpen = isOpen || forcedOpen;
+
   return (
     <AnimatePresence>
-      {!isOpen && (
+      {!isActuallyOpen && (
         <motion.div 
           initial={{ opacity: 1 }}
           exit={{ y: "-100%", opacity: 0 }}

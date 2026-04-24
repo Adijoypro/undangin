@@ -9,9 +9,8 @@ import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
 
 export default function PremiumTheme({ data }: { data: InvitationData }) {
-  const [isOpened, setIsOpened] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [showToast, setShowToast] = useState(false);
+
 
   const createCalendarLink = () => {
     const text = encodeURIComponent(`Pernikahan ${data.bride.name} & ${data.groom.name}`);
@@ -40,28 +39,7 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
     }
   }, []);
 
-  const openGate = () => {
-    setIsOpened(true);
-    setTimeout(() => AOS.refresh(), 500);
-    const audio = document.getElementById("bgm") as HTMLAudioElement;
-    if (audio) {
-      audio.play().catch(e => console.log(e));
-      setIsPlaying(true);
-    }
-  };
 
-  const toggleMusic = () => {
-    const audio = document.getElementById("bgm") as HTMLAudioElement;
-    if (audio) {
-      if (audio.paused) {
-        audio.play();
-        setIsPlaying(true);
-      } else {
-        audio.pause();
-        setIsPlaying(false);
-      }
-    }
-  };
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {

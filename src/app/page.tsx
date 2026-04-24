@@ -317,16 +317,32 @@ export default function LandingPage() {
             >
               {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
                 <div key={i} className="min-w-[80vw] sm:min-w-[400px] shrink-0 group block cursor-pointer snap-center">
-                  <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02] group-hover:shadow-2xl`}>
+                  <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02] group-hover:shadow-2xl active:scale-[0.98]`}>
                     {t.gradientClass && <div className={`absolute inset-0 ${t.gradientClass}`}></div>}
                     {t.extraGradient && <div className={`absolute inset-0 ${t.extraGradient}`}></div>}
+                    
+                    {/* Placeholder Content */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none">
                       <p className={`font-serif mb-4 text-sm italic tracking-widest ${t.seriesColor}`}>{t.series}</p>
                       <h3 className={`mb-8 transform group-hover:scale-105 transition-transform duration-700 ${t.titleClass}`}>{t.title}</h3>
-                      <div className={`px-8 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-bold ${t.btnClass}`}>Arahkan untuk Demo</div>
+                      <div className={`px-8 py-3 rounded-full text-xs uppercase tracking-[0.2em] font-bold ${t.btnClass}`}>
+                        {typeof window !== 'undefined' && 'ontouchstart' in window ? 'Ketuk untuk Demo' : 'Arahkan untuk Demo'}
+                      </div>
                     </div>
-                    {/* Live Demo Iframe */}
-                    <iframe src={`/demo/${t.id}`} loading="lazy" className={`absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-30 border-none ${t.iframeBg}`}></iframe>
+
+                    {/* Live Demo Iframe - Fixed for iOS Scrolling */}
+                    <div className={`absolute inset-0 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ${t.iframeBg} overflow-hidden`}>
+                      <div className="w-full h-full overflow-y-auto [ -webkit-overflow-scrolling:touch ] scrollbar-hide">
+                        <iframe 
+                          src={`/demo/${t.id}`} 
+                          loading="lazy" 
+                          className="w-full h-full border-none pointer-events-auto"
+                          style={{ height: '100%', width: '100%' }}
+                          title={`Demo ${t.title}`}
+                          scrolling="yes"
+                        ></iframe>
+                      </div>
+                    </div>
                   </div>
                   <div className="mt-8 text-center">
                     <h4 className="font-serif text-2xl font-bold mb-2">{t.name}</h4>
@@ -335,9 +351,9 @@ export default function LandingPage() {
                 </div>
               ))}
             </motion.div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       {/* WHY US - SaaS COMPETITIVE SECTION */}
       <section className={`py-32 px-4 transition-colors duration-1000`}>
