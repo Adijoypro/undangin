@@ -4,6 +4,8 @@ import { createInvitation } from "./actions";
 import ThemeSelector from "./ThemeSelector";
 import SubmitButton from "@/components/dashboard/SubmitButton";
 import LogoutButton from "@/components/dashboard/LogoutButton";
+import MusicSelector from "@/components/dashboard/MusicSelector";
+import QuoteSection from "@/components/dashboard/QuoteSection";
 
 export default async function CreateInvitationPage() {
   const supabase = await createClient();
@@ -152,15 +154,15 @@ export default async function CreateInvitationPage() {
           <section>
             <h2 className="font-serif text-2xl mb-6 text-wedding-text border-b pb-4">4. Quote & Digital Gift</h2>
             <div className="space-y-6">
-              <div>
-                <label className="block text-xs font-bold text-gray-500 mb-1">Quote / Kutipan</label>
-                <textarea name="quote" rows={2} defaultValue="Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu..." className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none"></textarea>
-              </div>
+              <QuoteSection 
+                initialQuote="Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu..." 
+                initialBrideName="" 
+                initialGroomName="" 
+              />
               
               <div>
-                <label className="block text-xs font-bold text-gray-500 mb-1">Upload Lagu Background (MP3)</label>
-                <input type="file" accept="audio/mpeg" name="music_file" className="w-full p-2 border rounded-xl focus:border-wedding-gold outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200" />
-                <p className="text-[10px] text-gray-400 mt-1">Kosongkan jika ingin menggunakan lagu default.</p>
+                <label className="block text-xs font-bold text-gray-500 mb-3">Lagu Latar Belakang</label>
+                <MusicSelector />
               </div>
               
               <div className="grid md:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-xl border border-gray-100">

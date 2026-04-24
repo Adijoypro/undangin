@@ -47,6 +47,7 @@ export async function createInvitation(formData: FormData) {
   const groomPhotoFile = formData.get("groom_photo") as File;
   const couplePhotoFile = formData.get("couple_photo") as File;
   const musicFile = formData.get("music_file") as File;
+  const selectedMusicUrl = formData.get("selected_music_url") as string;
 
   // Upload Photos to Supabase Storage
   let bridePhotoUrl = "";
@@ -85,6 +86,8 @@ export async function createInvitation(formData: FormData) {
       if (!error && data) {
         musicUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
       }
+    } else if (selectedMusicUrl) {
+      musicUrl = selectedMusicUrl;
     }
   } catch (err) {
     console.error("Critical Storage Error:", err);
