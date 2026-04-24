@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { updateInvitation } from "./actions";
 import MusicSelector from "@/components/dashboard/MusicSelector";
+import ThemeSelector from "../../create/ThemeSelector";
 
 export default async function EditInvitationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -53,15 +54,8 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
                 </div>
                 <p className="text-[10px] text-gray-400 mt-1">Hanya huruf kecil dan strip (-).</p>
               </div>
-              <div>
-                <label className="block text-xs font-bold text-gray-500 mb-1">Pilih Tema</label>
-                <select name="theme" defaultValue={invitation.theme} className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none bg-white">
-                  <option value="premium">The Royal Split-Door (Sage & Gold)</option>
-                  <option value="cinematic-dark">The Cinematic Dark (Framer Motion)</option>
-                  <option value="ultra-luxury">The Ultra Luxury (Onyx & Rose Gold)</option>
-                  <option value="renaissance-garden">The Renaissance Garden (Vintage Floral)</option>
-                  <option value="majestic-eternity">Majestic Eternity (Emerald & Gold) - DEWA TIER</option>
-                </select>
+              <div className="md:col-span-2">
+                <ThemeSelector defaultValue={invitation.theme} />
               </div>
             </div>
           </section>

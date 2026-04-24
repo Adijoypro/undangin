@@ -30,8 +30,8 @@ const THEME_PREVIEWS: Record<string, { name: string; desc: string; color: string
   }
 };
 
-export default function ThemeSelector() {
-  const [selectedTheme, setSelectedTheme] = useState("premium");
+export default function ThemeSelector({ defaultValue = "premium" }: { defaultValue?: string }) {
+  const [selectedTheme, setSelectedTheme] = useState(defaultValue);
 
   return (
     <div className="space-y-6">
@@ -58,18 +58,30 @@ export default function ThemeSelector() {
           </div>
         </div>
 
-        {/* Live Preview Placeholder/Mini Frame */}
+        {/* Live Preview - Phone Frame Aesthetic */}
         <div className="hidden md:block">
-          <label className="block text-xs font-bold text-gray-500 mb-1">Preview Tema</label>
-          <div className={`aspect-video rounded-xl ${THEME_PREVIEWS[selectedTheme].color} border border-gray-200 shadow-inner flex flex-col items-center justify-center relative overflow-hidden group`}>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+          <label className="block text-xs font-bold text-gray-500 mb-2">Preview Tema</label>
+          <div className="relative mx-auto w-[240px] aspect-[9/16] rounded-[2.5rem] border-[8px] border-gray-900 bg-gray-900 shadow-2xl overflow-hidden group">
+            {/* Speaker hole */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-gray-900 z-50 rounded-b-2xl">
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-gray-800 rounded-full"></div>
+            </div>
+            
+            <div className={`absolute inset-0 ${THEME_PREVIEWS[selectedTheme].color} opacity-20`}></div>
+            
             <iframe 
               src={`/demo/${selectedTheme}`} 
-              className="absolute inset-0 w-full h-full border-none scale-[0.4] origin-top opacity-80"
-              style={{ width: '250%', height: '250%' }}
+              className="absolute inset-0 w-full h-full border-none"
+              title="Theme Preview"
             ></iframe>
-            <div className="relative z-10 text-white text-[10px] font-bold uppercase tracking-widest bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">
-              Live Preview
+
+            {/* Overlay Gradient for Badge */}
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-40"></div>
+            
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
+              <div className="text-white text-[10px] font-bold uppercase tracking-widest bg-wedding-gold/80 px-4 py-2 rounded-full backdrop-blur-md shadow-lg border border-white/20 whitespace-nowrap">
+                Live Preview
+              </div>
             </div>
           </div>
         </div>
