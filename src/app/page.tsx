@@ -138,15 +138,16 @@ export default function LandingPage() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
-            <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Undangin Logo" className="w-10 h-10 object-contain" />
-              <span className="font-serif text-2xl font-bold tracking-widest">Undangin</span>
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <img src="/logo.png" alt="Undangin Logo" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
+              <span className="font-serif text-lg sm:text-2xl font-bold tracking-widest">Undangin</span>
             </div>
-            <div className="flex items-center gap-3">
-              {/* Theme Toggle - Visible on all platforms */}
+            
+            <div className="flex items-center gap-2 sm:gap-4">
+              {/* Theme Toggle */}
               <motion.button
                 onClick={() => setIsDark(!isDark)}
-                className={`w-10 h-10 rounded-full flex items-center justify-center border ${theme.border} ${isDark ? 'hover:bg-white/10' : 'hover:bg-black/5'} transition-colors mr-2`}
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border ${theme.border} ${isDark ? 'hover:bg-white/10' : 'hover:bg-black/5'} transition-colors`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 aria-label="Toggle Theme"
@@ -181,11 +182,11 @@ export default function LandingPage() {
                 </Link>
               </div>
 
-              {/* Mobile CTA (Minimal) */}
+              {/* Mobile CTA */}
               <div className="md:hidden">
                 <Link 
                   href={user ? "/dashboard" : "/login"}
-                  className="px-6 py-3 bg-[#D4AF37] text-black rounded-full font-bold uppercase tracking-widest text-[10px] shadow-lg"
+                  className="px-5 py-2.5 bg-[#D4AF37] text-black rounded-full font-bold uppercase tracking-widest text-[9px] shadow-[0_5px_15px_rgba(212,175,55,0.3)] active:scale-95 transition-all block text-center min-w-[80px]"
                 >
                   {user ? "Dasbor" : "Mulai"}
                 </Link>
