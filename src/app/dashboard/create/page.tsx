@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createInvitation } from "./actions";
 import ThemeSelector from "./ThemeSelector";
+import SubmitButton from "@/components/dashboard/SubmitButton";
 
 export default async function CreateInvitationPage() {
   const supabase = await createClient();
@@ -177,9 +178,7 @@ export default async function CreateInvitationPage() {
             </div>
           </section>
 
-          <button type="submit" className="w-full py-5 bg-wedding-text text-white font-bold rounded-xl hover:bg-wedding-gold transition-colors uppercase tracking-widest text-sm shadow-xl mt-12">
-            Simpan & Buat Undangan
-          </button>
+          <SubmitButton label="Simpan & Buat Undangan" loadingLabel="Sedang Membuat Undangan..." />
         </form>
       </main>
     </div>

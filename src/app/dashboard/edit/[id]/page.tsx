@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { updateInvitation } from "./actions";
 import MusicSelector from "@/components/dashboard/MusicSelector";
 import ThemeSelector from "../../create/ThemeSelector";
+import SubmitButton from "@/components/dashboard/SubmitButton";
 
 export default async function EditInvitationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -197,9 +198,7 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
             </div>
           </section>
 
-          <button type="submit" className="w-full py-5 bg-wedding-text text-white font-bold rounded-xl hover:bg-wedding-gold transition-colors uppercase tracking-widest text-sm shadow-xl mt-12">
-            Simpan Perubahan
-          </button>
+          <SubmitButton label="Simpan Perubahan" loadingLabel="Sedang Menyimpan..." />
         </form>
       </main>
     </div>
