@@ -42,6 +42,7 @@ export async function updateInvitation(formData: FormData) {
   const groomPhotoFile = formData.get("groom_photo") as File;
   const couplePhotoFile = formData.get("couple_photo") as File;
   const musicFile = formData.get("music_file") as File;
+  const selectedMusicUrl = formData.get("selected_music_url") as string;
 
   // Fetch current data to preserve existing photo URLs if no new files are uploaded
   const { data: currentData } = await supabase
@@ -86,6 +87,7 @@ export async function updateInvitation(formData: FormData) {
       }
     }
 
+    // Handle Music: Prioritize File Upload, then Catalog Selection
     if (musicFile && musicFile.size > 0) {
       const fileName = `${Date.now()}_music_${musicFile.name.replace(/\s+/g, "_")}`;
       const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, musicFile);
@@ -94,6 +96,8 @@ export async function updateInvitation(formData: FormData) {
       } else if (data) {
         musicUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
       }
+    } else if (selectedMusicUrl) {
+      musicUrl = selectedMusicUrl;
     }
   } catch (err: any) {
     console.error("Critical Storage Error:", err.message);

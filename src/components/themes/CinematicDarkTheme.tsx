@@ -32,32 +32,6 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   // Mouse position for Spotlight effect
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showToast, setShowToast] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  
-  // Audio setup
-  useEffect(() => {
-    const audio = document.getElementById("cinematic-audio") as HTMLAudioElement;
-    if (audio) {
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-      }
-    }
-  }, []);
-
-  const toggleMusic = () => {
-    const audio = document.getElementById("cinematic-audio") as HTMLAudioElement;
-    if (audio) {
-      if (audio.paused) {
-        audio.play();
-        setIsPlaying(true);
-      } else {
-        audio.pause();
-        setIsPlaying(false);
-      }
-    }
-  };
-
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -120,10 +94,6 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       {/* Noise Texture Overlay */}
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
 
-      {/* Audio Element */}
-      <audio id="cinematic-audio" loop preload="auto">
-          <source src={data.musicUrl} type="audio/mpeg" />
-      </audio>
 
       {/* Floating Controls */}
       <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4 items-end">
@@ -139,16 +109,6 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             </span>
           </div>
         </a>
-        <button onClick={toggleMusic} className="bg-black/50 backdrop-blur-md border border-white/20 p-4 rounded-full text-white hover:bg-white hover:text-black transition-all duration-500 overflow-hidden group flex items-center justify-center w-[54px] h-[54px] hover:w-auto">
-            <div className="flex items-center gap-2">
-              <svg className={`w-5 h-5 shrink-0 ${isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-              </svg>
-              <span className="font-sans text-[10px] uppercase tracking-widest font-bold max-w-0 overflow-hidden opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-2 transition-all duration-500 whitespace-nowrap">
-                {isPlaying ? 'PAUSE' : 'PLAY'}
-              </span>
-            </div>
-        </button>
       </div>
 
       {/* 1. HERO SECTION */}
@@ -428,9 +388,18 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
                   <div key={idx} className="bg-white/5 p-6 rounded-sm border border-white/10">
                     <div className="flex justify-between items-start mb-3">
                       <span className="font-sans font-bold uppercase tracking-widest text-xs">{guest.name}</span>
-                      <span className={`text-[10px] uppercase tracking-widest px-2 py-1 rounded-sm ${guest.attendance === 'Hadir' ? 'bg-green-900/30 text-green-400 border border-green-500/20' : 'bg-red-900/30 text-red-400 border border-red-500/20'}`}>
-                        {guest.attendance}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-[10px] uppercase tracking-widest px-2 py-1 rounded-sm ${guest.attendance === 'Hadir' ? 'bg-green-900/30 text-green-400 border border-green-500/20' : 'bg-red-900/30 text-red-400 border border-red-500/20'}`}>
+                          {guest.attendance}
+                        </span>
+                        {/* Hidden Delete Button (Visible via ThemeWrapper for Owner) */}
+                        <button 
+                          onClick={() => (window as any).handleDeleteEntry?.(guest.id)}
+                          className="guest-entry-delete hidden p-1 text-red-400 hover:text-red-600 transition-colors"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                      </div>
                     </div>
                     <p className="font-sans font-light text-gray-400 text-sm leading-relaxed">{guest.message}</p>
                     <p className="font-sans text-[10px] text-gray-600 mt-4 uppercase tracking-widest">

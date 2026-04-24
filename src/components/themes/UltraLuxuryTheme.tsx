@@ -8,9 +8,7 @@ import { submitRSVP } from "@/app/[slug]/actions";
 
 export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isOpened, setIsOpened] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -36,26 +34,6 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
   const heroY = useTransform(smoothProgress, [0, 0.3], ["0%", "50%"]);
   const heroOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
 
-  const openInvitation = () => {
-    setIsOpened(true);
-    const audio = document.getElementById("luxury-audio") as HTMLAudioElement;
-    if (audio) {
-      audio.play().then(() => setIsPlaying(true)).catch(() => {});
-    }
-  };
-
-  const toggleMusic = () => {
-    const audio = document.getElementById("luxury-audio") as HTMLAudioElement;
-    if (audio) {
-      if (audio.paused) {
-        audio.play();
-        setIsPlaying(true);
-      } else {
-        audio.pause();
-        setIsPlaying(false);
-      }
-    }
-  };
 
   const handleRSVP = async (formData: FormData) => {
     setIsSubmitting(true);
@@ -131,36 +109,9 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
         transition={{ type: "spring", damping: 30, stiffness: 200, mass: 0.5 }}
       />
 
-      <audio id="luxury-audio" loop preload="auto">
-          <source src={data.musicUrl} type="audio/mpeg" />
-      </audio>
 
-      {/* COVER / PRELOADER */}
-      <div className={`fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center transition-all duration-1000 overflow-hidden ${isOpened ? 'opacity-0 pointer-events-none -translate-y-10' : 'opacity-100'}`}>
-        <img src="/assets/gold-frame.png" className="absolute top-0 left-0 w-64 opacity-20 rotate-180" />
-        <img src="/assets/gold-frame.png" className="absolute bottom-0 right-0 w-64 opacity-20" />
+      <div ref={containerRef} className={`bg-[#050505] text-white min-h-screen selection:bg-[#D4AF37]/30 selection:text-white font-serif overflow-hidden`}>
         
-        <motion.div 
-          initial={{ scale: 0.8, opacity: 0 }} 
-          animate={{ scale: 1, opacity: 1 }} 
-          transition={{ duration: 2, ease: "easeOut" }}
-          className="text-center relative z-10"
-        >
-          <div className="w-px h-24 bg-gradient-to-b from-transparent via-[#D4AF37] to-transparent mx-auto mb-8"></div>
-          <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-[#D4AF37] mb-6">The Wedding Of</p>
-          <h1 className="font-serif text-5xl md:text-7xl text-white mb-4 tracking-widest">{data.bride.name} & {data.groom.name}</h1>
-          <p className="font-sans text-[9px] uppercase tracking-[0.4em] text-gray-500 mb-12">{data.event.dateFormatted.date} {data.event.dateFormatted.monthYear}</p>
-          
-          <button onClick={openInvitation} className="group relative px-12 py-5 overflow-hidden border border-[#D4AF37]/30 hover:border-[#D4AF37] transition-all duration-700">
-            <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
-            <span className="relative z-10 font-sans text-[11px] uppercase tracking-[0.3em] text-[#D4AF37] group-hover:text-black font-bold transition-colors duration-700">Buka Undangan</span>
-          </button>
-        </motion.div>
-      </div>
-
-      <div ref={containerRef} className={`bg-[#050505] text-white min-h-screen selection:bg-[#D4AF37]/30 selection:text-white font-serif overflow-hidden ${!isOpened ? 'hidden' : ''}`}>
-        
-        {/* Floating Controls */}
         <div className="fixed bottom-8 right-8 z-[90] flex flex-col gap-4 items-end">
           <a 
             href={`https://wa.me/?text=${encodeURIComponent(`Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.\n\nBuka undangan digital: https://undangin.com/${data.slug}`)}`}
@@ -169,11 +120,6 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           </a>
-          <button onClick={toggleMusic} className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black hover:scale-110 shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-all duration-500">
-            <svg className={`w-5 h-5 ${isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-            </svg>
-          </button>
         </div>
 
         {/* 1. HERO */}
@@ -393,9 +339,18 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                     <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} key={idx} className="bg-white/[0.02] p-12 border border-white/5 group hover:border-[#D4AF37]/20 transition-all duration-1000">
                       <div className="flex justify-between items-center mb-10 border-b border-white/5 pb-8">
                         <span className="font-sans font-bold uppercase tracking-[0.4em] text-[11px] text-[#D4AF37]/90">{guest.name}</span>
-                        <span className={`font-sans text-[9px] uppercase tracking-[0.4em] px-4 py-2 border ${guest.attendance === 'Hadir' ? 'border-green-500/10 text-green-500/60' : 'border-red-500/10 text-red-500/60'} bg-black/40`}>
-                          {guest.attendance}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className={`font-sans text-[9px] uppercase tracking-[0.4em] px-4 py-2 border ${guest.attendance === 'Hadir' ? 'border-green-500/10 text-green-500/60' : 'border-red-500/10 text-red-500/60'} bg-black/40`}>
+                            {guest.attendance}
+                          </span>
+                          {/* Hidden Delete Button (Visible via ThemeWrapper for Owner) */}
+                          <button 
+                            onClick={() => (window as any).handleDeleteEntry?.(guest.id)}
+                            className="guest-entry-delete hidden p-1 text-red-400 hover:text-red-600 transition-colors"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                          </button>
+                        </div>
                       </div>
                       <p className="text-gray-400 text-lg leading-relaxed italic font-light tracking-wide">"{guest.message}"</p>
                       <p className="font-sans text-[10px] text-gray-600 mt-10 tracking-[0.3em] uppercase font-medium">

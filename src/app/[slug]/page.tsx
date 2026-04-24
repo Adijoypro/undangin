@@ -3,6 +3,7 @@ import CinematicDarkTheme from "@/components/themes/CinematicDarkTheme";
 import UltraLuxuryTheme from "@/components/themes/UltraLuxuryTheme";
 import MajesticEternityTheme from "@/components/themes/MajesticEternityTheme";
 import RenaissanceGardenTheme from "@/components/themes/RenaissanceGardenTheme";
+import ThemeWrapper from "@/components/themes/ThemeWrapper";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Metadata } from "next";
@@ -46,6 +47,7 @@ export async function generateMetadata(
 export default async function InvitationPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   const { data: dbData } = await supabase
     .from("invitations")
@@ -56,6 +58,8 @@ export default async function InvitationPage({ params }: { params: Promise<{ slu
   if (!dbData) {
     notFound();
   }
+
+  const isOwner = user?.id === dbData.user_id;
 
   // Fetch Guestbook entries
   const { data: guestbookData } = await supabase
@@ -113,18 +117,26 @@ export default async function InvitationPage({ params }: { params: Promise<{ slu
     turut_mengundang: dbData.turut_mengundang || ""
   };
 
-  // Theme Router Logic based on Supabase
-  switch (mappedData.theme) {
-    case "cinematic":
-      return <CinematicDarkTheme data={mappedData} />;
-    case "ultra-luxury":
-      return <UltraLuxuryTheme data={mappedData} />;
-    case "majestic-eternity":
-      return <MajesticEternityTheme data={mappedData} />;
-    case "renaissance-garden":
-      return <RenaissanceGardenTheme data={mappedData} />;
-    case "premium":
-    default:
-      return <PremiumTheme data={mappedData} />;
-  }
+  const renderTheme = () => {
+    switch (mappedData.theme) {
+      case "cinematic":
+      case "cinematic-dark":
+        return <CinematicDarkTheme data={mappedData} />;
+      case "ultra-luxury":
+        return <UltraLuxuryTheme data={mappedData} />;
+      case "majestic-eternity":
+        return <MajesticEternityTheme data={mappedData} />;
+      case "renaissance-garden":
+        return <RenaissanceGardenTheme data={mappedData} />;
+      case "premium":
+      default:
+        return <PremiumTheme data={mappedData} />;
+    }
+  };
+
+  return (
+    <ThemeWrapper data={mappedData} isOwner={isOwner}>
+      {renderTheme()}
+    </ThemeWrapper>
+  );
 }

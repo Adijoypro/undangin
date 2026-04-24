@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { updateInvitation } from "./actions";
+import MusicSelector from "@/components/dashboard/MusicSelector";
 
 export default async function EditInvitationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -181,9 +182,8 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
               </div>
               
               <div>
-                <label className="block text-xs font-bold text-gray-500 mb-1">Update Lagu Background (MP3)</label>
-                <input type="file" accept="audio/mpeg" name="music_file" className="w-full p-2 border rounded-xl focus:border-wedding-gold outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200" />
-                <p className="text-[10px] text-gray-400 mt-1">Kosongkan jika tidak ingin mengganti lagu.</p>
+                <label className="block text-xs font-bold text-gray-500 mb-3">Lagu Latar Belakang</label>
+                <MusicSelector currentMusicUrl={invitation.music_url} />
               </div>
               
               <div className="grid md:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-xl border border-gray-100">

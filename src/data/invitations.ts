@@ -36,6 +36,7 @@ export interface InvitationData {
   };
   musicUrl: string;
   guestbook: Array<{
+    id: string;
     name: string;
     attendance: string;
     message: string;

@@ -92,54 +92,9 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
     <>
       <div className="paper-texture"></div>
 
-      {/* GATE */}
-      <div className={`fixed inset-0 z-[100] flex w-full h-full pointer-events-none transition-opacity duration-1000 ${isOpened ? 'opacity-0' : 'opacity-100'}`}>
-        <div className={`door relative w-1/2 h-full bg-wedding-sage overflow-hidden pointer-events-auto border-r border-wedding-gold/30 ${isOpened ? 'translate-x-[-100%]' : ''}`}>
-          <div className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 text-wedding-gold opacity-30 spin-slow">
-              <svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 0 C40 40 10 40 0 50 C10 60 40 60 50 100 C60 60 90 60 100 50 C90 40 60 40 50 0 Z"/></svg>
-          </div>
-        </div>
-        <div className={`door relative w-1/2 h-full bg-wedding-sage overflow-hidden pointer-events-auto ${isOpened ? 'translate-x-[100%]' : ''}`}>
-        </div>
-
-        <div className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-auto z-10 transition-opacity duration-500 ${isOpened ? 'opacity-0 pointer-events-none' : ''}`}>
-          <div className="text-center p-8 bg-white/5 backdrop-blur-md border border-wedding-gold/40 shadow-[0_0_50px_rgba(212,175,55,0.2)] flex flex-col items-center max-w-sm w-11/12 rounded-[50px_50px_10px_10px]">
-              <p className="font-sans uppercase tracking-[0.4em] text-[10px] text-wedding-gold mb-2">Tasyakuran Pernikahan</p>
-              <h1 className="font-script text-6xl text-white drop-shadow-lg leading-none mt-4">{data.bride.name}</h1>
-              <span className="font-serif text-2xl text-wedding-gold my-2">&amp;</span>
-              <h1 className="font-script text-6xl text-white drop-shadow-lg leading-none mb-6">{data.groom.name}</h1>
-              <p className="font-sans text-[10px] uppercase tracking-widest text-white/70 mb-2 border-t border-wedding-gold/30 pt-4 w-full">Kepada Yth. Bapak/Ibu/Saudara/i</p>
-              <p className="font-serif text-lg text-wedding-gold mb-6 italic">Tamu Undangan</p>
-              <button onClick={openGate} className="group relative px-6 py-3 border-2 border-wedding-gold text-wedding-gold rounded-full hover:bg-wedding-gold hover:text-white transition-all duration-500 overflow-hidden w-full max-w-[200px]">
-                  <span className="relative z-10 font-sans text-[10px] uppercase tracking-widest font-bold">Buka Undangan</span>
-              </button>
-          </div>
-        </div>
-      </div>
-
       {/* MAIN */}
-      <main className={`h-screen overflow-y-auto relative ${!isOpened ? 'hidden' : ''}`}>
+      <main className={`relative h-full overflow-y-auto`}>
         <div className="dust-container" id="dust-particles"></div>
-
-        <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4 items-end">
-          <a 
-            href={`https://wa.me/?text=${encodeURIComponent(`Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.\n\nBuka undangan digital: https://undangin.com/${data.slug}`)}`}
-            target="_blank"
-            className="w-12 h-12 rounded-full bg-[#2B2B2B] border-2 border-[#D4AF37] flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white hover:scale-110 drop-shadow-[0_0_10px_rgba(212,175,55,0.5)] transition-all duration-300"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          </a>
-          <button onClick={toggleMusic} className="bg-transparent text-wedding-gold hover:scale-110 transition-transform duration-300">
-              <svg className={`w-12 h-12 drop-shadow-[0_0_10px_rgba(212,175,55,0.5)] ${isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''}`} viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="45" fill="#2B2B2B" stroke="#D4AF37" strokeWidth="2"/>
-                  <circle cx="50" cy="50" r="12" fill="#D4AF37"/>
-                  <path d="M48 45 v-10 h8 v3 h-5 v10 a3 3 0 1 1 -3 -3" fill="#FAF8F5"/>
-              </svg>
-          </button>
-        </div>
-        <audio id="bgm" loop preload="auto">
-            <source src={data.musicUrl} type="audio/mpeg" />
-        </audio>
 
         {/* HERO */}
         <section className="min-h-[100svh] flex flex-col items-center justify-center relative px-4 z-10">
@@ -305,12 +260,21 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
             <div className="flex-1 max-h-[500px] overflow-y-auto pr-4 space-y-4 scrollbar-thin scrollbar-thumb-wedding-gold/20 scrollbar-track-transparent">
               {data.guestbook && data.guestbook.length > 0 ? (
                 data.guestbook.map((guest, idx) => (
-                  <div key={idx} className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                  <div key={idx} className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 relative group/entry">
                     <div className="flex justify-between items-start mb-2">
                       <span className="font-sans font-bold text-wedding-text text-sm">{guest.name}</span>
-                      <span className={`text-[10px] uppercase tracking-widest px-2 py-1 rounded-md ${guest.attendance === 'Hadir' ? 'bg-wedding-sage/10 text-wedding-sage font-bold' : 'bg-red-50 text-red-500 font-bold'}`}>
-                        {guest.attendance}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-[10px] uppercase tracking-widest px-2 py-1 rounded-md ${guest.attendance === 'Hadir' ? 'bg-wedding-sage/10 text-wedding-sage font-bold' : 'bg-red-50 text-red-500 font-bold'}`}>
+                          {guest.attendance}
+                        </span>
+                        {/* Hidden Delete Button (Visible via ThemeWrapper for Owner) */}
+                        <button 
+                          onClick={() => (window as any).handleDeleteEntry?.(guest.id)}
+                          className="guest-entry-delete hidden p-1 text-red-400 hover:text-red-600 transition-colors"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                      </div>
                     </div>
                     <p className="font-serif text-sm text-gray-600 leading-relaxed italic">"{guest.message}"</p>
                     <p className="font-sans text-[10px] text-gray-400 mt-3">
