@@ -198,20 +198,29 @@ export default async function DashboardPage() {
                   { id: "renaissance-garden", name: "Renaissance", color: "bg-[#F9F6F0]", text: "text-gray-800" },
                   { id: "majestic-eternity", name: "Majestic", color: "bg-[#0A1C14]", text: "text-white" }
                 ].map((theme) => (
-                  <div key={theme.id} className="w-[200px] sm:w-[240px] snap-center shrink-0 group">
+                  <div key={theme.id} className="w-[240px] snap-center shrink-0 group">
                     <div className={`aspect-[9/16] rounded-2xl overflow-hidden ${theme.color} border border-gray-100 relative shadow-md group-hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2`}>
                       <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10 group-hover:opacity-0 transition-opacity duration-300">
                         <h4 className={`font-serif text-lg font-bold ${theme.text}`}>{theme.name}</h4>
                         <div className="w-8 h-[1px] bg-wedding-gold mt-2"></div>
                         <p className="text-[9px] text-wedding-gold font-bold uppercase tracking-[0.2em] mt-4">Ketuk untuk Demo</p>
                       </div>
-                      {/* Live Preview Iframe - Fixed Scale */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20 bg-white">
-                         <iframe 
-                          src={`/demo/${theme.id}`} 
-                          className="w-full h-full border-none pointer-events-none"
-                          title={`Demo ${theme.name}`}
-                        ></iframe>
+                      {/* Live Preview Iframe - Precision Scaling */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20 bg-white overflow-hidden">
+                         <div 
+                          className="origin-top-left"
+                          style={{ 
+                            width: '375px', 
+                            height: '667px', 
+                            transform: 'scale(0.64)', /* 240px / 375px = 0.64 */
+                          }}
+                        >
+                          <iframe 
+                            src={`/demo/${theme.id}`} 
+                            className="w-full h-full border-none pointer-events-none"
+                            title={`Demo ${theme.name}`}
+                          ></iframe>
+                        </div>
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent group-hover:opacity-0 transition-opacity"></div>
                     </div>

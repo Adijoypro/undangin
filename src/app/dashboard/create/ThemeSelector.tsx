@@ -69,11 +69,21 @@ export default function ThemeSelector({ defaultValue = "premium" }: { defaultVal
             
             <div className={`absolute inset-0 ${THEME_PREVIEWS[selectedTheme].color} opacity-20`}></div>
             
-            <iframe 
-              src={`/demo/${selectedTheme}`} 
-              className="absolute inset-0 w-full h-full border-none"
-              title="Theme Preview"
-            ></iframe>
+            {/* Precision Mobile Scaling Container */}
+            <div 
+              className="absolute inset-0 origin-top-left"
+              style={{ 
+                width: '375px', 
+                height: '667px', 
+                transform: 'scale(0.64)', /* 240px / 375px = 0.64 */
+              }}
+            >
+              <iframe 
+                src={`/demo/${selectedTheme}`} 
+                className="w-full h-full border-none"
+                title="Theme Preview"
+              ></iframe>
+            </div>
 
             {/* Overlay Gradient for Badge */}
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-40"></div>
