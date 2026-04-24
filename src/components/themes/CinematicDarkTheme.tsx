@@ -99,7 +99,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
 
       {/* 1. HERO SECTION */}
       <motion.section 
-        className="h-screen flex flex-col items-center justify-center relative z-10"
+        className="h-screen flex flex-col items-center justify-center text-center px-4 relative z-10"
         style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
       >
         <motion.p 
@@ -116,7 +116,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1], delay: 0.8 }}
-            className="font-serif text-7xl md:text-9xl font-bold tracking-tighter"
+            className="font-serif text-6xl md:text-9xl font-bold tracking-tighter"
           >
             {data.bride.name}
           </motion.h1>
@@ -136,7 +136,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             initial={{ y: "-100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1], delay: 0.8 }}
-            className="font-serif text-7xl md:text-9xl font-bold tracking-tighter"
+            className="font-serif text-6xl md:text-9xl font-bold tracking-tighter"
           >
             {data.groom.name}
           </motion.h1>

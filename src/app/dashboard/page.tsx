@@ -180,8 +180,8 @@ export default async function DashboardPage() {
           
           <div className="relative">
             {/* Optimized Scroll Container for Mobile */}
-            <div className="overflow-x-auto pb-8 no-scrollbar snap-x snap-mandatory -mx-4 px-4 [ -webkit-overflow-scrolling:touch ]">
-              <div className="flex gap-5 sm:gap-8 w-max">
+            <div className="overflow-x-auto pb-8 no-scrollbar snap-x snap-mandatory [ -webkit-overflow-scrolling:touch ]">
+              <div className="flex gap-5 sm:gap-8 w-fit mx-auto px-4">
                 {[
                   { id: "ultra-luxury", name: "Ultra Luxury", color: "bg-black", text: "text-white" },
                   { id: "cinematic-dark", name: "Cinematic Dark", color: "bg-gray-900", text: "text-white" },
