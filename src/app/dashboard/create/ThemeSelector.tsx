@@ -59,8 +59,8 @@ export default function ThemeSelector({ defaultValue = "premium" }: { defaultVal
         </div>
 
         {/* Live Preview - Phone Frame Aesthetic */}
-        <div className="hidden md:block">
-          <label className="block text-xs font-bold text-gray-500 mb-2">Preview Tema</label>
+        <div className="flex flex-col items-center md:items-start">
+          <label className="block text-xs font-bold text-gray-500 mb-2 w-full text-center md:text-left">Preview Tema</label>
           <div className="relative mx-auto w-[240px] aspect-[9/16] rounded-[2.5rem] border-[8px] border-gray-900 bg-gray-900 shadow-2xl overflow-hidden group">
             {/* Speaker hole */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-gray-900 z-50 rounded-b-2xl">
