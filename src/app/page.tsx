@@ -56,7 +56,7 @@ const SHOWCASE_THEMES = [
     desc: "Klasik Eropa dengan ornamen bunga vintage.",
     bgClass: "bg-[#F9F6F0]",
     frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-xl",
-    gradientClass: "bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 mix-blend-multiply z-0",
+    gradientClass: "bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=60&w=800')] bg-cover bg-center opacity-40 mix-blend-multiply z-0",
     extraGradient: "bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10",
     seriesColor: "text-[#7C8C77] uppercase",
     titleClass: "font-display text-5xl text-[#2B2B2B] font-bold",
@@ -201,12 +201,12 @@ export default function LandingPage() {
         <motion.div
           animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className={`absolute top-1/4 -left-1/4 w-[800px] h-[800px] rounded-full ${isDark ? 'bg-[#D4AF37]/10' : 'bg-[#D4AF37]/20'} blur-[80px] pointer-events-none transition-colors duration-1000 will-change-transform`}
+          className={`absolute top-1/4 -left-1/4 w-[300px] h-[300px] sm:w-[800px] sm:h-[800px] rounded-full ${isDark ? 'bg-[#D4AF37]/10' : 'bg-[#D4AF37]/20'} blur-[40px] sm:blur-[80px] pointer-events-none transition-colors duration-1000 will-change-transform transform-gpu`}
         />
         <motion.div
           animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className={`absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full ${isDark ? 'bg-white/5' : 'bg-[#D4AF37]/10'} blur-[60px] pointer-events-none transition-colors duration-1000 will-change-transform`}
+          className={`absolute bottom-0 right-0 w-[250px] h-[250px] sm:w-[600px] sm:h-[600px] rounded-full ${isDark ? 'bg-white/5' : 'bg-[#D4AF37]/10'} blur-[30px] sm:blur-[60px] pointer-events-none transition-colors duration-1000 will-change-transform transform-gpu`}
         />
 
         <motion.div
@@ -409,8 +409,8 @@ export default function LandingPage() {
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/20 to-transparent z-10"></div>
               <img 
-                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80" 
-                className="w-full h-full object-cover grayscale-[20%] hover:scale-105 transition-transform duration-1000" 
+                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=60&w=800" 
+                className="w-full h-full object-cover grayscale-[20%] hover:scale-105 transition-transform duration-1000 will-change-transform transform-gpu" 
                 alt="Dashboard Preview"
               />
               <div className="absolute bottom-8 left-8 right-8 p-6 bg-black/60 backdrop-blur-md border border-white/10 rounded-xl z-20">
@@ -526,7 +526,7 @@ export default function LandingPage() {
       {/* CALL TO ACTION */}
       <section className="py-32 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-[#D4AF37] opacity-10"></div>
-        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] ${isDark ? 'bg-[#D4AF37]/20' : 'bg-[#D4AF37]/40'} blur-[150px] rounded-full pointer-events-none transition-colors duration-1000`}></div>
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] sm:h-[500px] ${isDark ? 'bg-[#D4AF37]/20' : 'bg-[#D4AF37]/40'} blur-[60px] sm:blur-[150px] rounded-full pointer-events-none transition-colors duration-1000 transform-gpu`}></div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.h2
             initial={{ opacity: 0, scale: 0.9 }}
