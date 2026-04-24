@@ -106,7 +106,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="font-sans uppercase tracking-[0.6em] text-xs text-gray-400 mb-8"
+          className="font-sans uppercase tracking-[0.6em] text-xs text-gray-400 mb-8 ml-[0.6em]"
         >
           The Wedding Celebration
         </motion.p>
@@ -274,11 +274,11 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}
           className="text-center max-w-2xl bg-white/5 backdrop-blur-md p-16 rounded-3xl border border-white/10"
         >
-          <h2 className="font-serif text-4xl md:text-5xl mb-8 tracking-tight">The Celebration</h2>
+          <h2 className="font-serif text-2xl md:text-5xl mb-8 tracking-tight uppercase">The Celebration</h2>
           <div className="w-12 h-px bg-white/30 mx-auto mb-12"></div>
           
           <div className="space-y-6 text-gray-300">
-            <p className="font-sans text-xl uppercase tracking-[0.3em] font-light text-white">{data.event.date}</p>
+            <p className="font-sans text-xl uppercase tracking-[0.3em] font-light text-white ml-[0.3em]">{data.event.date}</p>
             <p className="font-serif text-3xl">{data.event.time}</p>
             
             <div className="pt-8 pb-4 w-full flex justify-center">

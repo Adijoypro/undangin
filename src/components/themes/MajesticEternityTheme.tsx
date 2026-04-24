@@ -74,7 +74,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
             transition={{ duration: 1.5, delay: 0.5 }}
             className="relative z-10 w-full max-w-2xl"
           >
-            <p className="font-serif text-[#D4AF37] text-sm uppercase tracking-[0.4em] mb-8">The Wedding Of</p>
+            <p className="font-serif text-[#D4AF37] text-sm uppercase tracking-[0.4em] mb-8 ml-[0.4em]">The Wedding Of</p>
             <h1 className="font-script text-7xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-4">{data.bride.name}</h1>
             <p className="font-serif text-2xl md:text-3xl text-[#D4AF37] italic my-2">&</p>
             <h1 className="font-script text-7xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-12">{data.groom.name}</h1>
@@ -149,7 +149,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
                   </div>
                 </div>
                 <h3 className="text-4xl md:text-5xl mb-4 font-script text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">{data.bride.name}</h3>
-                <p className="font-serif text-[11px] uppercase tracking-[0.4em] text-[#D4AF37] mb-6">Mempelai Wanita</p>
+                <p className="font-serif text-[11px] uppercase tracking-[0.4em] text-[#D4AF37] mb-6 ml-[0.4em]">Mempelai Wanita</p>
                 <div className="w-12 h-px bg-[#D4AF37]/30 mb-6"></div>
                 <p className="text-base text-gray-400 italic font-light max-w-xs leading-relaxed">
                   {data.bride_father && data.bride_mother
@@ -180,7 +180,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
                   </div>
                 </div>
                 <h3 className="text-4xl md:text-5xl mb-4 font-script text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">{data.groom.name}</h3>
-                <p className="font-serif text-[11px] uppercase tracking-[0.4em] text-[#D4AF37] mb-6">Mempelai Pria</p>
+                <p className="font-serif text-[11px] uppercase tracking-[0.4em] text-[#D4AF37] mb-6 ml-[0.4em]">Mempelai Pria</p>
                 <div className="w-12 h-px bg-[#D4AF37]/30 mb-6"></div>
                 <p className="text-base text-gray-400 italic font-light max-w-xs leading-relaxed">
                   {data.groom_father && data.groom_mother
@@ -208,7 +208,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
 
               <div className="flex flex-col md:flex-row items-center justify-between gap-12">
                 <div className="text-left flex-1">
-                  <div className="inline-block bg-[#D4AF37] text-black px-4 py-1 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">VIP Invitation Pass</div>
+                  <div className="inline-block bg-[#D4AF37] text-black px-4 pl-[0.3em] py-1 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">VIP Invitation Pass</div>
                   <h3 className="font-serif text-4xl text-white mb-2">{data.event.locationName}</h3>
                   <p className="text-gray-400 text-sm leading-relaxed mb-8">{data.event.locationAddress}</p>
 

@@ -225,10 +225,10 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
             {/* Ornament at center top */}
             <img src="/assets/gold-frame.png" className="absolute -top-16 left-1/2 -translate-x-1/2 w-40 opacity-20 mix-blend-screen" />
             
-            <h2 className="text-4xl md:text-6xl mb-16 tracking-[0.2em] font-serif text-white/90">The Celebration</h2>
+            <h2 className="text-2xl md:text-6xl mb-16 tracking-[0.2em] font-serif text-white/90 uppercase ml-[0.2em]">The Celebration</h2>
             
             <div className="space-y-8 mb-16">
-              <p className="font-sans text-xl md:text-2xl tracking-[0.5em] text-[#D4AF37] uppercase font-light">{data.event.dateFormatted.day}, {data.event.dateFormatted.date} {data.event.dateFormatted.monthYear}</p>
+              <p className="font-sans text-xl md:text-2xl tracking-[0.5em] text-[#D4AF37] uppercase font-light ml-[0.5em]">{data.event.dateFormatted.day}, {data.event.dateFormatted.date} {data.event.dateFormatted.monthYear}</p>
               <div className="w-12 h-px bg-white/10 mx-auto"></div>
               <p className="text-2xl font-light tracking-[0.3em]">{data.event.time}</p>
             </div>
