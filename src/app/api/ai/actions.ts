@@ -10,36 +10,39 @@ export async function generateRomanticQuote(brideName: string, groomName: string
   }
 
   try {
-    // Paksa pakai API v1 (versi stabil), bukan v1beta
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel(
-      { model: "gemini-1.5-flash" },
-      { apiVersion: "v1" }
-    );
+    // JURUS PAMUNGKAS: Panggil API Google Langsung (Bypass SDK)
+    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: `Buatkan 1 kutipan (quote) pernikahan yang romantis, puitis, dan menyentuh hati dalam Bahasa Indonesia untuk mempelai bernama ${brideName || 'Mempelai Wanita'} dan ${groomName || 'Mempelai Pria'}. Hanya berikan teks kutipannya saja (maksimal 3 kalimat) tanpa penjelasan.`
+          }]
+        }]
+      })
+    });
 
-    const prompt = `Buatkan 1 kutipan (quote) pernikahan yang romantis, puitis, dan menyentuh hati dalam Bahasa Indonesia untuk mempelai bernama ${brideName || 'Mempelai Wanita'} dan ${groomName || 'Mempelai Pria'}. 
-    Hanya berikan teks kutipannya saja (maksimal 3 kalimat) tanpa penjelasan apapun.`;
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-
-    if (!text) throw new Error("Empty response");
+    if (!text) throw new Error("Gagal mengambil respon dari Google");
 
     return { success: true, text: text.trim() };
   } catch (error: any) {
-    console.error("AI Error:", error);
+    console.error("Direct AI Error:", error);
     
-    // Pintu Darurat: Coba model Pro di v1 juga
-    try {
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel(
-        { model: "gemini-pro" },
-        { apiVersion: "v1" }
-      );
-      const result = await model.generateContent(`Kutipan pernikahan romantis Bahasa Indonesia untuk ${brideName} & ${groomName}`);
-      return { success: true, text: result.response.text().trim() };
-    } catch (innerError: any) {
-      return { success: false, message: `Maaf bro, AI lagi lemot. Error: ${innerError.message || error.message}` };
-    }
+    // ALTERNATIF CEPAT: Jika API mati, kasih quote random yang pasti cakep
+    const fallbackQuotes = [
+      "Mencintai bukan hanya sekadar saling memandang, namun memandang ke arah yang sama bersama-sama.",
+      "Cinta kita adalah sebuah perjalanan, yang dimulai selamanya dan berakhir tidak pernah.",
+      "Di mata-Mu aku menemukan rumah, dan di hati-Mu aku menemukan kedamaian sejati.",
+      "Semesta mempertemukan kita bukan untuk sekadar menyapa, tapi untuk saling menyempurnakan doa."
+    ];
+    const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
+    
+    return { success: true, text: randomQuote, isFallback: true };
   }
 }
