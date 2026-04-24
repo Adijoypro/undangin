@@ -1,14 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-
-const DEFAULT_MUSIC = [
-  { id: "marry-your-daughter", name: "Marry Your Daughter (Piano)", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-  { id: "a-thousand-years", name: "A Thousand Years (Instrumental)", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-  { id: "perfect-piano", name: "Perfect - Ed Sheeran (Piano)", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-  { id: "beautiful-in-white", name: "Beautiful in White", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-  { id: "canon-in-d", name: "Canon in D (Orchestra)", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-];
+import { PRESET_MUSIC } from "@/data/music";
 
 interface MusicSelectorProps {
   currentMusicUrl?: string;
@@ -33,23 +26,23 @@ export default function MusicSelector({ currentMusicUrl }: MusicSelectorProps) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <audio ref={audioRef} onEnded={() => setPlaying(null)} />
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {DEFAULT_MUSIC.map((music) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {PRESET_MUSIC.map((music) => (
           <div 
             key={music.id}
-            className={`p-4 rounded-xl border-2 transition-all cursor-pointer flex items-center justify-between ${
-              selectedMusic === music.url ? 'border-wedding-gold bg-wedding-gold/5 shadow-md' : 'border-gray-100 hover:border-gray-200'
+            className={`p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between group ${
+              selectedMusic === music.url ? 'border-wedding-gold bg-wedding-gold/5 shadow-md' : 'border-gray-50 hover:border-wedding-gold/20'
             }`}
             onClick={() => setSelectedMusic(music.url)}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <div 
                 onClick={(e) => { e.stopPropagation(); togglePreview(music.url); }}
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                  playing === music.url ? 'bg-wedding-gold text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-sm ${
+                  playing === music.url ? 'bg-wedding-gold text-white scale-110' : 'bg-white text-gray-400 group-hover:text-wedding-gold'
                 }`}
               >
                 {playing === music.url ? (
@@ -58,28 +51,36 @@ export default function MusicSelector({ currentMusicUrl }: MusicSelectorProps) {
                   <svg className="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                 )}
               </div>
-              <span className="text-xs font-bold text-gray-700">{music.name}</span>
+              <div>
+                <p className="text-xs font-bold text-gray-800">{music.name}</p>
+                <p className="text-[10px] text-gray-400 uppercase tracking-widest">{music.artist}</p>
+              </div>
             </div>
             {selectedMusic === music.url && (
-              <svg className="w-5 h-5 text-wedding-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              <div className="w-6 h-6 bg-wedding-gold rounded-full flex items-center justify-center text-white">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              </div>
             )}
           </div>
         ))}
       </div>
 
-      <div className="relative mt-4">
+      <div className="relative pt-4">
         <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-100"></span></div>
-        <div className="relative flex justify-center text-xs uppercase font-bold text-gray-400 bg-white px-2">Atau Upload MP3 Sendiri</div>
+        <div className="relative flex justify-center text-[10px] uppercase font-bold tracking-widest text-gray-400 bg-white px-4 italic">Atau Upload MP3 Kustom</div>
       </div>
 
-      <div className="bg-gray-50 p-4 rounded-xl border border-dashed border-gray-200">
+      <div className="bg-gray-50 p-6 rounded-2xl border-2 border-dashed border-gray-200 hover:border-wedding-gold/30 transition-colors">
         <input 
           type="file" 
-          accept="audio/mpeg" 
+          accept="audio/mpeg,audio/mp3" 
           name="music_file" 
-          className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-wedding-text file:text-white hover:file:bg-gray-800 cursor-pointer" 
+          className="w-full text-xs text-gray-500 file:mr-6 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-[10px] file:font-bold file:uppercase file:tracking-widest file:bg-wedding-text file:text-white hover:file:bg-gray-800 cursor-pointer" 
         />
-        <p className="text-[10px] text-gray-400 mt-2 italic">*Jika upload file, lagu katalog di atas akan diabaikan.</p>
+        <div className="flex items-center gap-2 mt-4 text-[10px] text-gray-400">
+          <svg className="w-3 h-3 text-wedding-gold" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
+          <p>Jika Anda mengunggah file, lagu katalog di atas akan otomatis digantikan.</p>
+        </div>
       </div>
 
       <input type="hidden" name="selected_music_url" value={selectedMusic} />

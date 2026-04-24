@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { RESERVED_SLUGS } from "@/lib/constants";
 
 export async function createInvitation(formData: FormData) {
   const supabase = await createClient();
@@ -13,6 +14,12 @@ export async function createInvitation(formData: FormData) {
 
   const slug = formData.get("slug") as string;
   const theme = formData.get("theme") as string;
+
+  // --- VALIDASI SLUG (SECURITY FIX: Blacklist) ---
+  const cleanSlug = slug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  if (RESERVED_SLUGS.includes(cleanSlug)) {
+    return redirect("/dashboard/create?error=slug_reserved");
+  }
   
   const brideName = formData.get("bride_name") as string;
   const brideFullName = formData.get("bride_fullname") as string;

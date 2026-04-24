@@ -11,11 +11,17 @@ export default function GuestTable({ guests, slug }: { guests: any[], slug: stri
   const downloadCSV = () => {
     const headers = ["Nama", "Kehadiran", "Pesan", "Tanggal"];
     const rows = guests.map(g => [
-      g.name,
-      g.attendance,
-      `"${g.message.replace(/"/g, '""')}"`,
-      new Date(g.created_at).toLocaleDateString('id-ID')
-    ]);
+      `"${(g.name || "").replace(/"/g, '""')}"`,
+      `"${(g.attendance || "").replace(/"/g, '""')}"`,
+      `"${(g.message || "").replace(/"/g, '""')}"`,
+      `"${new Date(g.created_at).toLocaleDateString("id-ID")}"`
+    ].map(val => {
+      const v = val.replace(/^"/, '').replace(/"$/, '');
+      if (v.startsWith('=') || v.startsWith('+') || v.startsWith('-') || v.startsWith('@')) {
+        return `"'${v}"`;
+      }
+      return val;
+    }));
 
     const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });

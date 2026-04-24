@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { updateInvitationMusic } from "@/app/api/invitation/music/actions";
 import { toast } from "sonner";
+import { PRESET_MUSIC } from "@/data/music";
 
 interface MusicSelectorProps {
   id: string;
@@ -12,13 +13,6 @@ interface MusicSelectorProps {
   onClose: () => void;
 }
 
-const PRESET_MUSIC = [
-  { name: "Beautiful in White", artist: "Shane Filan", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-  { name: "A Thousand Years", artist: "Christina Perri", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-  { name: "Perfect", artist: "Ed Sheeran", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-  { name: "Can't Help Falling in Love", artist: "Kina Grannis", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-  { name: "Marry Your Daughter", artist: "Brian McKnight", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-];
 
 export default function MusicSelector({ id, slug, currentMusicUrl, onClose }: MusicSelectorProps) {
   const [selectedUrl] = useState(currentMusicUrl);

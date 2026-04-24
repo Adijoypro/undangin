@@ -3,6 +3,25 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { 
+  RESERVED_SLUGS, 
+  MAX_IMAGE_SIZE, 
+  MAX_AUDIO_SIZE, 
+  ALLOWED_IMAGE_TYPES, 
+  ALLOWED_AUDIO_TYPES 
+} from "@/lib/constants";
+
+const deleteOldFile = async (supabase: any, url?: string) => {
+  if (!url || url.includes("unsplash.com") || url.includes("soundhelix.com")) return;
+  try {
+    const fileName = url.split('/').pop();
+    if (fileName) {
+      await supabase.storage.from("invitations-media").remove([fileName]);
+    }
+  } catch (err) {
+    console.error("Cleanup error:", err);
+  }
+};
 
 export async function updateInvitation(formData: FormData) {
   const supabase = await createClient();
@@ -57,11 +76,6 @@ export async function updateInvitation(formData: FormData) {
   let musicUrl = currentData?.music_url;
 
 
-  // --- VALIDASI FILE (SECURITY FIX) ---
-  const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
-  const MAX_AUDIO_SIZE = 10 * 1024 * 1024; // 10MB
-  const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
-  const ALLOWED_AUDIO_TYPES = ["audio/mpeg", "audio/wav", "audio/mp3"];
 
   const validateFile = (file: File, allowedTypes: string[], maxSize: number, label: string) => {
     if (file && file.size > 0) {
@@ -139,6 +153,12 @@ export async function updateInvitation(formData: FormData) {
   if (couplePhotoUrl) updateData.couple_photo = couplePhotoUrl;
   if (musicUrl) updateData.music_url = musicUrl;
 
+  // --- VALIDASI SLUG (SECURITY FIX: Blacklist) ---
+  const cleanSlug = slug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  if (RESERVED_SLUGS.includes(cleanSlug)) {
+    return redirect(`/dashboard/edit/${id}?error=slug_reserved`);
+  }
+
   // 1. Check if slug is already taken by ANOTHER invitation
   const { data: existingSlug } = await supabase
     .from("invitations")
@@ -161,7 +181,14 @@ export async function updateInvitation(formData: FormData) {
     .eq("id", id)
     .eq("user_id", user.id);
 
-  if (error) {
+  if (!error) {
+    // --- CLEANUP STORAGE (OPTIMIZATION) ---
+    // Jika upload berhasil, hapus file lama yang diganti
+    if (bridePhotoUrl !== currentData?.bride_photo) await deleteOldFile(supabase, currentData?.bride_photo);
+    if (groomPhotoUrl !== currentData?.groom_photo) await deleteOldFile(supabase, currentData?.groom_photo);
+    if (couplePhotoUrl !== currentData?.couple_photo) await deleteOldFile(supabase, currentData?.couple_photo);
+    if (musicUrl !== currentData?.music_url) await deleteOldFile(supabase, currentData?.music_url);
+  } else {
     console.error("Database Update Error:", error.message);
   }
 
