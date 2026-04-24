@@ -10,10 +10,12 @@ export async function generateRomanticQuote(brideName: string, groomName: string
   }
 
   try {
+    // Paksa pakai API v1 (versi stabil), bukan v1beta
     const genAI = new GoogleGenerativeAI(apiKey);
-    
-    // Taktik 1: Pakai model flash-latest yang paling stabil
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel(
+      { model: "gemini-1.5-flash" },
+      { apiVersion: "v1" }
+    );
 
     const prompt = `Buatkan 1 kutipan (quote) pernikahan yang romantis, puitis, dan menyentuh hati dalam Bahasa Indonesia untuk mempelai bernama ${brideName || 'Mempelai Wanita'} dan ${groomName || 'Mempelai Pria'}. 
     Hanya berikan teks kutipannya saja (maksimal 3 kalimat) tanpa penjelasan apapun.`;
@@ -27,14 +29,17 @@ export async function generateRomanticQuote(brideName: string, groomName: string
   } catch (error: any) {
     console.error("AI Error:", error);
     
-    // Pintu Darurat: Jika flash gagal, coba gemini-pro (model lama tapi stabil)
+    // Pintu Darurat: Coba model Pro di v1 juga
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const model = genAI.getGenerativeModel(
+        { model: "gemini-pro" },
+        { apiVersion: "v1" }
+      );
       const result = await model.generateContent(`Kutipan pernikahan romantis Bahasa Indonesia untuk ${brideName} & ${groomName}`);
       return { success: true, text: result.response.text().trim() };
     } catch (innerError: any) {
-      return { success: false, message: `Maaf bro, AI lagi lemot. Error: ${error.message || 'Unknown'}` };
+      return { success: false, message: `Maaf bro, AI lagi lemot. Error: ${innerError.message || error.message}` };
     }
   }
 }
