@@ -7,6 +7,7 @@ import MusicSelector from "../ui/MusicSelector";
 import { AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import ConfirmModal from "../ui/ConfirmModal";
+import MusicVisualizer from "../ui/MusicVisualizer";
 
 interface ThemeWrapperProps {
   data: any;
@@ -106,7 +107,10 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
 
       {/* MUSIC TOGGLE (Always visible after open) */}
       {isOpened && (
-        <div className="fixed bottom-6 left-6 z-[99] flex flex-col gap-4">
+        <div className="fixed bottom-6 left-6 z-[99] flex flex-col items-center gap-3">
+          <div className="bg-white/30 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+            <MusicVisualizer isPlaying={isPlaying} />
+          </div>
           <button 
             onClick={toggleMusic}
             className="w-12 h-12 bg-white/50 backdrop-blur-md rounded-full border border-wedding-gold/30 flex items-center justify-center shadow-lg hover:scale-110 transition-all text-wedding-gold"

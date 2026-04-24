@@ -5,6 +5,7 @@ import MusicSelector from "@/components/dashboard/MusicSelector";
 import ThemeSelector from "../../create/ThemeSelector";
 import SubmitButton from "@/components/dashboard/SubmitButton";
 import LogoutButton from "@/components/dashboard/LogoutButton";
+import QuoteSection from "@/components/dashboard/QuoteSection";
 
 export default async function EditInvitationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -173,10 +174,11 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
           <section>
             <h2 className="font-serif text-2xl mb-6 text-wedding-text border-b pb-4">4. Quote & Digital Gift</h2>
             <div className="space-y-6">
-              <div>
-                <label className="block text-xs font-bold text-gray-500 mb-1">Quote / Kutipan</label>
-                <textarea name="quote" defaultValue={invitation.quote} rows={2} className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none"></textarea>
-              </div>
+              <QuoteSection 
+                initialQuote={invitation.quote} 
+                initialBrideName={invitation.bride_name} 
+                initialGroomName={invitation.groom_name} 
+              />
               
               <div>
                 <label className="block text-xs font-bold text-gray-500 mb-3">Lagu Latar Belakang</label>
