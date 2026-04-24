@@ -35,7 +35,7 @@ export default async function CreateInvitationPage() {
                 <label className="block text-xs font-bold text-gray-500 mb-1">Custom Link (URL)</label>
                 <div className="flex items-center">
                   <span className="bg-gray-100 p-3 rounded-l-xl border border-r-0 text-gray-500 text-sm">undangin.com/</span>
-                  <input type="text" name="slug" required placeholder="ayu-phinisi" className="w-full p-3 border rounded-r-xl focus:border-wedding-gold outline-none" />
+                  <input type="text" name="slug" required placeholder="link-undangan-anda" className="w-full p-3 border rounded-r-xl focus:border-wedding-gold outline-none" />
                 </div>
                 <p className="text-[10px] text-gray-400 mt-1">Hanya huruf kecil dan strip (-).</p>
               </div>
@@ -54,11 +54,11 @@ export default async function CreateInvitationPage() {
                 <h3 className="font-bold text-sm uppercase tracking-widest text-wedding-sage">Mempelai Wanita</h3>
                 <div>
                   <label className="block text-xs font-bold text-gray-500 mb-1">Nama Panggilan</label>
-                  <input type="text" name="bride_name" required placeholder="Ayu" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
+                  <input type="text" name="bride_name" required placeholder="Mempelai Wanita" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-500 mb-1">Nama Lengkap</label>
-                  <input type="text" name="bride_fullname" required placeholder="Ayu Lestari" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
+                  <input type="text" name="bride_fullname" required placeholder="Nama Lengkap Mempelai Wanita" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-500 mb-1">Nama Ayah</label>
@@ -79,11 +79,11 @@ export default async function CreateInvitationPage() {
                 <h3 className="font-bold text-sm uppercase tracking-widest text-wedding-gold">Mempelai Pria</h3>
                 <div>
                   <label className="block text-xs font-bold text-gray-500 mb-1">Nama Panggilan</label>
-                  <input type="text" name="groom_name" required placeholder="Phinisi" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
+                  <input type="text" name="groom_name" required placeholder="Mempelai Pria" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-500 mb-1">Nama Lengkap</label>
-                  <input type="text" name="groom_fullname" required placeholder="Phinisi Wijaya" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
+                  <input type="text" name="groom_fullname" required placeholder="Nama Lengkap Mempelai Pria" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-500 mb-1">Nama Ayah</label>
