@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, Variants, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
@@ -121,9 +122,9 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
         >
           {/* VVIP Background Asset */}
           <div className="absolute inset-0 z-0">
-            <img src="/assets/marble-bg.png" className="w-full h-full object-cover opacity-25 mix-blend-overlay" />
+            <Image src="/assets/marble-bg.png" fill className="object-cover opacity-25 mix-blend-overlay" alt="Marble" priority />
             {data.couplePhoto && (
-              <img src={data.couplePhoto} className="absolute inset-0 w-full h-full object-cover opacity-[0.15] mix-blend-luminosity grayscale" />
+              <Image src={data.couplePhoto} fill className="object-cover opacity-[0.15] mix-blend-luminosity grayscale" alt="Couple" priority />
             )}
             <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
           </div>
@@ -145,13 +146,15 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
             </motion.div>
           </div>
 
-          <img src="/assets/gold-frame.png" className="absolute bottom-10 left-1/2 -translate-x-1/2 w-48 opacity-40 mix-blend-screen rotate-180" />
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-48 h-24 opacity-40 mix-blend-screen rotate-180">
+            <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Frame" />
+          </div>
         </motion.section>
 
         {/* 2. PROFILES */}
         <section className="relative bg-[#050505] py-40 overflow-hidden">
           {/* Subtle silk texture in background */}
-          <img src="/assets/silk-bg.png" className="absolute inset-0 w-full h-full object-cover opacity-[0.03] pointer-events-none" />
+          <Image src="/assets/silk-bg.png" fill className="object-cover opacity-[0.03] pointer-events-none" alt="Silk" />
           
           <div className="max-w-6xl mx-auto px-4 relative z-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp} className="text-center mb-32">
@@ -165,10 +168,12 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="w-full md:w-1/2 flex flex-col items-center text-center">
                 <div className="relative mb-12">
                   <div className="w-72 h-96 md:w-[380px] md:h-[500px] overflow-hidden rounded-t-full border border-[#D4AF37]/20 p-2 relative z-10">
-                    <img src={data.bride.photo} className="w-full h-full object-cover rounded-t-full grayscale hover:grayscale-0 transition-all duration-1000" />
+                    <Image src={data.bride.photo} fill className="object-cover rounded-t-full grayscale hover:grayscale-0 transition-all duration-1000" alt="Bride" />
                   </div>
                   {/* Ornament with Screen Blend */}
-                  <img src="/assets/gold-frame.png" className="absolute -top-12 -left-12 w-48 opacity-30 mix-blend-screen -rotate-12 pointer-events-none" />
+                  <div className="absolute -top-12 -left-12 w-48 h-48 opacity-30 mix-blend-screen -rotate-12 pointer-events-none">
+                    <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
+                  </div>
                 </div>
                 <h3 className="text-4xl mb-4 font-serif text-[#D4AF37]/90">{data.bride.fullName}</h3>
                 <p className="font-sans text-[11px] uppercase tracking-[0.4em] text-gray-500 mb-2">Putri Dari</p>
@@ -184,10 +189,12 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="w-full md:w-1/2 flex flex-col items-center text-center md:mt-56">
                 <div className="relative mb-12">
                   <div className="w-72 h-96 md:w-[380px] md:h-[500px] overflow-hidden rounded-t-full border border-[#D4AF37]/20 p-2 relative z-10">
-                    <img src={data.groom.photo} className="w-full h-full object-cover rounded-t-full grayscale hover:grayscale-0 transition-all duration-1000" />
+                    <Image src={data.groom.photo} fill className="object-cover rounded-t-full grayscale hover:grayscale-0 transition-all duration-1000" alt="Groom" />
                   </div>
                   {/* Ornament with Screen Blend */}
-                  <img src="/assets/gold-frame.png" className="absolute -bottom-12 -right-12 w-48 opacity-30 mix-blend-screen rotate-[168deg] pointer-events-none" />
+                  <div className="absolute -bottom-12 -right-12 w-48 h-48 opacity-30 mix-blend-screen rotate-[168deg] pointer-events-none">
+                    <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
+                  </div>
                 </div>
                 <h3 className="text-4xl mb-4 font-serif text-[#D4AF37]/90">{data.groom.fullName}</h3>
                 <p className="font-sans text-[11px] uppercase tracking-[0.4em] text-gray-500 mb-2">Putra Dari</p>
@@ -217,13 +224,15 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
         {/* 3. EVENT */}
         <section className="relative py-48 bg-[#030303] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-             <img src="/assets/marble-bg.png" className="w-full h-full object-cover opacity-15" />
+             <Image src="/assets/marble-bg.png" fill className="object-cover opacity-15" alt="Marble" />
              <div className="absolute inset-0 bg-black/40"></div>
           </div>
           
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative z-10 max-w-4xl w-full mx-4 bg-black/80 backdrop-blur-3xl border border-[#D4AF37]/10 p-12 md:p-32 text-center">
             {/* Ornament at center top */}
-            <img src="/assets/gold-frame.png" className="absolute -top-16 left-1/2 -translate-x-1/2 w-40 opacity-20 mix-blend-screen" />
+            <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-40 h-40 opacity-20 mix-blend-screen">
+              <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
+            </div>
             
             <h2 className="text-2xl md:text-6xl mb-16 tracking-[0.2em] font-serif text-white/90 uppercase ml-[0.2em]">The Celebration</h2>
             
@@ -249,7 +258,9 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
             </div>
 
             {/* Ornament at center bottom */}
-            <img src="/assets/gold-frame.png" className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-40 opacity-20 mix-blend-screen rotate-180" />
+            <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-40 h-40 opacity-20 mix-blend-screen rotate-180">
+              <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
+            </div>
           </motion.div>
         </section>
 
@@ -257,7 +268,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
         <section className="py-48 px-4 bg-[#050505] relative overflow-hidden">
           {/* Subtle silk texture backdrop */}
           <div className="absolute inset-0 opacity-[0.02]">
-            <img src="/assets/silk-bg.png" className="w-full h-full object-cover" />
+            <Image src="/assets/silk-bg.png" fill className="object-cover" alt="Silk" />
           </div>
 
           <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-32 lg:gap-48 relative z-10">
@@ -268,8 +279,8 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
               <p className="text-base text-gray-500 mb-16 leading-relaxed font-light tracking-wide max-w-md">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika Anda ingin memberikan tanda kasih lainnya, dapat melalui:</p>
               
               <div className="bg-black/60 backdrop-blur-xl p-12 border border-white/5 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-4">
-                  <img src="/assets/gold-frame.png" className="w-20 opacity-10 mix-blend-screen group-hover:opacity-20 transition-opacity" />
+                <div className="absolute top-0 right-0 p-4 w-20 h-20 opacity-10 mix-blend-screen group-hover:opacity-20 transition-opacity">
+                  <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
                 </div>
                 <p className="font-sans text-[11px] uppercase tracking-[0.5em] text-[#D4AF37] mb-6">{data.gift.bankName}</p>
                 <p className="text-3xl md:text-4xl tracking-[0.2em] mb-4 font-serif text-white/80">{data.gift.accountNumber}</p>
@@ -314,8 +325,8 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
         {/* 5. GUESTBOOK */}
         <section className="py-48 px-4 bg-[#030303] border-t border-white/5 relative overflow-hidden">
           {/* Decorative frame bg */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl opacity-[0.03] pointer-events-none mix-blend-screen">
-            <img src="/assets/gold-frame.png" className="w-full h-full object-contain" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[600px] opacity-[0.03] pointer-events-none mix-blend-screen">
+            <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
           </div>
 
           <div className="max-w-4xl mx-auto relative z-10">
@@ -359,7 +370,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
         </section>
 
         <footer className="py-60 text-center border-t border-white/5 relative overflow-hidden bg-[#050505]">
-          <img src="/assets/marble-bg.png" className="absolute inset-0 w-full h-full object-cover opacity-10" />
+          <Image src="/assets/marble-bg.png" fill className="object-cover opacity-10" alt="Marble" />
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative z-10 px-4">
             <h2 className="text-7xl md:text-[10rem] text-white/[0.03] font-serif mb-12 select-none tracking-tighter">{data.bride.name} & {data.groom.name}</h2>
             <div className="w-12 h-px bg-[#D4AF37]/30 mx-auto mb-12"></div>

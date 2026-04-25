@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
@@ -76,10 +77,12 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
         {/* HERO */}
         <section className="min-h-[100svh] flex flex-col items-center justify-center relative px-4 z-10">
             <div className="absolute inset-0 z-0">
-                <img 
+                <Image 
                     src={data.couplePhoto || data.bride.photo} 
-                    className="w-full h-full object-cover opacity-20 grayscale mix-blend-overlay" 
+                    fill
+                    className="object-cover opacity-20 grayscale mix-blend-overlay" 
                     alt="Hero"
+                    priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5] via-transparent to-[#FAF8F5]"></div>
             </div>
@@ -113,8 +116,13 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
             <div className="max-w-5xl mx-auto text-center">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24">
                     <div className="relative group" data-aos="fade-right">
-                        <div className="w-[280px] h-[380px] rounded-t-full rounded-b-xl p-2 border border-wedding-gold/30">
-                            <img src={data.bride.photo} className="w-full h-full object-cover rounded-t-full rounded-b-lg filter sepia-[30%] group-hover:sepia-0 transition-all duration-700" alt="Bride" />
+                        <div className="w-[280px] h-[380px] rounded-t-full rounded-b-xl p-2 border border-wedding-gold/30 relative overflow-hidden">
+                            <Image 
+                                src={data.bride.photo} 
+                                fill
+                                className="object-cover rounded-t-full rounded-b-lg filter sepia-[30%] group-hover:sepia-0 transition-all duration-700" 
+                                alt="Bride" 
+                            />
                         </div>
                         <div className="mt-8">
                             <h4 className="font-serif text-3xl font-bold mb-2 text-wedding-text">{data.bride.fullName}</h4>
@@ -126,8 +134,13 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
                     <div className="text-6xl font-script text-wedding-gold/40 my-8 md:my-0">&amp;</div>
 
                     <div className="relative group" data-aos="fade-left">
-                        <div className="w-[280px] h-[380px] rounded-t-full rounded-b-xl p-2 border border-wedding-gold/30">
-                            <img src={data.groom.photo} className="w-full h-full object-cover rounded-t-full rounded-b-lg filter sepia-[30%] group-hover:sepia-0 transition-all duration-700" alt="Groom" />
+                        <div className="w-[280px] h-[380px] rounded-t-full rounded-b-xl p-2 border border-wedding-gold/30 relative overflow-hidden">
+                            <Image 
+                                src={data.groom.photo} 
+                                fill
+                                className="object-cover rounded-t-full rounded-b-lg filter sepia-[30%] group-hover:sepia-0 transition-all duration-700" 
+                                alt="Groom" 
+                            />
                         </div>
                         <div className="mt-8">
                             <h4 className="font-serif text-3xl font-bold mb-2 text-wedding-text">{data.groom.fullName}</h4>

@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, Variants } from "framer-motion";
+import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
@@ -79,7 +80,13 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       {/* Background Image */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         {data.couplePhoto && (
-          <img src={data.couplePhoto} className="w-full h-full object-cover opacity-[0.15] grayscale mix-blend-luminosity" />
+          <Image 
+            src={data.couplePhoto} 
+            fill
+            className="object-cover opacity-[0.15] grayscale mix-blend-luminosity" 
+            alt="Background"
+            priority
+          />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80"></div>
       </div>
@@ -91,8 +98,8 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
         }}
       />
 
-      {/* Noise Texture Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+      {/* Noise Texture Overlay - Using optimized paper-texture class */}
+      <div className="paper-texture opacity-[0.05]"></div>
 
 
 
@@ -183,12 +190,11 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             <div className="relative aspect-[3/4] w-full max-w-md mx-auto group">
               {/* Decorative Arch Frame */}
               <div className="absolute -inset-4 border border-white/10 rounded-t-full pointer-events-none group-hover:border-white/30 transition-colors duration-700"></div>
-              <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20">
-                <motion.img 
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 1.5 }}
+              <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20 relative">
+                <Image 
                   src={data.bride.photo} 
-                  className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
+                  fill
+                  className="object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
                   alt={data.bride.name} 
                 />
               </div>
@@ -212,12 +218,11 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             <div className="relative aspect-[3/4] w-full max-w-md mx-auto group">
               {/* Decorative Arch Frame */}
               <div className="absolute -inset-4 border border-white/10 rounded-t-full pointer-events-none group-hover:border-white/30 transition-colors duration-700"></div>
-              <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20">
-                <motion.img 
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 1.5 }}
+              <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20 relative">
+                <Image 
                   src={data.groom.photo} 
-                  className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
+                  fill
+                  className="object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
                   alt={data.groom.name} 
                 />
               </div>

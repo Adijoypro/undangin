@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, Variants, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
@@ -78,8 +79,13 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
         <motion.section style={{ y: heroY, opacity: heroOpacity }}
           className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <img src={data.couplePhoto || "/assets/renaissance/garden-bg.jpg"} className="w-full h-full object-cover opacity-50"
-              onError={(e) => { (e.target as HTMLImageElement).src = "/assets/renaissance/garden-bg.jpg"; }} />
+            <Image 
+              src={data.couplePhoto || "/assets/renaissance/garden-bg.jpg"} 
+              fill
+              className="object-cover opacity-50"
+              alt="Garden Background"
+              priority
+            />
             <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, ${palette.bg}66, ${palette.bg}cc)` }}></div>
           </div>
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="relative z-10 text-center px-4 py-20">
@@ -102,8 +108,9 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
 
         {/* ═══ COUPLE ═══ */}
         <section className="py-24 md:py-40 px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
-          <img src="/assets/renaissance/botanical-corner.png" className="absolute top-0 right-0 w-48 opacity-30 -scale-x-100"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <div className="absolute top-0 right-0 w-48 h-48 opacity-30 -scale-x-100">
+            <Image src="/assets/renaissance/botanical-corner.png" fill className="object-contain" alt="Botanical" />
+          </div>
           <div className="max-w-5xl mx-auto">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-20">
               <Ornament className="mx-auto mb-6" />
@@ -115,10 +122,11 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
               {/* Bride */}
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center">
                 <div className="relative w-64 h-72 md:w-72 md:h-80 mx-auto mb-8">
-                  <img src="/assets/renaissance/oval-frame.png" className="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                  <div className="absolute inset-0 z-20 pointer-events-none">
+                    <Image src="/assets/renaissance/oval-frame.png" fill className="object-contain" alt="Frame" />
+                  </div>
                   <div className="absolute inset-[10%] overflow-hidden rounded-[50%] z-10">
-                    <img src={data.bride.photo} className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700" />
+                    <Image src={data.bride.photo} fill className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700" alt="Bride" />
                   </div>
                 </div>
                 <h3 className="text-3xl italic mb-2">{data.bride.fullName}</h3>
@@ -133,10 +141,11 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
               {/* Groom */}
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center">
                 <div className="relative w-64 h-72 md:w-72 md:h-80 mx-auto mb-8">
-                  <img src="/assets/renaissance/oval-frame.png" className="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                  <div className="absolute inset-0 z-20 pointer-events-none">
+                    <Image src="/assets/renaissance/oval-frame.png" fill className="object-contain" alt="Frame" />
+                  </div>
                   <div className="absolute inset-[10%] overflow-hidden rounded-[50%] z-10">
-                    <img src={data.groom.photo} className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700" />
+                    <Image src={data.groom.photo} fill className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700" alt="Groom" />
                   </div>
                 </div>
                 <h3 className="text-3xl italic mb-2">{data.groom.fullName}</h3>
@@ -167,8 +176,9 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
 
         {/* ═══ EVENT ═══ */}
         <section className="py-24 md:py-40 px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
-          <img src="/assets/renaissance/botanical-corner.png" className="absolute bottom-0 left-0 w-48 opacity-20 -scale-y-100"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <div className="absolute bottom-0 left-0 w-48 h-48 opacity-20 -scale-y-100">
+            <Image src="/assets/renaissance/botanical-corner.png" fill className="object-contain" alt="Botanical" />
+          </div>
           <div className="max-w-4xl mx-auto text-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h2 className="text-3xl md:text-5xl italic mb-4">Lokasi</h2>
@@ -320,8 +330,9 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
 
         {/* ═══ FOOTER ═══ */}
         <footer className="py-20 text-center px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
-          <img src="/assets/renaissance/botanical-corner.png" className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 opacity-10 -scale-y-100"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-48 opacity-10 -scale-y-100">
+            <Image src="/assets/renaissance/botanical-corner.png" fill className="object-contain" alt="Botanical" />
+          </div>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative z-10">
             <Ornament className="mx-auto mb-8" />
             <p className="text-sm italic mb-2" style={{ color: palette.textMuted }}>Thank you</p>

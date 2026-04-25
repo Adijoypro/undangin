@@ -141,9 +141,10 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
                 <div className="relative mb-12 group">
                   <div className="absolute -inset-4 border border-[#D4AF37]/20 rounded-t-full pointer-events-none group-hover:border-[#D4AF37]/40 transition-colors duration-700"></div>
                   <div className="w-72 h-96 md:w-[350px] md:h-[480px] overflow-hidden rounded-t-full border border-[#D4AF37]/20 p-2 relative z-10">
-                    <img
+                    <Image
                       src={data.bride.photo}
-                      className="w-full h-full object-cover rounded-t-full grayscale hover:grayscale-0 transition-all duration-1000"
+                      fill
+                      className="object-cover rounded-t-full grayscale hover:grayscale-0 transition-all duration-1000"
                       alt={data.bride.name}
                     />
                   </div>
@@ -172,9 +173,10 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
                 <div className="relative mb-12 group">
                   <div className="absolute -inset-4 border border-[#D4AF37]/20 rounded-t-full pointer-events-none group-hover:border-[#D4AF37]/40 transition-colors duration-700"></div>
                   <div className="w-72 h-96 md:w-[350px] md:h-[480px] overflow-hidden rounded-t-full border border-[#D4AF37]/20 p-2 relative z-10">
-                    <img
+                    <Image
                       src={data.groom.photo}
-                      className="w-full h-full object-cover rounded-t-full grayscale hover:grayscale-0 transition-all duration-1000"
+                      fill
+                      className="object-cover rounded-t-full grayscale hover:grayscale-0 transition-all duration-1000"
                       alt={data.groom.name}
                     />
                   </div>

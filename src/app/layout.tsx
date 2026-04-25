@@ -28,11 +28,6 @@ export default function RootLayout({
   return (
     <html lang="id" className={`scroll-smooth ${cinzel.variable} ${greatVibes.variable} ${montserrat.variable} ${cormorant.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
-        <Script 
-          src="https://app.sandbox.midtrans.com/snap/snap.js" 
-          data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
-          strategy="beforeInteractive"
-        />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
