@@ -24,7 +24,8 @@ export async function generateMetadata(
 
   const title = `The Wedding of ${data.bride_name} & ${data.groom_name}`;
   const description = data.quote || "Kami mengundang Anda untuk hadir dan memberikan doa restu di hari bahagia kami.";
-  const image = data.couple_photo || "/og-image.png"; // Fallback image
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://undangin.com";
+  const image = data.couple_photo || `${origin}/og-image.png`; 
 
   return {
     title,
@@ -32,7 +33,14 @@ export async function generateMetadata(
     openGraph: {
       title,
       description,
-      images: [image],
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+        }
+      ],
       type: "website",
     },
     twitter: {
