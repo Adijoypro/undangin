@@ -24,24 +24,25 @@ export async function generateMetadata(
 
   const title = `The Wedding of ${data.bride_name} & ${data.groom_name}`;
   const description = data.quote || "Kami mengundang Anda untuk hadir dan memberikan doa restu di hari bahagia kami.";
-  const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://undanginaja.vercel.app";
-  const image = data.couple_photo || `${origin}/og-image.png`; 
+  const origin = "https://undanginaja.vercel.app";
+  const image = data.couple_photo || "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop"; 
 
   return {
-    metadataBase: new URL(origin),
     title,
     description,
     openGraph: {
       title,
       description,
+      url: `${origin}/${resolvedParams.slug}`,
+      siteName: "Undangin",
       images: [
         {
           url: image,
-          width: 1200,
-          height: 630,
-          alt: title,
-        }
+          width: 800,
+          height: 600,
+        },
       ],
+      locale: "id_ID",
       type: "website",
     },
     twitter: {

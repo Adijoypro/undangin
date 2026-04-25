@@ -11,7 +11,7 @@ import SuccessNotification from "@/components/dashboard/SuccessNotification";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://undanginaja.vercel.app";
+  const origin = "https://undanginaja.vercel.app";
 
   const {
     data: { user },
