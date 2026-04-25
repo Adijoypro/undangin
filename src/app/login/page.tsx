@@ -6,7 +6,21 @@ import LoginButtons from "./LoginButtons";
 import SocialLogin from "./SocialLogin";
 import { motion } from "framer-motion";
 
+import { Suspense } from "react";
+
 export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D4AF37]"></div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
 
