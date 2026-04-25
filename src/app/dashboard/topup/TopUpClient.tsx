@@ -80,32 +80,32 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
         strategy="afterInteractive"
       />
 
-      <div className="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-8">
+      <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-8 overflow-x-auto md:overflow-visible pb-8 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
         {packages.map((pkg, i) => (
           <motion.div 
             key={pkg.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="relative"
+            className="relative flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center md:snap-align-none"
           >
             {/* AGGRESSIVE GLOW FOR POPULAR ITEM */}
             {pkg.id === "pkg_5" && (
-              <div className="absolute -inset-0.5 md:-inset-1 bg-gradient-to-r from-wedding-gold via-amber-300 to-wedding-gold rounded-xl md:rounded-3xl blur opacity-25 animate-pulse"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-wedding-gold via-amber-300 to-wedding-gold rounded-3xl blur opacity-25 animate-pulse"></div>
             )}
 
-            <div className={`h-full bg-white rounded-xl md:rounded-2xl shadow-sm border-2 ${pkg.id === "pkg_5" ? 'border-wedding-gold' : 'border-gray-100'} overflow-hidden flex flex-col relative group transition-all duration-500 hover:shadow-xl`}>
+            <div className={`h-full bg-white rounded-2xl shadow-sm border-2 ${pkg.id === "pkg_5" ? 'border-wedding-gold' : 'border-gray-100'} overflow-hidden flex flex-col relative group transition-all duration-500 hover:shadow-xl`}>
               
               {pkg.id === "pkg_5" && (
-                <div className="absolute top-2 right-2 md:top-4 md:right-4 z-10">
-                  <span className="bg-wedding-gold text-white text-[6px] md:text-[8px] font-black uppercase tracking-[0.1em] md:tracking-[0.2em] px-1.5 md:px-3 py-0.5 md:py-1 rounded-full shadow-sm">
-                    Laris
+                <div className="absolute top-4 right-4 z-10">
+                  <span className="bg-wedding-gold text-white text-[8px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full shadow-sm">
+                    Paling Laris
                   </span>
                 </div>
               )}
               
-              <div className="p-3 md:p-8 text-center relative z-10">
-                <div className={`w-8 h-8 md:w-14 md:h-14 mx-auto mb-2 md:mb-4 rounded-lg md:rounded-xl flex items-center justify-center text-lg md:text-3xl ${
+              <div className="p-8 text-center relative z-10">
+                <div className={`w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center text-3xl ${
                   pkg.id === "pkg_1" ? "bg-amber-50" : 
                   pkg.id === "pkg_5" ? "bg-wedding-gold/10" : 
                   "bg-blue-50"
@@ -113,23 +113,21 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
                   {pkg.id === "pkg_1" ? "✨" : pkg.id === "pkg_5" ? "💼" : "👑"}
                 </div>
                 
-                <h3 className="font-serif text-sm md:text-2xl text-gray-900 font-bold mb-0.5 md:mb-1 leading-tight">{pkg.name}</h3>
-                <p className="hidden md:block text-gray-400 text-[10px] font-bold uppercase tracking-widest">{pkg.description}</p>
+                <h3 className="font-serif text-2xl text-gray-900 font-bold mb-1">{pkg.name}</h3>
+                <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">{pkg.description}</p>
               </div>
 
-              <div className="px-3 md:px-8 pb-3 md:pb-8 text-center">
-                <div className="flex items-baseline justify-center gap-0.5 md:gap-1">
-                  <span className="text-[10px] md:text-lg font-serif font-bold text-gray-400 uppercase">Rp</span>
-                  <span className="text-xl md:text-5xl font-serif font-black text-gray-900 tracking-tighter">{(pkg.price / 1000).toFixed(0)}</span>
-                  <span className="text-xs md:text-xl font-serif font-bold text-gray-900">rb</span>
+              <div className="px-8 pb-8 text-center">
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-lg font-serif font-bold text-gray-400 uppercase">Rp</span>
+                  <span className="text-5xl font-serif font-black text-gray-900 tracking-tighter">{(pkg.price / 1000).toFixed(0)}</span>
+                  <span className="text-xl font-serif font-bold text-gray-900">rb</span>
                 </div>
-                <p className="text-[7px] md:text-[10px] text-wedding-gold font-black uppercase tracking-[0.1em] md:tracking-[0.3em] mt-0.5 md:mt-2">
-                  {pkg.credits} <span className="hidden sm:inline">KREDIT</span>
-                </p>
+                <p className="text-[10px] text-wedding-gold font-black uppercase tracking-[0.3em] mt-2">{pkg.credits} KREDIT</p>
               </div>
 
-              <div className="p-2 md:p-8 mt-auto bg-gray-50/50 relative border-t border-gray-100">
-                <ul className="hidden md:block space-y-3 mb-8">
+              <div className="p-8 mt-auto bg-gray-50/50 relative border-t border-gray-100">
+                <ul className="space-y-3 mb-8">
                   {[
                     "Semua Tema Premium",
                     "Edit Sepuasnya",
@@ -150,13 +148,13 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
                 <button 
                   onClick={() => handlePay(pkg)}
                   disabled={loading === pkg.id}
-                  className={`w-full py-2 md:py-4 rounded-lg md:rounded-xl font-black uppercase tracking-widest text-[7px] md:text-[10px] transition-all shadow-md active:scale-95 ${
+                  className={`w-full py-4 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all shadow-md active:scale-95 ${
                     pkg.id === "pkg_5" 
                       ? "bg-[#111111] text-white hover:bg-black" 
                       : "bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
                   } disabled:opacity-50`}
                 >
-                  {loading === pkg.id ? "..." : "Beli"}
+                  {loading === pkg.id ? "Processing..." : "Beli Sekarang"}
                 </button>
               </div>
             </div>

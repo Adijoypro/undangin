@@ -59,7 +59,7 @@ export default function MiniPricingGrid() {
         <Link href="/dashboard/topup" className="text-[10px] font-bold text-wedding-gold uppercase tracking-widest hover:underline">Lihat Semua Paket →</Link>
       </div>
       
-      <div className="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-6">
+      <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible pb-6 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
         {packages.map((pkg, i) => (
           <motion.div
             key={pkg.id}
@@ -73,12 +73,12 @@ export default function MiniPricingGrid() {
             }}
             className="relative"
           >
-            <Link href="/dashboard/topup">
-              <div className={`group relative p-2.5 md:p-6 rounded-xl md:rounded-2xl border ${pkg.isPopular ? 'border-wedding-gold shadow-md' : 'border-gray-100'} bg-white overflow-hidden transition-all duration-300 h-full flex flex-col justify-between hover:shadow-xl`}>
+            <Link href="/dashboard/topup" className="block flex-shrink-0 w-[70vw] sm:w-[280px] md:w-auto snap-center md:snap-align-none">
+              <div className={`group relative p-6 rounded-2xl border ${pkg.isPopular ? 'border-wedding-gold shadow-md' : 'border-gray-100'} bg-white overflow-hidden transition-all duration-300 h-full flex flex-col justify-between hover:shadow-xl`}>
                 
                 <div className="relative">
-                  <div className="flex items-center justify-between mb-2 md:mb-6">
-                    <div className="text-sm md:text-2xl grayscale group-hover:grayscale-0 transition-all">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="text-2xl grayscale group-hover:grayscale-0 transition-all">
                       {pkg.icon}
                     </div>
                     <div className="flex flex-col items-end gap-1">
@@ -95,18 +95,18 @@ export default function MiniPricingGrid() {
                     </div>
                   </div>
                   
-                  <h4 className="font-serif text-[10px] md:text-lg font-bold text-gray-800 mb-0.5 md:mb-1 leading-tight">
+                  <h4 className="font-serif text-lg font-bold text-gray-800 mb-1">
                     {pkg.name} 
                   </h4>
-                  <p className="hidden md:block text-[10px] text-gray-400 font-medium mb-4 uppercase tracking-wider">{pkg.desc}</p>
+                  <p className="text-[10px] text-gray-400 font-medium mb-4 uppercase tracking-wider">{pkg.desc}</p>
                 </div>
 
-                <div className="relative pt-2 md:pt-4 flex flex-col md:flex-row items-start md:items-end justify-between gap-2">
+                <div className="relative pt-4 flex items-end justify-between">
                   <div>
-                    <p className="text-[7px] md:text-[10px] text-gray-400 uppercase tracking-widest font-black leading-none mb-1">{pkg.credits}</p>
-                    <p className={`text-xs md:text-2xl font-serif font-bold text-gray-900 group-hover:text-wedding-gold transition-colors leading-none`}>Rp {pkg.price}</p>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-widest font-black">{pkg.credits}</p>
+                    <p className={`text-2xl font-serif font-bold text-gray-900 group-hover:text-wedding-gold transition-colors`}>Rp {pkg.price}</p>
                   </div>
-                  <div className="hidden md:block bg-[#111111] text-white p-2 rounded-lg group-hover:scale-110 transition-transform shadow-lg">
+                  <div className="bg-[#111111] text-white p-2 rounded-lg group-hover:scale-110 transition-transform shadow-lg">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4" />
                     </svg>
