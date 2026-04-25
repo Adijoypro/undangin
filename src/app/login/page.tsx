@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import LoginButtons from "./LoginButtons";
+import SocialLogin from "./SocialLogin";
 import { motion } from "framer-motion";
 
 export default function LoginPage() {
@@ -75,6 +76,8 @@ export default function LoginPage() {
               <LoginButtons />
             </div>
           </form>
+
+          <SocialLogin />
 
           <div className="mt-10 text-center">
             <p className="text-xs text-gray-400">
