@@ -7,9 +7,10 @@ interface QuoteSectionProps {
   initialQuote: string;
   initialBrideName: string;
   initialGroomName: string;
+  isAiEnabled?: boolean;
 }
 
-export default function QuoteSection({ initialQuote, initialBrideName, initialGroomName }: QuoteSectionProps) {
+export default function QuoteSection({ initialQuote, initialBrideName, initialGroomName, isAiEnabled = false }: QuoteSectionProps) {
   const [quote, setQuote] = useState(initialQuote);
 
   return (
@@ -19,6 +20,7 @@ export default function QuoteSection({ initialQuote, initialBrideName, initialGr
         <AIQuoteAssistant 
           brideName={initialBrideName} 
           groomName={initialGroomName} 
+          isAiEnabled={isAiEnabled}
           onGenerated={(text) => setQuote(text)} 
         />
       </div>

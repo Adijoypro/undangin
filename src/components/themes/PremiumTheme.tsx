@@ -85,10 +85,10 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
             </div>
             <div className="text-center relative z-10 w-full">
                 <p className="font-sans uppercase tracking-[0.5em] text-wedding-sage mb-6 text-xs font-bold" data-aos="fade-down">Tasyakuran Pernikahan</p>
-                <div className="flex flex-col items-center justify-center">
-                    <h2 className="font-script text-8xl md:text-[140px] leading-[0.7] gold-foil py-4" data-aos="zoom-in">{data.bride.name}</h2>
-                    <span className="font-script text-6xl md:text-8xl text-wedding-sage/40 -mt-2 mb-2" data-aos="fade-in">&amp;</span>
-                    <h2 className="font-script text-8xl md:text-[140px] leading-[0.7] gold-foil py-4" data-aos="zoom-in" data-aos-delay="200">{data.groom.name}</h2>
+                <div className="flex flex-col items-center justify-center py-4">
+                    <h2 className="font-script text-7xl md:text-[120px] leading-[1.2] gold-foil px-4" data-aos="zoom-in">{data.bride.name}</h2>
+                    <span className="font-script text-5xl md:text-7xl text-wedding-sage/40 my-2" data-aos="fade-in">&amp;</span>
+                    <h2 className="font-script text-7xl md:text-[120px] leading-[1.2] gold-foil px-4" data-aos="zoom-in" data-aos-delay="200">{data.groom.name}</h2>
                 </div>
                 <div className="mt-12 inline-block border-y border-wedding-gold/30 py-4 px-12" data-aos="fade-up" data-aos-delay="400">
                     <p className="font-serif italic text-wedding-text text-xl">{data.event.date}</p>
@@ -274,9 +274,9 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
       
       {/* FOOTER */}
         <footer className="py-24 text-center bg-wedding-sage text-white relative">
-            <h2 className="font-script text-7xl mb-4 gold-foil">{data.bride.name}</h2>
-            <h2 className="font-script text-4xl mb-4 text-wedding-gold">&amp;</h2>
-            <h2 className="font-script text-7xl mb-10 gold-foil">{data.groom.name}</h2>
+            <h2 className="font-script text-7xl mb-2 gold-foil py-4" data-aos="fade-up">{data.bride.name}</h2>
+            <h2 className="font-script text-5xl mb-2 text-wedding-gold" data-aos="fade-in">&amp;</h2>
+            <h2 className="font-script text-7xl mb-10 gold-foil py-4" data-aos="fade-up">{data.groom.name}</h2>
             <p className="font-sans text-[10px] uppercase tracking-widest opacity-30 border-t border-white/20 pt-8 inline-block">Powered by Undangin</p>
         </footer>
       </main>

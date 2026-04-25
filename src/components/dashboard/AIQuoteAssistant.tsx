@@ -7,10 +7,11 @@ import { toast } from "sonner";
 interface AIQuoteAssistantProps {
   brideName: string;
   groomName: string;
+  isAiEnabled?: boolean;
   onGenerated: (text: string) => void;
 }
 
-export default function AIQuoteAssistant({ brideName, groomName, onGenerated }: AIQuoteAssistantProps) {
+export default function AIQuoteAssistant({ brideName, groomName, isAiEnabled = false, onGenerated }: AIQuoteAssistantProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGenerate = async () => {
@@ -36,7 +37,7 @@ export default function AIQuoteAssistant({ brideName, groomName, onGenerated }: 
       type="button"
       onClick={handleGenerate}
       disabled={isLoading}
-      className="flex items-center gap-2 px-3 py-1.5 bg-wedding-gold/10 text-wedding-gold text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-wedding-gold hover:text-white transition-all disabled:opacity-50"
+      className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-wedding-gold/10 text-wedding-gold hover:bg-wedding-gold hover:text-white transition-all disabled:opacity-50 text-[10px] font-bold uppercase tracking-widest"
     >
       {isLoading ? (
         <>
@@ -51,7 +52,7 @@ export default function AIQuoteAssistant({ brideName, groomName, onGenerated }: 
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
           </svg>
-          AI Bantu Tulis
+          AI Bantu Tulis ✨
         </>
       )}
     </button>

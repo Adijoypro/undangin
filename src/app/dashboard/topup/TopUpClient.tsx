@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Script from "next/script";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 interface Package {
   id: string;
@@ -18,6 +20,7 @@ interface TopUpClientProps {
 
 export default function TopUpClient({ packages, user }: TopUpClientProps) {
   const [loading, setLoading] = useState<string | null>(null);
+  const router = useRouter();
 
   const handlePay = async (pkg: Package) => {
     setLoading(pkg.id);
@@ -47,7 +50,8 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
       window.snap.pay(data.token, {
         onSuccess: function (result: any) {
           alert("Pembayaran Berhasil! Kredit Anda akan segera ditambahkan.");
-          window.location.href = "/dashboard";
+          // Update: Use router for smoother transition
+          router.push("/dashboard");
         },
         onPending: function (result: any) {
           alert("Menunggu pembayaran Anda...");
@@ -69,61 +73,92 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
 
   return (
     <>
-      {/* Midtrans Snap Script (Production) */}
+      {/* Midtrans Snap Script (Sandbox) */}
       <Script 
-        src="https://app.midtrans.com/snap/snap.js" 
+        src="https://app.sandbox.midtrans.com/snap/snap.js" 
         data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
-        strategy="lazyOnload"
+        strategy="afterInteractive"
       />
 
       <div className="grid md:grid-cols-3 gap-8">
-        {packages.map((pkg) => (
-          <div key={pkg.id} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex flex-col relative group hover:border-wedding-gold hover:shadow-xl transition-all duration-300">
+        {packages.map((pkg, i) => (
+          <motion.div 
+            key={pkg.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className="relative"
+          >
+            {/* AGGRESSIVE GLOW FOR POPULAR ITEM */}
             {pkg.id === "pkg_5" && (
-              <div className="absolute top-0 inset-x-0 bg-wedding-gold text-white text-[10px] font-bold uppercase tracking-widest text-center py-1">
-                Paling Populer
-              </div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-wedding-gold via-amber-300 to-wedding-gold rounded-3xl blur opacity-25 animate-pulse"></div>
             )}
-            
-            <div className="p-8 text-center border-b border-gray-100">
-              <h3 className="font-serif text-2xl text-wedding-text mb-2">{pkg.name}</h3>
-              <p className="text-gray-500 text-sm mb-6">{pkg.description}</p>
+
+            <div className={`h-full bg-white rounded-2xl shadow-sm border-2 ${pkg.id === "pkg_5" ? 'border-wedding-gold' : 'border-gray-100'} overflow-hidden flex flex-col relative group transition-all duration-500 hover:shadow-xl`}>
               
-              <div className="flex items-baseline justify-center gap-1">
-                <span className="text-xl font-bold text-gray-400">Rp</span>
-                <span className="text-4xl font-black text-gray-800">{pkg.price.toLocaleString("id-ID")}</span>
+              {pkg.id === "pkg_5" && (
+                <div className="absolute top-4 right-4 z-10">
+                  <span className="bg-wedding-gold text-white text-[8px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full shadow-sm">
+                    Paling Laris
+                  </span>
+                </div>
+              )}
+              
+              <div className="p-8 text-center relative z-10">
+                <div className={`w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center text-3xl ${
+                  pkg.id === "pkg_1" ? "bg-amber-50" : 
+                  pkg.id === "pkg_5" ? "bg-wedding-gold/10" : 
+                  "bg-blue-50"
+                }`}>
+                  {pkg.id === "pkg_1" ? "✨" : pkg.id === "pkg_5" ? "💼" : "👑"}
+                </div>
+                
+                <h3 className="font-serif text-2xl text-gray-900 font-bold mb-1">{pkg.name}</h3>
+                <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">{pkg.description}</p>
+              </div>
+
+              <div className="px-8 pb-8 text-center">
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-lg font-serif font-bold text-gray-400">Rp</span>
+                  <span className="text-5xl font-serif font-black text-gray-900 tracking-tighter">{(pkg.price / 1000).toFixed(0)}</span>
+                  <span className="text-xl font-serif font-bold text-gray-900">rb</span>
+                </div>
+                <p className="text-[10px] text-wedding-gold font-black uppercase tracking-[0.3em] mt-2">{pkg.credits} KREDIT</p>
+              </div>
+
+              <div className="p-8 mt-auto bg-gray-50/50 relative border-t border-gray-100">
+                <ul className="space-y-3 mb-8">
+                  {[
+                    "Semua Tema Premium",
+                    "Edit Sepuasnya",
+                    "Aktif Selamanya",
+                    pkg.id === "pkg_5" ? "15 Draft Undangan" : pkg.id === "pkg_10" ? "30 Draft Undangan" : "5 Draft Undangan"
+                  ].map((feature, idx) => (
+                    <li key={idx} className="flex items-center gap-3">
+                      <div className="w-4 h-4 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                        <svg className="w-2.5 h-2.5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                      </div>
+                      <span className="text-[11px] font-bold text-gray-600">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button 
+                  onClick={() => handlePay(pkg)}
+                  disabled={loading === pkg.id}
+                  className={`w-full py-4 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all shadow-md active:scale-95 ${
+                    pkg.id === "pkg_5" 
+                      ? "bg-[#111111] text-white hover:bg-black" 
+                      : "bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
+                  } disabled:opacity-50`}
+                >
+                  {loading === pkg.id ? "Processing..." : "Beli Sekarang"}
+                </button>
               </div>
             </div>
-
-            <div className="p-8 flex-1 flex flex-col justify-between bg-gray-50/50">
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                  <span className="text-sm font-bold">{pkg.credits} Undangan Digital</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                  <span className="text-sm text-gray-600">Akses Semua Tema Premium</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                  <span className="text-sm text-gray-600">Fitur Custom Musik & Foto</span>
-                </li>
-              </ul>
-
-              <button 
-                onClick={() => handlePay(pkg)}
-                disabled={loading === pkg.id}
-                className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-colors ${
-                  pkg.id === "pkg_5" 
-                    ? "bg-wedding-gold text-white hover:bg-yellow-600" 
-                    : "bg-wedding-text text-white hover:bg-gray-800"
-                } disabled:opacity-50`}
-              >
-                {loading === pkg.id ? "Memproses..." : "Beli Sekarang"}
-              </button>
-            </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </>

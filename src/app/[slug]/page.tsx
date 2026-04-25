@@ -61,6 +61,11 @@ export default async function InvitationPage({ params }: { params: Promise<{ slu
 
   const isOwner = user?.id === dbData.user_id;
 
+  // Security: Only owner can see non-published invitations
+  if (dbData.status !== 'published' && !isOwner) {
+    notFound();
+  }
+
   // Fetch Guestbook entries
   const { data: guestbookData } = await supabase
     .from("guestbook")

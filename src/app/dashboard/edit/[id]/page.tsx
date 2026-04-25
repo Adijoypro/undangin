@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { updateInvitation } from "./actions";
 import MusicSelector from "@/components/dashboard/MusicSelector";
@@ -6,6 +7,9 @@ import ThemeSelector from "../../create/ThemeSelector";
 import SubmitButton from "@/components/dashboard/SubmitButton";
 import LogoutButton from "@/components/dashboard/LogoutButton";
 import QuoteSection from "@/components/dashboard/QuoteSection";
+import InstantPhotoUpload from "@/components/dashboard/InstantPhotoUpload";
+import UpgradeAiButton from "@/components/dashboard/UpgradeAiButton";
+
 
 export default async function EditInvitationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -29,26 +33,40 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans pb-24">
-      <nav className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center gap-4">
-              <a href="/dashboard" className="text-sm font-bold text-gray-500 hover:text-wedding-gold">← Kembali</a>
-              <span className="font-serif text-xl font-bold text-wedding-text">Edit Undangan</span>
-            </div>
-            <LogoutButton />
+    <div className="min-h-screen bg-[#FDFBF7] text-gray-800 font-sans pb-24">
+      <header className="bg-white/80 border-b border-gray-100 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+          <div className="flex items-center gap-6">
+            <Link href="/dashboard" className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-black hover:text-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </Link>
+            <h1 className="font-serif text-lg font-bold text-gray-900">Edit Undangan</h1>
           </div>
+          <LogoutButton />
         </div>
-      </nav>
+      </header>
 
       <main className="max-w-4xl mx-auto px-4 py-12">
-        <form action={updateInvitation} className="bg-white p-8 md:p-12 rounded-2xl shadow-xl border border-gray-100 space-y-12">
+        <form action={updateInvitation} className="space-y-8">
           <input type="hidden" name="id" value={invitation.id} />
           
+          {/* BANNER UPGRADE AI - TAMPIL HANYA JIKA BELUM PREMIUM */}
+          {!invitation.is_ai_enabled && (
+            <div className="mb-10">
+              <UpgradeAiButton 
+                invitationId={invitation.id} 
+                userId={user.id} 
+                userEmail={user.email || ""} 
+              />
+            </div>
+          )}
+          
           {/* BAGIAN 1: PENGATURAN UMUM */}
-          <section>
-            <h2 className="font-serif text-2xl mb-6 text-wedding-text border-b pb-4">1. Pengaturan Dasar</h2>
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <h2 className="font-serif text-2xl mb-8 text-gray-900 flex items-center gap-3">
+              <span className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-sm font-bold text-gray-400">01</span>
+              Pengaturan Dasar
+            </h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-xs font-bold text-gray-500 mb-1">Custom Link (URL)</label>
@@ -65,8 +83,11 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
           </section>
 
           {/* BAGIAN 2: DATA MEMPELAI */}
-          <section>
-            <h2 className="font-serif text-2xl mb-6 text-wedding-text border-b pb-4">2. Data Mempelai</h2>
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <h2 className="font-serif text-2xl mb-8 text-gray-900 flex items-center gap-3">
+              <span className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-sm font-bold text-gray-400">02</span>
+              Data Mempelai
+            </h2>
             <div className="grid md:grid-cols-2 gap-10">
               {/* Bride */}
               <div className="space-y-4">
@@ -87,11 +108,12 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
                   <label className="block text-xs font-bold text-gray-500 mb-1">Nama Ibu</label>
                   <input type="text" name="bride_mother" defaultValue={invitation.bride_mother} placeholder="Nama Ibu" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
                 </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 mb-1">Update Foto Mempelai Wanita</label>
-                  <input type="file" accept="image/*" name="bride_photo" className="w-full p-2 border rounded-xl focus:border-wedding-gold outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-wedding-sage/10 file:text-wedding-sage hover:file:bg-wedding-sage/20" />
-                  <p className="text-[10px] text-gray-400 mt-1">Kosongkan jika tidak ingin mengganti foto.</p>
-                </div>
+                <InstantPhotoUpload 
+                  label="Update Foto Mempelai Wanita" 
+                  name="bride_photo" 
+                  initialPhotoUrl={invitation.bride_photo}
+                  accentColor="sage"
+                />
               </div>
 
               {/* Groom */}
@@ -113,35 +135,32 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
                   <label className="block text-xs font-bold text-gray-500 mb-1">Nama Ibu</label>
                   <input type="text" name="groom_mother" defaultValue={invitation.groom_mother} placeholder="Nama Ibu" className="w-full p-3 border rounded-xl focus:border-wedding-gold outline-none" />
                 </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-500 mb-1">Update Foto Mempelai Pria</label>
-                  <input type="file" accept="image/*" name="groom_photo" className="w-full p-2 border rounded-xl focus:border-wedding-gold outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-wedding-gold/10 file:text-wedding-gold hover:file:bg-wedding-gold/20" />
-                  <p className="text-[10px] text-gray-400 mt-1">Kosongkan jika tidak ingin mengganti foto.</p>
-                </div>
+                <InstantPhotoUpload 
+                  label="Update Foto Mempelai Pria" 
+                  name="groom_photo" 
+                  initialPhotoUrl={invitation.groom_photo}
+                  accentColor="gold"
+                />
               </div>
 
               <div className="md:col-span-2 pt-4">
-                <label className="block text-sm font-bold text-gray-700 mb-2">Update Foto Berdua (Hero/Halaman Utama)</label>
-                <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-xl border border-dashed border-wedding-gold/30">
-                  <div className="w-16 h-16 bg-white rounded-lg border border-gray-200 flex items-center justify-center overflow-hidden">
-                    {invitation.couple_photo ? (
-                      <img src={invitation.couple_photo} className="w-full h-full object-cover" />
-                    ) : (
-                      <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <input type="file" name="couple_photo" accept="image/*" className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-wedding-gold/10 file:text-wedding-gold hover:file:bg-wedding-gold/20 cursor-pointer" />
-                    <p className="text-[10px] text-gray-400 mt-1 italic">Kosongkan jika tidak ingin mengganti foto berdua.</p>
-                  </div>
-                </div>
+                <InstantPhotoUpload 
+                  label="Update Foto Berdua (Hero/Halaman Utama)" 
+                  name="couple_photo" 
+                  initialPhotoUrl={invitation.couple_photo}
+                  showAiStudio={true}
+                  isAiEnabled={invitation.is_ai_enabled || false}
+                />
               </div>
             </div>
           </section>
 
           {/* BAGIAN 3: DETAIL ACARA */}
-          <section>
-            <h2 className="font-serif text-2xl mb-6 text-wedding-text border-b pb-4">3. Detail Acara</h2>
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <h2 className="font-serif text-2xl mb-8 text-gray-900 flex items-center gap-3">
+              <span className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-sm font-bold text-gray-400">03</span>
+              Detail Acara
+            </h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-xs font-bold text-gray-500 mb-1">Tanggal Acara (Misal: 14 Februari 2027)</label>
@@ -171,13 +190,17 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
           </section>
 
           {/* BAGIAN 4: HADIRIN & KADO */}
-          <section>
-            <h2 className="font-serif text-2xl mb-6 text-wedding-text border-b pb-4">4. Quote & Digital Gift</h2>
+          <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <h2 className="font-serif text-2xl mb-8 text-gray-900 flex items-center gap-3">
+              <span className="w-8 h-8 bg-gray-50 rounded-lg flex items-center justify-center text-sm font-bold text-gray-400">04</span>
+              Quote & Digital Gift
+            </h2>
             <div className="space-y-6">
               <QuoteSection 
                 initialQuote={invitation.quote} 
                 initialBrideName={invitation.bride_name} 
                 initialGroomName={invitation.groom_name} 
+                isAiEnabled={invitation.is_ai_enabled || false}
               />
               
               <div>

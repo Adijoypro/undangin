@@ -74,7 +74,11 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
   return (
     <div className="relative">
       {/* GLOBAL AUDIO TAG */}
-      <audio ref={audioRef} loop src={data.musicUrl} />
+      <audio 
+        ref={audioRef} 
+        loop 
+        src={data.musicUrl || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"} 
+      />
 
       {/* ADMIN PANEL (Only for Owner) */}
       {isOwner && (

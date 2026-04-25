@@ -18,7 +18,7 @@ export default function PublishButton({ invitationId, status }: PublishButtonPro
 
   if (status === "published") {
     return (
-      <span className="bg-green-100 text-green-700 text-[9px] uppercase tracking-widest px-2 py-0.5 rounded font-bold border border-green-200">
+      <span className="bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400 text-[9px] uppercase tracking-widest px-2 py-0.5 rounded font-bold border border-green-200 dark:border-green-800">
         Published
       </span>
     );

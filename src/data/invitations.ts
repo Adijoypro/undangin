@@ -90,7 +90,7 @@ export const dummyData: InvitationData = {
     accountNumber: "1234567890",
     accountName: "Ayu Saraswati"
   },
-  musicUrl: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_18dc903e1e.mp3?filename=wedding-piano-111166.mp3",
+  musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
   guestbook: [],
   turut_mengundang: "Keluarga Besar Bapak Budi, Keluarga Besar Bapak Joko, Kerabat & Sahabat"
 };

@@ -1,24 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  --color-wedding-base: #F9F6F0;
-  --color-wedding-sage: #7C8C77;
-  --color-wedding-gold: #D4AF37;
-  --color-wedding-text: #2B2B2B;
+  --color-wedding-base: var(--wedding-base);
+  --color-wedding-sage: var(--wedding-sage);
+  --color-wedding-gold: var(--wedding-gold);
+  --color-wedding-text: var(--wedding-text);
   --color-wedding-nude: #E3D5CA;
   --color-wedding-terracotta: #C17A6B;
   --color-wedding-olive: #5A6351;
   
+  --font-display: 'Cormorant Garamond', serif;
   --font-sans: 'Montserrat', sans-serif;
   --font-serif: 'Cinzel', serif;
   --font-script: 'Great Vibes', cursive;
-  --font-display: 'Cormorant Garamond', serif;
+
+  --dark-mode: selector;
+}
+
+:root {
+  --wedding-gold: #D4AF37;
+  --wedding-text: #111111;
+  --wedding-base: #FDFBF7;
+  --wedding-sage: #7C8C77;
+}
+
+.dark {
+  --wedding-text: #FFFFFF;
+  --wedding-base: #020617; /* slate-950 */
 }
 
 body {
-  background-color: var(--color-wedding-base);
-  color: var(--color-wedding-text);
   overflow-x: hidden;
+  background-color: var(--wedding-base);
+  color: var(--wedding-text);
+  transition: background-color 1s ease, color 1s ease;
 }
 
 /* 1. LUXURY PAPER TEXTURE - OPTIMIZED: Reduced opacity and simplified filter */
@@ -93,6 +108,15 @@ body {
 
 .animate-gradient-x {
   animation: gradient-x 3s ease infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
 }
 
 /* 9. UTILITIES */

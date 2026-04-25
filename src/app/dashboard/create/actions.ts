@@ -15,10 +15,23 @@ export async function createInvitation(formData: FormData) {
   const slug = formData.get("slug") as string;
   const theme = formData.get("theme") as string;
 
-  // --- VALIDASI SLUG (SECURITY FIX: Blacklist) ---
   const cleanSlug = slug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
   if (RESERVED_SLUGS.includes(cleanSlug)) {
     return redirect("/dashboard/create?error=slug_reserved");
+  }
+
+  // ENFORCE DRAFT LIMIT ON SERVER SIDE
+  const { data: profile } = await supabase.from("profiles").select("credits").eq("id", user.id).single();
+  const { count } = await supabase.from("invitations").select("*", { count: "exact", head: true }).eq("user_id", user.id);
+  
+  const credits = profile?.credits || 0;
+  let maxDrafts = 2;
+  if (credits >= 10) maxDrafts = 30;
+  else if (credits >= 5) maxDrafts = 15;
+  else if (credits >= 1) maxDrafts = 5;
+
+  if ((count || 0) >= maxDrafts) {
+    return redirect("/dashboard?error=limit_reached");
   }
   
   const brideName = formData.get("bride_name") as string;
@@ -43,74 +56,53 @@ export async function createInvitation(formData: FormData) {
   const accountName = formData.get("account_name") as string;
   const turutMengundang = formData.get("turut_mengundang") as string;
 
-  const bridePhotoFile = formData.get("bride_photo") as File;
-  const groomPhotoFile = formData.get("groom_photo") as File;
-  const couplePhotoFile = formData.get("couple_photo") as File;
-  const musicFile = formData.get("music_file") as File;
   const selectedMusicUrl = formData.get("selected_music_url") as string;
 
-  // Upload Photos to Supabase Storage
-  let bridePhotoUrl = "";
-  let groomPhotoUrl = "";
-  let couplePhotoUrl = "";
-  let musicUrl = "";
-
-  try {
-    if (bridePhotoFile && bridePhotoFile.size > 0) {
-      const fileName = `${Date.now()}_bride_${bridePhotoFile.name.replace(/\s+/g, "_")}`;
-      const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, bridePhotoFile);
-      if (!error && data) {
-        bridePhotoUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
+  const getPhotoUrl = async (fieldName: string) => {
+    const data = formData.get(fieldName);
+    if (typeof data === "string" && data.startsWith("http")) return data;
+    if (data instanceof File && data.size > 0) {
+      const fileName = `${user.id}/${Date.now()}_${fieldName}_${data.name.replace(/\s+/g, "_")}`;
+      const { data: uploadData, error } = await supabase.storage.from("invitations-media").upload(fileName, data);
+      if (!error && uploadData) {
+        return supabase.storage.from("invitations-media").getPublicUrl(uploadData.path).data.publicUrl;
       }
     }
+    return ""; // NO MORE TABLE PHOTO FALLBACK
+  };
 
-    if (groomPhotoFile && groomPhotoFile.size > 0) {
-      const fileName = `${Date.now()}_groom_${groomPhotoFile.name.replace(/\s+/g, "_")}`;
-      const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, groomPhotoFile);
-      if (!error && data) {
-        groomPhotoUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
-      }
-    }
+  const bridePhotoUrl = await getPhotoUrl("bride_photo");
+  const groomPhotoUrl = await getPhotoUrl("groom_photo");
+  const couplePhotoUrl = await getPhotoUrl("couple_photo");
 
-    if (couplePhotoFile && couplePhotoFile.size > 0) {
-      const fileName = `${Date.now()}_couple_${couplePhotoFile.name.replace(/\s+/g, "_")}`;
-      const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, couplePhotoFile);
-      if (!error && data) {
-        couplePhotoUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
-      }
+  let musicUrl = selectedMusicUrl || "";
+  const musicFile = formData.get("music_file") as File;
+  if (musicFile && musicFile.size > 0) {
+    const fileName = `${user.id}/${Date.now()}_music_${musicFile.name.replace(/\s+/g, "_")}`;
+    const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, musicFile);
+    if (!error && data) {
+      musicUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
     }
-
-    if (musicFile && musicFile.size > 0) {
-      const fileName = `${Date.now()}_music_${musicFile.name.replace(/\s+/g, "_")}`;
-      const { data, error } = await supabase.storage.from("invitations-media").upload(fileName, musicFile);
-      if (!error && data) {
-        musicUrl = supabase.storage.from("invitations-media").getPublicUrl(data.path).data.publicUrl;
-      }
-    } else if (selectedMusicUrl) {
-      musicUrl = selectedMusicUrl;
-    }
-  } catch (err) {
-    console.error("Critical Storage Error:", err);
   }
 
-  const { error } = await supabase
+  const { data: newInvitation, error } = await supabase
     .from("invitations")
     .insert([
       {
         user_id: user.id,
-        slug: slug.toLowerCase().replace(/\s+/g, '-'),
+        slug: cleanSlug,
         theme: theme,
         bride_name: brideName,
         bride_fullname: brideFullName,
         bride_father: brideFather,
         bride_mother: brideMother,
-        bride_photo: bridePhotoUrl || "https://images.unsplash.com/photo-1546804784-81647414ee00?q=80&w=800&auto=format&fit=crop",
+        bride_photo: bridePhotoUrl,
         groom_name: groomName,
         groom_fullname: groomFullName,
         groom_father: groomFather,
         groom_mother: groomMother,
-        groom_photo: groomPhotoUrl || "https://images.unsplash.com/photo-1550005809-91ad75fb315f?q=80&w=800&auto=format&fit=crop",
-        couple_photo: couplePhotoUrl || "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1200&auto=format&fit=crop",
+        groom_photo: groomPhotoUrl,
+        couple_photo: couplePhotoUrl,
         event_date: eventDate,
         event_time: eventTime,
         event_location: eventLocation,
@@ -123,11 +115,14 @@ export async function createInvitation(formData: FormData) {
         music_url: musicUrl,
         turut_mengundang: turutMengundang
       }
-    ]);
+    ])
+    .select()
+    .single();
 
   if (error) {
-    console.error("Database Insert Error:", error.message);
+    console.error("Error creating invitation:", error);
+    return redirect("/dashboard/create?error=db_error");
   }
 
-  redirect("/dashboard");
+  redirect(`/dashboard/edit/${newInvitation.id}`);
 }

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { LuxuryThemeToggle } from "@/components/ui/LuxuryThemeToggle";
+import { useTheme } from "next-themes";
 
 const SHOWCASE_THEMES = [
   {
@@ -37,7 +39,7 @@ const SHOWCASE_THEMES = [
   {
     id: "premium",
     series: "The Premium Series",
-    title: "Green Minimalist",
+    title: "Premium Sage",
     name: "Sage Splendor",
     desc: "Desain bersih dengan sentuhan warna alam.",
     bgClass: "bg-[#f5f5f0]",
@@ -80,15 +82,14 @@ const SHOWCASE_THEMES = [
 ];
 
 export default function LandingPage() {
-  const [isDark, setIsDark] = useState(true);
+  const { theme: currentTheme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [sliderPaused, setSliderPaused] = useState(false);
   const [user, setUser] = useState<any>(null);
   const supabase = createClient();
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
-
   useEffect(() => {
+    setMounted(true);
     const checkUser = async () => {
       const { data } = await supabase.auth.getUser();
       if (data?.user) {
@@ -97,6 +98,11 @@ export default function LandingPage() {
     };
     checkUser();
   }, []);
+
+  const isDark = resolvedTheme === "dark" || !mounted; // Default to dark during hydration
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
 
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -115,8 +121,8 @@ export default function LandingPage() {
   };
 
   const theme = {
-    bg: isDark ? "bg-[#050505]" : "bg-[#FDFBF7]",
-    navBg: isDark ? "bg-[#050505]/70" : "bg-[#FDFBF7]/70",
+    bg: isDark ? "bg-slate-950" : "bg-[#FDFBF7]",
+    navBg: isDark ? "bg-slate-950/70" : "bg-[#FDFBF7]/70",
     text: isDark ? "text-white" : "text-[#111111]",
     textMuted: isDark ? "text-gray-400" : "text-gray-600",
     border: isDark ? "border-white/10" : "border-black/10",
@@ -144,30 +150,7 @@ export default function LandingPage() {
             </div>
             
             <div className="flex items-center gap-2 sm:gap-4">
-              {/* Theme Toggle */}
-              <motion.button
-                onClick={() => setIsDark(!isDark)}
-                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border ${theme.border} ${isDark ? 'hover:bg-white/10' : 'hover:bg-black/5'} transition-colors`}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label="Toggle Theme"
-              >
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={isDark ? "dark" : "light"}
-                    initial={{ y: -20, opacity: 0, rotate: -90 }}
-                    animate={{ y: 0, opacity: 1, rotate: 0 }}
-                    exit={{ y: 20, opacity: 0, rotate: 90 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {isDark ? (
-                      <svg className="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                    ) : (
-                      <svg className="w-5 h-5 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-              </motion.button>
+              {/* Theme Toggle is now global floating */}
 
               <div className="hidden md:flex space-x-8 items-center">
                 <a href="#fitur" className={`text-xs font-bold uppercase tracking-widest ${theme.textMuted} hover:text-[#D4AF37] transition-colors`}>Fitur</a>
@@ -463,7 +446,7 @@ export default function LandingPage() {
             <p className={`${theme.textMuted} text-lg transition-colors duration-1000`}>Sistem kredit transparan tanpa biaya tersembunyi. Khusus untuk Anda yang menghargai kualitas.</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4 max-w-7xl mx-auto">
             {/* Free Trial */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -484,7 +467,7 @@ export default function LandingPage() {
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Draft Tidak Terbatas</li>
                 <li className="flex items-center gap-4 opacity-50"><span className="text-gray-400">✧</span> Tidak Bisa Dipublikasi/Export</li>
               </ul>
-              <Link href="/login" className={`block text-center w-full py-4 border ${theme.border} font-bold text-xs uppercase tracking-[0.2em] ${theme.buttonInverse} transition-colors duration-500`}>Coba Gratis</Link>
+              <Link href={user ? "/dashboard/topup" : "/login"} className={`block text-center w-full py-4 border ${theme.border} font-bold text-xs uppercase tracking-[0.2em] ${theme.buttonInverse} transition-colors duration-500`}>Mulai Desain Gratis</Link>
             </motion.div>
 
             {/* PREMIUM */}
@@ -500,8 +483,8 @@ export default function LandingPage() {
               <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-10 transition-colors duration-1000`}>Publikasi undangan & fitur lengkap.</p>
               <div className="mb-10 flex items-baseline gap-2">
                 <span className="text-sm text-[#D4AF37] font-bold uppercase tracking-widest">Rp</span>
-                <span className="text-5xl font-serif text-[#D4AF37]">49</span>
-                <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>rb <span className="line-through text-xs ml-1">Rp 99.000</span></span>
+                <span className="text-5xl font-serif text-[#D4AF37]">89</span>
+                <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>rb</span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-1000`}>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 1 Kredit Publikasi / Export</li>
@@ -509,10 +492,10 @@ export default function LandingPage() {
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Manajemen Tamu & RSVP</li>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Custom Musik Latar</li>
               </ul>
-              <Link href="/login" className={`block text-center w-full py-4 bg-[#D4AF37] text-black font-bold text-xs uppercase tracking-[0.2em] hover:opacity-80 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all`}>Aktifkan Premium</Link>
+              <Link href={user ? "/dashboard/topup" : "/login"} className={`block text-center w-full py-4 bg-[#D4AF37] text-black font-bold text-xs uppercase tracking-[0.2em] hover:opacity-80 shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all`}>Wujudkan Mahakarya</Link>
             </motion.div>
 
-            {/* WO PRO / ENTERPRISE */}
+            {/* WO PRO / AGENCY */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -524,16 +507,40 @@ export default function LandingPage() {
               <p className={`text-sm ${theme.textMuted} mb-10 transition-colors duration-1000`}>Paket hemat untuk profesional.</p>
               <div className="mb-10 flex items-baseline gap-2">
                 <span className={`text-sm ${theme.textMuted} font-bold uppercase tracking-widest transition-colors duration-1000`}>Rp</span>
-                <span className="text-5xl font-serif">199</span>
+                <span className="text-5xl font-serif">349</span>
                 <span className={theme.textMuted}>rb</span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${theme.textMuted} transition-colors duration-1000`}>
-                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 10 Kredit Publikasi</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 5 Kredit Publikasi</li>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Harga Lebih Murah / Kredit</li>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Prioritas Server (Cepat)</li>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> VIP Support 24/7</li>
               </ul>
-              <Link href="/login" className={`block text-center w-full py-4 border ${theme.border} font-bold text-xs uppercase tracking-[0.2em] ${theme.buttonInverse} transition-colors duration-500`}>Hubungi Sales</Link>
+              <Link href={user ? "/dashboard/topup" : "/login"} className={`block text-center w-full py-4 border ${theme.border} font-bold text-xs uppercase tracking-[0.2em] ${theme.buttonInverse} transition-all duration-500`}>Gass Bareng WO</Link>
+            </motion.div>
+
+            {/* ENTERPRISE */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className={`p-10 rounded-2xl border ${theme.border} ${theme.cardBg} ${theme.cardHover} transition-all duration-500`}
+            >
+              <h3 className="font-serif text-3xl mb-2">Enterprise</h3>
+              <p className={`text-sm ${theme.textMuted} mb-10 transition-colors duration-1000`}>Solusi bisnis skala besar.</p>
+              <div className="mb-10 flex items-baseline gap-2">
+                <span className={`text-sm ${theme.textMuted} font-bold uppercase tracking-widest transition-colors duration-1000`}>Rp</span>
+                <span className="text-5xl font-serif">649</span>
+                <span className={theme.textMuted}>rb</span>
+              </div>
+              <ul className={`space-y-5 mb-10 text-sm ${theme.textMuted} transition-colors duration-1000`}>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 10 Kredit Publikasi</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Harga Terbaik per Kredit</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Full Features & Support</li>
+                <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> Unlimited AI Features</li>
+              </ul>
+              <Link href={user ? "/dashboard/topup" : "/login"} className={`block text-center w-full py-4 border ${theme.border} font-bold text-xs uppercase tracking-[0.2em] ${theme.buttonInverse} transition-all duration-500`}>Layanan Prioritas</Link>
             </motion.div>
           </div>
         </div>

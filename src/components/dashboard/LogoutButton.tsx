@@ -6,7 +6,7 @@ export default function LogoutButton() {
   return (
     <button
       onClick={() => logout()}
-      className="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-red-50"
+      className="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-950/20"
       title="Keluar"
     >
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

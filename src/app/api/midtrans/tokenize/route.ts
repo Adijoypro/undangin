@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { packageId, price, credits, userId, userEmail } = body;
+    const { packageId, price, credits, userId, userEmail, invitationId } = body;
 
     // Use environment variables for Midtrans Keys
     // Fallback to Midtrans sandbox dummy keys for demonstration if env not set
@@ -34,10 +34,11 @@ export async function POST(request: Request) {
       },
       // Important for tracking later in webhook
       custom_field1: userId,
-      custom_field2: credits.toString(),
+      custom_field2: credits?.toString() || "0",
+      custom_field3: invitationId || "",
     };
 
-    const response = await fetch("https://app.midtrans.com/snap/v1/transactions", {
+    const response = await fetch("https://app.sandbox.midtrans.com/snap/v1/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

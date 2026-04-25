@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cinzel, Great_Vibes, Montserrat, Cormorant_Garamond } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const cinzel = Cinzel({ subsets: ["latin"], variable: '--font-serif' });
@@ -16,6 +17,8 @@ export const metadata: Metadata = {
 };
 
 import { Toaster } from "sonner";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { LuxuryThemeToggle } from "@/components/ui/LuxuryThemeToggle";
 
 export default function RootLayout({
   children,
@@ -23,10 +26,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`scroll-smooth ${cinzel.variable} ${greatVibes.variable} ${montserrat.variable} ${cormorant.variable}`}>
-      <body className="font-sans antialiased bg-wedding-base text-wedding-text">
-        <Toaster position="top-center" richColors />
-        {children}
+    <html lang="id" className={`scroll-smooth ${cinzel.variable} ${greatVibes.variable} ${montserrat.variable} ${cormorant.variable}`} suppressHydrationWarning>
+      <body className="font-sans antialiased">
+        <Script 
+          src="https://app.sandbox.midtrans.com/snap/snap.js" 
+          data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
+          strategy="beforeInteractive"
+        />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <LuxuryThemeToggle />
+          <Toaster position="top-center" richColors />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
