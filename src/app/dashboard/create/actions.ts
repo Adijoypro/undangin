@@ -20,6 +20,17 @@ export async function createInvitation(formData: FormData) {
     return redirect("/dashboard/create?error=slug_reserved");
   }
 
+  // CHECK IF SLUG EXISTS
+  const { data: existingSlug } = await supabase
+    .from("invitations")
+    .select("id")
+    .eq("slug", cleanSlug)
+    .single();
+
+  if (existingSlug) {
+    return redirect("/dashboard/create?error=slug_taken");
+  }
+
   // ENFORCE DRAFT LIMIT ON SERVER SIDE
   const { data: profile } = await supabase.from("profiles").select("credits").eq("id", user.id).single();
   const { count } = await supabase.from("invitations").select("*", { count: "exact", head: true }).eq("user_id", user.id);
@@ -124,5 +135,7 @@ export async function createInvitation(formData: FormData) {
     return redirect("/dashboard/create?error=db_error");
   }
 
-  redirect(`/dashboard/edit/${newInvitation.id}`);
+  const { revalidatePath } = await import("next/cache");
+  revalidatePath("/dashboard");
+  redirect(`/dashboard?success=created`);
 }

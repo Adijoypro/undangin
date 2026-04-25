@@ -9,6 +9,7 @@ import LogoutButton from "@/components/dashboard/LogoutButton";
 import QuoteSection from "@/components/dashboard/QuoteSection";
 import InstantPhotoUpload from "@/components/dashboard/InstantPhotoUpload";
 import UpgradeAiButton from "@/components/dashboard/UpgradeAiButton";
+import SlugInput from "@/components/dashboard/SlugInput";
 
 
 export default async function EditInvitationPage({ params }: { params: Promise<{ id: string }> }) {
@@ -68,13 +69,8 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
               Pengaturan Dasar
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-xs font-bold text-gray-500 mb-1">Custom Link (URL)</label>
-                <div className="flex items-center">
-                  <span className="bg-gray-100 p-3 rounded-l-xl border border-r-0 text-gray-500 text-sm">undangin.com/</span>
-                  <input type="text" name="slug" defaultValue={invitation.slug} required placeholder="ayu-phinisi" className="w-full p-3 border rounded-r-xl focus:border-wedding-gold outline-none" />
-                </div>
-                <p className="text-[10px] text-gray-400 mt-1">Hanya huruf kecil dan strip (-).</p>
+              <div className="md:col-span-1">
+                <SlugInput defaultValue={invitation.slug} />
               </div>
               <div className="md:col-span-2">
                 <ThemeSelector defaultValue={invitation.theme} />

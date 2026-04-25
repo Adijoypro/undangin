@@ -113,7 +113,9 @@ export async function publishInvitation(invitationId: string) {
   if (!user) return { success: false };
 
   const { data: profile } = await supabase.from("profiles").select("credits").eq("id", user.id).single();
-  if (!profile || profile.credits < 1) return { success: false };
+  if (!profile || profile.credits < 1) {
+    return { success: false, message: "Kredit tidak cukup. Silakan Top Up terlebih dahulu." };
+  }
 
   const { error: publishError } = await supabase.from("invitations").update({ status: 'published' }).eq("id", invitationId);
   if (!publishError) {

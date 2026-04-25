@@ -70,12 +70,12 @@ const ThemeCatalog = () => {
       <div className="relative group">
         <div 
           ref={scrollRef}
-          className="flex gap-8 overflow-x-auto pb-10 px-4 no-scrollbar snap-x snap-mandatory scroll-smooth"
+          className="flex gap-4 md:gap-6 overflow-x-auto pb-10 px-4 no-scrollbar snap-x snap-mandatory scroll-smooth"
         >
           {themes.map((theme) => (
             <div 
               key={theme.id} 
-              className="w-[200px] sm:w-[280px] md:w-[320px] flex-shrink-0 snap-start"
+              className="w-[220px] sm:w-[280px] lg:w-[calc((100%-4.5rem)/4)] flex-shrink-0 snap-start"
             >
               <motion.div 
                 whileHover={{ y: -8 }}

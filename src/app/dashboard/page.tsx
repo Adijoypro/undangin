@@ -7,6 +7,7 @@ import AdminContactCard from "@/components/dashboard/AdminContactCard";
 import MiniPricingGrid from "@/components/dashboard/MiniPricingGrid";
 import ThemeCatalog from "@/components/dashboard/ThemeCatalog";
 import DashboardShell from "@/components/dashboard/DashboardShell";
+import SuccessNotification from "@/components/dashboard/SuccessNotification";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -48,21 +49,22 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell>
+      <SuccessNotification />
       <header className="bg-white/80 dark:bg-slate-950/80 border-b border-gray-100 dark:border-white/5 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 group">
-              <img src="/logo.png" alt="Logo" className="w-8 h-8 group-hover:rotate-12 transition-transform" />
-              <span className="font-serif font-bold text-xl text-wedding-text dark:text-white">Undangin</span>
+              <img src="/logo.png" alt="Logo" className="w-6 h-6 md:w-8 md:h-8 group-hover:rotate-12 transition-transform" />
+              <span className="font-serif font-bold text-lg md:text-xl text-wedding-text dark:text-white truncate max-w-[100px] md:max-w-none">Undangin</span>
             </Link>
           </div>
           
-          <div className="flex items-center gap-4">
-            <div className="bg-[#FFF9E6] px-4 py-2 rounded-full border border-[#FFE699] flex items-center gap-2">
-              <div className="w-5 h-5 bg-[#D4AF37] rounded-full flex items-center justify-center text-white text-[10px] font-bold italic">B</div>
-              <span className="font-serif font-bold text-[#D4AF37] text-sm">{userCredits} Kredit</span>
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="bg-[#FFF9E6] px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-[#FFE699] flex items-center gap-1.5 md:gap-2">
+              <div className="w-4 h-4 md:w-5 md:h-5 bg-[#D4AF37] rounded-full flex items-center justify-center text-white text-[8px] md:text-[10px] font-bold italic">B</div>
+              <span className="font-serif font-bold text-[#D4AF37] text-xs md:text-sm whitespace-nowrap">{userCredits} <span className="hidden xs:inline">Kredit</span></span>
             </div>
-            <Link href="/dashboard/topup" className="bg-[#111111] hover:bg-black text-white px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all">
+            <Link href="/dashboard/topup" className="bg-[#111111] hover:bg-black text-white px-3 py-1.5 md:px-6 md:py-2 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap">
               Top Up
             </Link>
             <LogoutButton />
@@ -119,7 +121,11 @@ export default async function DashboardPage() {
                     {invitation.theme.replace(/-/g, ' ').toUpperCase()}
                   </span>
                   <div className={invitation.status === 'published' ? '' : 'bg-[#D4AF37] rounded overflow-hidden shadow-sm'}>
-                    <PublishButton invitationId={invitation.id} status={invitation.status} />
+                    <PublishButton 
+                      invitationId={invitation.id} 
+                      status={invitation.status} 
+                      userCredits={userCredits} 
+                    />
                   </div>
                 </div>
                 <h3 className="font-serif text-3xl text-gray-800 mb-2 line-clamp-1">{invitation.bride_name} & {invitation.groom_name}</h3>
@@ -141,14 +147,16 @@ export default async function DashboardPage() {
                 </div>
               </div>
               
-              <a 
-                href={`https://wa.me/?text=${encodeURIComponent(`✨ *UNDANGAN PERNIKAHAN DIGITAL* ✨\n\nTanpa mengurangi rasa hormat, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami:\n\n👰🤵 *${invitation.bride_name} & ${invitation.groom_name}*\n\nInformasi Lengkap & RSVP dapat diakses melalui link di bawah ini:\n\n🔗 https://undangin.com/${invitation.slug}\n\nTerima kasih atas doa dan kehadirannya.`)}`}
-                target="_blank"
-                className="w-full py-3 bg-[#00C853] text-white rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#00E676] transition-all"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.412.001 12.048a11.827 11.827 0 001.578 5.91L0 24l6.102-1.6c1.863.516 3.827.788 5.792.788h.005c6.632 0 12.042-5.412 12.045-12.048a11.82 11.82 0 00-3.526-8.433"/></svg>
-                SHARE WHATSAPP
-              </a>
+                {invitation.status === 'published' && (
+                  <a 
+                    href={`https://wa.me/?text=${encodeURIComponent(`✨ *UNDANGAN PERNIKAHAN DIGITAL* ✨\n\nTanpa mengurangi rasa hormat, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami:\n\n👰🤵 *${invitation.bride_name} & ${invitation.groom_name}*\n\nInformasi Lengkap & RSVP dapat diakses melalui link di bawah ini:\n\n🔗 ${typeof window !== 'undefined' ? window.location.origin : 'https://undangin.com'}/${invitation.slug}\n\nTerima kasih atas doa dan kehadirannya.`)}`}
+                    target="_blank"
+                    className="w-full py-3 bg-[#00C853] text-white rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#00E676] transition-all"
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.412.001 12.048a11.827 11.827 0 001.578 5.91L0 24l6.102-1.6c1.863.516 3.827.788 5.792.788h.005c6.632 0 12.042-5.412 12.045-12.048a11.82 11.82 0 00-3.526-8.433"/></svg>
+                    SHARE WHATSAPP
+                  </a>
+                )}
             </div>
           ))}
         </div>

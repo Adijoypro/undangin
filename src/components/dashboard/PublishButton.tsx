@@ -9,9 +9,10 @@ import ConfirmModal from "../ui/ConfirmModal";
 interface PublishButtonProps {
   invitationId: string;
   status: string;
+  userCredits: number;
 }
 
-export default function PublishButton({ invitationId, status }: PublishButtonProps) {
+export default function PublishButton({ invitationId, status, userCredits }: PublishButtonProps) {
   const [loading, setLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
@@ -60,11 +61,14 @@ export default function PublishButton({ invitationId, status }: PublishButtonPro
       {/* CONFIRM MODAL */}
       <ConfirmModal 
         isOpen={showConfirm}
-        title="Publikasikan Undangan?"
-        message="Tindakan ini akan memotong 1 Kredit dari akun Anda. Undangan akan segera aktif secara publik."
-        onConfirm={handlePublish}
+        title={userCredits < 1 ? "Kredit Tidak Cukup" : "Publikasikan Undangan?"}
+        message={userCredits < 1 
+          ? "Anda membutuhkan 1 Kredit untuk mempublikasikan undangan ini. Silakan Top Up terlebih dahulu." 
+          : "Tindakan ini akan memotong 1 Kredit dari akun Anda. Undangan akan segera aktif secara publik."}
+        onConfirm={userCredits < 1 ? () => setShowConfirm(false) : handlePublish}
         onCancel={() => setShowConfirm(false)}
-        confirmLabel="Ya, Publikasikan"
+        confirmLabel={userCredits < 1 ? "Tutup" : "Ya, Publikasikan"}
+        isDanger={userCredits < 1}
       />
     </>
   );

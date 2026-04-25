@@ -38,49 +38,49 @@ export default async function GuestListPage({ params }: { params: Promise<{ id: 
     <div className="min-h-screen bg-[#FDFBF7] text-gray-800 font-sans pb-24">
       <header className="bg-white/80 border-b border-gray-100 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 md:gap-6">
             <Link href="/dashboard" className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-black hover:text-white transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             </Link>
-            <h1 className="font-serif text-lg font-bold text-gray-900">Data Tamu & RSVP</h1>
+            <h1 className="font-serif text-sm md:text-lg font-bold text-gray-900 truncate max-w-[150px] md:max-w-none">Data Tamu & RSVP</h1>
           </div>
           <LogoutButton />
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-12">
-        <div className="mb-10">
-          <h2 className="text-3xl font-serif font-bold text-gray-900 mb-2">Undangan {invitation.bride_name} & {invitation.groom_name}</h2>
+      <main className="max-w-5xl mx-auto px-4 py-8 md:py-12">
+        <div className="mb-8 md:mb-10">
+          <h2 className="text-xl md:text-3xl font-serif font-bold text-gray-900 mb-2">Undangan {invitation.bride_name} & {invitation.groom_name}</h2>
           <div className="flex gap-4">
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{totalGuests} TOTAL UCAPAN</span>
             <span className="text-[10px] font-bold text-green-600 uppercase tracking-widest">{totalHadir} AKAN HADIR</span>
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-2xl md:rounded-3xl shadow-sm border border-gray-100 overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-100">
-                <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nama Tamu</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Kehadiran</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Pesan / Ucapan</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Aksi</th>
+                <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Nama Tamu</th>
+                <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Kehadiran</th>
+                <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Pesan / Ucapan</th>
+                <th className="px-4 md:px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {guests && guests.length > 0 ? (
                 guests.map((guest) => (
                   <tr key={guest.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-6 font-serif text-lg text-gray-900 font-bold">{guest.name}</td>
-                    <td className="px-6 py-6">
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+                    <td className="px-4 md:px-6 py-4 md:py-6 font-serif text-base md:text-lg text-gray-900 font-bold">{guest.name}</td>
+                    <td className="px-4 md:px-6 py-4 md:py-6">
+                      <span className={`px-2 md:px-3 py-1 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-widest ${
                         guest.attendance === 'Hadir' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'
                       }`}>
                         {guest.attendance}
                       </span>
                     </td>
-                    <td className="px-6 py-6 text-sm text-gray-500 leading-relaxed max-w-md">{guest.message}</td>
-                    <td className="px-6 py-6 text-right">
+                    <td className="px-4 md:px-6 py-4 md:py-6 text-xs md:text-sm text-gray-500 leading-relaxed min-w-[200px] max-w-md">{guest.message}</td>
+                    <td className="px-4 md:px-6 py-4 md:py-6 text-right">
                       <form action={deleteGuestbookEntry}>
                         <input type="hidden" name="entryId" value={guest.id} />
                         <input type="hidden" name="invitationId" value={id} />

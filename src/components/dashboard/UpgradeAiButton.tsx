@@ -83,34 +83,28 @@ export default function UpgradeAiButton({ invitationId, userEmail, userId }: Upg
   };
 
   return (
-    <div className="bg-gradient-to-r from-wedding-gold/20 to-amber-100 p-6 rounded-2xl border border-wedding-gold/30 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-2xl border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
       <div className="flex items-start gap-4">
-        <div className="w-12 h-12 bg-wedding-gold rounded-xl flex items-center justify-center text-white text-2xl shadow-lg">
-          🔒
+        <div className="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center text-white text-2xl shadow-inner">
+          ✨
         </div>
         <div>
-          <h4 className="font-serif text-lg font-bold text-wedding-text">Buka Fitur Premium AI</h4>
+          <div className="flex items-center gap-2 mb-1">
+            <h4 className="font-serif text-lg font-bold text-gray-700">Fitur Premium AI</h4>
+            <span className="px-2 py-0.5 bg-wedding-gold text-white text-[8px] font-black rounded-full uppercase tracking-tighter animate-pulse">Coming Soon</span>
+          </div>
           <p className="text-xs text-gray-500 max-w-sm">
-            Dapatkan akses ke **AI Prewedding Studio** (Ubah foto jadi prewed mewah) & **AI Quote Assistant** hanya dengan sekali bayar.
+            Kami sedang menyiapkan **AI Prewedding Studio** & **AI Quote Assistant** untuk membuat undanganmu semakin istimewa. Nantikan kehadirannya segera!
           </p>
         </div>
       </div>
 
       <div className="flex flex-col gap-2 w-full md:w-auto">
         <button
-          onClick={handleUpgrade}
-          disabled={isLoading}
-          className="px-8 py-3 bg-wedding-gold text-white rounded-xl font-bold text-sm shadow-xl shadow-wedding-gold/20 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+          disabled={true}
+          className="px-8 py-3 bg-gray-300 text-white rounded-xl font-bold text-sm shadow-sm cursor-not-allowed transition-all"
         >
-          {isLoading ? "Memproses..." : "Upgrade Sekarang - Rp 89.000"}
-        </button>
-        
-        {/* TOMBOL BYPASS KHUSUS DEVELOPMENT */}
-        <button
-          onClick={handleBypass}
-          className="text-[10px] text-wedding-gold/60 hover:text-wedding-gold font-bold uppercase tracking-widest transition-colors"
-        >
-          Dev: Lewati Pembayaran (Gratis)
+          Tersedia Segera
         </button>
       </div>
     </div>

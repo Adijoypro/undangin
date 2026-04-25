@@ -9,8 +9,10 @@ import MusicSelector from "@/components/dashboard/MusicSelector";
 import QuoteSection from "@/components/dashboard/QuoteSection";
 import InstantPhotoUpload from "@/components/dashboard/InstantPhotoUpload";
 import AdminContactCard from "@/components/dashboard/AdminContactCard";
+import SlugInput from "@/components/dashboard/SlugInput";
 
-export default async function CreateInvitationPage() {
+export default async function CreateInvitationPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const { error } = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -63,6 +65,21 @@ export default async function CreateInvitationPage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-12">
+        {error && (
+          <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center gap-3 text-red-600">
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="text-xs font-bold uppercase tracking-widest">
+              {error === 'slug_reserved' && "Link (URL) ini tidak boleh digunakan."}
+              {error === 'slug_taken' && "Link (URL) sudah dipakai orang lain. Coba yang lain ya!"}
+              {error === 'db_error' && "Terjadi kesalahan sistem saat menyimpan. Cek kembali data kamu."}
+              {error === 'limit_reached' && "Jatah draft kamu sudah penuh."}
+              {!['slug_reserved', 'slug_taken', 'db_error', 'limit_reached'].includes(error) && "Terjadi kesalahan yang tidak diketahui."}
+            </p>
+          </div>
+        )}
+
         {isLimitReached ? (
           <div className="bg-white p-12 rounded-3xl shadow-sm border border-gray-100 text-center space-y-6">
             <div className="w-20 h-20 bg-[#D4AF37]/10 rounded-full flex items-center justify-center mx-auto">
@@ -98,13 +115,8 @@ export default async function CreateInvitationPage() {
               Pengaturan Dasar
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-xs font-bold text-gray-500 mb-1">Custom Link (URL)</label>
-                <div className="flex items-center">
-                  <span className="bg-gray-100 p-3 rounded-l-xl border border-r-0 text-gray-500 text-sm">undangin.com/</span>
-                  <input type="text" name="slug" required placeholder="link-undangan-anda" className="w-full p-3 border rounded-r-xl focus:border-wedding-gold outline-none" />
-                </div>
-                <p className="text-[10px] text-gray-400 mt-1">Hanya huruf kecil dan strip (-).</p>
+              <div className="md:col-span-1">
+                <SlugInput />
               </div>
               <div className="md:col-span-2">
                 <ThemeSelector />
