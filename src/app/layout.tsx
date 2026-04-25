@@ -9,6 +9,7 @@ const montserrat = Montserrat({ subsets: ["latin"], variable: '--font-sans' });
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"], variable: '--font-display' });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://undanginaja.vercel.app"),
   title: "Undangin - Digital Invitation Platform",
   description: "Premium and Elegant Wedding Invitations",
   icons: {

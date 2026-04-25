@@ -11,6 +11,7 @@ import SuccessNotification from "@/components/dashboard/SuccessNotification";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://undanginaja.vercel.app";
 
   const {
     data: { user },
@@ -149,7 +150,7 @@ export default async function DashboardPage() {
               
                 {invitation.status === 'published' && (
                   <a 
-                    href={`https://wa.me/?text=${encodeURIComponent(`Yth. Bapak/Ibu/Saudara/i,\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Anda untuk hadir dan memberikan doa restu di acara pernikahan kami:\n\n*${invitation.bride_name} & ${invitation.groom_name}*\n\nDetail acara & RSVP dapat dilihat melalui link di bawah ini:\n\n${typeof window !== 'undefined' ? window.location.origin : 'https://undangin.com'}/${invitation.slug}\n\nMerupakan suatu kehormatan bagi kami apabila Anda dapat hadir dan memberikan doa restu. Terima kasih.`)}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(`Yth. Bapak/Ibu/Saudara/i,\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Anda untuk hadir dan memberikan doa restu di acara pernikahan kami:\n\n*${invitation.bride_name} & ${invitation.groom_name}*\n\nKlik link di bawah ini untuk melihat detail acara & RSVP:\n\n${origin}/${invitation.slug}\n\nMerupakan suatu kehormatan bagi kami apabila Anda dapat hadir dan memberikan doa restu. Terima kasih.`)}`}
                     target="_blank"
                     className="w-full py-3 bg-[#00C853] text-white rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#00E676] transition-all"
                   >
