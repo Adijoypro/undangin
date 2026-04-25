@@ -24,10 +24,11 @@ export async function generateMetadata(
 
   const title = `The Wedding of ${data.bride_name} & ${data.groom_name}`;
   const description = data.quote || "Kami mengundang Anda untuk hadir dan memberikan doa restu di hari bahagia kami.";
-  const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://undangin.com";
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || "https://undanginaja.vercel.app";
   const image = data.couple_photo || `${origin}/og-image.png`; 
 
   return {
+    metadataBase: new URL(origin),
     title,
     description,
     openGraph: {
