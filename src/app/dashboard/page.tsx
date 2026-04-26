@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import PublishButton from "@/components/dashboard/PublishButton";
-import LogoutButton from "@/components/dashboard/LogoutButton";
+import UserProfile from "@/components/dashboard/UserProfile";
 import AdminContactCard from "@/components/dashboard/AdminContactCard";
 import MiniPricingGrid from "@/components/dashboard/MiniPricingGrid";
 import ThemeCatalog from "@/components/dashboard/ThemeCatalog";
@@ -65,10 +65,10 @@ export default async function DashboardPage() {
               <div className="w-4 h-4 md:w-5 md:h-5 bg-[#D4AF37] rounded-full flex items-center justify-center text-white text-[8px] md:text-[10px] font-bold italic">B</div>
               <span className="font-serif font-bold text-[#D4AF37] text-xs md:text-sm whitespace-nowrap">{userCredits} <span className="hidden xs:inline">Kredit</span></span>
             </div>
-            <Link href="/dashboard/topup" className="bg-[#111111] hover:bg-black text-white px-3 py-1.5 md:px-6 md:py-2 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap">
+            <Link href="/dashboard/topup" className="hidden sm:flex bg-[#111111] hover:bg-black text-white px-3 py-1.5 md:px-6 md:py-2 rounded-lg text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap">
               Top Up
             </Link>
-            <LogoutButton />
+            <UserProfile user={user} />
           </div>
         </div>
       </header>
