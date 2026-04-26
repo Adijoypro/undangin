@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
@@ -58,7 +59,7 @@ const SHOWCASE_THEMES = [
     desc: "Klasik Eropa dengan ornamen bunga vintage.",
     bgClass: "bg-[#F9F6F0]",
     frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-xl",
-    gradientClass: "bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=60&w=800')] bg-cover bg-center opacity-40 mix-blend-multiply z-0",
+    gradientClass: "bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 mix-blend-multiply z-0",
     extraGradient: "bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10",
     seriesColor: "text-[#7C8C77] uppercase",
     titleClass: "font-display text-5xl text-[#2B2B2B] font-bold",
@@ -145,7 +146,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              <img src="/logo.png" alt="Undangin Logo" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
+              <Image src="/logo.png" alt="Undangin Logo" width={40} height={40} priority className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
               <span className="font-serif text-lg sm:text-2xl font-bold tracking-widest">Undangin</span>
             </div>
             
@@ -407,8 +408,10 @@ export default function LandingPage() {
               className="relative aspect-square md:aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/10"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/20 to-transparent z-10"></div>
-              <img 
-                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=60&w=800" 
+              <Image 
+                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=1200" 
+                width={1200}
+                height={675}
                 className="w-full h-full object-cover grayscale-[20%] hover:scale-105 transition-transform duration-1000 will-change-transform transform-gpu" 
                 alt="Dashboard Preview"
               />
@@ -607,7 +610,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-4 gap-12 mb-20">
             <div className="col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <img src="/logo.png" alt="Undangin Logo" className="w-12 h-12 object-contain" />
+                <Image src="/logo.png" alt="Undangin Logo" width={48} height={48} className="w-12 h-12 object-contain" />
                 <span className={`font-serif text-3xl font-bold tracking-widest ${isDark ? 'text-white' : 'text-black'}`}>Undangin</span>
               </div>
               <p className={`${theme.textMuted} max-w-sm font-light leading-relaxed mb-8`}>
