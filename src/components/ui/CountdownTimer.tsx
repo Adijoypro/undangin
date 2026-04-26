@@ -31,19 +31,21 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
       parsedDateStr = parsedDateStr.replace(month, indonesianMonths[month]);
     });
 
-    const targetTime = new Date(parsedDateStr).getTime();
+    // Enforce WIB (GMT+7) for consistency across browsers
+    const dateWithTimezone = parsedDateStr.includes(":") 
+      ? `${parsedDateStr} GMT+0700` 
+      : `${parsedDateStr} 08:00:00 GMT+0700`;
 
-    // If parsing fails, default to a date 30 days from now
+    const targetTime = new Date(dateWithTimezone).getTime();
     const validTargetTime = isNaN(targetTime) ? new Date().getTime() + 30 * 24 * 60 * 60 * 1000 : targetTime;
 
-    const intervalId = setInterval(() => {
+    const updateTimer = () => {
       const now = new Date().getTime();
       const distance = validTargetTime - now;
 
       if (distance < 0) {
-        clearInterval(intervalId);
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return;
+        return false;
       }
 
       setTimeLeft({
@@ -52,6 +54,16 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
         minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
         seconds: Math.floor((distance % (1000 * 60)) / 1000)
       });
+      return true;
+    };
+
+    // Run once immediately
+    updateTimer();
+
+    const intervalId = setInterval(() => {
+      if (!updateTimer()) {
+        clearInterval(intervalId);
+      }
     }, 1000);
 
     return () => clearInterval(intervalId);
