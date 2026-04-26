@@ -21,6 +21,7 @@ export default async function TopUpPage() {
       name: "Basic Pack",
       credits: 1,
       price: 89000,
+      originalPrice: 150000,
       description: "1 Kredit Undangan Digital. Fitur premium lengkap, aktif selamanya."
     },
     {
@@ -28,14 +29,16 @@ export default async function TopUpPage() {
       name: "Agensi Pack",
       credits: 5,
       price: 349000,
-      description: "Hemat! 5 Kredit Undangan. Cocok untuk Wedding Organizer."
+      originalPrice: 445000,
+      description: "Hemat Gede! 5 Kredit Undangan. Cocok untuk Wedding Organizer."
     },
     {
       id: "pkg_10",
       name: "Enterprise Pack",
       credits: 10,
       price: 649000,
-      description: "Harga terbaik! 10 Kredit untuk bisnis undangan massal Anda."
+      originalPrice: 890000,
+      description: "Harga Terbaik! 10 Kredit untuk bisnis undangan massal Anda."
     }
   ];
 
