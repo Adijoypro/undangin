@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { m as motion, useScroll, useTransform, AnimatePresence, LazyMotion, domMax } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { LuxuryThemeToggle } from "@/components/ui/LuxuryThemeToggle";
@@ -134,7 +134,8 @@ export default function LandingPage() {
   };
 
   return (
-    <div className={`min-h-screen ${theme.bg} ${theme.text} font-sans selection:bg-[#D4AF37] selection:text-black overflow-hidden transition-colors duration-1000`} ref={containerRef}>
+    <LazyMotion features={domMax} strict>
+      <div className={`min-h-screen ${theme.bg} ${theme.text} font-sans selection:bg-[#D4AF37] selection:text-black overflow-hidden transition-colors duration-1000`} ref={containerRef}>
 
       {/* NAVBAR */}
       <motion.nav
@@ -663,6 +664,7 @@ export default function LandingPage() {
           </div>
         </div>
       </motion.footer>
-    </div>
+      </div>
+    </LazyMotion>
   );
 }

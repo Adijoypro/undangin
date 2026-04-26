@@ -3,10 +3,31 @@ import { Cinzel, Great_Vibes, Montserrat, Cormorant_Garamond } from "next/font/g
 import Script from "next/script";
 import "./globals.css";
 
-const cinzel = Cinzel({ subsets: ["latin"], variable: '--font-serif' });
-const greatVibes = Great_Vibes({ subsets: ["latin"], weight: "400", variable: '--font-script' });
-const montserrat = Montserrat({ subsets: ["latin"], variable: '--font-sans' });
-const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"], variable: '--font-display' });
+const cinzel = Cinzel({ 
+  subsets: ["latin"], 
+  variable: '--font-serif',
+  display: 'swap',
+});
+
+const greatVibes = Great_Vibes({ 
+  subsets: ["latin"], 
+  weight: "400", 
+  variable: '--font-script',
+  display: 'swap',
+});
+
+const montserrat = Montserrat({ 
+  subsets: ["latin"], 
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const cormorant = Cormorant_Garamond({ 
+  subsets: ["latin"], 
+  weight: ["300", "400", "700"], 
+  variable: '--font-display',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://undanginaja.vercel.app"),
