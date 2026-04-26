@@ -63,12 +63,12 @@ export default function PublishButton({ invitationId, status, userCredits }: Pub
         isOpen={showConfirm}
         title={userCredits < 1 ? "Kredit Tidak Cukup" : "Publikasikan Undangan?"}
         message={userCredits < 1 
-          ? "Anda membutuhkan 1 Kredit untuk mempublikasikan undangan ini. Silakan Top Up terlebih dahulu." 
+          ? "Anda membutuhkan 1 Kredit untuk mempublikasikan undangan ini. Miliki akses penuh ke semua fitur premium sekarang." 
           : "Tindakan ini akan memotong 1 Kredit dari akun Anda. Undangan akan segera aktif secara publik."}
-        onConfirm={userCredits < 1 ? () => setShowConfirm(false) : handlePublish}
+        onConfirm={userCredits < 1 ? () => router.push("/dashboard/topup") : handlePublish}
         onCancel={() => setShowConfirm(false)}
-        confirmLabel={userCredits < 1 ? "Tutup" : "Ya, Publikasikan"}
-        isDanger={userCredits < 1}
+        confirmLabel={userCredits < 1 ? "Top Up Sekarang 🚀" : "Ya, Publikasikan"}
+        isDanger={false} // Gunakan tema gold/premium daripada merah error
       />
     </>
   );
