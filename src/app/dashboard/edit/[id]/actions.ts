@@ -104,7 +104,7 @@ export async function updateInvitation(formData: FormData) {
   revalidatePath("/dashboard");
   revalidatePath(`/${cleanSlug}`);
   revalidatePath(`/dashboard/edit/${id}`);
-  redirect(`/dashboard/edit/${id}`);
+  redirect(`/dashboard/edit/${id}?updated=true`);
 }
 
 export async function publishInvitation(invitationId: string) {

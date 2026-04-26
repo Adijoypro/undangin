@@ -10,6 +10,8 @@ import QuoteSection from "@/components/dashboard/QuoteSection";
 import InstantPhotoUpload from "@/components/dashboard/InstantPhotoUpload";
 import UpgradeAiButton from "@/components/dashboard/UpgradeAiButton";
 import SlugInput from "@/components/dashboard/SlugInput";
+import SaveNotification from "@/components/dashboard/SaveNotification";
+import { Suspense } from "react";
 
 
 export default async function EditInvitationPage({ params }: { params: Promise<{ id: string }> }) {
@@ -35,6 +37,7 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-gray-800 font-sans pb-24">
+      <Suspense><SaveNotification /></Suspense>
       <header className="bg-white/80 border-b border-gray-100 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
           <div className="flex items-center gap-6">
