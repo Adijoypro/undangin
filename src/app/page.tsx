@@ -481,7 +481,11 @@ export default function LandingPage() {
               transition={{ duration: 0.8 }}
               className={`p-10 rounded-2xl border border-[#D4AF37] ${isDark ? 'bg-gradient-to-b from-[#1a1500] to-black' : 'bg-gradient-to-b from-[#FFFDF5] to-white'} relative shadow-[0_0_50px_rgba(212,175,55,0.1)] transform md:-translate-y-4 transition-colors duration-1000`}
             >
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D4AF37] text-black px-6 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em]">Paling Laris</div>
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                <div className="bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] text-black px-5 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] shadow-[0_10px_20px_rgba(212,175,55,0.4)] border border-white/20 whitespace-nowrap">
+                  Paling Laris
+                </div>
+              </div>
               <h3 className="font-serif text-3xl mb-2 text-[#D4AF37]">Premium</h3>
               <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-10 transition-colors duration-1000`}>Publikasi undangan & fitur lengkap.</p>
               <div className="mb-4 flex items-baseline gap-2">
