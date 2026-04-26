@@ -481,10 +481,14 @@ export default function LandingPage() {
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D4AF37] text-black px-6 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em]">Paling Laris</div>
               <h3 className="font-serif text-3xl mb-2 text-[#D4AF37]">Premium</h3>
               <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} mb-10 transition-colors duration-1000`}>Publikasi undangan & fitur lengkap.</p>
-              <div className="mb-10 flex items-baseline gap-2">
+              <div className="mb-4 flex items-baseline gap-2">
                 <span className="text-sm text-[#D4AF37] font-bold uppercase tracking-widest">Rp</span>
                 <span className="text-5xl font-serif text-[#D4AF37]">89</span>
                 <span className={isDark ? 'text-gray-500' : 'text-gray-400'}>rb</span>
+              </div>
+              <div className="mb-10 flex items-center gap-2">
+                <span className="text-sm text-gray-300 line-through font-medium">Rp 150rb</span>
+                <span className="text-[10px] font-black text-[#D4AF37] uppercase tracking-widest bg-[#D4AF37]/10 px-2 py-0.5 rounded-full">Hemat 40%</span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-1000`}>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 1 Kredit Publikasi / Export</li>
@@ -505,10 +509,14 @@ export default function LandingPage() {
             >
               <h3 className="font-serif text-3xl mb-2">WO / Agensi</h3>
               <p className={`text-sm ${theme.textMuted} mb-10 transition-colors duration-1000`}>Paket hemat untuk profesional.</p>
-              <div className="mb-10 flex items-baseline gap-2">
+              <div className="mb-4 flex items-baseline gap-2">
                 <span className={`text-sm ${theme.textMuted} font-bold uppercase tracking-widest transition-colors duration-1000`}>Rp</span>
                 <span className="text-5xl font-serif">349</span>
                 <span className={theme.textMuted}>rb</span>
+              </div>
+              <div className="mb-10 flex items-center gap-2">
+                <span className="text-sm text-gray-300 line-through font-medium">Rp 445rb</span>
+                <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest bg-blue-500/10 px-2 py-0.5 rounded-full">Hemat Rp 96rb</span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${theme.textMuted} transition-colors duration-1000`}>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 5 Kredit Publikasi</li>
@@ -529,10 +537,14 @@ export default function LandingPage() {
             >
               <h3 className="font-serif text-3xl mb-2">Enterprise</h3>
               <p className={`text-sm ${theme.textMuted} mb-10 transition-colors duration-1000`}>Solusi bisnis skala besar.</p>
-              <div className="mb-10 flex items-baseline gap-2">
+              <div className="mb-4 flex items-baseline gap-2">
                 <span className={`text-sm ${theme.textMuted} font-bold uppercase tracking-widest transition-colors duration-1000`}>Rp</span>
                 <span className="text-5xl font-serif">649</span>
                 <span className={theme.textMuted}>rb</span>
+              </div>
+              <div className="mb-10 flex items-center gap-2">
+                <span className="text-sm text-gray-300 line-through font-medium">Rp 890rb</span>
+                <span className="text-[10px] font-black text-purple-500 uppercase tracking-widest bg-purple-500/10 px-2 py-0.5 rounded-full">Hemat Rp 241rb</span>
               </div>
               <ul className={`space-y-5 mb-10 text-sm ${theme.textMuted} transition-colors duration-1000`}>
                 <li className="flex items-center gap-4"><span className="text-[#D4AF37]">✦</span> 10 Kredit Publikasi</li>
