@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Script from "next/script";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -178,9 +178,6 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
           </div>
         ))}
       </div>
-    </>
-  );
-}
     </>
   );
 }
