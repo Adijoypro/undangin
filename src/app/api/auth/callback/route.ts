@@ -15,6 +15,6 @@ export async function GET(request: Request) {
     }
   }
 
-  // return the user to an error page with instructions
-  return NextResponse.redirect(`${origin}/auth/auth-code-error`);
+  // return the user to login page with error message
+  return NextResponse.redirect(`${origin}/login?message=Gagal melakukan autentikasi sosial.`);
 }
