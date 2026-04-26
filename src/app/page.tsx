@@ -185,71 +185,107 @@ export default function LandingPage() {
       </motion.nav>
 
       {/* HERO SECTION */}
-      <section className="relative pt-40 pb-32 px-4 min-h-screen flex items-center justify-center">
+      <section className="relative pt-40 pb-32 px-4 min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Animated Silk Background */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.3, 0.1] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className={`absolute top-1/4 -left-1/4 w-[300px] h-[300px] sm:w-[800px] sm:h-[800px] rounded-full ${isDark ? 'bg-[#D4AF37]/10' : 'bg-[#D4AF37]/20'} blur-[40px] sm:blur-[80px] pointer-events-none transition-colors duration-1000 will-change-transform transform-gpu`}
-        />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-          className={`absolute bottom-0 right-0 w-[250px] h-[250px] sm:w-[600px] sm:h-[600px] rounded-full ${isDark ? 'bg-white/5' : 'bg-[#D4AF37]/10'} blur-[30px] sm:blur-[60px] pointer-events-none transition-colors duration-1000 will-change-transform transform-gpu`}
-        />
-
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          variants={staggerContainer}
-          initial="hidden"
-          animate="show"
-          className="max-w-5xl mx-auto text-center relative z-10"
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.8 }}
+          transition={{ duration: 2, ease: "easeOut" }}
+          className="absolute inset-0 z-0"
         >
-          <motion.div variants={fadeInUp} className={`inline-flex items-center gap-2 px-6 py-2 rounded-full border border-[#D4AF37]/30 ${isDark ? 'bg-[#D4AF37]/5' : 'bg-white'} text-[#D4AF37] text-xs font-bold uppercase tracking-widest mb-10 backdrop-blur-md shadow-lg`}>
-            <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse shadow-[0_0_10px_#D4AF37]"></span>
-            Platform SaaS Undangan Premium
-          </motion.div>
-
-          <motion.h1 variants={fadeInUp} className="text-6xl md:text-9xl font-serif font-bold tracking-tighter mb-8 leading-[0.9]">
-            Undangan Digital <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-white to-[#D4AF37] bg-[length:200%_auto] animate-gradient-x italic">
-              Mahakarya
-            </span>
-          </motion.h1>
-
-          <motion.p variants={fadeInUp} className={`text-lg md:text-2xl ${theme.textMuted} mb-12 max-w-3xl mx-auto font-light leading-relaxed transition-colors duration-1000`}>
-            Standar baru industri pernikahan. Desain sinematik eksklusif, animasi <span className={theme.text}>jaw-dropping</span>, dan manajemen tamu cerdas untuk menyempurnakan hari bahagia Anda.
-          </motion.p>
-
-          <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link href={user ? "/dashboard" : "/login"} className="w-full sm:w-auto">
-              <motion.button
-                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(212, 175, 55, 0.4)" }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full px-10 py-5 bg-gradient-to-r from-[#D4AF37] to-[#B8962E] text-white rounded-full font-bold text-lg shadow-xl shadow-[#D4AF37]/20 flex items-center justify-center gap-3 group relative overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-                <span>Buat Undangan Gratis</span>
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-              </motion.button>
-            </Link>
-            
-            <a href="#template" className="w-full sm:w-auto">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`w-full px-10 py-5 backdrop-blur-md border rounded-full font-bold text-lg transition-all flex items-center justify-center gap-3 shadow-lg ${
-                  isDark 
-                  ? 'bg-white/10 border-white/20 text-white hover:bg-white/20' 
-                  : 'bg-black/5 border-black/10 text-black hover:bg-black/10'
-                }`}
-              >
-                <span>Lihat Koleksi Tema</span>
-              </motion.button>
-            </a>
-          </motion.div>
+          <Image
+            src="/hero-silk.png"
+            alt="Luxury Background"
+            fill
+            className="object-cover transition-colors duration-1000 transform-gpu"
+            priority
+            quality={100}
+          />
+          {/* Subtle Overlay to ensure text readability */}
+          <div className={`absolute inset-0 ${isDark ? 'bg-black/40' : 'bg-white/10'} backdrop-blur-[2px] transition-colors duration-1000`} />
         </motion.div>
+
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
+          <motion.div
+            style={{ y: heroY, opacity: heroOpacity }}
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+            className="flex-1 text-left"
+          >
+            <motion.div variants={fadeInUp} className={`inline-flex items-center gap-2 px-6 py-2 rounded-full border border-[#D4AF37]/30 ${isDark ? 'bg-[#D4AF37]/5' : 'bg-white'} text-[#D4AF37] text-xs font-bold uppercase tracking-[0.3em] mb-10 backdrop-blur-md shadow-lg`}>
+              <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse shadow-[0_0_10px_#D4AF37]"></span>
+              Mahakarya Undangan Digital
+            </motion.div>
+
+            <motion.h1 variants={fadeInUp} className="text-6xl md:text-8xl font-serif font-bold tracking-tighter mb-8 leading-[1]">
+              Pesta Anda <br />
+              Dimulai di <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] bg-[length:200%_auto] animate-gradient-x italic">
+                Undangin
+              </span>
+            </motion.h1>
+
+            <motion.p variants={fadeInUp} className={`text-lg md:text-xl ${theme.textMuted} mb-12 max-w-xl font-light leading-relaxed transition-colors duration-1000`}>
+              Standar baru industri pernikahan. Desain sinematik eksklusif, animasi <span className={theme.text}>jaw-dropping</span>, dan manajemen tamu cerdas untuk menyempurnakan hari bahagia Anda.
+            </motion.p>
+
+            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center gap-6">
+              <Link href={user ? "/dashboard" : "/login"} className="w-full sm:w-auto">
+                <motion.button
+                  whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(212, 175, 55, 0.4)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-full px-10 py-5 bg-gradient-to-r from-[#D4AF37] to-[#B8962E] text-white rounded-full font-bold text-lg shadow-xl shadow-[#D4AF37]/20 flex items-center justify-center gap-3 group relative overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                  <span>Mulai Sekarang</span>
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </motion.button>
+              </Link>
+              
+              <a href="#template" className="w-full sm:w-auto">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`w-full px-10 py-5 backdrop-blur-md border rounded-full font-bold text-lg transition-all flex items-center justify-center gap-3 shadow-lg ${
+                    isDark 
+                    ? 'bg-white/10 border-white/20 text-white hover:bg-white/20' 
+                    : 'bg-black/5 border-black/10 text-black hover:bg-black/10'
+                  }`}
+                >
+                  <span>Lihat Koleksi</span>
+                </motion.button>
+              </a>
+            </motion.div>
+          </motion.div>
+
+          {/* Smartphone Mockup Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 100, rotate: 5 }}
+            animate={{ opacity: 1, x: 0, rotate: 0 }}
+            transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
+            className="flex-1 hidden lg:block relative"
+          >
+            <div className="relative w-[320px] h-[650px] mx-auto group">
+              {/* iPhone Frame Glow */}
+              <div className="absolute -inset-4 bg-gradient-to-tr from-[#D4AF37]/30 to-transparent blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-1000"></div>
+              
+              <div className="relative w-full h-full border-[8px] border-[#1a1a1a] rounded-[3rem] overflow-hidden shadow-2xl">
+                <Image
+                  src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1200"
+                  alt="Invitation Preview"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-[10s]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                <div className="absolute bottom-10 left-0 right-0 text-center text-white px-6">
+                  <p className="font-script text-3xl mb-2">Aditya & Sarah</p>
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-[#D4AF37]">The Royal Wedding</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* LUXURY FEATURES */}
