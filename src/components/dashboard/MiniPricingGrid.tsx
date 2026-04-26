@@ -10,12 +10,14 @@ export default function MiniPricingGrid() {
       name: "Premium", 
       credits: "1 Kredit", 
       price: "89rb", 
+      originalPrice: "150rb",
       desc: "Satu undangan premium.", 
       icon: "✨",
       color: "from-amber-500/20 via-wedding-gold/10 to-transparent",
       border: "border-wedding-gold",
       accent: "text-wedding-gold",
       isPopular: true,
+      badge: "BEST SELLER",
       save: null
     },
     { 
@@ -23,26 +25,30 @@ export default function MiniPricingGrid() {
       name: "Agensi", 
       credits: "5 Kredit", 
       price: "349rb", 
+      originalPrice: "445rb",
       desc: "Hemat untuk bisnis WO.", 
       icon: "💼",
       color: "from-blue-500/10 via-indigo-500/5 to-transparent",
       border: "border-blue-200",
       accent: "text-blue-600",
       isPopular: false,
-      save: "Hemat 20%"
+      badge: "HEMAT 20%",
+      save: "Hemat Rp 96rb"
     },
     { 
       id: "pkg_10", 
       name: "Enterprise", 
       credits: "10 Kredit", 
       price: "649rb", 
+      originalPrice: "890rb",
       desc: "Solusi undangan massal.", 
       icon: "👑",
       color: "from-purple-500/10 via-fuchsia-500/5 to-transparent",
       border: "border-purple-200",
       accent: "text-purple-600",
       isPopular: false,
-      save: "Hemat 27%"
+      badge: "BEST VALUE",
+      save: "Hemat Rp 241rb"
     }
   ];
 
@@ -82,14 +88,9 @@ export default function MiniPricingGrid() {
                       {pkg.icon}
                     </div>
                     <div className="flex flex-col items-end gap-1">
-                      {pkg.isPopular && (
-                        <span className="text-[8px] font-black uppercase tracking-widest text-wedding-gold">
-                          POPULER
-                        </span>
-                      )}
-                      {pkg.save && (
-                        <span className="text-[8px] font-black uppercase tracking-widest text-gray-400">
-                          {pkg.save}
+                      {pkg.badge && (
+                        <span className={`text-[7px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${pkg.isPopular ? 'bg-wedding-gold text-white' : 'bg-gray-100 text-gray-400'}`}>
+                          {pkg.badge}
                         </span>
                       )}
                     </div>
@@ -101,10 +102,16 @@ export default function MiniPricingGrid() {
                   <p className="text-[10px] text-gray-400 font-medium mb-4 uppercase tracking-wider">{pkg.desc}</p>
                 </div>
 
-                <div className="relative pt-4 flex items-end justify-between">
+                <div className="relative pt-4 flex items-end justify-between border-t border-gray-50 mt-4">
                   <div>
-                    <p className="text-[10px] text-gray-400 uppercase tracking-widest font-black">{pkg.credits}</p>
-                    <p className={`text-2xl font-serif font-bold text-gray-900 group-hover:text-wedding-gold transition-colors`}>Rp {pkg.price}</p>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-widest font-black flex items-center gap-2">
+                      {pkg.credits}
+                      {pkg.save && <span className="text-[#D4AF37] lowercase font-bold">({pkg.save})</span>}
+                    </p>
+                    <div className="flex items-baseline gap-2">
+                      <p className="text-2xl font-serif font-bold text-gray-900 group-hover:text-wedding-gold transition-colors">Rp {pkg.price}</p>
+                      <p className="text-xs text-gray-300 line-through font-medium">Rp {pkg.originalPrice}</p>
+                    </div>
                   </div>
                   <div className="bg-[#111111] text-white p-2 rounded-lg group-hover:scale-110 transition-transform shadow-lg">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
