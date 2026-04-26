@@ -112,7 +112,10 @@ export default function LandingPage() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.2 }
+      transition: { 
+        staggerChildren: 0.15,
+        delayChildren: 0.4 
+      }
     }
   };
 
@@ -141,8 +144,8 @@ export default function LandingPage() {
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className={`fixed w-full z-50 ${theme.navBg} backdrop-blur-xl border-b ${theme.border} transition-colors duration-1000`}
+        transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
+        className={`fixed w-full z-50 ${theme.navBg} backdrop-blur-xl border-b ${theme.border} transition-colors duration-1000 transform-gpu`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
@@ -184,13 +187,15 @@ export default function LandingPage() {
       {/* HERO SECTION */}
       <section className="relative pt-40 pb-32 px-4 min-h-screen flex items-center justify-center">
         <motion.div
-          animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          initial={{ opacity: 0 }}
+          animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.3, 0.1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           className={`absolute top-1/4 -left-1/4 w-[300px] h-[300px] sm:w-[800px] sm:h-[800px] rounded-full ${isDark ? 'bg-[#D4AF37]/10' : 'bg-[#D4AF37]/20'} blur-[40px] sm:blur-[80px] pointer-events-none transition-colors duration-1000 will-change-transform transform-gpu`}
         />
         <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          initial={{ opacity: 0 }}
+          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
           className={`absolute bottom-0 right-0 w-[250px] h-[250px] sm:w-[600px] sm:h-[600px] rounded-full ${isDark ? 'bg-white/5' : 'bg-[#D4AF37]/10'} blur-[30px] sm:blur-[60px] pointer-events-none transition-colors duration-1000 will-change-transform transform-gpu`}
         />
 
