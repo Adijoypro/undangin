@@ -195,18 +195,27 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 relative">
-      {isPending && (
-        <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center rounded-2xl">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-wedding-gold"></div>
-        </div>
-      )}
-      {/* Hidden Fields Removed as they are handled manually in state */}
+      <AnimatePresence>
+        {isPending && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-wedding-base/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-2xl"
+          >
+            <div className="flex flex-col items-center gap-4">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-wedding-gold"></div>
+              <p className="text-[10px] font-bold text-wedding-gold uppercase tracking-widest">Sedang Menyimpan...</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Progress Indicator & Quick Save */}
-      <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-gray-100 mb-6 md:mb-8 sticky top-2 z-40 backdrop-blur-sm bg-white/90 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="bg-wedding-base p-4 md:p-6 rounded-2xl shadow-xl border border-wedding-gold/10 mb-6 md:mb-8 sticky top-2 z-40 backdrop-blur-md bg-wedding-base/90 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-500">
         <div className="w-full md:w-auto">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-widest">Langkah {step} / {totalSteps}</span>
+            <span className="text-[10px] md:text-xs font-bold text-wedding-text/40 uppercase tracking-widest">Langkah {step} / {totalSteps}</span>
             <span className="text-[10px] md:text-xs font-bold text-wedding-gold uppercase tracking-widest truncate ml-2">
               {step === 1 && "Pengaturan"}
               {step === 2 && "Mempelai"}
@@ -215,18 +224,19 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
               {step === 5 && "Kado"}
             </span>
           </div>
-          <div className="h-1.5 md:h-2 bg-gray-100 rounded-full overflow-hidden w-full md:w-64">
+          <div className="h-1.5 md:h-2 bg-wedding-text/5 rounded-full overflow-hidden w-full md:w-64">
             <motion.div 
               className="h-full bg-wedding-gold"
               initial={{ width: "20%" }}
               animate={{ width: `${(step / totalSteps) * 100}%` }}
+              transition={{ duration: 0.5, ease: "circOut" }}
             />
           </div>
         </div>
         
         <button 
           type="submit"
-          className="w-full md:w-auto px-6 py-2.5 bg-black text-white text-xs font-bold rounded-xl hover:bg-gray-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-gray-200"
+          className="w-full md:w-auto px-6 py-2.5 bg-wedding-text text-wedding-base text-xs font-bold rounded-xl hover:opacity-80 transition-all flex items-center justify-center gap-2 shadow-lg"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
           Simpan Perubahan
@@ -241,12 +251,12 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100"
+            className="space-y-8"
           >
-            <h2 className="font-serif text-2xl mb-8 text-gray-900 flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <span className="w-8 h-8 bg-wedding-gold/10 rounded-lg flex items-center justify-center text-sm font-bold text-wedding-gold">01</span>
-              Pengaturan Dasar
-            </h2>
+              <h2 className="font-serif text-2xl text-wedding-text">Pengaturan Dasar</h2>
+            </div>
             <div className="grid gap-8">
               <SlugInput defaultValue={formData.slug} onChange={(val) => updateField("slug", val)} />
               <ThemeSelector defaultValue={formData.theme} onChange={(val) => updateField("theme", val)} />
@@ -261,30 +271,30 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100"
+            className="space-y-8"
           >
-            <h2 className="font-serif text-2xl mb-8 text-gray-900 flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <span className="w-8 h-8 bg-wedding-gold/10 rounded-lg flex items-center justify-center text-sm font-bold text-wedding-gold">02</span>
-              Data Mempelai
-            </h2>
+              <h2 className="font-serif text-2xl text-wedding-text">Data Mempelai</h2>
+            </div>
             <div className="grid md:grid-cols-2 gap-10">
               {/* Bride */}
               <div className="space-y-4">
-                <h3 className="font-bold text-sm uppercase tracking-widest text-wedding-sage">Mempelai Wanita</h3>
-                <input type="text" value={formData.bride_name} onChange={(e) => updateField("bride_name", e.target.value)} required placeholder="Nama Panggilan" className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold" />
-                <input type="text" value={formData.bride_fullname} onChange={(e) => updateField("bride_fullname", e.target.value)} required placeholder="Nama Lengkap" className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold" />
-                <input type="text" value={formData.bride_father} onChange={(e) => updateField("bride_father", e.target.value)} placeholder="Nama Ayah" className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold" />
-                <input type="text" value={formData.bride_mother} onChange={(e) => updateField("bride_mother", e.target.value)} placeholder="Nama Ibu" className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold" />
+                <h3 className="font-bold text-sm uppercase tracking-widest text-wedding-gold">Mempelai Wanita</h3>
+                <input type="text" value={formData.bride_name} onChange={(e) => updateField("bride_name", e.target.value)} required placeholder="Nama Panggilan" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
+                <input type="text" value={formData.bride_fullname} onChange={(e) => updateField("bride_fullname", e.target.value)} required placeholder="Nama Lengkap" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
+                <input type="text" value={formData.bride_father} onChange={(e) => updateField("bride_father", e.target.value)} placeholder="Nama Ayah" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
+                <input type="text" value={formData.bride_mother} onChange={(e) => updateField("bride_mother", e.target.value)} placeholder="Nama Ibu" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
                 <InstantPhotoUpload label="Foto Mempelai Wanita" name="bride_photo_input" initialPhotoUrl={formData.bride_photo} onUpload={(url) => updateField("bride_photo", url)} accentColor="sage" />
               </div>
 
               {/* Groom */}
               <div className="space-y-4">
                 <h3 className="font-bold text-sm uppercase tracking-widest text-wedding-gold">Mempelai Pria</h3>
-                <input type="text" value={formData.groom_name} onChange={(e) => updateField("groom_name", e.target.value)} required placeholder="Nama Panggilan" className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold" />
-                <input type="text" value={formData.groom_fullname} onChange={(e) => updateField("groom_fullname", e.target.value)} required placeholder="Nama Lengkap" className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold" />
-                <input type="text" value={formData.groom_father} onChange={(e) => updateField("groom_father", e.target.value)} placeholder="Nama Ayah" className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold" />
-                <input type="text" value={formData.groom_mother} onChange={(e) => updateField("groom_mother", e.target.value)} placeholder="Nama Ibu" className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold" />
+                <input type="text" value={formData.groom_name} onChange={(e) => updateField("groom_name", e.target.value)} required placeholder="Nama Panggilan" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
+                <input type="text" value={formData.groom_fullname} onChange={(e) => updateField("groom_fullname", e.target.value)} required placeholder="Nama Lengkap" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
+                <input type="text" value={formData.groom_father} onChange={(e) => updateField("groom_father", e.target.value)} placeholder="Nama Ayah" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
+                <input type="text" value={formData.groom_mother} onChange={(e) => updateField("groom_mother", e.target.value)} placeholder="Nama Ibu" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
                 <InstantPhotoUpload label="Foto Mempelai Pria" name="groom_photo_input" initialPhotoUrl={formData.groom_photo} onUpload={(url) => updateField("groom_photo", url)} accentColor="gold" />
               </div>
             </div>
@@ -301,28 +311,28 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100"
+            className="space-y-8"
           >
-            <h2 className="font-serif text-2xl mb-8 text-gray-900 flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <span className="w-8 h-8 bg-wedding-gold/10 rounded-lg flex items-center justify-center text-sm font-bold text-wedding-gold">03</span>
-              Detail Acara
-            </h2>
+              <h2 className="font-serif text-2xl text-wedding-text">Detail Acara</h2>
+            </div>
             
             <div className="grid md:grid-cols-2 gap-10">
               <div className="space-y-6">
                   {/* ALTERNATIF PALING AKURAT */}
-                  <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100 mb-6">
-                    <label className="block text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2 flex items-center gap-2">
+                  <div className="bg-blue-500/10 p-4 rounded-2xl border border-blue-500/20 mb-6">
+                    <label className="block text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-2 flex items-center gap-2">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                       Cara Paling Akurat (Opsional)
                     </label>
-                    <p className="text-[10px] text-blue-500 mb-3 leading-relaxed font-medium">
+                    <p className="text-[10px] text-blue-500/60 mb-3 leading-relaxed font-medium">
                       Buka Google Maps &gt; Share &gt; Copy Link, lalu tempel di sini:
                     </p>
                     <input 
                       type="url"
                       placeholder="Tempel link Google Maps di sini..."
-                      className="w-full px-4 py-3 bg-white border border-blue-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none transition-all shadow-sm"
+                      className="w-full px-4 py-3 bg-wedding-base border border-blue-500/20 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none transition-all shadow-sm text-wedding-text"
                       onChange={(e) => handleMapsLinkPaste(e.target.value)}
                     />
                   </div>
@@ -335,14 +345,14 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
                         value={locationSearch}
                         onChange={(e) => setLocationSearch(e.target.value)}
                         placeholder="Nama gedung/lokasi..." 
-                        className="flex-1 p-3 border border-wedding-gold/20 rounded-xl outline-none focus:border-wedding-gold bg-white text-sm"
+                        className="flex-1 p-3 border border-wedding-gold/20 rounded-xl outline-none focus:border-wedding-gold bg-wedding-base text-wedding-text text-sm"
                         onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), searchLocation())}
                       />
                       <button 
                         type="button"
                         onClick={searchLocation}
                         disabled={isSearching}
-                        className="px-6 py-3 bg-wedding-gold text-white rounded-xl font-bold hover:bg-wedding-gold/90 transition-all disabled:opacity-50 text-xs"
+                        className="px-6 py-3 bg-wedding-gold text-black rounded-xl font-bold hover:opacity-80 transition-all disabled:opacity-50 text-xs"
                       >
                         {isSearching ? "..." : "Cari"}
                       </button>
@@ -369,8 +379,8 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
                       }}
                       className={`w-full py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
                         isLocationConfirmed 
-                          ? "bg-green-500 text-white shadow-lg shadow-green-100" 
-                          : "bg-black text-white hover:bg-gray-800"
+                          ? "bg-green-500 text-white shadow-lg" 
+                          : "bg-wedding-text text-wedding-base hover:opacity-80"
                       }`}
                     >
                       {isLocationConfirmed ? (
@@ -396,32 +406,32 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-gray-500 mb-1">Tanggal Acara</label>
-                      <input type="date" value={formData.event_date} onChange={(e) => updateField("event_date", e.target.value)} required className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold text-sm" />
+                      <label className="block text-xs font-bold text-wedding-text/40 mb-1">Tanggal Acara</label>
+                      <input type="date" value={formData.event_date} onChange={(e) => updateField("event_date", e.target.value)} required className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text text-sm transition-all" />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-gray-500 mb-1">Waktu Mulai</label>
-                      <input type="time" value={formData.event_time} onChange={(e) => updateField("event_time", e.target.value)} required className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold text-sm" />
+                      <label className="block text-xs font-bold text-wedding-text/40 mb-1">Waktu Mulai</label>
+                      <input type="time" value={formData.event_time} onChange={(e) => updateField("event_time", e.target.value)} required className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text text-sm transition-all" />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 mb-1">Nama Gedung/Lokasi</label>
-                    <input type="text" value={formData.event_location} onChange={(e) => updateField("event_location", e.target.value)} required placeholder="Hotel Mulia Senayan" className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold text-sm" />
+                    <label className="block text-xs font-bold text-wedding-text/40 mb-1">Nama Gedung/Lokasi</label>
+                    <input type="text" value={formData.event_location} onChange={(e) => updateField("event_location", e.target.value)} required placeholder="Hotel Mulia Senayan" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text text-sm transition-all" />
                   </div>
                 </div>
               </div>
 
               <div className="space-y-6">
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 mb-1">Alamat Lengkap</label>
-                  <textarea value={formData.event_address} onChange={(e) => updateField("event_address", e.target.value)} rows={4} required placeholder="Jl. Asia Afrika Senayan..." className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold text-sm"></textarea>
+                  <label className="block text-xs font-bold text-wedding-text/40 mb-1">Alamat Lengkap</label>
+                  <textarea value={formData.event_address} onChange={(e) => updateField("event_address", e.target.value)} rows={4} required placeholder="Jl. Asia Afrika Senayan..." className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text text-sm transition-all"></textarea>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 mb-1">Link Google Maps (Terisi Otomatis)</label>
-                  <input type="url" value={formData.maps_link} onChange={(e) => updateField("maps_link", e.target.value)} required placeholder="https://maps.google.com/..." className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold text-sm bg-gray-50" readOnly />
+                  <label className="block text-xs font-bold text-wedding-text/40 mb-1">Link Google Maps (Terisi Otomatis)</label>
+                  <input type="url" value={formData.maps_link} onChange={(e) => updateField("maps_link", e.target.value)} required placeholder="https://maps.google.com/..." className="w-full p-4 bg-wedding-text/[0.05] border border-wedding-gold/10 rounded-xl outline-none text-wedding-text/40 text-sm cursor-not-allowed" readOnly />
                 </div>
-                <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
-                  <p className="text-[10px] text-blue-600 leading-relaxed italic">
+                <div className="p-4 bg-blue-500/10 rounded-xl border border-blue-500/20">
+                  <p className="text-[10px] text-blue-500 leading-relaxed italic">
                     <strong>Tip:</strong> Gunakan peta di samping untuk menentukan titik koordinat yang lebih akurat jika pencarian alamat tidak tepat sasaran.
                   </p>
                 </div>
@@ -437,12 +447,12 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100"
+            className="space-y-8"
           >
-            <h2 className="font-serif text-2xl mb-8 text-gray-900 flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <span className="w-8 h-8 bg-wedding-gold/10 rounded-lg flex items-center justify-center text-sm font-bold text-wedding-gold">04</span>
-              Love Story
-            </h2>
+              <h2 className="font-serif text-2xl text-wedding-text">Love Story</h2>
+            </div>
             <LoveStorySection 
               initialStories={formData.love_story} 
               onChange={(val) => updateField("love_story", val)} 
@@ -457,12 +467,12 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100"
+            className="space-y-8"
           >
-            <h2 className="font-serif text-2xl mb-8 text-gray-900 flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <span className="w-8 h-8 bg-wedding-gold/10 rounded-lg flex items-center justify-center text-sm font-bold text-wedding-gold">05</span>
-              Quote & Digital Gift
-            </h2>
+              <h2 className="font-serif text-2xl text-wedding-text">Quote & Digital Gift</h2>
+            </div>
             <div className="space-y-8">
               <QuoteSection 
                 initialQuote={formData.quote || "Dan di antara tanda-tanda kebesaran-Nya..."} 
@@ -473,22 +483,22 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
               />
               
               <div className="space-y-4">
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest">Lagu Latar Belakang</label>
+                <label className="block text-xs font-bold text-wedding-text/40 uppercase tracking-widest">Lagu Latar Belakang</label>
                 <MusicSelector currentMusicUrl={formData.music_url} onChange={(val) => updateField("music_url", val)} />
               </div>
 
-              <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Informasi Hadiah Digital</label>
+              <div className="bg-wedding-text/[0.03] p-6 rounded-2xl border border-wedding-gold/10">
+                <label className="block text-xs font-bold text-wedding-text/40 uppercase tracking-widest mb-4">Informasi Hadiah Digital</label>
                 <div className="grid md:grid-cols-3 gap-4">
-                  <input type="text" value={formData.bank_name} onChange={(e) => updateField("bank_name", e.target.value)} placeholder="BCA" className="p-3 border rounded-xl outline-none focus:border-wedding-gold" />
-                  <input type="text" value={formData.account_number} onChange={(e) => updateField("account_number", e.target.value)} placeholder="No. Rekening" className="p-3 border rounded-xl outline-none focus:border-wedding-gold" />
-                  <input type="text" value={formData.account_name} onChange={(e) => updateField("account_name", e.target.value)} placeholder="Atas Nama" className="p-3 border rounded-xl outline-none focus:border-wedding-gold" />
+                  <input type="text" value={formData.bank_name} onChange={(e) => updateField("bank_name", e.target.value)} placeholder="BCA" className="p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text" />
+                  <input type="text" value={formData.account_number} onChange={(e) => updateField("account_number", e.target.value)} placeholder="No. Rekening" className="p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text" />
+                  <input type="text" value={formData.account_name} onChange={(e) => updateField("account_name", e.target.value)} placeholder="Atas Nama" className="p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text" />
                 </div>
               </div>
 
               <div className="space-y-4">
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest">Turut Mengundang</label>
-                <textarea value={formData.turut_mengundang} onChange={(e) => updateField("turut_mengundang", e.target.value)} rows={3} placeholder="Kel. Besar Bpk. Ahmad, Sahabat SMP 1..." className="w-full p-3 border rounded-xl outline-none focus:border-wedding-gold"></textarea>
+                <label className="block text-xs font-bold text-wedding-text/40 uppercase tracking-widest">Turut Mengundang</label>
+                <textarea value={formData.turut_mengundang} onChange={(e) => updateField("turut_mengundang", e.target.value)} rows={3} placeholder="Kel. Besar Bpk. Ahmad, Sahabat SMP 1..." className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text"></textarea>
               </div>
 
               <SubmitButton 
@@ -506,7 +516,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
           type="button"
           onClick={prevStep}
           disabled={step === 1}
-          className="px-6 md:px-8 py-3 md:py-4 bg-white border border-gray-200 text-gray-600 rounded-xl font-bold hover:bg-gray-50 transition-all disabled:opacity-0 text-sm"
+          className="px-6 md:px-8 py-3 md:py-4 bg-wedding-base border border-wedding-gold/10 text-wedding-text/60 rounded-xl font-bold hover:bg-wedding-text hover:text-wedding-base transition-all disabled:opacity-0 text-sm"
         >
           Kembali
         </button>
@@ -514,7 +524,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
           <button
             type="button"
             onClick={nextStep}
-            className="px-8 md:px-12 py-3 md:py-4 bg-wedding-gold text-white rounded-xl font-bold shadow-lg hover:scale-105 active:scale-95 transition-all text-sm"
+            className="px-8 md:px-12 py-3 md:py-4 bg-wedding-gold text-black rounded-xl font-bold shadow-lg hover:opacity-80 active:scale-95 transition-all text-sm"
           >
             Lanjut
           </button>
