@@ -13,7 +13,7 @@ export default function LandingNavbar({ user, isDark }: { user: any; isDark: boo
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: "easeOut" }}
+      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed w-full z-50 ${navBg} backdrop-blur-xl border-b ${border} transform-gpu`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
