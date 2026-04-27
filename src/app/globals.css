@@ -14,7 +14,7 @@
   --font-serif: 'Cinzel', serif;
   --font-script: 'Great Vibes', cursive;
 
-  --dark-mode: selector;
+  --dark-mode: selector(.dark);
 }
 
 :root {

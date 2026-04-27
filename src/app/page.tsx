@@ -11,7 +11,7 @@ export default async function LandingPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-black dark:bg-slate-950 dark:text-white font-sans selection:bg-[#D4AF37] selection:text-black overflow-x-hidden transition-colors duration-500">
+    <div className="min-h-screen bg-wedding-base text-wedding-text font-sans selection:bg-[#D4AF37] selection:text-black overflow-x-hidden transition-colors duration-500">
       <LandingNavbar user={user} />
       
       <main>
@@ -24,15 +24,15 @@ export default async function LandingPage() {
         <PricingSection user={user} />
         
         {/* Call to Action */}
-        <section className="py-32 px-4 relative overflow-hidden text-center border-t border-black/5 dark:border-white/5">
-          <div className="absolute inset-0 bg-[#D4AF37] opacity-5"></div>
+        <section className="py-32 px-4 relative overflow-hidden text-center border-t border-wedding-gold/10">
+          <div className="absolute inset-0 bg-wedding-gold opacity-5"></div>
           <div className="max-w-4xl mx-auto relative z-10">
             <h2 className="font-serif text-5xl md:text-7xl mb-8">Siap Mengukir Sejarah?</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 font-light">
+            <p className="text-xl text-wedding-text/70 mb-12 font-light">
               Buat mahakarya undangan digital Anda hari ini.
             </p>
             <a href={user ? "/dashboard" : "/login"}>
-              <button className="px-12 py-5 bg-gradient-to-r from-[#D4AF37] to-[#B8962E] text-white rounded-full font-bold text-xl shadow-2xl hover:scale-105 transition-all">
+              <button className="px-12 py-5 bg-gradient-to-r from-wedding-gold to-[#B8962E] text-white rounded-full font-bold text-xl shadow-2xl hover:scale-105 transition-all">
                 Mulai Sekarang
               </button>
             </a>

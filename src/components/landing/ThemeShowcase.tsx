@@ -108,8 +108,8 @@ function ThemeCard({ t, index }: { t: typeof SHOWCASE_THEMES[0], index: number }
         </div>
       </div>
       <div className="mt-8 text-center">
-        <h4 className="font-serif text-2xl font-bold mb-2">{t.name}</h4>
-        <p className="text-sm text-gray-600 dark:text-gray-400">{t.desc}</p>
+        <h4 className="font-serif text-2xl font-bold mb-2 text-wedding-text">{t.name}</h4>
+        <p className="text-sm text-wedding-text/60">{t.desc}</p>
       </div>
     </div>
   );
@@ -119,11 +119,11 @@ export default function ThemeShowcase() {
   const [sliderPaused, setSliderPaused] = useState(false);
 
   return (
-    <section id="template" className="py-32 px-4 border-t border-black/10 dark:border-white/10 relative overflow-hidden transition-colors duration-500">
+    <section id="template" className="py-32 px-4 border-t border-wedding-gold/10 relative overflow-hidden transition-colors duration-500">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-20">
-          <h2 className="font-serif text-5xl mb-4">Koleksi Eksklusif</h2>
-          <p className="text-gray-600 dark:text-gray-400 max-w-xl text-lg">Pilih dari mahakarya desain yang dibuat oleh seniman digital kelas atas.</p>
+          <h2 className="font-serif text-5xl mb-4 text-wedding-text">Koleksi Eksklusif</h2>
+          <p className="text-wedding-text/60 max-w-xl text-lg">Pilih dari mahakarya desain yang dibuat oleh seniman digital kelas atas.</p>
         </div>
 
         <div 
