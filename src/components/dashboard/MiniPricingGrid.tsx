@@ -29,8 +29,8 @@ export default function MiniPricingGrid() {
       desc: "Hemat untuk bisnis WO.", 
       icon: "💼",
       color: "from-blue-500/10 via-indigo-500/5 to-transparent",
-      border: "border-blue-200",
-      accent: "text-blue-600",
+      border: "border-blue-500/30",
+      accent: "text-blue-500",
       isPopular: false,
       badge: "HEMAT 20%",
       save: "Hemat Rp 96rb"
@@ -44,8 +44,8 @@ export default function MiniPricingGrid() {
       desc: "Solusi undangan massal.", 
       icon: "👑",
       color: "from-purple-500/10 via-fuchsia-500/5 to-transparent",
-      border: "border-purple-200",
-      accent: "text-purple-600",
+      border: "border-purple-500/30",
+      accent: "text-purple-500",
       isPopular: false,
       badge: "BEST VALUE",
       save: "Hemat Rp 241rb"
@@ -60,7 +60,7 @@ export default function MiniPricingGrid() {
             Penawaran Spesial Untukmu 
             <span className="animate-bounce">🎁</span>
           </h2>
-          <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-1">Jangan lewatkan harga terbaik hari ini</p>
+          <p className="text-[10px] text-wedding-text/40 uppercase tracking-widest mt-1">Jangan lewatkan harga terbaik hari ini</p>
         </div>
         <Link href="/dashboard/topup" className="text-[10px] font-bold text-wedding-gold uppercase tracking-widest hover:underline">Lihat Semua Paket →</Link>
       </div>
@@ -80,7 +80,7 @@ export default function MiniPricingGrid() {
             className="relative"
           >
             <Link href="/dashboard/topup" className="block flex-shrink-0 w-[70vw] sm:w-[280px] md:w-auto snap-center md:snap-align-none">
-              <div className={`group relative p-6 rounded-2xl border ${pkg.isPopular ? 'border-wedding-gold shadow-md' : 'border-gray-100'} bg-white overflow-hidden transition-all duration-300 h-full flex flex-col justify-between hover:shadow-xl`}>
+              <div className={`group relative p-6 rounded-2xl border ${pkg.isPopular ? 'border-wedding-gold shadow-md' : 'border-wedding-gold/10'} bg-wedding-base overflow-hidden transition-all duration-500 h-full flex flex-col justify-between hover:shadow-xl hover:border-wedding-gold/30`}>
                 
                 <div className="relative">
                   <div className="flex items-center justify-between mb-6">
@@ -89,31 +89,31 @@ export default function MiniPricingGrid() {
                     </div>
                     <div className="flex flex-col items-end gap-1">
                       {pkg.badge && (
-                        <span className={`text-[7px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${pkg.isPopular ? 'bg-wedding-gold text-white' : 'bg-gray-100 text-gray-400'}`}>
+                        <span className={`text-[7px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${pkg.isPopular ? 'bg-wedding-gold text-black' : 'bg-wedding-text/5 text-wedding-text/40'}`}>
                           {pkg.badge}
                         </span>
                       )}
                     </div>
                   </div>
                   
-                  <h4 className="font-serif text-lg font-bold text-gray-800 mb-1">
+                  <h4 className="font-serif text-lg font-bold text-wedding-text mb-1">
                     {pkg.name} 
                   </h4>
-                  <p className="text-[10px] text-gray-400 font-medium mb-4 uppercase tracking-wider">{pkg.desc}</p>
+                  <p className="text-[10px] text-wedding-text/40 font-medium mb-4 uppercase tracking-wider">{pkg.desc}</p>
                 </div>
 
-                <div className="relative pt-4 flex items-end justify-between border-t border-gray-50 mt-4">
+                <div className="relative pt-4 flex items-end justify-between border-t border-wedding-gold/5 mt-4">
                   <div>
-                    <p className="text-[10px] text-gray-400 uppercase tracking-widest font-black flex items-center gap-2">
+                    <p className="text-[10px] text-wedding-text/30 uppercase tracking-widest font-black flex items-center gap-2">
                       {pkg.credits}
-                      {pkg.save && <span className="text-[#D4AF37] lowercase font-bold">({pkg.save})</span>}
+                      {pkg.save && <span className="text-wedding-gold lowercase font-bold">({pkg.save})</span>}
                     </p>
                     <div className="flex items-baseline gap-2">
-                      <p className="text-2xl font-serif font-bold text-gray-900 group-hover:text-wedding-gold transition-colors">Rp {pkg.price}</p>
-                      <p className="text-xs text-gray-300 line-through font-medium">Rp {pkg.originalPrice}</p>
+                      <p className="text-2xl font-serif font-bold text-wedding-text group-hover:text-wedding-gold transition-colors">Rp {pkg.price}</p>
+                      <p className="text-xs text-wedding-text/20 line-through font-medium">Rp {pkg.originalPrice}</p>
                     </div>
                   </div>
-                  <div className="bg-[#111111] text-white p-2 rounded-lg group-hover:scale-110 transition-transform shadow-lg">
+                  <div className="bg-wedding-text text-wedding-base p-2 rounded-lg group-hover:scale-110 transition-transform shadow-lg">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4" />
                     </svg>

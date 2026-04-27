@@ -36,29 +36,29 @@ const ThemeCatalog = () => {
   };
 
   return (
-    <div className="py-20 border-t border-gray-100 dark:border-white/5">
+    <div className="py-20 border-t border-wedding-gold/10 transition-colors duration-500">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
         <div>
           <h2 className="text-3xl font-serif font-black text-wedding-text tracking-tight">Katalog Tema Premium</h2>
           <div className="flex items-center gap-2 mt-2">
             <div className="w-8 h-[2px] bg-wedding-gold"></div>
-            <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-[0.3em] font-bold">Mahakarya Desain Digital</p>
+            <p className="text-[10px] text-wedding-text/40 uppercase tracking-[0.3em] font-bold">Mahakarya Desain Digital</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-3 bg-[#4B5563]/10 p-1.5 rounded-full">
-          <p className="hidden sm:block text-[9px] font-black text-[#4B5563] uppercase tracking-widest pl-4">Geser untuk melihat</p>
+        <div className="flex items-center gap-3 bg-wedding-text/5 p-1.5 rounded-full">
+          <p className="hidden sm:block text-[9px] font-black text-wedding-text/40 uppercase tracking-widest pl-4">Geser untuk melihat</p>
           <div className="flex gap-1">
             <button 
               onClick={() => scroll('left')}
-              className="w-8 h-8 rounded-full bg-[#374151] hover:bg-black text-white transition-all flex items-center justify-center active:scale-90"
+              className="w-8 h-8 rounded-full bg-wedding-text/10 hover:bg-wedding-gold text-wedding-text hover:text-black transition-all flex items-center justify-center active:scale-90"
               aria-label="Previous"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             </button>
             <button 
               onClick={() => scroll('right')}
-              className="w-8 h-8 rounded-full bg-[#374151] hover:bg-black text-white transition-all flex items-center justify-center active:scale-90"
+              className="w-8 h-8 rounded-full bg-wedding-text/10 hover:bg-wedding-gold text-wedding-text hover:text-black transition-all flex items-center justify-center active:scale-90"
               aria-label="Next"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -79,7 +79,7 @@ const ThemeCatalog = () => {
             >
               <motion.div 
                 whileHover={{ y: -8 }}
-                className="relative aspect-[9/16] rounded-3xl overflow-hidden shadow-xl cursor-pointer group/item border border-gray-100 bg-white"
+                className="relative aspect-[9/16] rounded-3xl overflow-hidden shadow-xl cursor-pointer group/item border border-wedding-gold/10 bg-wedding-base"
               >
                 <a href={`/demo/${theme.id}`} target="_blank" className="block w-full h-full">
                   {/* Background Color/Placeholder */}
@@ -89,7 +89,7 @@ const ThemeCatalog = () => {
 
                   {/* Badge */}
                   <div className="absolute top-4 right-4 z-10">
-                    <span className="bg-wedding-gold/90 backdrop-blur-md text-white text-[9px] font-black px-3 py-1 rounded-full shadow-lg border border-white/20 uppercase tracking-tighter">
+                    <span className="bg-wedding-gold/90 backdrop-blur-md text-black text-[9px] font-black px-3 py-1 rounded-full shadow-lg border border-white/20 uppercase tracking-tighter">
                       Premium
                     </span>
                   </div>

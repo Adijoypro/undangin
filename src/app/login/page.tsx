@@ -11,8 +11,8 @@ import { Suspense } from "react";
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D4AF37]"></div>
+      <div className="min-h-screen flex items-center justify-center bg-wedding-base">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-wedding-gold"></div>
       </div>
     }>
       <LoginForm />
@@ -25,7 +25,7 @@ function LoginForm() {
   const message = searchParams.get("message");
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7] px-4 font-sans selection:bg-[#D4AF37] selection:text-black">
+    <div className="min-h-screen flex items-center justify-center bg-wedding-base text-wedding-text px-4 font-sans selection:bg-wedding-gold selection:text-black transition-colors duration-500">
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -33,47 +33,47 @@ function LoginForm() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-md w-full"
       >
-        <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-black/5">
+        <div className="bg-wedding-base p-8 md:p-12 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-wedding-gold/10 dark:border-white/5 transition-all duration-500">
           
           <div className="text-center mb-10">
             <Link href="/" className="inline-block mb-6">
               <img src="/logo.png" alt="Undangin" className="w-12 h-12 object-contain mx-auto" />
             </Link>
             
-            <h1 className="font-serif text-3xl text-[#111111] mb-2 font-bold tracking-tight">
+            <h1 className="font-serif text-3xl text-wedding-text mb-2 font-bold tracking-tight">
               Masuk ke Dasbor
             </h1>
-            <p className="text-gray-500 text-sm font-light">
+            <p className="text-wedding-text/50 text-sm font-light">
               Kelola undangan digital Anda dengan mudah.
             </p>
           </div>
 
           {message && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-xs rounded-xl text-center font-bold">
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-500 text-xs rounded-xl text-center font-bold">
               {message === "Could not authenticate user" ? "Email atau password salah." : message}
             </div>
           )}
 
           <form className="space-y-6">
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-widest text-gray-400 ml-1">
+              <label className="text-xs font-bold uppercase tracking-widest text-wedding-text/40 ml-1">
                 Email
               </label>
               <input 
                 name="email"
                 type="email" 
                 placeholder="nama@email.com" 
-                className="w-full bg-[#F9F9F9] px-5 py-4 rounded-xl border border-gray-100 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/10 outline-none transition-all text-sm"
+                className="w-full bg-wedding-text/[0.03] px-5 py-4 rounded-xl border border-wedding-gold/10 focus:border-wedding-gold focus:ring-2 focus:ring-wedding-gold/10 outline-none transition-all text-sm text-wedding-text"
                 required
               />
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between items-center ml-1">
-                <label className="text-xs font-bold uppercase tracking-widest text-gray-400">
+                <label className="text-xs font-bold uppercase tracking-widest text-wedding-text/40">
                   Password
                 </label>
-                <Link href="#" className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest hover:underline">
+                <Link href="#" className="text-[10px] font-bold text-wedding-gold uppercase tracking-widest hover:underline">
                   Lupa?
                 </Link>
               </div>
@@ -81,7 +81,7 @@ function LoginForm() {
                 name="password"
                 type="password" 
                 placeholder="••••••••" 
-                className="w-full bg-[#F9F9F9] px-5 py-4 rounded-xl border border-gray-100 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/10 outline-none transition-all text-sm"
+                className="w-full bg-wedding-text/[0.03] px-5 py-4 rounded-xl border border-wedding-gold/10 focus:border-wedding-gold focus:ring-2 focus:ring-wedding-gold/10 outline-none transition-all text-sm text-wedding-text"
                 required
               />
             </div>
@@ -94,13 +94,13 @@ function LoginForm() {
           <SocialLogin />
 
           <div className="mt-10 text-center">
-            <p className="text-xs text-gray-400">
-              Butuh bantuan? <Link href="https://wa.me/628123456789" className="text-[#D4AF37] font-bold hover:underline">Hubungi Admin</Link>
+            <p className="text-xs text-wedding-text/40">
+              Butuh bantuan? <Link href="https://wa.me/628123456789" className="text-wedding-gold font-bold hover:underline">Hubungi Admin</Link>
             </p>
           </div>
         </div>
 
-        <p className="text-center mt-8 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+        <p className="text-center mt-8 text-[10px] text-wedding-text/30 font-bold uppercase tracking-widest">
           &copy; 2026 Undangin Digital
         </p>
       </motion.div>
