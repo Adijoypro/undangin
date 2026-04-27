@@ -10,28 +10,25 @@ export default async function LandingPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  // We'll use a fixed dark theme for the main container on the server to avoid flash
-  const isDark = true; 
-
   return (
-    <div className={`min-h-screen bg-slate-950 text-white font-sans selection:bg-[#D4AF37] selection:text-black overflow-x-hidden`}>
-      <LandingNavbar user={user} isDark={isDark} />
+    <div className="min-h-screen bg-[#FDFBF7] text-black dark:bg-slate-950 dark:text-white font-sans selection:bg-[#D4AF37] selection:text-black overflow-x-hidden transition-colors duration-500">
+      <LandingNavbar user={user} />
       
       <main>
-        <HeroSection user={user} isDark={isDark} />
+        <HeroSection user={user} />
         
-        <Features isDark={isDark} />
+        <Features />
         
-        <ThemeShowcase isDark={isDark} />
+        <ThemeShowcase />
         
-        <PricingSection isDark={isDark} user={user} />
+        <PricingSection user={user} />
         
-        {/* Call to Action - Static version for speed */}
-        <section className="py-32 px-4 relative overflow-hidden text-center">
+        {/* Call to Action */}
+        <section className="py-32 px-4 relative overflow-hidden text-center border-t border-black/5 dark:border-white/5">
           <div className="absolute inset-0 bg-[#D4AF37] opacity-5"></div>
           <div className="max-w-4xl mx-auto relative z-10">
             <h2 className="font-serif text-5xl md:text-7xl mb-8">Siap Mengukir Sejarah?</h2>
-            <p className="text-xl text-gray-300 mb-12 font-light">
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 font-light">
               Buat mahakarya undangan digital Anda hari ini.
             </p>
             <a href={user ? "/dashboard" : "/login"}>
@@ -43,7 +40,7 @@ export default async function LandingPage() {
         </section>
       </main>
 
-      <Footer isDark={isDark} />
+      <Footer />
     </div>
   );
 }

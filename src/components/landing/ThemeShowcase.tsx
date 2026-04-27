@@ -77,7 +77,7 @@ const SHOWCASE_THEMES = [
   }
 ];
 
-function ThemeCard({ t, isDark, index }: { t: typeof SHOWCASE_THEMES[0], isDark: boolean, index: number }) {
+function ThemeCard({ t, index }: { t: typeof SHOWCASE_THEMES[0], index: number }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -109,21 +109,21 @@ function ThemeCard({ t, isDark, index }: { t: typeof SHOWCASE_THEMES[0], isDark:
       </div>
       <div className="mt-8 text-center">
         <h4 className="font-serif text-2xl font-bold mb-2">{t.name}</h4>
-        <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{t.desc}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400">{t.desc}</p>
       </div>
     </div>
   );
 }
 
-export default function ThemeShowcase({ isDark }: { isDark: boolean }) {
+export default function ThemeShowcase() {
   const [sliderPaused, setSliderPaused] = useState(false);
 
   return (
-    <section id="template" className={`py-32 px-4 border-t ${isDark ? 'border-white/10' : 'border-black/10'} relative overflow-hidden`}>
+    <section id="template" className="py-32 px-4 border-t border-black/10 dark:border-white/10 relative overflow-hidden transition-colors duration-500">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="mb-20">
           <h2 className="font-serif text-5xl mb-4">Koleksi Eksklusif</h2>
-          <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} max-w-xl text-lg`}>Pilih dari mahakarya desain yang dibuat oleh seniman digital kelas atas.</p>
+          <p className="text-gray-600 dark:text-gray-400 max-w-xl text-lg">Pilih dari mahakarya desain yang dibuat oleh seniman digital kelas atas.</p>
         </div>
 
         <div 
@@ -137,7 +137,7 @@ export default function ThemeShowcase({ isDark }: { isDark: boolean }) {
             transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
           >
             {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
-              <ThemeCard key={`${t.id}-${i}`} t={t} isDark={isDark} index={i} />
+              <ThemeCard key={`${t.id}-${i}`} t={t} index={i} />
             ))}
           </motion.div>
         </div>

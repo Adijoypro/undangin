@@ -4,17 +4,13 @@ import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function LandingNavbar({ user, isDark }: { user: any; isDark: boolean }) {
-  const navBg = isDark ? "bg-slate-950/70" : "bg-[#FDFBF7]/70";
-  const border = isDark ? "border-white/10" : "border-black/10";
-  const textMuted = isDark ? "text-gray-400" : "text-gray-600";
-
+export default function LandingNavbar({ user }: { user: any }) {
   const navVariants: Variants = {
     hidden: { y: -100, opacity: 0 },
     visible: { 
       y: 0, 
       opacity: 1,
-      transition: { duration: 1, ease: "easeOut" }
+      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
@@ -23,7 +19,7 @@ export default function LandingNavbar({ user, isDark }: { user: any; isDark: boo
       initial="hidden"
       animate="visible"
       variants={navVariants}
-      className={`fixed w-full z-50 ${navBg} backdrop-blur-xl border-b ${border} transform-gpu`}
+      className="fixed w-full z-50 bg-[#FDFBF7]/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-black/10 dark:border-white/10 transform-gpu transition-colors duration-500"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
@@ -33,9 +29,9 @@ export default function LandingNavbar({ user, isDark }: { user: any; isDark: boo
           </div>
           
           <div className="hidden md:flex space-x-8 items-center">
-            <a href="#fitur" className={`text-xs font-bold uppercase tracking-widest ${textMuted} hover:text-[#D4AF37] transition-colors`}>Fitur</a>
-            <a href="#template" className={`text-xs font-bold uppercase tracking-widest ${textMuted} hover:text-[#D4AF37] transition-colors`}>Tema</a>
-            <Link href="/dashboard" className={`text-xs font-bold uppercase tracking-widest ${textMuted} hover:text-[#D4AF37] transition-colors`}>Dasbor</Link>
+            <a href="#fitur" className="text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-[#D4AF37] transition-colors">Fitur</a>
+            <a href="#template" className="text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-[#D4AF37] transition-colors">Tema</a>
+            <Link href="/dashboard" className="text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-[#D4AF37] transition-colors">Dasbor</Link>
  
             <Link 
               href={user ? "/dashboard" : "/login"}

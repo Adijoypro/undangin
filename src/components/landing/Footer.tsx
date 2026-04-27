@@ -1,50 +1,42 @@
 import Image from "next/image";
-import Link from "next/link";
 
-export default function Footer({ isDark }: { isDark: boolean }) {
-  const textMuted = isDark ? "text-gray-400" : "text-gray-600";
-  const border = isDark ? "border-white/10" : "border-black/10";
-  const footerBg = isDark ? "bg-black" : "bg-[#F5F4EE]";
-
+export default function Footer() {
   return (
-    <footer className={`${footerBg} pt-24 pb-12 px-4 border-t ${border} relative overflow-hidden`}>
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid md:grid-cols-4 gap-12 mb-20">
-          <div className="col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <Image src="/logo.png" alt="Undangin Logo" width={48} height={48} className="w-12 h-12 object-contain" />
-              <span className={`font-serif text-3xl font-bold tracking-widest ${isDark ? 'text-white' : 'text-black'}`}>Undangin</span>
-            </div>
-            <p className={`${textMuted} max-w-sm font-light leading-relaxed mb-8`}>
-              Setiap kisah cinta layak diceritakan dengan cara yang paling elegan.
-            </p>
+    <footer className="py-20 px-4 bg-black/[0.02] dark:bg-black border-t border-black/10 dark:border-white/10 transition-colors duration-500">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+        <div className="col-span-2">
+          <div className="flex items-center gap-3 mb-6">
+            <Image src="/logo.png" alt="Undangin Logo" width={32} height={32} className="w-8 h-8 object-contain" />
+            <span className="font-serif text-xl font-bold tracking-widest">Undangin</span>
           </div>
-
-          <div>
-            <h4 className={`text-xs font-bold uppercase tracking-widest ${isDark ? 'text-white' : 'text-black'} mb-6`}>Platform</h4>
-            <ul className={`space-y-4 text-sm ${textMuted}`}>
-              <li><a href="#fitur" className="hover:text-[#D4AF37] transition-colors">Fitur</a></li>
-              <li><a href="#template" className="hover:text-[#D4AF37] transition-colors">Tema</a></li>
-              <li><a href="#harga" className="hover:text-[#D4AF37] transition-colors">Harga</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className={`text-xs font-bold uppercase tracking-widest ${isDark ? 'text-white' : 'text-black'} mb-6`}>Eksklusif</h4>
-            <ul className={`space-y-4 text-sm ${textMuted}`}>
-              <li><a href="#" className="hover:text-[#D4AF37] transition-colors">Partner WO</a></li>
-              <li><a href="#" className="hover:text-[#D4AF37] transition-colors">Custom VIP</a></li>
-            </ul>
-          </div>
+          <p className="text-gray-600 dark:text-gray-400 max-w-sm font-light leading-relaxed">
+            Platform mahakarya undangan digital untuk momen terindah dalam hidup Anda. Menghadirkan kemewahan melalui teknologi.
+          </p>
+        </div>
+        
+        <div>
+          <h4 className="font-serif text-lg mb-6">Navigasi</h4>
+          <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-400">
+            <li><a href="#" className="hover:text-[#D4AF37] transition-colors">Beranda</a></li>
+            <li><a href="#fitur" className="hover:text-[#D4AF37] transition-colors">Fitur</a></li>
+            <li><a href="#template" className="hover:text-[#D4AF37] transition-colors">Tema</a></li>
+            <li><a href="#harga" className="hover:text-[#D4AF37] transition-colors">Harga</a></li>
+          </ul>
         </div>
 
-        <div className={`flex flex-col md:flex-row justify-between items-center pt-12 border-t ${border} gap-6 text-[10px] uppercase tracking-widest font-bold ${textMuted}`}>
-          <p>© 2026 Undangin. Crafted for Elegance.</p>
-          <div className="flex gap-8">
-            <a href="#" className="hover:text-[#D4AF37] transition-colors">Instagram</a>
-            <a href="#" className="hover:text-[#D4AF37] transition-colors">WhatsApp</a>
-          </div>
+        <div>
+          <h4 className="font-serif text-lg mb-6">Layanan</h4>
+          <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-400">
+            <li><a href="/login" className="hover:text-[#D4AF37] transition-colors">Daftar Akun</a></li>
+            <li><a href="/dashboard" className="hover:text-[#D4AF37] transition-colors">Dasbor</a></li>
+            <li><a href="#" className="hover:text-[#D4AF37] transition-colors">Bantuan</a></li>
+            <li><a href="#" className="hover:text-[#D4AF37] transition-colors">Kontak</a></li>
+          </ul>
         </div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-black/5 dark:border-white/5 text-center text-xs text-gray-500 uppercase tracking-widest">
+        © 2026 Undangin. Seluruh Hak Cipta Dilindungi.
       </div>
     </footer>
   );

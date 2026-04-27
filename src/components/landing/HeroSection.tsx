@@ -6,10 +6,9 @@ import { useState, useEffect } from "react";
 
 interface HeroSectionProps {
   user: any;
-  isDark: boolean;
 }
 
-export default function HeroSection({ user, isDark }: HeroSectionProps) {
+export default function HeroSection({ user }: HeroSectionProps) {
   const [showShimmer, setShowShimmer] = useState(false);
 
   useEffect(() => {
@@ -17,7 +16,6 @@ export default function HeroSection({ user, isDark }: HeroSectionProps) {
     return () => clearTimeout(timer);
   }, []);
 
-  // Explicitly typing as Variants to resolve strict TS errors in Vercel/IDE
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 20 },
     show: { 
@@ -25,15 +23,15 @@ export default function HeroSection({ user, isDark }: HeroSectionProps) {
       y: 0, 
       transition: { 
         duration: 0.6, 
-        ease: "easeOut" 
+        ease: [0.22, 1, 0.36, 1]
       } 
     }
   };
 
   return (
     <section className="relative pt-40 pb-32 px-4 min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background Blurs */}
-      <div className={`absolute top-1/4 -left-1/4 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] rounded-full ${isDark ? 'bg-[#D4AF37]/5' : 'bg-[#D4AF37]/10'} blur-[80px] pointer-events-none transform-gpu`} />
+      {/* Background Blurs - Responsive to Theme */}
+      <div className="absolute top-1/4 -left-1/4 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] rounded-full bg-[#D4AF37]/10 dark:bg-[#D4AF37]/5 blur-[80px] pointer-events-none transform-gpu" />
       
       <div className="max-w-5xl mx-auto text-center relative z-10">
         <motion.div 
@@ -43,7 +41,7 @@ export default function HeroSection({ user, isDark }: HeroSectionProps) {
             show: { transition: { staggerChildren: 0.1 } }
           }}
         >
-          <motion.div variants={fadeInUp} className={`inline-flex items-center gap-2 px-6 py-2 rounded-full border border-[#D4AF37]/30 ${isDark ? 'bg-[#D4AF37]/5' : 'bg-white'} text-[#D4AF37] text-xs font-bold uppercase tracking-widest mb-10 backdrop-blur-md shadow-lg`}>
+          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-[#D4AF37]/30 bg-white dark:bg-[#D4AF37]/5 text-[#D4AF37] text-xs font-bold uppercase tracking-widest mb-10 backdrop-blur-md shadow-lg">
             <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse"></span>
             Platform SaaS Undangan Premium
           </motion.div>
@@ -55,8 +53,8 @@ export default function HeroSection({ user, isDark }: HeroSectionProps) {
             </span>
           </motion.h1>
 
-          <motion.p variants={fadeInUp} className={`text-lg md:text-2xl ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-12 max-w-3xl mx-auto font-light leading-relaxed`}>
-            Standar baru industri pernikahan. Desain sinematik eksklusif, animasi <span className={isDark ? 'text-white' : 'text-black'}>jaw-dropping</span>, dan manajemen tamu cerdas.
+          <motion.p variants={fadeInUp} className="text-lg md:text-2xl text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
+            Standar baru industri pernikahan. Desain sinematik eksklusif, animasi <span className="text-black dark:text-white">jaw-dropping</span>, dan manajemen tamu cerdas.
           </motion.p>
 
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6">
@@ -67,7 +65,7 @@ export default function HeroSection({ user, isDark }: HeroSectionProps) {
             </Link>
             
             <a href="#template" className="w-full sm:w-auto">
-              <button className={`w-full px-10 py-5 backdrop-blur-md border rounded-full font-bold text-lg transition-all ${isDark ? 'bg-white/10 border-white/20 text-white' : 'bg-black/5 border-black/10 text-black'} hover:bg-opacity-20`}>
+              <button className="w-full px-10 py-5 backdrop-blur-md border rounded-full font-bold text-lg transition-all bg-black/5 border-black/10 text-black dark:bg-white/10 dark:border-white/20 dark:text-white hover:bg-opacity-20">
                 Lihat Koleksi Tema
               </button>
             </a>
