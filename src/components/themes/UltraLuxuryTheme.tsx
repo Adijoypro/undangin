@@ -6,6 +6,8 @@ import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
+import MapSimulation from "@/components/ui/MapSimulation";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -60,11 +62,6 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
     visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
   };
 
-  const drawPath: Variants = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: { pathLength: 1, opacity: 1, transition: { duration: 3, ease: "easeInOut" } }
-  };
-
   // Floating Petals / Gold Dust effect
   const FloatingDust = () => {
     const [mounted, setMounted] = useState(false);
@@ -96,6 +93,50 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
               ease: "linear"
             }}
           />
+        ))}
+      </div>
+    );
+  };
+
+  const renderLoveStory = () => {
+    if (!data.loveStory || data.loveStory.length === 0) return null;
+
+    const isStructured = typeof data.loveStory[0] === 'object' && data.loveStory[0] !== null;
+
+    if (isStructured) {
+      return (
+        <div className="space-y-32 relative">
+          {/* Vertical Line */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#D4AF37]/0 via-[#D4AF37]/30 to-[#D4AF37]/0"></div>
+          
+          {data.loveStory.map((item: any, idx: number) => (
+            <motion.div 
+              key={idx} 
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true }} 
+              variants={fadeUp}
+              className={`flex items-center justify-between w-full ${idx % 2 === 0 ? 'flex-row-reverse' : ''}`}
+            >
+              <div className="w-5/12"></div>
+              <div className="z-10 bg-black p-1 rounded-full border border-[#D4AF37]/40 shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+                <div className="w-2 h-2 bg-[#D4AF37] rounded-full"></div>
+              </div>
+              <div className={`w-5/12 ${idx % 2 === 0 ? 'text-right' : 'text-left'}`}>
+                <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-[#D4AF37] mb-4">{item.date}</p>
+                <h4 className="text-3xl font-serif italic mb-6 text-white/90">{item.title}</h4>
+                <p className="text-sm text-gray-500 font-light leading-relaxed tracking-wide italic">"{item.story}"</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="max-w-2xl mx-auto text-center">
+        {data.loveStory.map((paragraph, idx) => (
+          <p key={idx} className="text-lg text-gray-400 font-light leading-[2] mb-8 italic italic tracking-wide">"{paragraph}"</p>
         ))}
       </div>
     );
@@ -209,6 +250,18 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           </div>
         </section>
 
+        {/* 3. LOVE STORY (STRUCTURED) */}
+        <section className="relative py-48 bg-[#030303] overflow-hidden">
+          <div className="max-w-5xl mx-auto px-4 relative z-10">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-32">
+              <p className="font-sans text-[10px] uppercase tracking-[0.6em] text-[#D4AF37] mb-6">Our Journey</p>
+              <h2 className="text-4xl md:text-5xl font-serif text-white/90 italic">The Story of Us.</h2>
+            </motion.div>
+            
+            {renderLoveStory()}
+          </div>
+        </section>
+
         {/* TURUT MENGUNDANG */}
         {data.turut_mengundang && (
           <section className="py-24 px-6 bg-[#050505] relative border-y border-white/5">
@@ -221,50 +274,81 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           </section>
         )}
 
-        {/* 3. EVENT */}
-        <section className="relative py-48 bg-[#030303] flex items-center justify-center overflow-hidden">
+        {/* 4. EVENT */}
+        <section className="relative py-48 bg-[#030303] overflow-hidden">
           <div className="absolute inset-0">
              <Image src="/assets/marble-bg.png" fill className="object-cover opacity-15" alt="Marble" />
              <div className="absolute inset-0 bg-black/40"></div>
           </div>
           
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative z-10 max-w-4xl w-full mx-4 bg-black/80 backdrop-blur-3xl border border-[#D4AF37]/10 p-12 md:p-32 text-center">
-            {/* Ornament at center top */}
-            <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-40 h-40 opacity-20 mix-blend-screen">
-              <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
-            </div>
-            
-            <h2 className="text-2xl md:text-6xl mb-16 tracking-[0.2em] font-serif text-white/90 uppercase ml-[0.2em]">The Celebration</h2>
-            
-            <div className="space-y-8 mb-16">
-              <p className="font-sans text-xl md:text-2xl tracking-[0.5em] text-[#D4AF37] uppercase font-light ml-[0.5em]">{data.event.dateFormatted.day}, {data.event.dateFormatted.date} {data.event.dateFormatted.monthYear}</p>
-              <div className="w-12 h-px bg-white/10 mx-auto"></div>
-              <p className="text-2xl font-light tracking-[0.3em]">{data.event.time}</p>
-            </div>
+          <div className="max-w-6xl mx-auto px-4 relative z-10">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-24">
+              <p className="font-sans text-[10px] uppercase tracking-[0.6em] text-[#D4AF37] mb-6">The Celebration</p>
+              <h2 className="text-4xl md:text-6xl text-white/90 font-serif uppercase tracking-[0.2em]">The Event.</h2>
+            </motion.div>
 
-            <div className="space-y-8">
-              <h3 className="text-3xl text-[#D4AF37]/80 font-serif italic tracking-wide">{data.event.locationName}</h3>
-              <p className="text-gray-400 text-base md:text-lg leading-relaxed max-w-md mx-auto font-light tracking-wide">{data.event.locationAddress}</p>
-              <div className="pt-16 flex flex-col sm:flex-row items-center justify-center gap-10">
-                <a href={data.event.mapsLink} target="_blank" className="group relative px-12 py-5 overflow-hidden border border-[#D4AF37]/40 text-[#D4AF37] font-sans text-[10px] uppercase tracking-[0.4em] w-full sm:w-auto text-center transition-all duration-700">
-                  <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
-                  <span className="relative z-10 group-hover:text-black">Petunjuk Lokasi</span>
-                </a>
-                <a href={createCalendarLink()} target="_blank" className="group relative px-12 py-5 overflow-hidden bg-[#D4AF37]/90 text-black font-sans text-[10px] uppercase tracking-[0.4em] w-full sm:w-auto text-center transition-all duration-700">
-                  <span className="absolute inset-0 bg-white w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
-                  <span className="relative z-10">Simpan Tanggal</span>
-                </a>
-              </div>
-            </div>
+            <div className="grid lg:grid-cols-2 gap-20 items-center">
+              {/* Event Details Card */}
+              <motion.div 
+                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+                className="bg-black/60 backdrop-blur-3xl border border-[#D4AF37]/10 p-12 md:p-20 text-center relative"
+              >
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 opacity-20 mix-blend-screen">
+                  <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
+                </div>
 
-            {/* Ornament at center bottom */}
-            <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-40 h-40 opacity-20 mix-blend-screen rotate-180">
-              <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
+                <p className="font-sans text-xl tracking-[0.5em] text-[#D4AF37] uppercase font-light mb-8">{data.event.dateFormatted.day}, {data.event.dateFormatted.date} {data.event.dateFormatted.monthYear}</p>
+                <div className="w-12 h-px bg-white/10 mx-auto mb-8"></div>
+                <p className="text-2xl font-light tracking-[0.3em] mb-12">{data.event.time}</p>
+                
+                <h3 className="text-3xl text-[#D4AF37]/80 font-serif italic tracking-wide mb-6">{data.event.locationName}</h3>
+                <p className="text-gray-400 text-base leading-relaxed mb-16 font-light tracking-wide">{data.event.locationAddress}</p>
+                
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                  <a href={data.event.mapsLink} target="_blank" className="group relative px-10 py-5 overflow-hidden border border-[#D4AF37]/40 text-[#D4AF37] font-sans text-[10px] uppercase tracking-[0.4em] w-full text-center transition-all duration-700">
+                    <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
+                    <span className="relative z-10 group-hover:text-black">Google Maps</span>
+                  </a>
+                  <a href={createCalendarLink()} target="_blank" className="group relative px-10 py-5 overflow-hidden bg-[#D4AF37]/90 text-black font-sans text-[10px] uppercase tracking-[0.4em] w-full text-center transition-all duration-700">
+                    <span className="absolute inset-0 bg-white w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
+                    <span className="relative z-10">Calendar</span>
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* Map & QR Simulation */}
+              <motion.div 
+                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+                className="space-y-8"
+              >
+                <div className="p-2 border border-[#D4AF37]/20 rounded-[2rem] overflow-hidden bg-[#050505]">
+                  <MapSimulation 
+                    lat={data.event.latitude ?? -6.2088} 
+                    lng={data.event.longitude ?? 106.8456} 
+                    locationName={data.event.locationName} 
+                  />
+                </div>
+
+                <div className="bg-black/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] flex items-center gap-10">
+                  <div className="bg-white p-2 rounded-2xl shadow-[0_0_20px_rgba(212,175,55,0.1)]">
+                    <QRCodeSVG 
+                      value={data.event.mapsLink} 
+                      size={100} 
+                      level="H"
+                      fgColor="#050505"
+                    />
+                  </div>
+                  <div className="text-left">
+                    <p className="font-sans text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.3em] mb-2">Instant Navigation</p>
+                    <p className="text-[11px] leading-relaxed text-gray-500 italic font-light">Scan code ini untuk panduan navigasi langsung ke lokasi acara di ponsel Anda.</p>
+                  </div>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </section>
 
-        {/* 4. GIFT & RSVP */}
+        {/* 5. GIFT & RSVP */}
         <section className="py-48 px-4 bg-[#050505] relative overflow-hidden">
           {/* Subtle silk texture backdrop */}
           <div className="absolute inset-0 opacity-[0.02]">
@@ -322,7 +406,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           </div>
         </section>
 
-        {/* 5. GUESTBOOK */}
+        {/* 6. GUESTBOOK */}
         <section className="py-48 px-4 bg-[#030303] border-t border-white/5 relative overflow-hidden">
           {/* Decorative frame bg */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[600px] opacity-[0.03] pointer-events-none mix-blend-screen">

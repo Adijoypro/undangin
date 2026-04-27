@@ -3,6 +3,8 @@
 import { motion, useScroll, useTransform, AnimatePresence, Variants } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import MapSimulation from "@/components/ui/MapSimulation";
+import { QRCodeSVG } from "qrcode.react";
 
 
 import { InvitationData } from "@/data/invitations";
@@ -102,25 +104,24 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
 
             {/* Timeline Items */}
             <div className="space-y-32 relative z-10">
-              {/* Point 1 */}
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 group">
-                <div className="md:w-1/2 md:text-right pl-16 md:pl-0 md:pr-12">
-                  <span className="text-[#D4AF37] font-serif text-xl italic block mb-2">The Beginning</span>
-                  <p className="text-gray-300 text-sm font-light leading-relaxed">Berawal dari pertemuan sederhana yang mengubah segalanya. Sebuah tatapan yang menjadi awal dari selamanya.</p>
-                </div>
-                <div className="absolute left-[15px] md:left-1/2 w-3 h-3 rounded-full bg-[#0A1C14] border-2 border-[#D4AF37] transform md:-translate-x-1/2 mt-1.5 md:mt-0 transition-all duration-500 group-hover:scale-150 group-hover:bg-[#D4AF37] shadow-[0_0_20px_#D4AF37]"></div>
-                <div className="hidden md:block md:w-1/2"></div>
-              </div>
+              {data.loveStory.map((item: any, i: number) => {
+                const isStructured = typeof item === 'object' && item !== null;
+                const title = isStructured ? item.title : `Chapter ${i + 1}`;
+                const date = isStructured ? item.date : "";
+                const story = isStructured ? item.story : item;
 
-              {/* Point 2 */}
-              <div className="flex flex-col md:flex-row-reverse items-start md:items-center justify-between gap-8 group">
-                <div className="md:w-1/2 md:text-left pl-16 md:pl-12">
-                  <span className="text-[#D4AF37] font-serif text-xl italic block mb-2">The Proposal</span>
-                  <p className="text-gray-300 text-sm font-light leading-relaxed">Dengan restu semesta dan keluarga, kami memutuskan untuk mengikat janji suci dan menyatukan dua hati.</p>
-                </div>
-                <div className="absolute left-[15px] md:left-1/2 w-3 h-3 rounded-full bg-[#0A1C14] border-2 border-[#D4AF37] transform md:-translate-x-1/2 mt-1.5 md:mt-0 transition-all duration-500 group-hover:scale-150 group-hover:bg-[#D4AF37] shadow-[0_0_20px_#D4AF37]"></div>
-                <div className="hidden md:block md:w-1/2"></div>
-              </div>
+                return (
+                  <div key={i} className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-8 group ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+                    <div className={`md:w-1/2 ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'} pl-16`}>
+                      <span className="text-[#D4AF37] font-serif text-sm uppercase tracking-widest block mb-1">{date}</span>
+                      <span className="text-white font-serif text-2xl italic block mb-2">{title}</span>
+                      <p className="text-gray-300 text-sm font-light leading-relaxed italic">"{story}"</p>
+                    </div>
+                    <div className="absolute left-[15px] md:left-1/2 w-3 h-3 rounded-full bg-[#0A1C14] border-2 border-[#D4AF37] transform md:-translate-x-1/2 mt-1.5 md:mt-0 transition-all duration-500 group-hover:scale-150 group-hover:bg-[#D4AF37] shadow-[0_0_20px_#D4AF37]"></div>
+                    <div className="hidden md:block md:w-1/2"></div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -226,14 +227,21 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
                   </div>
                 </div>
 
-                {/* Mock QR Code */}
-                <div className="w-40 h-40 bg-white p-2 rounded-xl flex-shrink-0 flex items-center justify-center relative group">
-                  <div className="absolute inset-0 border-2 border-[#D4AF37] rounded-xl scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"></div>
-                  {/* Fake QR using pure CSS squares for demo */}
-                  <div className="grid grid-cols-5 gap-1 w-full h-full p-2 bg-white">
-                    {[...Array(25)].map((_, i) => (
-                      <div key={i} className={`bg-black ${i % 3 === 0 || i % 7 === 0 ? 'opacity-100' : 'opacity-0'}`}></div>
-                    ))}
+                <div className="w-full md:w-[350px] space-y-6">
+                  <MapSimulation 
+                    lat={data.event.latitude ?? -6.2088} 
+                    lng={data.event.longitude ?? 106.8456} 
+                    locationName={data.event.locationName} 
+                  />
+                  
+                  <div className="bg-white p-6 rounded-2xl flex items-center justify-between gap-4">
+                    <div className="text-left">
+                      <p className="text-black font-bold text-xs uppercase tracking-widest">Digital Pass</p>
+                      <p className="text-gray-400 text-[10px] italic">Scan for navigation</p>
+                    </div>
+                    <div className="bg-gray-50 p-1 rounded-lg">
+                      <QRCodeSVG value={data.event.mapsLink} size={80} />
+                    </div>
                   </div>
                 </div>
               </div>

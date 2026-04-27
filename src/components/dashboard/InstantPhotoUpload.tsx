@@ -11,6 +11,7 @@ interface InstantPhotoUploadProps {
   isAiEnabled?: boolean;
   showAiStudio?: boolean;
   accentColor?: "gold" | "sage";
+  onUpload?: (url: string) => void;
 }
 
 export default function InstantPhotoUpload({ 
@@ -19,7 +20,8 @@ export default function InstantPhotoUpload({
   initialPhotoUrl, 
   isAiEnabled = false, 
   showAiStudio = false,
-  accentColor = "gold"
+  accentColor = "gold",
+  onUpload
 }: InstantPhotoUploadProps) {
   const [photoUrl, setPhotoUrl] = useState(initialPhotoUrl || "");
   const [uploading, setUploading] = useState(false);
@@ -55,6 +57,7 @@ export default function InstantPhotoUpload({
       const result = await uploadInstant(formData);
       if (result.success && result.url) {
         setPhotoUrl(result.url);
+        onUpload?.(result.url);
       } else {
         alert(result.message || "Gagal upload foto.");
       }
@@ -104,7 +107,10 @@ export default function InstantPhotoUpload({
               <PreweddingGenerator 
                 currentPhotoUrl={photoUrl} 
                 isAiEnabled={isAiEnabled}
-                onGenerated={(url) => setPhotoUrl(url)} 
+                onGenerated={(url) => {
+                  setPhotoUrl(url);
+                  onUpload?.(url);
+                }} 
               />
             </div>
           )}

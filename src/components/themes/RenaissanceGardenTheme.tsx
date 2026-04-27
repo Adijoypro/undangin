@@ -6,6 +6,8 @@ import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
+import MapSimulation from "@/components/ui/MapSimulation";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function RenaissanceGardenTheme({ data }: { data: InvitationData }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,6 +69,47 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
     sage: "#8FA68A",
   };
 
+  const renderLoveStory = () => {
+    if (!data.loveStory || data.loveStory.length === 0) return null;
+
+    // Check if it's the new structured format or old string array
+    const isStructured = typeof data.loveStory[0] === 'object' && data.loveStory[0] !== null;
+
+    if (isStructured) {
+      return (
+        <div className="space-y-12 relative max-w-2xl mx-auto">
+          {/* Vertical Line */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-wedding-gold/20"></div>
+          
+          {data.loveStory.map((item, idx) => (
+            <motion.div 
+              key={idx} 
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true }} 
+              variants={fadeUp}
+              className={`flex items-center justify-between w-full ${idx % 2 === 0 ? 'flex-row-reverse' : ''}`}
+            >
+              <div className="w-5/12"></div>
+              <div className="z-10 bg-white p-2 rounded-full border border-wedding-gold/30">
+                <div className="w-3 h-3 bg-wedding-gold rounded-full shadow-sm"></div>
+              </div>
+              <div className={`w-5/12 p-6 bg-white border border-wedding-gold/10 rounded-2xl shadow-sm ${idx % 2 === 0 ? 'text-right' : 'text-left'}`}>
+                <p className="text-[10px] font-bold text-wedding-gold uppercase tracking-[0.2em] mb-1">{item.date}</p>
+                <h4 className="text-xl italic mb-3">{item.title}</h4>
+                <p className="text-xs leading-relaxed" style={{ color: palette.textMuted }}>{item.story}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      );
+    }
+
+    return data.loveStory.map((paragraph, idx) => (
+      <p key={idx} className="text-base leading-[2] mb-6" style={{ color: palette.textMuted }}>{paragraph}</p>
+    ));
+  };
+
   return (
     <>
 
@@ -115,7 +158,7 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-20">
               <Ornament className="mx-auto mb-6" />
               <p className="text-base italic leading-relaxed max-w-2xl mx-auto" style={{ color: palette.textMuted }}>
-                {data.loveStory[0] || "Kami adalah sepasang manusia yang sedang berbahagia dan mengundang Anda untuk hadir di hari bahagia kami."}
+                {data.loveStory[0]?.story || data.loveStory[0] || "Kami adalah sepasang manusia yang sedang berbahagia dan mengundang Anda untuk hadir di hari bahagia kami."}
               </p>
             </motion.div>
             <div className="grid md:grid-cols-2 gap-16 md:gap-24">
@@ -163,13 +206,11 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
 
         {/* ═══ LOVE STORY ═══ */}
         <section className="py-24 md:py-40 px-4 relative overflow-hidden" style={{ backgroundColor: palette.bg }}>
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h2 className="text-3xl md:text-5xl italic mb-4">Our Story</h2>
-              <Ornament className="mx-auto mb-10" />
-              {data.loveStory.map((paragraph, idx) => (
-                <p key={idx} className="text-base leading-[2] mb-6" style={{ color: palette.textMuted }}>{paragraph}</p>
-              ))}
+              <Ornament className="mx-auto mb-16" />
+              {renderLoveStory()}
             </motion.div>
           </div>
         </section>
@@ -179,35 +220,60 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           <div className="absolute bottom-0 left-0 w-48 h-48 opacity-20 -scale-y-100">
             <Image src="/assets/renaissance/botanical-corner.png" fill className="object-contain" alt="Botanical" />
           </div>
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-5xl mx-auto text-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h2 className="text-3xl md:text-5xl italic mb-4">Lokasi</h2>
-              <Ornament className="mx-auto mb-6" />
-              <p className="text-sm mb-12" style={{ color: palette.textMuted }}>
-                Dengan penuh rasa hormat kami mengharapkan kehadiran Bapak/Ibu/Saudara sekalian
-              </p>
+              <Ornament className="mx-auto mb-12" />
             </motion.div>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-              className="p-10 md:p-16 border max-w-2xl mx-auto" style={{ borderColor: palette.gold + '30', backgroundColor: palette.bg }}>
-              <p className="text-xs tracking-[0.4em] uppercase mb-4" style={{ color: palette.accent }}>Acara Pernikahan</p>
-              <h3 className="text-2xl md:text-4xl italic mb-6">{data.event.dateFormatted.day}, {data.event.dateFormatted.date} {data.event.dateFormatted.monthYear}</h3>
-              <div className="w-12 h-px mx-auto mb-6" style={{ backgroundColor: palette.gold + '40' }}></div>
-              <p className="text-lg mb-2">{data.event.time}</p>
-              <h4 className="text-xl italic mb-2" style={{ color: palette.gold }}>{data.event.locationName}</h4>
-              <p className="text-sm mb-10" style={{ color: palette.textMuted }}>{data.event.locationAddress}</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href={data.event.mapsLink} target="_blank"
-                  className="px-8 py-3 text-xs tracking-[0.2em] uppercase text-white transition-all duration-500 hover:opacity-80"
-                  style={{ backgroundColor: palette.accent }}>
-                  Lokasi
-                </a>
-                <a href={createCalendarLink()} target="_blank"
-                  className="px-8 py-3 text-xs tracking-[0.2em] uppercase border transition-all duration-500"
-                  style={{ borderColor: palette.accent, color: palette.accent }}>
-                  Simpan Tanggal
-                </a>
-              </div>
-            </motion.div>
+
+            <div className="grid lg:grid-cols-2 gap-12 items-center max-w-4xl mx-auto">
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="order-2 lg:order-1">
+                <div className="space-y-6">
+                  <MapSimulation 
+                    lat={data.event.latitude ?? -6.2088} 
+                    lng={data.event.longitude ?? 106.8456} 
+                    locationName={data.event.locationName} 
+                  />
+                  
+                  <div className="p-6 bg-wedding-gold/5 border border-wedding-gold/10 rounded-3xl flex items-center gap-6">
+                    <div className="bg-white p-2 rounded-xl shadow-sm border border-wedding-gold/10">
+                      <QRCodeSVG 
+                        value={data.event.mapsLink} 
+                        size={80} 
+                        level="H"
+                        fgColor={palette.accent}
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-[10px] font-black text-wedding-gold uppercase tracking-widest mb-1">Scan for Navigation</p>
+                      <p className="text-[9px] leading-relaxed text-gray-500 italic">Scan barcode ini untuk membuka lokasi di Google Maps ponsel Anda.</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+                className="p-10 md:p-14 border order-1 lg:order-2" style={{ borderColor: palette.gold + '30', backgroundColor: palette.bg }}>
+                <p className="text-xs tracking-[0.4em] uppercase mb-4" style={{ color: palette.accent }}>Acara Pernikahan</p>
+                <h3 className="text-2xl md:text-4xl italic mb-6">{data.event.dateFormatted.day}, {data.event.dateFormatted.date} {data.event.dateFormatted.monthYear}</h3>
+                <div className="w-12 h-px mx-auto mb-6" style={{ backgroundColor: palette.gold + '40' }}></div>
+                <p className="text-lg mb-2">{data.event.time}</p>
+                <h4 className="text-xl italic mb-2" style={{ color: palette.gold }}>{data.event.locationName}</h4>
+                <p className="text-sm mb-10 leading-relaxed" style={{ color: palette.textMuted }}>{data.event.locationAddress}</p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a href={data.event.mapsLink} target="_blank"
+                    className="px-8 py-3 text-xs tracking-[0.2em] uppercase text-white transition-all duration-500 hover:opacity-80"
+                    style={{ backgroundColor: palette.accent }}>
+                    Buka Maps
+                  </a>
+                  <a href={createCalendarLink()} target="_blank"
+                    className="px-8 py-3 text-xs tracking-[0.2em] uppercase border transition-all duration-500"
+                    style={{ borderColor: palette.accent, color: palette.accent }}>
+                    Simpan Kalender
+                  </a>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
 

@@ -8,10 +8,16 @@ interface QuoteSectionProps {
   initialBrideName: string;
   initialGroomName: string;
   isAiEnabled?: boolean;
+  onChange?: (val: string) => void;
 }
 
-export default function QuoteSection({ initialQuote, initialBrideName, initialGroomName, isAiEnabled = false }: QuoteSectionProps) {
+export default function QuoteSection({ initialQuote, initialBrideName, initialGroomName, isAiEnabled = false, onChange }: QuoteSectionProps) {
   const [quote, setQuote] = useState(initialQuote);
+
+  const handleQuoteChange = (val: string) => {
+    setQuote(val);
+    onChange?.(val);
+  };
 
   return (
     <div>
@@ -21,13 +27,13 @@ export default function QuoteSection({ initialQuote, initialBrideName, initialGr
           brideName={initialBrideName} 
           groomName={initialGroomName} 
           isAiEnabled={isAiEnabled}
-          onGenerated={(text) => setQuote(text)} 
+          onGenerated={(text) => handleQuoteChange(text)} 
         />
       </div>
       <textarea 
-        name="quote" 
+        name="quote_input" 
         value={quote}
-        onChange={(e) => setQuote(e.target.value)}
+        onChange={(e) => handleQuoteChange(e.target.value)}
         rows={3} 
         className="w-full p-4 border border-gray-200 rounded-xl focus:border-wedding-gold outline-none text-sm leading-relaxed"
       ></textarea>

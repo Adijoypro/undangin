@@ -26,8 +26,10 @@ export interface InvitationData {
     locationName: string;
     locationAddress: string;
     mapsLink: string;
+    latitude?: number;
+    longitude?: number;
   };
-  loveStory: string[];
+  loveStory: any[];
   quote: string;
   gift: {
     bankName: string;

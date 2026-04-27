@@ -6,6 +6,8 @@ import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
+import MapSimulation from "@/components/ui/MapSimulation";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -249,26 +251,41 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             <div className="w-20 h-px bg-white/20 mx-auto"></div>
           </motion.div>
 
-          <div className="space-y-16 font-sans font-light text-gray-400 leading-relaxed relative">
+          <div className="relative">
+            {/* Vertical Line */}
             <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-white/10 hidden md:block"></div>
             
-            {data.loveStory.map((story, i) => (
-              <motion.div 
-                key={i} 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, delay: i * 0.1 }}
-                className="relative flex flex-col md:flex-row md:justify-between items-center w-full group"
-              >
-                <div className={`md:w-[45%] ${i % 2 === 0 ? 'md:text-right pr-0 md:pr-12' : 'order-last pl-0 md:pl-12 md:text-left'} mb-4 md:mb-0`}>
-                  {i % 2 !== 0 && <div className="absolute left-0 md:left-1/2 w-3 h-3 bg-white/40 rounded-full -translate-x-1.5 shadow-[0_0_15px_rgba(255,255,255,0.5)] hidden md:block group-hover:bg-white transition-colors duration-500"></div>}
-                  <p className="group-hover:text-white transition-colors duration-500">{story}</p>
-                </div>
-                {i % 2 === 0 && <div className="absolute left-0 md:left-1/2 w-3 h-3 bg-white/40 rounded-full -translate-x-1.5 shadow-[0_0_15px_rgba(255,255,255,0.5)] hidden md:block group-hover:bg-white transition-colors duration-500"></div>}
-                <div className={`md:w-[45%] ${i % 2 === 0 ? 'pl-0 md:pl-12' : 'pr-0 md:pr-12'}`}></div>
-              </motion.div>
-            ))}
+            <div className="space-y-16">
+              {data.loveStory.map((item: any, i: number) => {
+                const isStructured = typeof item === 'object' && item !== null;
+                const title = isStructured ? item.title : `Chapter ${i + 1}`;
+                const date = isStructured ? item.date : "";
+                const story = isStructured ? item.story : item;
+
+                return (
+                  <motion.div 
+                    key={i} 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, delay: i * 0.1 }}
+                    className={`relative flex flex-col md:flex-row items-center gap-8 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                  >
+                    {/* Dot */}
+                    <div className="absolute left-4 md:left-1/2 w-3 h-3 bg-white/40 rounded-full -translate-x-1.5 shadow-[0_0_15px_rgba(255,255,255,0.5)] z-10 hidden md:block"></div>
+                    
+                    <div className={`w-full md:w-1/2 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
+                      <div className="p-8 bg-white/5 rounded-2xl border border-white/5 hover:border-white/20 transition-all group">
+                        {date && <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-2 block">{date}</span>}
+                        <h4 className="font-serif text-2xl text-white mb-3 group-hover:text-white transition-colors">{title}</h4>
+                        <p className="font-sans font-light text-gray-400 leading-relaxed text-sm group-hover:text-gray-300 transition-colors">{story}</p>
+                      </div>
+                    </div>
+                    <div className="hidden md:block md:w-1/2"></div>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -277,29 +294,49 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       <section className="min-h-[80vh] relative z-10 flex items-center justify-center px-4 py-32 border-t border-white/5">
         <motion.div 
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}
-          className="text-center max-w-2xl bg-white/5 backdrop-blur-md p-16 rounded-3xl border border-white/10"
+          className="text-center max-w-5xl w-full grid md:grid-cols-2 gap-12 items-center"
         >
-          <h2 className="font-serif text-2xl md:text-5xl mb-8 tracking-tight uppercase">The Celebration</h2>
-          <div className="w-12 h-px bg-white/30 mx-auto mb-12"></div>
-          
-          <div className="space-y-6 text-gray-300">
-            <p className="font-sans text-xl uppercase tracking-[0.3em] font-light text-white ml-[0.3em]">{data.event.date}</p>
-            <p className="font-serif text-3xl">{data.event.time}</p>
+          <div className="bg-white/5 backdrop-blur-md p-16 rounded-3xl border border-white/10">
+            <h2 className="font-serif text-2xl md:text-5xl mb-8 tracking-tight uppercase">The Celebration</h2>
+            <div className="w-12 h-px bg-white/30 mx-auto mb-12"></div>
             
-            <div className="pt-8 pb-4 w-full flex justify-center">
-              <CountdownTimer targetDate={data.event.date} theme="cinematic" />
-            </div>
+            <div className="space-y-6 text-gray-300">
+              <p className="font-sans text-xl uppercase tracking-[0.3em] font-light text-white ml-[0.3em]">{data.event.date}</p>
+              <p className="font-serif text-3xl">{data.event.time}</p>
+              
+              <div className="pt-8 pb-4 w-full flex justify-center">
+                <CountdownTimer targetDate={data.event.date} theme="cinematic" />
+              </div>
 
-            <div className="space-y-2">
-              <h3 className="text-2xl text-white/90">{data.event.locationName}</h3>
-              <p className="text-gray-400 text-sm md:text-base leading-relaxed">{data.event.locationAddress}</p>
-              <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href={data.event.mapsLink} target="_blank" className="inline-block px-8 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-gray-200 transition-colors w-full sm:w-auto text-center">
-                  Google Maps
-                </a>
-                <a href={createCalendarLink()} target="_blank" className="inline-block px-8 py-3 bg-transparent border border-white text-white font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-colors w-full sm:w-auto text-center">
-                  Simpan Kalender
-                </a>
+              <div className="space-y-2 text-center">
+                <h3 className="text-2xl text-white/90">{data.event.locationName}</h3>
+                <p className="text-gray-400 text-sm md:text-base leading-relaxed">{data.event.locationAddress}</p>
+                <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <a href={data.event.mapsLink} target="_blank" className="inline-block px-8 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-gray-200 transition-colors w-full sm:w-auto text-center">
+                    Google Maps
+                  </a>
+                  <a href={createCalendarLink()} target="_blank" className="inline-block px-8 py-3 bg-transparent border border-white text-white font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-colors w-full sm:w-auto text-center">
+                    Simpan Kalender
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <MapSimulation 
+              lat={data.event.latitude ?? -6.2088} 
+              lng={data.event.longitude ?? 106.8456} 
+              locationName={data.event.locationName} 
+            />
+            
+            <div className="bg-white/5 p-8 rounded-3xl flex flex-col items-center gap-4 border border-white/10 backdrop-blur-sm">
+              <div className="p-4 bg-white rounded-2xl">
+                <QRCodeSVG value={data.event.mapsLink} size={150} fgColor="#000000" />
+              </div>
+              <div className="text-center">
+                <p className="text-white font-bold text-sm mb-1 uppercase tracking-widest">Digital Navigation</p>
+                <p className="text-gray-500 text-[10px] italic">Scan for instant directions</p>
               </div>
             </div>
           </div>

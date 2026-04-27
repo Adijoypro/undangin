@@ -60,6 +60,15 @@ export async function createInvitation(formData: FormData) {
   const eventLocation = formData.get("event_location") as string;
   const eventAddress = formData.get("event_address") as string;
   const mapsLink = formData.get("maps_link") as string;
+  const latitude = parseFloat(formData.get("latitude") as string || "0");
+  const longitude = parseFloat(formData.get("longitude") as string || "0");
+  const loveStoryRaw = formData.get("love_story") as string;
+  let loveStory = [];
+  try {
+    loveStory = JSON.parse(loveStoryRaw || "[]");
+  } catch (e) {
+    console.error("Error parsing love story:", e);
+  }
 
   const quote = formData.get("quote") as string;
   const bankName = formData.get("bank_name") as string;
@@ -119,6 +128,9 @@ export async function createInvitation(formData: FormData) {
         event_location: eventLocation,
         event_address: eventAddress,
         maps_link: mapsLink,
+        latitude: latitude,
+        longitude: longitude,
+        love_story: loveStory,
         quote: quote,
         bank_name: bankName,
         account_number: accountNumber,

@@ -9,6 +9,8 @@ import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
 import { toast } from "sonner";
+import MapSimulation from "@/components/ui/MapSimulation";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function PremiumTheme({ data }: { data: InvitationData }) {
 
@@ -159,44 +161,81 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
                     <h3 className="font-script text-6xl text-wedding-gold mb-2">Love Story</h3>
                     <div className="w-16 h-px bg-wedding-gold mx-auto mt-4"></div>
                 </div>
-                <div className="space-y-12 font-serif text-wedding-text/80 leading-relaxed text-justify relative">
-                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-wedding-gold/30 hidden md:block"></div>
-                    {data.loveStory.map((story, i) => (
-                      <div key={i} className="relative flex flex-col md:flex-row md:justify-between items-center w-full" data-aos="fade-up">
-                          <div className={`md:w-[45%] ${i % 2 === 0 ? 'md:text-right pr-0 md:pr-8' : 'order-last pl-0 md:pl-8 md:text-left'} mb-4 md:mb-0`}>
-                              {i % 2 !== 0 && <div className="absolute left-0 md:left-1/2 w-3 h-3 bg-wedding-gold rounded-full -translate-x-1.5 shadow-[0_0_10px_rgba(212,175,55,0.8)] hidden md:block"></div>}
-                              <p>{story}</p>
+                
+                <div className="relative">
+                  {/* Vertical Line */}
+                  <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-wedding-gold/20 hidden md:block"></div>
+                  
+                  <div className="space-y-16">
+                    {data.loveStory.map((item: any, i: number) => {
+                      const isStructured = typeof item === 'object' && item !== null;
+                      const title = isStructured ? item.title : `Chapter ${i + 1}`;
+                      const date = isStructured ? item.date : "";
+                      const story = isStructured ? item.story : item;
+
+                      return (
+                        <div key={i} className={`relative flex flex-col md:flex-row items-center gap-8 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`} data-aos="fade-up">
+                          {/* Dot */}
+                          <div className="absolute left-4 md:left-1/2 w-4 h-4 bg-wedding-gold rounded-full -translate-x-[7px] border-4 border-white shadow-lg z-10 hidden md:block"></div>
+                          
+                          <div className={`w-full md:w-1/2 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
+                            <div className={`p-8 bg-[#FAF8F5] rounded-3xl border border-wedding-gold/10 shadow-sm hover:shadow-md transition-all`}>
+                              {date && <span className="text-[10px] font-black uppercase tracking-[0.2em] text-wedding-gold/60 mb-2 block">{date}</span>}
+                              <h4 className="font-serif text-2xl text-wedding-text mb-3">{title}</h4>
+                              <p className="font-serif italic text-wedding-text/70 leading-relaxed">{story}</p>
+                            </div>
                           </div>
-                          {i % 2 === 0 && <div className="absolute left-0 md:left-1/2 w-3 h-3 bg-wedding-gold rounded-full -translate-x-1.5 shadow-[0_0_10px_rgba(212,175,55,0.8)] hidden md:block"></div>}
-                          <div className={`md:w-[45%] ${i % 2 === 0 ? 'pl-0 md:pl-8' : 'pr-0 md:pr-8'}`}></div>
-                      </div>
-                    ))}
+                          <div className="hidden md:block md:w-1/2"></div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
             </div>
         </section>
 
         {/* EVENT */}
         <section className="py-32 px-4 relative z-10 bg-wedding-sage text-white text-center">
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-5xl mx-auto">
                 <h3 className="font-serif text-3xl md:text-4xl mb-6 tracking-widest uppercase" data-aos="fade-up">Akad Nikah</h3>
                 <div className="w-16 h-1 bg-wedding-gold mx-auto mb-12" data-aos="fade-up"></div>
 
-                <div className="bg-white/10 backdrop-blur-md p-10 border border-wedding-gold/30 rounded-t-full rounded-b-[40px] shadow-2xl" data-aos="zoom-in">
-                    <p className="font-serif text-3xl mb-2 text-wedding-gold">{data.event.dateFormatted.day}</p>
-                    <p className="font-serif text-6xl font-bold text-white mb-2">{data.event.dateFormatted.date}</p>
-                    <p className="font-serif text-2xl text-wedding-gold mb-6">{data.event.dateFormatted.monthYear}</p>
-                    <div className="w-12 h-px bg-white/30 mx-auto my-6"></div>
-                    <p className="font-sans text-sm font-bold tracking-widest uppercase mb-6">{data.event.time}</p>
-                    <h3 className="font-serif text-2xl text-wedding-gold mb-2">{data.event.locationName}</h3>
-                    <p className="text-white/80 mb-6">{data.event.locationAddress}</p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <a href={data.event.mapsLink} target="_blank" className="bg-wedding-gold text-white px-8 py-3 rounded-full hover:bg-white hover:text-wedding-text transition-colors font-sans text-xs uppercase tracking-widest font-bold">
-                            Buka Google Maps
-                        </a>
-                        <a href={createCalendarLink()} target="_blank" className="bg-white text-wedding-gold border border-white px-8 py-3 rounded-full hover:bg-wedding-gold hover:text-white transition-colors font-sans text-xs uppercase tracking-widest font-bold">
-                            Simpan ke Kalender
-                        </a>
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                  <div className="bg-white/10 backdrop-blur-md p-10 border border-wedding-gold/30 rounded-t-full rounded-b-[40px] shadow-2xl" data-aos="zoom-in">
+                      <p className="font-serif text-3xl mb-2 text-wedding-gold">{data.event.dateFormatted.day}</p>
+                      <p className="font-serif text-6xl font-bold text-white mb-2">{data.event.dateFormatted.date}</p>
+                      <p className="font-serif text-2xl text-wedding-gold mb-6">{data.event.dateFormatted.monthYear}</p>
+                      <div className="w-12 h-px bg-white/30 mx-auto my-6"></div>
+                      <p className="font-sans text-sm font-bold tracking-widest uppercase mb-6">{data.event.time}</p>
+                      <h3 className="font-serif text-2xl text-wedding-gold mb-2">{data.event.locationName}</h3>
+                      <p className="text-white/80 mb-6">{data.event.locationAddress}</p>
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                          <a href={data.event.mapsLink} target="_blank" className="bg-wedding-gold text-white px-8 py-3 rounded-full hover:bg-white hover:text-wedding-text transition-colors font-sans text-xs uppercase tracking-widest font-bold">
+                              Buka Google Maps
+                          </a>
+                          <a href={createCalendarLink()} target="_blank" className="bg-white text-wedding-gold border border-white px-8 py-3 rounded-full hover:bg-wedding-gold hover:text-white transition-colors font-sans text-xs uppercase tracking-widest font-bold">
+                              Simpan Kalender
+                          </a>
+                      </div>
+                  </div>
+
+                  <div className="space-y-8" data-aos="fade-left">
+                    <MapSimulation 
+                      lat={data.event.latitude ?? -6.2088} 
+                      lng={data.event.longitude ?? 106.8456} 
+                      locationName={data.event.locationName} 
+                    />
+                    
+                    <div className="bg-white p-8 rounded-[40px] flex flex-col items-center gap-4 shadow-xl border-4 border-wedding-gold/20">
+                      <div className="p-4 bg-gray-50 rounded-2xl">
+                        <QRCodeSVG value={data.event.mapsLink} size={150} />
+                      </div>
+                      <div className="text-center">
+                        <p className="text-wedding-text font-bold text-sm mb-1 uppercase tracking-widest">Scan Navigasi</p>
+                        <p className="text-gray-400 text-[10px] italic">Scan untuk petunjuk arah langsung</p>
+                      </div>
                     </div>
+                  </div>
                 </div>
             </div>
         </section>

@@ -30,8 +30,14 @@ const THEME_PREVIEWS: Record<string, { name: string; desc: string; color: string
   }
 };
 
-export default function ThemeSelector({ defaultValue = "premium" }: { defaultValue?: string }) {
+export default function ThemeSelector({ defaultValue = "premium", onChange }: { defaultValue?: string, onChange?: (val: string) => void }) {
   const [selectedTheme, setSelectedTheme] = useState(defaultValue);
+
+  const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setSelectedTheme(val);
+    onChange?.(val);
+  };
 
   return (
     <div className="space-y-6">
@@ -39,12 +45,12 @@ export default function ThemeSelector({ defaultValue = "premium" }: { defaultVal
         <div>
           <label className="block text-xs font-bold text-gray-500 mb-1">Pilih Tema</label>
           <select 
-            name="theme" 
+            name="theme_input" 
             id="theme" 
             className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-wedding-gold/50 focus:border-wedding-gold transition-colors appearance-none" 
             required 
             value={selectedTheme}
-            onChange={(e) => setSelectedTheme(e.target.value)}
+            onChange={handleThemeChange}
           >
             <option value="premium">Premium (Sage & Gold)</option>
             <option value="cinematic-dark">Cinematic Dark (Black & White)</option>

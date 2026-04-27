@@ -6,9 +6,10 @@ import AIMusicGenerator from "./AIMusicGenerator";
 
 interface MusicSelectorProps {
   currentMusicUrl?: string;
+  onChange?: (url: string) => void;
 }
 
-export default function MusicSelector({ currentMusicUrl }: MusicSelectorProps) {
+export default function MusicSelector({ currentMusicUrl, onChange }: MusicSelectorProps) {
   const [selectedMusic, setSelectedMusic] = useState<string>(currentMusicUrl || "");
   const [playing, setPlaying] = useState<string | null>(null);
   const [isAiGenerated, setIsAiGenerated] = useState<boolean>(false);
@@ -62,7 +63,10 @@ export default function MusicSelector({ currentMusicUrl }: MusicSelectorProps) {
             className={`p-2 rounded-xl border-2 transition-all cursor-pointer flex flex-col items-center text-center gap-2 relative group ${
               selectedMusic === music.url ? 'border-wedding-gold bg-wedding-gold/5 shadow-md' : 'border-gray-50 hover:border-wedding-gold/20'
             }`}
-            onClick={() => setSelectedMusic(music.url)}
+            onClick={() => {
+              setSelectedMusic(music.url);
+              onChange?.(music.url);
+            }}
           >
             <div 
               onClick={(e) => { e.stopPropagation(); togglePreview(music.url); }}
@@ -102,6 +106,7 @@ export default function MusicSelector({ currentMusicUrl }: MusicSelectorProps) {
             setSelectedMusic(result.url);
             setIsAiGenerated(result.isAiGenerated);
             setAiMessage(result.message || "");
+            onChange?.(result.url);
             togglePreview(result.url);
           }} />
           <p className="text-[10px] text-gray-400 mt-2 font-medium italic">Bikin instrumen unik khusus untukmu ✨</p>
@@ -165,6 +170,7 @@ export default function MusicSelector({ currentMusicUrl }: MusicSelectorProps) {
                   setSelectedMusic(url);
                   setIsAiGenerated(false);
                   setAiMessage("Musik kustom berhasil diunggah! ✨");
+                  onChange?.(url);
                   togglePreview(url);
                 }
               }}

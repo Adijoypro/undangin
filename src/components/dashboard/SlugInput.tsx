@@ -6,12 +6,14 @@ interface SlugInputProps {
   defaultValue?: string;
   brideInputName?: string;
   groomInputName?: string;
+  onChange?: (value: string) => void;
 }
 
 export default function SlugInput({ 
   defaultValue = "", 
   brideInputName = "bride_name", 
-  groomInputName = "groom_name" 
+  groomInputName = "groom_name",
+  onChange
 }: SlugInputProps) {
   const [slug, setSlug] = useState(defaultValue);
   const [isManual, setIsManual] = useState(!!defaultValue);
@@ -32,6 +34,7 @@ export default function SlugInput({
             .replace(/\s+/g, "-")
             .replace(/[^a-z0-9-]/g, "");
           setSlug(generatedSlug);
+          onChange?.(generatedSlug);
         }
       }
     };
@@ -52,6 +55,7 @@ export default function SlugInput({
     const value = e.target.value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
     setSlug(value);
     setIsManual(true);
+    onChange?.(value);
   };
 
   return (

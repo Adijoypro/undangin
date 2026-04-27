@@ -111,16 +111,28 @@ export default async function InvitationPage({ params }: { params: Promise<{ slu
     couplePhoto: dbData.couple_photo,
     event: {
       date: dbData.event_date || "14 Februari 2027",
-      dateFormatted: { day: "Minggu", date: "14", monthYear: "Februari 2027" }, 
+      dateFormatted: (() => {
+        try {
+          const d = new Date(dbData.event_date);
+          const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+          const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+          return {
+            day: days[d.getDay()] || "Minggu",
+            date: d.getDate().toString() || "14",
+            monthYear: `${months[d.getMonth()]} ${d.getFullYear()}` || "Februari 2027"
+          };
+        } catch (e) {
+          return { day: "Minggu", date: "14", monthYear: "Februari 2027" };
+        }
+      })(),
       time: dbData.event_time || "08:00 - Selesai",
       locationName: dbData.event_location || "Gedung Serbaguna",
       locationAddress: dbData.event_address || "Jakarta",
-      mapsLink: dbData.maps_link || "https://maps.google.com"
+      mapsLink: dbData.maps_link || "https://maps.google.com",
+      latitude: dbData.latitude ?? -6.2088,
+      longitude: dbData.longitude ?? 106.8456
     },
-    loveStory: dbData.love_story || [
-      "Pertama kali bertemu di sebuah cafe kecil di sudut kota. Tidak ada yang spesial hari itu, namun takdir punya rencananya sendiri.",
-      "Setelah bertahun-tahun saling mengenal, kami memutuskan untuk melangkah ke jenjang yang lebih serius."
-    ],
+    loveStory: dbData.love_story || [],
     quote: dbData.quote || "Dan di antara tanda-tanda kebesaran-Nya...",
     gift: {
       bankName: dbData.bank_name || "BCA",
