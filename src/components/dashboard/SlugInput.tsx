@@ -59,10 +59,12 @@ export default function SlugInput({
   };
 
   return (
-    <div>
-      <label className="block text-xs font-bold text-gray-500 mb-1">Custom Link (URL)</label>
-      <div className="flex items-center">
-        <span className="bg-gray-100 p-3 rounded-l-xl border border-r-0 text-gray-500 text-sm">undangin.com/</span>
+    <div className="transition-colors duration-500">
+      <label className="block text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest mb-2">Custom Link (URL)</label>
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center group">
+        <div className="bg-wedding-text/5 p-3 sm:px-4 rounded-t-xl sm:rounded-t-none sm:rounded-l-xl border border-wedding-gold/10 sm:border-r-0 text-wedding-text/40 text-xs font-bold transition-all duration-500 flex items-center justify-center sm:justify-start">
+          undangin.com/
+        </div>
         <input 
           type="text" 
           name="slug" 
@@ -70,13 +72,13 @@ export default function SlugInput({
           value={slug}
           onChange={handleManualChange}
           placeholder="nama-mempelai" 
-          className="w-full p-3 border rounded-r-xl focus:border-wedding-gold outline-none" 
+          className="w-full p-3 sm:p-3 bg-wedding-base border border-wedding-gold/10 rounded-b-xl sm:rounded-b-none sm:rounded-r-xl focus:border-wedding-gold outline-none text-wedding-text text-sm font-bold transition-all" 
         />
       </div>
-      <p className="text-[10px] text-gray-400 mt-1 flex justify-between">
+      <div className="text-[9px] text-wedding-text/40 mt-2 flex justify-between italic">
         <span>Hanya huruf kecil dan strip (-).</span>
-        {!isManual && <span className="text-wedding-gold animate-pulse">Otomatis Terisi ✨</span>}
-      </p>
+        {!isManual && <span className="text-wedding-gold animate-pulse font-bold not-italic">Otomatis Terisi ✨</span>}
+      </div>
     </div>
   );
 }

@@ -277,7 +277,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
               <span className="w-8 h-8 bg-wedding-gold/10 rounded-lg flex items-center justify-center text-sm font-bold text-wedding-gold">02</span>
               <h2 className="font-serif text-2xl text-wedding-text">Data Mempelai</h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-10">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-10">
               {/* Bride */}
               <div className="space-y-4">
                 <h3 className="font-bold text-sm uppercase tracking-widest text-wedding-gold">Mempelai Wanita</h3>
@@ -318,7 +318,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
               <h2 className="font-serif text-2xl text-wedding-text">Detail Acara</h2>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-10">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-10">
               <div className="space-y-6">
                   {/* ALTERNATIF PALING AKURAT */}
                   <div className="bg-blue-500/10 p-4 rounded-2xl border border-blue-500/20 mb-6">
@@ -337,9 +337,9 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
                     />
                   </div>
 
-                  <div className="p-6 bg-wedding-gold/5 border border-wedding-gold/10 rounded-2xl">
+                  <div className="p-4 md:p-6 bg-wedding-gold/5 border border-wedding-gold/10 rounded-2xl">
                     <label className="block text-xs font-bold text-wedding-gold uppercase tracking-widest mb-3">📍 Cari & Tandai Lokasi</label>
-                    <div className="flex gap-2 mb-4">
+                    <div className="flex flex-col sm:flex-row gap-2 mb-4">
                       <input 
                         type="text" 
                         value={locationSearch}
@@ -352,7 +352,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
                         type="button"
                         onClick={searchLocation}
                         disabled={isSearching}
-                        className="px-6 py-3 bg-wedding-gold text-black rounded-xl font-bold hover:opacity-80 transition-all disabled:opacity-50 text-xs"
+                        className="w-full sm:w-auto px-6 py-3 bg-wedding-gold text-black rounded-xl font-bold hover:opacity-80 transition-all disabled:opacity-50 text-xs"
                       >
                         {isSearching ? "..." : "Cari"}
                       </button>
@@ -404,7 +404,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
                 </div>
 
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold text-wedding-text/40 mb-1">Tanggal Acara</label>
                       <input type="date" value={formData.event_date} onChange={(e) => updateField("event_date", e.target.value)} required className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text text-sm transition-all" />
@@ -498,7 +498,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
 
               <div className="space-y-4">
                 <label className="block text-xs font-bold text-wedding-text/40 uppercase tracking-widest">Turut Mengundang</label>
-                <textarea value={formData.turut_mengundang} onChange={(e) => updateField("turut_mengundang", e.target.value)} rows={3} placeholder="Kel. Besar Bpk. Ahmad, Sahabat SMP 1..." className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text"></textarea>
+                <textarea value={formData.turut_mengundang} onChange={(e) => updateField("turut_mengundang", e.target.value)} rows={4} placeholder="Kel. Besar Bpk. Ahmad, Sahabat SMP 1..." className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all"></textarea>
               </div>
 
               <SubmitButton 

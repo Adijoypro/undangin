@@ -44,16 +44,16 @@ export default function LoveStorySection({ initialStories = [], onChange }: Love
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 transition-colors duration-500">
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="font-bold text-gray-800">Our Love Story</h3>
-          <p className="text-[10px] text-gray-400 italic">Ceritakan perjalanan cinta kalian dari awal bertemu.</p>
+          <h3 className="font-bold text-wedding-text">Our Love Story</h3>
+          <p className="text-[10px] text-wedding-text/40 italic">Ceritakan perjalanan cinta kalian dari awal bertemu.</p>
         </div>
         <button 
           type="button" 
           onClick={addStory}
-          className="px-4 py-2 bg-wedding-gold/10 text-wedding-gold rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-wedding-gold/20 transition-all border border-wedding-gold/20"
+          className="px-4 py-2 bg-wedding-gold/10 text-wedding-gold rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-wedding-gold/20 transition-all border border-wedding-gold/20 shadow-sm"
         >
           + Tambah Momen
         </button>
@@ -67,14 +67,14 @@ export default function LoveStorySection({ initialStories = [], onChange }: Love
               initial={{ opacity: 0, height: 0, y: -20 }}
               animate={{ opacity: 1, height: "auto", y: 0 }}
               exit={{ opacity: 0, height: 0, y: 20 }}
-              className="p-6 bg-gray-50/50 rounded-2xl border border-gray-100 relative group overflow-hidden"
+              className="p-6 bg-wedding-text/[0.03] rounded-2xl border border-wedding-gold/10 relative group overflow-hidden transition-all duration-500"
             >
               <div className="absolute top-0 left-0 w-1 h-full bg-wedding-gold/30"></div>
               
               <button 
                 type="button" 
                 onClick={() => removeStory(story.id)}
-                className="absolute top-4 right-4 text-gray-300 hover:text-red-400 transition-colors"
+                className="absolute top-4 right-4 text-wedding-text/20 hover:text-red-500 transition-colors z-10"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -84,34 +84,34 @@ export default function LoveStorySection({ initialStories = [], onChange }: Love
               <div className="grid gap-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Judul Momen</label>
+                    <label className="block text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest mb-1">Judul Momen</label>
                     <input 
                       type="text" 
                       value={story.title}
                       onChange={(e) => updateStory(story.id, "title", e.target.value)}
                       placeholder="Misal: Pertama Bertemu" 
-                      className="w-full p-3 bg-white border border-gray-100 rounded-xl outline-none focus:border-wedding-gold text-sm font-bold"
+                      className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text text-sm font-bold transition-all"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Kapan? (Bulan/Tahun)</label>
+                    <label className="block text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest mb-1">Kapan? (Bulan/Tahun)</label>
                     <input 
                       type="text" 
                       value={story.date}
                       onChange={(e) => updateStory(story.id, "date", e.target.value)}
                       placeholder="Misal: Januari 2020" 
-                      className="w-full p-3 bg-white border border-gray-100 rounded-xl outline-none focus:border-wedding-gold text-sm font-bold"
+                      className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text text-sm font-bold transition-all"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Cerita Singkat</label>
+                  <label className="block text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest mb-1">Cerita Singkat</label>
                   <textarea 
                     value={story.story}
                     onChange={(e) => updateStory(story.id, "story", e.target.value)}
                     rows={2} 
                     placeholder="Tuliskan sedikit kenangan di momen ini..." 
-                    className="w-full p-3 bg-white border border-gray-100 rounded-xl outline-none focus:border-wedding-gold text-sm leading-relaxed"
+                    className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text text-sm leading-relaxed transition-all"
                   ></textarea>
                 </div>
               </div>
@@ -120,11 +120,11 @@ export default function LoveStorySection({ initialStories = [], onChange }: Love
         </AnimatePresence>
 
         {stories.length === 0 && (
-          <div className="text-center py-12 bg-gray-50/30 rounded-3xl border border-dashed border-gray-200">
-            <svg className="w-12 h-12 text-gray-200 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center py-16 bg-wedding-text/[0.02] rounded-3xl border border-dashed border-wedding-gold/20 transition-all duration-500">
+            <svg className="w-12 h-12 text-wedding-text/10 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
-            <p className="text-sm text-gray-400 italic">Belum ada cerita. Tambahkan momen spesial kalian!</p>
+            <p className="text-sm text-wedding-text/40 italic">Belum ada cerita. Tambahkan momen spesial kalian!</p>
           </div>
         )}
       </div>

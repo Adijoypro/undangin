@@ -20,9 +20,9 @@ export default function QuoteSection({ initialQuote, initialBrideName, initialGr
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-1">
-        <label className="block text-xs font-bold text-gray-500">Quote / Kutipan</label>
+    <div className="transition-colors duration-500">
+      <div className="flex justify-between items-center mb-2">
+        <label className="block text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest">Quote / Kutipan</label>
         <AIQuoteAssistant 
           brideName={initialBrideName} 
           groomName={initialGroomName} 
@@ -34,10 +34,10 @@ export default function QuoteSection({ initialQuote, initialBrideName, initialGr
         name="quote_input" 
         value={quote}
         onChange={(e) => handleQuoteChange(e.target.value)}
-        rows={3} 
-        className="w-full p-4 border border-gray-200 rounded-xl focus:border-wedding-gold outline-none text-sm leading-relaxed"
+        rows={4} 
+        className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl focus:border-wedding-gold outline-none text-sm leading-relaxed text-wedding-text transition-all"
       ></textarea>
-      <p className="text-[10px] text-gray-400 mt-2 italic">Gunakan tombol AI untuk membuat kutipan otomatis berdasarkan nama mempelai.</p>
+      <p className="text-[10px] text-wedding-text/40 mt-2 italic">Gunakan tombol AI untuk membuat kutipan otomatis berdasarkan nama mempelai.</p>
     </div>
   );
 }
