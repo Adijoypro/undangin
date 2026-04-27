@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
   --color-wedding-base: var(--wedding-base);
   --color-wedding-sage: var(--wedding-sage);
@@ -13,8 +15,6 @@
   --font-sans: 'Montserrat', sans-serif;
   --font-serif: 'Cinzel', serif;
   --font-script: 'Great Vibes', cursive;
-
-  --dark-mode: selector(.dark);
 }
 
 :root {

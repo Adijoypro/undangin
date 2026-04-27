@@ -85,6 +85,8 @@ const jsonLd = {
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { LuxuryThemeToggle } from "@/components/ui/LuxuryThemeToggle";
+import SmoothScroll from "@/components/providers/SmoothScroll";
+import GoldenAura from "@/components/ui/GoldenAura";
 
 export default function RootLayout({
   children,
@@ -92,7 +94,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`scroll-smooth ${cinzel.variable} ${greatVibes.variable} ${montserrat.variable} ${cormorant.variable}`} suppressHydrationWarning>
+    <html lang="id" className={`${cinzel.variable} ${greatVibes.variable} ${montserrat.variable} ${cormorant.variable}`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
@@ -106,9 +108,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <LuxuryThemeToggle />
-          <Toaster position="top-center" richColors />
-          {children}
+          <SmoothScroll>
+            <GoldenAura />
+            <LuxuryThemeToggle />
+            <Toaster position="top-center" richColors />
+            {children}
+          </SmoothScroll>
         </ThemeProvider>
       </body>
     </html>

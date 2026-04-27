@@ -119,25 +119,27 @@ export default function ThemeShowcase() {
   const [sliderPaused, setSliderPaused] = useState(false);
 
   return (
-    <section id="template" className="py-32 px-4 border-t border-wedding-gold/10 relative overflow-hidden transition-colors duration-500">
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="mb-20">
-          <h2 className="font-serif text-5xl mb-4 text-wedding-text">Koleksi Eksklusif</h2>
-          <p className="text-wedding-text/60 max-w-xl text-lg">Pilih dari mahakarya desain yang dibuat oleh seniman digital kelas atas.</p>
+    <section id="template" className="py-20 md:py-32 px-4 border-t border-wedding-gold/10 relative overflow-hidden transition-colors duration-500">
+      <div className="max-w-7xl mx-auto relative z-10 px-4">
+        <div className="mb-12 md:mb-20">
+          <h2 className="font-serif text-4xl md:text-5xl mb-4 text-wedding-text">Koleksi Eksklusif</h2>
+          <p className="text-wedding-text/60 max-w-xl text-base md:text-lg">Pilih dari mahakarya desain yang dibuat oleh seniman digital kelas atas.</p>
         </div>
 
         <div 
-          className="relative overflow-x-auto pb-10 no-scrollbar" 
+          className="relative overflow-x-auto pb-10 no-scrollbar snap-x snap-mandatory" 
           onMouseEnter={() => setSliderPaused(true)} 
           onMouseLeave={() => setSliderPaused(false)}
         >
           <motion.div 
-            className="flex gap-8 w-max"
+            className="flex gap-6 md:gap-8 w-max"
             animate={sliderPaused ? {} : { x: ["0%", "-50%"] }}
             transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
           >
             {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
-              <ThemeCard key={`${t.id}-${i}`} t={t} index={i} />
+              <div key={`${t.id}-${i}`} className="snap-center">
+                <ThemeCard t={t} index={i} />
+              </div>
             ))}
           </motion.div>
         </div>

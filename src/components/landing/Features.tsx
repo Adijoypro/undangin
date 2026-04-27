@@ -2,72 +2,158 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Zap, BarChart3, Music4, Smartphone, QrCode, BellRing } from "lucide-react";
+
+const features = [
+  { 
+    title: "Animasi Sinematik", 
+    icon: <Zap className="w-8 h-8" />, 
+    desc: "Parallax scrolling halus dan transisi premium yang memanjakan mata tamu Anda." 
+  },
+  { 
+    title: "RSVP Cerdas", 
+    icon: <BarChart3 className="w-8 h-8" />, 
+    desc: "Sistem pendataan kehadiran real-time terintegrasi untuk manajemen tamu yang efisien." 
+  },
+  { 
+    title: "Mahakarya Musik", 
+    icon: <Music4 className="w-8 h-8" />, 
+    desc: "Personalisasi iringan melodi eksklusif yang menemani setiap detik perjalanan cinta Anda." 
+  }
+];
+
+const subFeatures = [
+  { icon: <Smartphone className="w-5 h-5" />, title: "Mobile Optimized", desc: "Tampilan sempurna di semua perangkat." },
+  { icon: <QrCode className="w-5 h-5" />, title: "Digital Check-in", desc: "Sistem QR Code untuk tamu undangan." },
+  { icon: <BellRing className="w-5 h-5" />, title: "Real-time Notification", desc: "Notifikasi instan setiap ada tamu RSVP." }
+];
 
 export default function Features() {
   return (
     <>
-      {/* FEATURES */}
-      <section id="fitur" className="py-32 px-4 relative border-t border-wedding-gold/10">
+      {/* MAIN FEATURES */}
+      <section id="fitur" className="py-20 md:py-32 px-4 relative border-t border-wedding-gold/10 overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-wedding-gold/5 rounded-full blur-[150px] -z-10" />
+        
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24">
-            <h2 className="font-serif text-5xl md:text-6xl mb-6 text-wedding-text">Kemewahan dalam Detail</h2>
-            <p className="text-wedding-text/60 text-lg max-w-2xl mx-auto">Dirancang khusus untuk klien VVIP.</p>
+          <div className="text-center mb-16 md:mb-24 px-4">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="font-serif text-4xl md:text-6xl mb-6 text-wedding-text leading-tight"
+            >
+              Kemewahan dalam <span className="text-wedding-gold">Setiap Detail</span>
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-wedding-text/60 text-base md:text-lg max-w-2xl mx-auto font-light"
+            >
+              Setiap fitur dirancang dengan presisi tinggi untuk memberikan pengalaman tak terlupakan bagi tamu undangan Anda.
+            </motion.p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { title: "Animasi Sinematik", icon: "✨", desc: "Parallax scrolling halus dan transisi premium." },
-              { title: "RSVP Cerdas", icon: "📊", desc: "Sistem pendataan kehadiran real-time terintegrasi." },
-              { title: "Personalisasi", icon: "🎵", desc: "Unggah musik dan galeri tanpa batas." }
-            ].map((feat, i) => (
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+            {features.map((feat, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-10 rounded-2xl bg-wedding-text/[0.03] border border-wedding-gold/10 hover:bg-wedding-gold/5 transition-all group"
+                className="p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] bg-white/40 backdrop-blur-xl border border-wedding-gold/10 hover:border-wedding-gold/30 transition-all duration-500 group relative"
               >
-                <div className="text-4xl mb-8 group-hover:scale-110 transition-transform">{feat.icon}</div>
-                <h3 className="font-serif text-2xl text-wedding-gold mb-4">{feat.title}</h3>
-                <p className="text-wedding-text/60 leading-relaxed font-light">{feat.desc}</p>
+                {/* Shine Container with overflow-hidden */}
+                <div className="absolute inset-0 overflow-hidden rounded-[2rem] md:rounded-[2.5rem] pointer-events-none">
+                  {/* Golden Aura Shine Effect */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-wedding-gold/10 via-transparent to-wedding-gold/10" />
+                    <motion.div 
+                      initial={{ x: "-100%", y: "-100%" }}
+                      whileHover={{ x: "100%", y: "100%" }}
+                      transition={{ duration: 1.5, ease: "easeInOut" }}
+                      className="absolute inset-0 bg-gradient-to-br from-transparent via-wedding-gold/20 to-transparent"
+                    />
+                  </div>
+                  
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-wedding-gold/5 rounded-bl-[5rem] -z-10 group-hover:scale-150 transition-transform duration-700" />
+                </div>                
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-wedding-gold/5 text-wedding-gold flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 group-hover:bg-wedding-gold group-hover:text-white transition-all duration-500">
+                  {feat.icon}
+                </div>
+                
+                <h3 className="font-serif text-xl md:text-2xl text-wedding-text mb-3 md:mb-4 group-hover:text-wedding-gold transition-colors">{feat.title}</h3>
+                <p className="text-sm md:text-base text-wedding-text/60 leading-relaxed font-light">{feat.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* WHY US */}
-      <section className="py-32 px-4">
+      {/* SHOWCASE SECTION - WHY US */}
+      <section className="py-20 md:py-32 px-4 bg-wedding-text/[0.02]">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              className="space-y-10 md:space-y-12"
             >
-              <span className="text-wedding-gold font-bold uppercase tracking-widest text-xs mb-4 block">Teknologi Mutakhir</span>
-              <h2 className="font-serif text-5xl md:text-6xl mb-8 text-wedding-text">Lebih dari Sekadar Undangan.</h2>
-              <p className="text-lg text-wedding-text/60 mb-10">Ekosistem digital untuk hari pernikahan Anda.</p>
+              <div>
+                <span className="text-wedding-gold font-serif italic tracking-[0.3em] text-[10px] md:text-sm mb-4 block">Crafted with Perfection</span>
+                <h2 className="font-serif text-4xl md:text-6xl mb-6 md:mb-8 text-wedding-text leading-tight">Lebih dari Sekadar <br />Undangan Digital.</h2>
+                <p className="text-lg md:text-xl text-wedding-text/60 font-light max-w-lg leading-relaxed">
+                  Kami menghadirkan ekosistem digital yang menyatukan keindahan seni tradisional dengan teknologi masa depan.
+                </p>
+              </div>
               
-              <div className="space-y-6">
-                {["RSVP Management", "WhatsApp Integration", "QR Code Check-in"].map((item, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="w-6 h-6 rounded-full bg-wedding-gold/20 flex items-center justify-center text-wedding-gold flex-shrink-0 mt-1">✓</div>
-                    <h4 className="font-bold text-lg text-wedding-text">{item}</h4>
-                  </div>
+              <div className="grid gap-6 md:gap-8">
+                {subFeatures.map((item, i) => (
+                  <motion.div 
+                    key={i} 
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex gap-4 md:gap-6 items-start group"
+                  >
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-wedding-gold/10 flex items-center justify-center text-wedding-gold flex-shrink-0 group-hover:bg-wedding-gold group-hover:text-white transition-all">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <h4 className="font-serif text-lg md:text-xl text-wedding-text mb-1">{item.title}</h4>
+                      <p className="text-sm md:text-base text-wedding-text/50 font-light">{item.desc}</p>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
             
-            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border border-wedding-gold/10 bg-slate-900">
-              <Image 
-                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=1200" 
-                fill
-                className="object-cover grayscale-[20%]" 
-                alt="Dashboard"
-              />
-            </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="absolute -inset-4 bg-wedding-gold/10 blur-2xl rounded-3xl -z-10" />
+              <div className="relative aspect-square rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white">
+                <Image 
+                  src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=1200" 
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-1000" 
+                  alt="Premium Experience"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10 text-white">
+                  <p className="font-serif italic text-lg md:text-2xl">"Kualitas yang melampaui ekspektasi."</p>
+                  <p className="text-[10px] md:text-sm uppercase tracking-widest mt-2 opacity-70">- Amanda & James</p>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>

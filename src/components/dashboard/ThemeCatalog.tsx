@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Lock, ArrowRight } from 'lucide-react';
 
 const themes = [
   { 
@@ -89,17 +90,17 @@ const ThemeCatalog = () => {
           <div className="flex gap-1">
             <button 
               onClick={() => scroll('left')}
-              className="w-8 h-8 rounded-full bg-wedding-text/10 hover:bg-wedding-gold text-wedding-text hover:text-black transition-all flex items-center justify-center active:scale-90"
+              className="w-10 h-10 rounded-full bg-white/40 dark:bg-wedding-text/10 backdrop-blur-md hover:bg-wedding-gold text-wedding-text hover:text-white transition-all flex items-center justify-center active:scale-90 border border-wedding-gold/20"
               aria-label="Previous"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <button 
               onClick={() => scroll('right')}
-              className="w-8 h-8 rounded-full bg-wedding-text/10 hover:bg-wedding-gold text-wedding-text hover:text-black transition-all flex items-center justify-center active:scale-90"
+              className="w-10 h-10 rounded-full bg-white/40 dark:bg-wedding-text/10 backdrop-blur-md hover:bg-wedding-gold text-wedding-text hover:text-white transition-all flex items-center justify-center active:scale-90 border border-wedding-gold/20"
               aria-label="Next"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -146,20 +147,20 @@ const ThemeCatalog = () => {
                         <span className="text-wedding-gold text-[9px] font-black uppercase tracking-[0.3em] group-hover/btn:tracking-[0.4em] transition-all">
                           KETUK UNTUK DEMO
                         </span>
-                        <svg className="w-3 h-3 text-wedding-gold group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        <ArrowRight className="w-3 h-3 text-wedding-gold group-hover/btn:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </a>
                 ) : (
                   <div className="w-full h-full relative">
                     <div className={`absolute inset-0 ${theme.color} opacity-40 grayscale`}></div>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-black/40 backdrop-blur-[2px]">
-                      <div className="w-12 h-12 rounded-full border-2 border-dashed border-white/20 flex items-center justify-center mb-4">
-                        <svg className="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002-2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-black/40 backdrop-blur-sm">
+                      <div className="w-14 h-14 rounded-full border border-dashed border-white/30 flex items-center justify-center mb-4 bg-white/5">
+                        <Lock className="w-5 h-5 text-white/60" />
                       </div>
-                      <span className="bg-white/10 text-white text-[7px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3">Locked</span>
+                      <span className="bg-white/10 text-white border border-white/20 text-[7px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest mb-4">Locked</span>
                       <h3 className="text-xl font-serif font-bold text-white mb-2">{theme.name}</h3>
-                      <p className="text-[9px] text-white/40 uppercase tracking-widest font-black">COMING SOON</p>
+                      <p className="text-[9px] text-white/50 uppercase tracking-widest font-black">COMING SOON</p>
                     </div>
                   </div>
                 )}

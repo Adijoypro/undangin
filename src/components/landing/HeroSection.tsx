@@ -29,7 +29,7 @@ export default function HeroSection({ user }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative pt-40 pb-32 px-4 min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 px-4 min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Blurs */}
       <div className="absolute top-1/4 -left-1/4 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] rounded-full bg-wedding-gold/10 dark:bg-wedding-gold/5 blur-[80px] pointer-events-none transform-gpu" />
       
@@ -41,19 +41,19 @@ export default function HeroSection({ user }: HeroSectionProps) {
             show: { transition: { staggerChildren: 0.1 } }
           }}
         >
-          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-wedding-gold/30 bg-wedding-base text-wedding-gold text-xs font-bold uppercase tracking-widest mb-10 backdrop-blur-md shadow-lg">
+          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-wedding-gold/30 bg-wedding-base text-wedding-gold text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6 md:mb-10 backdrop-blur-md shadow-lg">
             <span className="w-2 h-2 rounded-full bg-wedding-gold animate-pulse"></span>
             Platform SaaS Undangan Premium
           </motion.div>
 
-          <motion.h1 variants={fadeInUp} className="text-6xl md:text-9xl font-serif font-bold tracking-tighter mb-8 leading-[0.9] text-wedding-text">
+          <motion.h1 variants={fadeInUp} className="text-5xl md:text-9xl font-serif font-bold tracking-tighter mb-6 md:mb-8 leading-[0.95] md:leading-[0.9] text-wedding-text">
             Undangan Digital <br />
             <span className={`transition-all duration-1000 italic ${showShimmer ? 'animate-text-shimmer' : 'text-wedding-gold'}`}>
               Mahakarya
             </span>
           </motion.h1>
 
-          <motion.p variants={fadeInUp} className="text-lg md:text-2xl text-wedding-text/70 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
+          <motion.p variants={fadeInUp} className="text-base md:text-2xl text-wedding-text/70 mb-10 md:mb-12 max-w-3xl mx-auto font-light leading-relaxed px-4">
             Standar baru industri pernikahan. Desain sinematik eksklusif, animasi <span className="text-wedding-text font-medium">jaw-dropping</span>, dan manajemen tamu cerdas.
           </motion.p>
 

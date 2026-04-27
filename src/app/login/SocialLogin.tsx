@@ -20,19 +20,19 @@ export default function SocialLogin() {
     <div className="space-y-4">
       <div className="relative my-8">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-100"></div>
+          <div className="w-full border-t border-wedding-gold/10"></div>
         </div>
         <div className="relative flex justify-center text-[10px] uppercase tracking-[0.3em] font-black">
-          <span className="bg-white px-4 text-gray-300">Atau masuk dengan</span>
+          <span className="bg-white dark:bg-black/80 px-4 text-wedding-text/40 dark:text-white/40">Atau masuk dengan</span>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <motion.button
-          whileHover={{ scale: 1.01, backgroundColor: "#fdfdfd" }}
+          whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
           onClick={() => handleSocialLogin('google')}
-          className="flex items-center justify-center gap-2 w-full py-4 border border-gray-100 rounded-xl text-[10px] font-bold text-gray-700 hover:shadow-sm transition-all uppercase tracking-widest"
+          className="flex items-center justify-center gap-2 w-full py-4 border border-wedding-gold/10 dark:border-white/10 rounded-xl text-[10px] font-bold text-wedding-text dark:text-white/80 hover:border-wedding-gold/30 dark:hover:border-wedding-gold/30 hover:shadow-sm transition-all uppercase tracking-widest bg-white/50 dark:bg-white/5"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -56,10 +56,10 @@ export default function SocialLogin() {
         </motion.button>
 
         <motion.button
-          whileHover={{ scale: 1.01, backgroundColor: "#fdfdfd" }}
+          whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
           onClick={() => handleSocialLogin('facebook')}
-          className="flex items-center justify-center gap-2 w-full py-4 border border-gray-100 rounded-xl text-[10px] font-bold text-gray-700 hover:shadow-sm transition-all uppercase tracking-widest"
+          className="flex items-center justify-center gap-2 w-full py-4 border border-wedding-gold/10 dark:border-white/10 rounded-xl text-[10px] font-bold text-wedding-text dark:text-white/80 hover:border-wedding-gold/30 dark:hover:border-wedding-gold/30 hover:shadow-sm transition-all uppercase tracking-widest bg-white/50 dark:bg-white/5"
         >
           <svg className="w-4 h-4 fill-[#1877F2]" viewBox="0 0 24 24">
             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />

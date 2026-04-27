@@ -14,10 +14,10 @@ export default function LoginButtons() {
       <button 
         formAction={login} 
         disabled={pending}
-        className={`w-full py-4 rounded-xl font-bold transition-all uppercase tracking-widest text-xs shadow-md flex items-center justify-center gap-2 ${
+        className={`w-full py-4 rounded-xl font-bold transition-all uppercase tracking-widest text-xs shadow-xl flex items-center justify-center gap-2 ${
           pending 
-            ? "bg-gray-400 cursor-not-allowed text-white" 
-            : "bg-[#D4AF37] text-white hover:bg-[#B8962E] active:scale-[0.98]"
+            ? "bg-gray-400 cursor-not-allowed text-white shadow-none" 
+            : "bg-gradient-to-r from-wedding-gold to-[#B8962E] text-white hover:scale-[1.02] active:scale-[0.98] shadow-wedding-gold/20"
         }`}
       >
         {isLogin ? (
@@ -29,17 +29,17 @@ export default function LoginButtons() {
             <span>Memverifikasi...</span>
           </div>
         ) : (
-          "Masuk Ke Dasbor"
+          "Akses Dasbor"
         )}
       </button>
 
       <button 
         formAction={signup} 
         disabled={pending}
-        className={`w-full py-4 border-2 rounded-xl font-bold transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2 ${
+        className={`w-full py-4 border border-wedding-gold/30 rounded-xl font-bold transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2 bg-wedding-base/50 backdrop-blur-sm ${
           pending
             ? "border-gray-100 text-gray-300 cursor-not-allowed"
-            : "border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/5 active:scale-[0.98]"
+            : "text-wedding-gold hover:bg-wedding-gold/5 hover:border-wedding-gold/60 active:scale-[0.98]"
         }`}
       >
         {isSignup ? (

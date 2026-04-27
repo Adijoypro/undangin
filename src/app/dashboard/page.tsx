@@ -8,6 +8,7 @@ import MiniPricingGrid from "@/components/dashboard/MiniPricingGrid";
 import ThemeCatalog from "@/components/dashboard/ThemeCatalog";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import SuccessNotification from "@/components/dashboard/SuccessNotification";
+import { Mail, Users, CheckCircle, Activity, Plus, ExternalLink, Edit3, Database, Share2 } from "lucide-react";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -51,7 +52,7 @@ export default async function DashboardPage() {
   return (
     <DashboardShell>
       <SuccessNotification />
-      <header className="bg-wedding-base/80 border-b border-wedding-gold/10 backdrop-blur-md sticky top-0 z-50 transition-colors duration-500">
+      <header className="bg-white/40 dark:bg-wedding-base/40 border-b border-white/50 dark:border-wedding-gold/20 backdrop-blur-2xl sticky top-0 z-50 transition-colors duration-500 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 group">
@@ -76,18 +77,18 @@ export default async function DashboardPage() {
       <main className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
           {[
-            { label: 'UNDANGAN', value: totalInvitations, icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>, color: 'text-wedding-gold', bg: 'bg-wedding-gold/10' },
-            { label: 'RSVP', value: totalRSVP, icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-            { label: 'HADIR', value: totalHadir, icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>, color: 'text-green-500', bg: 'bg-green-500/10' },
-            { label: 'STATUS', value: 'ACTIVE', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>, color: 'text-indigo-500', bg: 'bg-indigo-500/10' }
+            { label: 'UNDANGAN', value: totalInvitations, icon: <Mail className="w-6 h-6" />, color: 'text-wedding-gold', bg: 'bg-wedding-gold/10 border-wedding-gold/20' },
+            { label: 'RSVP', value: totalRSVP, icon: <Users className="w-6 h-6" />, color: 'text-blue-500', bg: 'bg-blue-500/10 border-blue-500/20' },
+            { label: 'HADIR', value: totalHadir, icon: <CheckCircle className="w-6 h-6" />, color: 'text-green-500', bg: 'bg-green-500/10 border-green-500/20' },
+            { label: 'STATUS', value: 'ACTIVE', icon: <Activity className="w-6 h-6" />, color: 'text-indigo-500', bg: 'bg-indigo-500/10 border-indigo-500/20' }
           ].map((item, idx) => (
-            <div key={idx} className="bg-wedding-base p-6 rounded-2xl shadow-sm border border-wedding-gold/10 flex items-center gap-4 hover:border-wedding-gold/30 transition-all duration-500">
-              <div className={`w-12 h-12 ${item.bg} rounded-xl flex items-center justify-center ${item.color}`}>
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">{item.icon}</svg>
+            <div key={idx} className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-6 rounded-[2rem] shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-4 hover:scale-[1.02] transition-transform duration-500">
+              <div className={`w-12 h-12 ${item.bg} border rounded-2xl flex items-center justify-center ${item.color}`}>
+                {item.icon}
               </div>
               <div className="min-w-0">
-                <p className="text-[10px] text-wedding-text/40 font-bold uppercase tracking-widest mb-1 truncate">{item.label}</p>
-                <p className="text-2xl font-serif font-bold text-wedding-text leading-none">{item.value}</p>
+                <p className="text-[10px] text-wedding-text/50 font-bold uppercase tracking-[0.2em] mb-1 truncate">{item.label}</p>
+                <p className="text-3xl font-serif font-bold text-wedding-text leading-none">{item.value}</p>
               </div>
             </div>
           ))}
@@ -103,25 +104,27 @@ export default async function DashboardPage() {
           <span className="text-[10px] font-bold text-wedding-text/40 uppercase tracking-[0.3em]">{totalInvitations} ITEM</span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <Link href="/dashboard/create">
-            <div className="bg-wedding-base p-10 rounded-2xl shadow-sm border-2 border-dashed border-wedding-gold/30 text-center group cursor-pointer hover:bg-wedding-gold/5 transition-all h-full flex flex-col justify-center duration-500">
-              <div className="w-14 h-14 bg-wedding-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <svg className="w-8 h-8 text-wedding-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+            <div className="bg-white/30 dark:bg-wedding-base/30 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-lg border-2 border-dashed border-wedding-gold/40 text-center group cursor-pointer hover:bg-white/50 hover:border-wedding-gold hover:scale-[1.02] transition-all h-full flex flex-col justify-center duration-500">
+              <div className="w-16 h-16 bg-wedding-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-wedding-gold group-hover:text-white text-wedding-gold transition-colors">
+                <Plus className="w-8 h-8" />
               </div>
-              <h3 className="font-serif text-2xl font-bold mb-2 text-wedding-text">Buat Baru</h3>
-              <p className="text-[10px] text-wedding-text/30 font-bold uppercase tracking-[0.2em]">MULAI DESAIN SEKARANG</p>
+              <h3 className="font-serif text-2xl font-bold mb-2 text-wedding-text">Rancang Baru</h3>
+              <p className="text-[10px] text-wedding-text/50 font-bold uppercase tracking-[0.2em]">KREASIKAN MAHAKARYA ANDA</p>
             </div>
           </Link>
 
           {invitations?.map((invitation) => (
-            <div key={invitation.id} className="bg-wedding-base p-6 rounded-3xl shadow-sm border border-wedding-gold/10 flex flex-col justify-between hover:shadow-md hover:border-wedding-gold/30 transition-all duration-500">
-              <div>
+            <div key={invitation.id} className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-xl border border-white/50 dark:border-wedding-gold/20 flex flex-col justify-between hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-wedding-gold/5 rounded-full blur-2xl group-hover:bg-wedding-gold/10 transition-colors pointer-events-none" />
+              
+              <div className="relative z-10">
                 <div className="flex justify-between items-start mb-6">
-                  <span className="bg-wedding-text/5 text-wedding-text/40 text-[8px] uppercase tracking-widest px-3 py-1 rounded font-bold">
+                  <span className="bg-wedding-gold/10 text-wedding-gold border border-wedding-gold/20 text-[9px] uppercase tracking-[0.2em] px-3 py-1.5 rounded-full font-bold">
                     {invitation.theme.replace(/-/g, ' ').toUpperCase()}
                   </span>
-                  <div className={invitation.status === 'published' ? '' : 'bg-wedding-gold rounded overflow-hidden shadow-sm'}>
+                  <div className={invitation.status === 'published' ? '' : 'bg-gradient-to-r from-wedding-gold to-[#B8962E] rounded-full overflow-hidden shadow-lg'}>
                     <PublishButton 
                       invitationId={invitation.id} 
                       status={invitation.status} 
@@ -129,21 +132,24 @@ export default async function DashboardPage() {
                     />
                   </div>
                 </div>
-                <h3 className="font-serif text-3xl text-wedding-text mb-2 line-clamp-1">{invitation.bride_name} & {invitation.groom_name}</h3>
-                <div className="flex items-center gap-2 mb-6">
-                  <svg className="w-3 h-3 text-wedding-text/20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                  <p className="text-[10px] text-wedding-gold font-bold tracking-widest">/ {invitation.slug}</p>
+                <h3 className="font-serif text-3xl font-bold text-wedding-text mb-2 line-clamp-1">{invitation.bride_name} & {invitation.groom_name}</h3>
+                <div className="flex items-center gap-2 mb-8">
+                  <div className="w-1.5 h-1.5 rounded-full bg-wedding-gold" />
+                  <p className="text-xs text-wedding-text/60 tracking-widest">{invitation.slug}</p>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 mb-4">
-                  <a href={`/${invitation.slug}`} target="_blank" className="text-center py-2 bg-wedding-text/5 text-wedding-text/60 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-wedding-text hover:text-wedding-base transition-all">
-                    LIHAT
+                <div className="grid grid-cols-3 gap-3 mb-6">
+                  <a href={`/${invitation.slug}`} target="_blank" className="flex flex-col items-center justify-center py-3 bg-white/50 dark:bg-white/5 border border-white/50 dark:border-white/10 rounded-2xl hover:bg-wedding-gold hover:text-white transition-colors group/btn">
+                    <ExternalLink className="w-4 h-4 mb-1 text-wedding-text/50 group-hover/btn:text-white" />
+                    <span className="text-[9px] font-bold uppercase tracking-widest">LIHAT</span>
                   </a>
-                  <Link href={`/dashboard/edit/${invitation.id}`} className="text-center py-2 bg-wedding-text/5 text-wedding-text/60 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-wedding-text hover:text-wedding-base transition-all">
-                    EDIT
+                  <Link href={`/dashboard/edit/${invitation.id}`} className="flex flex-col items-center justify-center py-3 bg-white/50 dark:bg-white/5 border border-white/50 dark:border-white/10 rounded-2xl hover:bg-wedding-gold hover:text-white transition-colors group/btn">
+                    <Edit3 className="w-4 h-4 mb-1 text-wedding-text/50 group-hover/btn:text-white" />
+                    <span className="text-[9px] font-bold uppercase tracking-widest">EDIT</span>
                   </Link>
-                  <Link href={`/dashboard/invitation/${invitation.id}/guests`} className="text-center py-2 bg-wedding-text/5 text-wedding-text/60 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-wedding-text hover:text-wedding-base transition-all">
-                    DATA TAMU
+                  <Link href={`/dashboard/invitation/${invitation.id}/guests`} className="flex flex-col items-center justify-center py-3 bg-white/50 dark:bg-white/5 border border-white/50 dark:border-white/10 rounded-2xl hover:bg-wedding-gold hover:text-white transition-colors group/btn">
+                    <Database className="w-4 h-4 mb-1 text-wedding-text/50 group-hover/btn:text-white" />
+                    <span className="text-[9px] font-bold uppercase tracking-widest">TAMU</span>
                   </Link>
                 </div>
               </div>
@@ -152,10 +158,10 @@ export default async function DashboardPage() {
                   <a 
                     href={`https://wa.me/?text=${encodeURIComponent(`Yth. Bapak/Ibu/Saudara/i,\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Anda untuk hadir dan memberikan doa restu di acara pernikahan kami:\n\n*${invitation.bride_name} & ${invitation.groom_name}*\n\nKlik link di bawah ini untuk melihat detail acara & RSVP:\n\n${origin}/${invitation.slug}\n\nMerupakan suatu kehormatan bagi kami apabila Anda dapat hadir dan memberikan doa restu. Terima kasih.`)}`}
                     target="_blank"
-                    className="w-full py-3 bg-[#00C853] text-white rounded-xl text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#00E676] transition-all"
+                    className="w-full py-4 bg-gradient-to-r from-[#00C853] to-[#00E676] text-white rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#00C853]/30 hover:scale-[1.02] transition-all"
                   >
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.412.001 12.048a11.827 11.827 0 001.578 5.91L0 24l6.102-1.6c1.863.516 3.827.788 5.792.788h.005c6.632 0 12.042-5.412 12.045-12.048a11.82 11.82 0 00-3.526-8.433"/></svg>
-                    SHARE WHATSAPP
+                    <Share2 className="w-4 h-4" />
+                    BAGIKAN UNDANGAN
                   </a>
                 )}
             </div>

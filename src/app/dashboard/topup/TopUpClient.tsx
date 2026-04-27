@@ -4,6 +4,7 @@ import { useState } from "react";
 import Script from "next/script";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { Sparkles, Briefcase, Crown, Check, Lock, Zap, Gem, MessageCircle } from "lucide-react";
 
 interface Package {
   id: string;
@@ -88,23 +89,21 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
                 <div className="absolute -inset-1 bg-gradient-to-r from-wedding-gold via-amber-300 to-wedding-gold rounded-3xl blur opacity-25 animate-pulse"></div>
               )}
 
-              <div className={`h-full bg-wedding-base rounded-3xl shadow-sm border-2 ${pkg.id === "pkg_5" ? 'border-wedding-gold shadow-xl' : 'border-wedding-gold/10'} overflow-hidden flex flex-col relative group transition-all duration-500 hover:shadow-2xl hover:border-wedding-gold/30`}>
+                <div className={`h-full bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl rounded-[2.5rem] shadow-xl border-2 ${pkg.id === "pkg_5" ? 'border-wedding-gold shadow-wedding-gold/20' : 'border-wedding-gold/10'} overflow-hidden flex flex-col relative group transition-all duration-500 hover:shadow-2xl hover:border-wedding-gold/30`}>
                 
                 {pkg.id === "pkg_5" && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <span className="bg-wedding-gold text-black text-[8px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg">
+                  <div className="absolute top-6 right-6 z-10">
+                    <span className="bg-gradient-to-r from-wedding-gold to-amber-600 text-white text-[8px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg">
                       BEST SELLER
                     </span>
                   </div>
                 )}
                 
-                <div className="p-8 text-center relative z-10">
-                  <div className={`w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center text-3xl shadow-inner ${
-                    pkg.id === "pkg_1" ? "bg-wedding-gold/5" : 
-                    pkg.id === "pkg_5" ? "bg-wedding-gold/10 border border-wedding-gold/20" : 
-                    "bg-blue-500/10"
+                <div className="p-10 text-center relative z-10">
+                  <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center shadow-lg ${
+                    pkg.id === "pkg_5" ? "bg-wedding-gold text-white" : "bg-wedding-gold/10 text-wedding-gold"
                   }`}>
-                    {pkg.id === "pkg_1" ? "✨" : pkg.id === "pkg_5" ? "💼" : "👑"}
+                    {pkg.id === "pkg_1" ? <Gem className="w-8 h-8" /> : pkg.id === "pkg_5" ? <Sparkles className="w-8 h-8" /> : <Crown className="w-8 h-8" />}
                   </div>
                   
                   <h3 className="font-serif text-2xl text-wedding-text font-bold mb-1">{pkg.name}</h3>
@@ -127,7 +126,7 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
                 </div>
 
                 <div className="p-8 mt-auto bg-wedding-text/[0.03] relative border-t border-wedding-gold/5">
-                  <ul className="space-y-3 mb-8">
+                  <ul className="space-y-4 mb-10">
                     {[
                       "Semua Tema Premium",
                       "Edit Sepuasnya",
@@ -135,12 +134,12 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
                       pkg.id === "pkg_10" ? "Prioritas Support VIP" : "Support Standar"
                     ].map((feature, idx) => (
                       <li key={idx} className="flex items-center gap-3">
-                        <div className="w-4 h-4 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                          <svg className="w-2.5 h-2.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
-                          </svg>
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
+                          pkg.id === "pkg_5" ? "bg-wedding-gold/20 text-wedding-gold" : "bg-wedding-text/5 text-wedding-text/30"
+                        }`}>
+                          <Check className="w-3 h-3" />
                         </div>
-                        <span className="text-[11px] font-bold text-wedding-text/60">{feature}</span>
+                        <span className="text-[11px] font-bold text-wedding-text/70">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -166,13 +165,15 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
       {/* TRUST BADGES SECTION */}
       <div className="mt-20 pt-10 border-t border-wedding-gold/10 grid grid-cols-2 md:grid-cols-4 gap-8">
         {[
-          { label: "Pembayaran Aman", sub: "Via Midtrans Secure Payment", icon: "🔒" },
-          { label: "Verifikasi Instan", sub: "Kredit langsung masuk otomatis", icon: "⚡" },
-          { label: "Aktif Selamanya", sub: "Tanpa biaya langganan bulanan", icon: "💎" },
-          { label: "Support 24/7", sub: "Siap bantu via WhatsApp", icon: "💬" }
+          { label: "Pembayaran Aman", sub: "Via Midtrans Secure Payment", icon: <Lock className="w-6 h-6" /> },
+          { label: "Verifikasi Instan", sub: "Kredit langsung masuk otomatis", icon: <Zap className="w-6 h-6" /> },
+          { label: "Aktif Selamanya", sub: "Tanpa biaya langganan bulanan", icon: <Gem className="w-6 h-6" /> },
+          { label: "Support 24/7", sub: "Siap bantu via WhatsApp", icon: <MessageCircle className="w-6 h-6" /> }
         ].map((item, idx) => (
-          <div key={idx} className="text-center">
-            <div className="text-2xl mb-2">{item.icon}</div>
+          <div key={idx} className="text-center group">
+            <div className="w-12 h-12 mx-auto mb-4 bg-wedding-gold/5 rounded-full flex items-center justify-center text-wedding-gold transition-transform group-hover:scale-110">
+              {item.icon}
+            </div>
             <h4 className="text-[11px] font-black uppercase tracking-widest text-wedding-text mb-1">{item.label}</h4>
             <p className="text-[9px] text-wedding-text/40 font-medium">{item.sub}</p>
           </div>

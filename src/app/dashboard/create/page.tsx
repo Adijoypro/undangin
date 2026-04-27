@@ -7,6 +7,7 @@ import LogoutButton from "@/components/dashboard/LogoutButton";
 import AdminContactCard from "@/components/dashboard/AdminContactCard";
 import InvitationForm from "@/components/dashboard/InvitationForm";
 import DashboardShell from "@/components/dashboard/DashboardShell";
+import { ChevronLeft, AlertTriangle } from "lucide-react";
 
 export default async function CreateInvitationPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const { error } = await searchParams;
@@ -49,13 +50,13 @@ export default async function CreateInvitationPage({ searchParams }: { searchPar
 
   return (
     <DashboardShell>
-      <header className="bg-wedding-base/80 border-b border-wedding-gold/10 backdrop-blur-md sticky top-0 z-50 transition-colors duration-500">
+      <header className="bg-white/40 dark:bg-wedding-base/40 border-b border-white/50 dark:border-wedding-gold/20 backdrop-blur-2xl sticky top-0 z-50 transition-colors duration-500 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
           <div className="flex items-center gap-6">
-            <Link href="/dashboard" className="w-8 h-8 rounded-full bg-wedding-text/5 flex items-center justify-center text-wedding-text/40 hover:bg-wedding-gold hover:text-black transition-all">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <Link href="/dashboard" className="w-10 h-10 rounded-full bg-white/40 dark:bg-wedding-text/10 backdrop-blur-md hover:bg-wedding-gold text-wedding-text hover:text-white transition-all flex items-center justify-center active:scale-90 border border-wedding-gold/20">
+              <ChevronLeft className="w-5 h-5" />
             </Link>
-            <h1 className="font-serif text-lg font-bold text-wedding-text">Buat Undangan Baru</h1>
+            <h1 className="font-serif text-xl font-bold text-wedding-text">Rancang Mahakarya</h1>
           </div>
           <LogoutButton />
         </div>
@@ -78,11 +79,9 @@ export default async function CreateInvitationPage({ searchParams }: { searchPar
         )}
 
         {isLimitReached ? (
-          <div className="bg-wedding-base p-12 rounded-3xl shadow-sm border border-wedding-gold/10 text-center space-y-6 transition-all duration-500">
-            <div className="w-20 h-20 bg-wedding-gold/10 rounded-full flex items-center justify-center mx-auto">
-              <svg className="w-10 h-10 text-wedding-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
+          <div className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-12 rounded-[2.5rem] shadow-xl border border-white/50 dark:border-wedding-gold/20 text-center space-y-6 transition-all duration-500">
+            <div className="w-24 h-24 bg-wedding-gold/10 rounded-full flex items-center justify-center mx-auto border border-wedding-gold/20">
+              <AlertTriangle className="w-12 h-12 text-wedding-gold" />
             </div>
             <div>
               <h2 className="text-2xl font-serif font-bold text-wedding-text">Jatah Draft Penuh! 🔒</h2>
@@ -103,7 +102,8 @@ export default async function CreateInvitationPage({ searchParams }: { searchPar
             </div>
           </div>
         ) : (
-          <div className="bg-wedding-base p-8 rounded-3xl border border-wedding-gold/10 transition-all duration-500 shadow-sm">
+          <div className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] border border-white/50 dark:border-wedding-gold/20 transition-all duration-500 shadow-xl relative overflow-hidden">
+             <div className="absolute top-0 right-0 w-64 h-64 bg-wedding-gold/5 rounded-full blur-3xl pointer-events-none" />
              <InvitationForm action={createInvitation} />
           </div>
         )}

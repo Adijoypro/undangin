@@ -1,8 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import LandingNavbar from "@/components/landing/LandingNavbar";
 import HeroSection from "@/components/landing/HeroSection";
+import ExclusiveProcess from "@/components/landing/ExclusiveProcess";
 import Features from "@/components/landing/Features";
 import ThemeShowcase from "@/components/landing/ThemeShowcase";
+import Testimonials from "@/components/landing/Testimonials";
+import FAQ from "@/components/landing/FAQ";
 import PricingSection from "@/components/landing/PricingSection";
 import Footer from "@/components/landing/Footer";
 
@@ -17,9 +20,15 @@ export default async function LandingPage() {
       <main>
         <HeroSection user={user} />
         
+        <ExclusiveProcess />
+        
         <Features />
         
         <ThemeShowcase />
+
+        <Testimonials />
+
+        <FAQ />
         
         <PricingSection user={user} />
         
