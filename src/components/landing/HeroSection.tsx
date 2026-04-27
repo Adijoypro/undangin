@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -13,19 +13,26 @@ export default function HeroSection({ user, isDark }: HeroSectionProps) {
   const [showShimmer, setShowShimmer] = useState(false);
 
   useEffect(() => {
-    // Delay shimmer effect to prioritize initial layout rendering
     const timer = setTimeout(() => setShowShimmer(true), 2500);
     return () => clearTimeout(timer);
   }, []);
 
-  const fadeInUp = {
+  // Explicitly typing as Variants to resolve strict TS errors in Vercel/IDE
+  const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.6, 
+        ease: "easeOut" 
+      } 
+    }
   };
 
   return (
     <section className="relative pt-40 pb-32 px-4 min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background Blurs - Optimized with transform-gpu and reduced blur radius for performance */}
+      {/* Background Blurs */}
       <div className={`absolute top-1/4 -left-1/4 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] rounded-full ${isDark ? 'bg-[#D4AF37]/5' : 'bg-[#D4AF37]/10'} blur-[80px] pointer-events-none transform-gpu`} />
       
       <div className="max-w-5xl mx-auto text-center relative z-10">

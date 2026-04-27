@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,11 +9,20 @@ export default function LandingNavbar({ user, isDark }: { user: any; isDark: boo
   const border = isDark ? "border-white/10" : "border-black/10";
   const textMuted = isDark ? "text-gray-400" : "text-gray-600";
 
+  const navVariants: Variants = {
+    hidden: { y: -100, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { duration: 1, ease: "easeOut" }
+    }
+  };
+
   return (
     <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      initial="hidden"
+      animate="visible"
+      variants={navVariants}
       className={`fixed w-full z-50 ${navBg} backdrop-blur-xl border-b ${border} transform-gpu`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,7 +36,7 @@ export default function LandingNavbar({ user, isDark }: { user: any; isDark: boo
             <a href="#fitur" className={`text-xs font-bold uppercase tracking-widest ${textMuted} hover:text-[#D4AF37] transition-colors`}>Fitur</a>
             <a href="#template" className={`text-xs font-bold uppercase tracking-widest ${textMuted} hover:text-[#D4AF37] transition-colors`}>Tema</a>
             <Link href="/dashboard" className={`text-xs font-bold uppercase tracking-widest ${textMuted} hover:text-[#D4AF37] transition-colors`}>Dasbor</Link>
-
+ 
             <Link 
               href={user ? "/dashboard" : "/login"}
               className="px-10 py-4 bg-[#D4AF37] text-black rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#F3E5AB] transition-all shadow-lg"
