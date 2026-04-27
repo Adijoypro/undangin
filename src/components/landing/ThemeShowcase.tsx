@@ -1,0 +1,147 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { useState } from "react";
+
+const SHOWCASE_THEMES = [
+  {
+    id: "ultra-luxury",
+    series: "The VVIP Series",
+    title: "Ultra Luxury",
+    name: "Onyx & Rose Gold",
+    desc: "Mawar emas animasi, gelap yang megah.",
+    bgClass: "bg-[#0A0A0A]",
+    frameClass: "border-white/10 group-hover:border-[#D4AF37]/50 shadow-xl",
+    gradientClass: "bg-gradient-to-t from-black via-transparent to-transparent opacity-80 z-10",
+    seriesColor: "text-[#D4AF37]",
+    titleClass: "font-script text-6xl text-white drop-shadow-2xl",
+    btnClass: "bg-[#D4AF37] text-black",
+    iframeBg: "bg-black"
+  },
+  {
+    id: "cinematic-dark",
+    series: "The Dark Series",
+    title: "Cinematic",
+    name: "Midnight Elegance",
+    desc: "Tipografi kuat dengan transisi mulus.",
+    bgClass: "bg-[#111]",
+    frameClass: "border-white/10 group-hover:border-white/50 shadow-xl",
+    gradientClass: "bg-gradient-to-b from-transparent to-black opacity-80 z-10",
+    seriesColor: "text-gray-300",
+    titleClass: "font-serif text-5xl text-white font-light uppercase tracking-widest",
+    btnClass: "bg-white text-black",
+    iframeBg: "bg-black"
+  },
+  {
+    id: "premium",
+    series: "The Premium Series",
+    title: "Premium Sage",
+    name: "Sage Splendor",
+    desc: "Desain bersih dengan sentuhan warna alam.",
+    bgClass: "bg-[#f5f5f0]",
+    frameClass: "border-white/10 group-hover:border-[#9baca0] shadow-[inset_0_0_50px_rgba(0,0,0,0.05)]",
+    gradientClass: "",
+    seriesColor: "text-[#9baca0]",
+    titleClass: "font-script text-6xl text-[#2c332e]",
+    btnClass: "bg-[#9baca0] text-white",
+    iframeBg: "bg-white"
+  },
+  {
+    id: "renaissance-garden",
+    series: "The Heritage Series",
+    title: "Renaissance",
+    name: "Renaissance Garden",
+    desc: "Klasik Eropa dengan ornamen bunga vintage.",
+    bgClass: "bg-[#F9F6F0]",
+    frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-xl",
+    gradientClass: "bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 mix-blend-multiply z-0",
+    extraGradient: "bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10",
+    seriesColor: "text-[#7C8C77] uppercase",
+    titleClass: "font-display text-5xl text-[#2B2B2B] font-bold",
+    btnClass: "bg-[#7C8C77] text-white",
+    iframeBg: "bg-[#F9F6F0]"
+  },
+  {
+    id: "majestic-eternity",
+    series: "The Royal Series",
+    title: "Majestic Eternity",
+    name: "Majestic Eternity",
+    desc: "Kemegahan abadi dengan palet emerald & gold.",
+    bgClass: "bg-[#0A1C14]",
+    frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-[0_0_30px_rgba(212,175,55,0.15)]",
+    gradientClass: "bg-gradient-to-b from-[#0A1C14] via-transparent to-[#0A1C14] z-10",
+    seriesColor: "text-[#D4AF37] uppercase",
+    titleClass: "font-script text-5xl text-white font-bold",
+    btnClass: "bg-[#06120C] border border-[#D4AF37] text-[#D4AF37]",
+    iframeBg: "bg-[#0A1C14]"
+  }
+];
+
+function ThemeCard({ t, isDark, index }: { t: typeof SHOWCASE_THEMES[0], isDark: boolean, index: number }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div 
+      className="min-w-[300px] sm:min-w-[400px] shrink-0 group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02]`}>
+        {t.gradientClass && <div className={`absolute inset-0 ${t.gradientClass}`}></div>}
+        
+        <div className={`absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 ${isHovered ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
+          <p className={`font-serif mb-4 text-sm italic tracking-widest ${t.seriesColor}`}>{t.series}</p>
+          <h3 className={`mb-8 ${t.titleClass}`}>{t.title}</h3>
+          <div className={`px-8 py-3 rounded-full text-xs uppercase font-bold ${t.btnClass}`}>
+            Lihat Demo
+          </div>
+        </div>
+
+        <div className={`absolute inset-0 z-30 transition-opacity duration-700 ${t.iframeBg} ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          {isHovered && (
+            <iframe 
+              src={`/demo/${t.id}`} 
+              className="w-full h-full border-none shadow-2xl" 
+              title={t.name}
+            />
+          )}
+        </div>
+      </div>
+      <div className="mt-8 text-center">
+        <h4 className="font-serif text-2xl font-bold mb-2">{t.name}</h4>
+        <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{t.desc}</p>
+      </div>
+    </div>
+  );
+}
+
+export default function ThemeShowcase({ isDark }: { isDark: boolean }) {
+  const [sliderPaused, setSliderPaused] = useState(false);
+
+  return (
+    <section id="template" className={`py-32 px-4 border-t ${isDark ? 'border-white/10' : 'border-black/10'} relative overflow-hidden`}>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="mb-20">
+          <h2 className="font-serif text-5xl mb-4">Koleksi Eksklusif</h2>
+          <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} max-w-xl text-lg`}>Pilih dari mahakarya desain yang dibuat oleh seniman digital kelas atas.</p>
+        </div>
+
+        <div 
+          className="relative overflow-x-auto pb-10 no-scrollbar" 
+          onMouseEnter={() => setSliderPaused(true)} 
+          onMouseLeave={() => setSliderPaused(false)}
+        >
+          <motion.div 
+            className="flex gap-8 w-max"
+            animate={sliderPaused ? {} : { x: ["0%", "-50%"] }}
+            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          >
+            {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
+              <ThemeCard key={`${t.id}-${i}`} t={t} isDark={isDark} index={i} />
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
