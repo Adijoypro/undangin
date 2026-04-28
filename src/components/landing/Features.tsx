@@ -56,7 +56,7 @@ export default function Features() {
             </motion.p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 px-2 md:px-0">
             {features.map((feat, i) => (
               <motion.div
                 key={i}
@@ -64,10 +64,10 @@ export default function Features() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] bg-white/40 backdrop-blur-xl border border-wedding-gold/10 hover:border-wedding-gold/30 transition-all duration-500 group relative"
+                className="p-6 md:p-10 rounded-[1.5rem] md:rounded-[2.5rem] bg-white/40 backdrop-blur-xl border border-wedding-gold/10 hover:border-wedding-gold/30 transition-all duration-500 group relative"
               >
                 {/* Shine Container with overflow-hidden */}
-                <div className="absolute inset-0 overflow-hidden rounded-[2rem] md:rounded-[2.5rem] pointer-events-none">
+                <div className="absolute inset-0 overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] pointer-events-none">
                   {/* Golden Aura Shine Effect */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                     <div className="absolute inset-0 bg-gradient-to-tr from-wedding-gold/10 via-transparent to-wedding-gold/10" />
@@ -79,14 +79,14 @@ export default function Features() {
                     />
                   </div>
                   
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-wedding-gold/5 rounded-bl-[5rem] -z-10 group-hover:scale-150 transition-transform duration-700" />
+                  <div className="absolute top-0 right-0 w-16 h-16 md:w-24 md:h-24 bg-wedding-gold/5 rounded-bl-[3rem] md:rounded-bl-[5rem] -z-10 group-hover:scale-150 transition-transform duration-700" />
                 </div>                
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-wedding-gold/5 text-wedding-gold flex items-center justify-center mb-6 md:mb-8 group-hover:scale-110 group-hover:bg-wedding-gold group-hover:text-white transition-all duration-500">
-                  {feat.icon}
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-wedding-gold/5 text-wedding-gold flex items-center justify-center mb-4 md:mb-8 group-hover:scale-110 group-hover:bg-wedding-gold group-hover:text-white transition-all duration-500">
+                  <div className="scale-75 md:scale-100">{feat.icon}</div>
                 </div>
                 
-                <h3 className="font-serif text-xl md:text-2xl text-wedding-text mb-3 md:mb-4 group-hover:text-wedding-gold transition-colors">{feat.title}</h3>
-                <p className="text-sm md:text-base text-wedding-text/60 leading-relaxed font-light">{feat.desc}</p>
+                <h3 className="font-serif text-lg md:text-2xl text-wedding-text mb-2 md:mb-4 group-hover:text-wedding-gold transition-colors">{feat.title}</h3>
+                <p className="text-xs md:text-base text-wedding-text/60 leading-relaxed font-light">{feat.desc}</p>
               </motion.div>
             ))}
           </div>
