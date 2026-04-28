@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Image from "next/image";
+import CornerOrnaments from "@/components/ui/CornerOrnaments";
 
 const SHOWCASE_THEMES = [
   {
@@ -54,8 +56,7 @@ const SHOWCASE_THEMES = [
     desc: "Klasik Eropa dengan ornamen bunga vintage.",
     bgClass: "bg-[#F9F6F0]",
     frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-xl",
-    gradientClass: "bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-40 mix-blend-multiply z-0",
-    extraGradient: "bg-gradient-to-b from-transparent via-[#F9F6F0]/40 to-[#F9F6F0] z-10",
+    bgImage: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
     seriesColor: "text-[#7C8C77] uppercase",
     titleClass: "font-display text-5xl text-[#2B2B2B] font-bold",
     btnClass: "bg-[#7C8C77] text-white",
@@ -87,6 +88,17 @@ function ThemeCard({ t, index }: { t: typeof SHOWCASE_THEMES[0], index: number }
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02]`}>
+        {t.bgImage && (
+          <div className="absolute inset-0 opacity-40 mix-blend-multiply z-0">
+            <Image 
+              src={t.bgImage}
+              alt={t.title}
+              fill
+              sizes="(max-width: 768px) 300px, 400px"
+              className="object-cover"
+            />
+          </div>
+        )}
         {t.gradientClass && <div className={`absolute inset-0 ${t.gradientClass}`}></div>}
         
         <div className={`absolute inset-0 flex flex-col items-center justify-center p-8 text-center z-20 ${isHovered ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
@@ -120,6 +132,7 @@ export default function ThemeShowcase() {
 
   return (
     <section id="template" className="py-20 md:py-32 px-4 border-t border-wedding-gold/10 relative overflow-hidden transition-colors duration-500">
+      <CornerOrnaments opacity={0.4} size={150} />
       <div className="max-w-7xl mx-auto relative z-10 px-4">
         <div className="mb-12 md:mb-20">
           <h2 className="font-serif text-4xl md:text-5xl mb-4 text-wedding-text">Koleksi Eksklusif</h2>
@@ -133,8 +146,10 @@ export default function ThemeShowcase() {
         >
           <motion.div 
             className="flex gap-6 md:gap-8 w-max"
-            animate={sliderPaused ? {} : { x: ["0%", "-50%"] }}
-            transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+            {...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
+              animate: sliderPaused ? {} : { x: ["0%", "-50%"] },
+              transition: { duration: 60, repeat: Infinity, ease: "linear" }
+            } : {})}
           >
             {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
               <div key={`${t.id}-${i}`} className="snap-center">

@@ -3,6 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import CornerOrnaments from "@/components/ui/CornerOrnaments";
 
 interface HeroSectionProps {
   user: any;
@@ -32,6 +33,8 @@ export default function HeroSection({ user }: HeroSectionProps) {
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 px-4 min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Blurs */}
       <div className="absolute top-1/4 -left-1/4 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] rounded-full bg-wedding-gold/10 dark:bg-wedding-gold/5 blur-[80px] pointer-events-none transform-gpu" />
+      
+      <CornerOrnaments opacity={0.6} size={200} />
       
       <div className="max-w-5xl mx-auto text-center relative z-10">
         <motion.div 

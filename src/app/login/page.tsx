@@ -28,15 +28,15 @@ function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-wedding-base text-wedding-text px-4 font-sans selection:bg-wedding-gold selection:text-black overflow-hidden relative transition-colors duration-500">
       
-      {/* Background Decorative Blurs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-wedding-gold/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-wedding-gold/5 rounded-full blur-[150px] pointer-events-none" />
+      {/* Background Decorative Blurs - Optimized for Mobile */}
+      <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-wedding-gold/10 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-wedding-gold/5 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
 
-      {/* Floating 3D Mask Asset */}
+      {/* Floating 3D Mask Asset - Optimized for Mobile */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
         <motion.div
           animate={{ 
-            y: [0, -30, 0],
+            y: [0, -20, 0],
             rotate: [5, -5, 5],
             scale: [1, 1.05, 1]
           }}
@@ -45,19 +45,20 @@ function LoginForm() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute -left-20 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-20 dark:opacity-40"
+          className="absolute -top-10 -left-10 md:-left-20 md:top-1/2 md:-translate-y-1/2 w-[250px] h-[250px] md:w-[400px] md:h-[400px] opacity-30 md:opacity-40"
         >
           <Image 
             src="/assets/branding/final/nusantara_topeng_gold.webp"
             alt="Golden Mask"
             fill
+            sizes="(max-width: 768px) 250px, 400px"
             className="object-contain"
           />
         </motion.div>
         
         <motion.div
           animate={{ 
-            y: [0, 30, 0],
+            y: [0, 20, 0],
             rotate: [-10, 10, -10],
             scale: [0.9, 1, 0.9]
           }}
@@ -66,12 +67,13 @@ function LoginForm() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute -right-20 bottom-0 w-[350px] h-[350px] opacity-10 dark:opacity-30"
+          className="absolute -bottom-10 -right-10 md:-right-20 md:bottom-0 w-[200px] h-[200px] md:w-[350px] md:h-[350px] opacity-20 md:opacity-30"
         >
           <Image 
             src="/assets/branding/final/nusantara_topeng_gold.webp"
             alt="Golden Mask"
             fill
+            sizes="(max-width: 768px) 200px, 350px"
             className="object-contain grayscale brightness-50"
           />
         </motion.div>

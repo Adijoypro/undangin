@@ -124,6 +124,8 @@ export default function PricingSection({ user }: { user: any }) {
                     src={plan.asset}
                     alt={plan.name}
                     fill
+                    sizes="(max-width: 768px) 160px, 160px"
+                    priority={i === 1}
                     className="object-contain drop-shadow-[0_20px_40px_rgba(180,140,80,0.4)] group-hover:scale-115 transition-transform duration-700"
                   />
                 </motion.div>

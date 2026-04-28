@@ -68,11 +68,12 @@ export default function Testimonials() {
               transition={{ delay: i * 0.2 }}
               className="flex flex-col group flex-shrink-0 w-[80vw] sm:w-[350px] md:w-auto snap-center md:snap-align-none"
             >
-              <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 md:mb-8 shadow-2xl">
+              <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden mb-6 md:mb-8 shadow-xl md:shadow-2xl">
                 <Image 
                   src={item.image} 
                   fill 
                   alt={item.name} 
+                  sizes="(max-width: 768px) 80vw, 30vw"
                   className="object-cover group-hover:scale-110 transition-transform duration-1000"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />

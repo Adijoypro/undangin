@@ -33,7 +33,7 @@ export default function Features() {
     <>
       {/* MAIN FEATURES */}
       <section id="fitur" className="py-20 md:py-32 px-4 relative border-t border-wedding-gold/10 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-wedding-gold/5 rounded-full blur-[150px] -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[800px] md:h-[800px] bg-wedding-gold/5 rounded-full blur-[80px] md:blur-[150px] -z-10" />
         
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16 md:mb-24 px-4">

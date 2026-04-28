@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Lock, ArrowRight } from 'lucide-react';
+import CornerOrnaments from '@/components/ui/CornerOrnaments';
 
 const themes = [
   { 
@@ -77,36 +78,8 @@ const ThemeCatalog = () => {
 
   return (
     <div className="py-24 border-t border-wedding-gold/10 transition-colors duration-500 relative overflow-hidden">
-      {/* Decorative Assets */}
-      <div className="absolute -left-20 top-20 opacity-5 dark:opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity">
-        <motion.div
-          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-          transition={{ duration: 5, repeat: Infinity }}
-        >
-          <Image 
-            src="/assets/branding/final/nusantara_suntiang_solid_white_bg_1777350036130.webp" 
-            alt="Suntiang" 
-            width={300} 
-            height={300} 
-            className="object-contain"
-          />
-        </motion.div>
-      </div>
-
-      <div className="absolute -right-20 bottom-20 opacity-5 dark:opacity-10 pointer-events-none">
-        <motion.div
-          animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
-          transition={{ duration: 6, repeat: Infinity }}
-        >
-          <Image 
-            src="/assets/branding/final/nusantara_jamang_solid_white_bg_1777350107297.webp" 
-            alt="Jamang" 
-            width={300} 
-            height={300} 
-            className="object-contain"
-          />
-        </motion.div>
-      </div>
+      <CornerOrnaments opacity={0.3} size={100} />
+      {/* Decorative Assets Removed for Cleaner UI */}
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6 relative z-10">
         <div>
