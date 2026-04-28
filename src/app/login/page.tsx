@@ -86,7 +86,7 @@ function LoginForm() {
         className="max-w-md w-full relative z-10"
       >
         {/* Luxury Glass Card */}
-        <div className="bg-white/40 dark:bg-black/80 backdrop-blur-2xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-wedding-gold/20 dark:border-wedding-gold/20 transition-all duration-500 relative overflow-hidden">
+        <div className="bg-white/40 dark:bg-black/80 backdrop-blur-2xl p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl border border-wedding-gold/20 dark:border-wedding-gold/20 transition-all duration-500 relative overflow-hidden">
           
           <div className="text-center mb-10">
             <Link href="/" className="inline-block mb-6 hover:scale-105 transition-transform duration-300">

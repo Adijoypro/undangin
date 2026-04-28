@@ -5,10 +5,10 @@ export default function Footer() {
     <footer className="py-24 px-4 bg-white dark:bg-wedding-base border-t border-wedding-gold/20 transition-colors duration-500 relative overflow-hidden">
       {/* Repeating Luxury Batik Pattern Base */}
       <div 
-        className="absolute inset-0 opacity-[0.02] md:opacity-[0.08] pointer-events-none z-0"
+        className="absolute inset-0 opacity-[0.2] md:opacity-[0.08] pointer-events-none z-0"
         style={{ 
           backgroundImage: 'url(/assets/branding/batik_pattern.webp)',
-          backgroundSize: '200px',
+          backgroundSize: '150px',
           backgroundRepeat: 'repeat',
           WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 50%, transparent 100%)',
           maskImage: 'linear-gradient(to bottom, transparent 0%, black 50%, transparent 100%)'
