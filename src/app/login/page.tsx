@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import LoginButtons from "./LoginButtons";
 import SocialLogin from "./SocialLogin";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 import { Suspense } from "react";
 
@@ -30,6 +31,51 @@ function LoginForm() {
       {/* Background Decorative Blurs */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-wedding-gold/10 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-wedding-gold/5 rounded-full blur-[150px] pointer-events-none" />
+
+      {/* Floating 3D Mask Asset */}
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
+        <motion.div
+          animate={{ 
+            y: [0, -30, 0],
+            rotate: [5, -5, 5],
+            scale: [1, 1.05, 1]
+          }}
+          transition={{ 
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -left-20 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-20 dark:opacity-40"
+        >
+          <Image 
+            src="/assets/branding/final/nusantara_topeng_gold.webp"
+            alt="Golden Mask"
+            fill
+            className="object-contain"
+          />
+        </motion.div>
+        
+        <motion.div
+          animate={{ 
+            y: [0, 30, 0],
+            rotate: [-10, 10, -10],
+            scale: [0.9, 1, 0.9]
+          }}
+          transition={{ 
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -right-20 bottom-0 w-[350px] h-[350px] opacity-10 dark:opacity-30"
+        >
+          <Image 
+            src="/assets/branding/final/nusantara_topeng_gold.webp"
+            alt="Golden Mask"
+            fill
+            className="object-contain grayscale brightness-50"
+          />
+        </motion.div>
+      </div>
 
       <motion.div 
         initial={{ opacity: 0, y: 30 }}

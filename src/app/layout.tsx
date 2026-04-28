@@ -111,7 +111,27 @@ export default function RootLayout({
           <SmoothScroll>
             <GoldenAura />
             <LuxuryThemeToggle />
-            <Toaster position="top-center" richColors />
+            <Toaster 
+              position="top-center" 
+              expand={false}
+              richColors 
+              toastOptions={{
+                style: {
+                  background: 'rgba(255, 255, 255, 0.85)',
+                  backdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(180, 140, 80, 0.4)',
+                  color: '#2D241E',
+                  borderRadius: '24px',
+                  boxShadow: '0 15px 40px rgba(180, 140, 80, 0.15)',
+                  padding: '16px 24px',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase'
+                },
+              }}
+            />
             {children}
           </SmoothScroll>
         </ThemeProvider>

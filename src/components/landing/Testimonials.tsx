@@ -9,19 +9,19 @@ const testimonials = [
     name: "Aditya & Sarah",
     role: "Modern Minimalist Couple",
     quote: "Undangin benar-benar merubah cara kami berbagi kebahagiaan. Desainnya sangat eksklusif, bahkan tamu-tamu kami dari luar negeri terpukau dengan animasinya.",
-    image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/testimonials/testi_modern.webp",
   },
   {
     name: "Bagas & Dinda",
     role: "Traditional Heritage Wedding",
     quote: "Meskipun tema kami tradisional, sentuhan digital dari Undangin memberikan kesan megah yang tetap sakral. Sangat mudah digunakan dan sangat premium.",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/testimonials/testi_traditional.webp",
   },
   {
     name: "Kevin & Monica",
     role: "International Destination Wedding",
     quote: "Fitur RSVP-nya sangat membantu koordinasi tamu kami. Semua terasa sangat teratur dan profesional. Truly the best in the industry.",
-    image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/testimonials/testi_destination.webp",
   }
 ];
 

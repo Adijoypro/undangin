@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Check, Sparkles, Gem, Crown, Zap } from "lucide-react";
+import Image from "next/image";
+import { Check } from "lucide-react";
 
 const plans = [
   {
@@ -10,7 +11,7 @@ const plans = [
     desc: "Sempurnakan ide Anda",
     price: "0",
     unit: "",
-    icon: <Zap className="w-6 h-6" />,
+    asset: "/assets/branding/final/nusantara_angklung_solid_white_bg_1777350011138.webp",
     features: ["Akses Tema Dasar", "Draft Tak Terbatas", "Tanpa Masa Aktif", "E-Invitation Standard"],
     cta: "Mulai Sekarang",
     premium: false
@@ -20,7 +21,7 @@ const plans = [
     desc: "Pilihan favorit mempelai",
     price: "89",
     unit: "rb",
-    icon: <Gem className="w-6 h-6" />,
+    asset: "/assets/branding/final/nusantara_keris_solid_white_bg_1777349884812.webp",
     features: ["Semua Tema Premium", "Musik Eksklusif", "RSVP & Guestbook", "Navigasi Google Maps"],
     cta: "Pilih Paket",
     premium: true,
@@ -31,7 +32,7 @@ const plans = [
     desc: "Partner Wedding Organizer",
     price: "349",
     unit: "rb",
-    icon: <Sparkles className="w-6 h-6" />,
+    asset: "/assets/branding/final/nusantara_rumah_gadang_solid_white_bg_1777350046759.webp",
     features: ["5 Slot Premium", "Dashboard Agensi", "Tanpa Logo Undangin", "Prioritas Support"],
     cta: "Hubungi Kami",
     premium: false
@@ -41,7 +42,7 @@ const plans = [
     desc: "Kasta tertinggi kemewahan",
     price: "649",
     unit: "rb",
-    icon: <Crown className="w-6 h-6" />,
+    asset: "/assets/branding/final/nusantara_barong_solid_white_bg_1777349993913.webp",
     features: ["15 Slot Premium", "Custom Domain", "Analitik Tamu VVIP", "Dedicated Manager"],
     cta: "Cek Detail",
     premium: false
@@ -81,36 +82,51 @@ export default function PricingSection({ user }: { user: any }) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
               viewport={{ once: true }}
-              className={`relative p-8 md:p-10 rounded-[2.5rem] border transition-all duration-500 group flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center md:snap-align-none ${
+              className={`relative p-8 md:p-12 rounded-[3rem] border transition-all duration-700 group flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center md:snap-align-none ${
                 plan.premium 
-                  ? "bg-white/80 dark:bg-wedding-base/80 border-wedding-gold shadow-2xl shadow-wedding-gold/20 md:scale-105 z-20" 
+                  ? "bg-white/90 dark:bg-wedding-base/90 border-wedding-gold shadow-2xl shadow-wedding-gold/20 md:scale-105 z-20" 
                   : "bg-white/40 dark:bg-wedding-base/40 border-wedding-gold/10 hover:border-wedding-gold/30"
-              } backdrop-blur-xl`}
+              } backdrop-blur-2xl`}
             >
               {/* Shine Container with overflow-hidden */}
-              <div className="absolute inset-0 overflow-hidden rounded-[2.5rem] pointer-events-none">
-                {/* Golden Aura Shine Effect */}
+              <div className="absolute inset-0 overflow-hidden rounded-[3rem] pointer-events-none">
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                   <div className="absolute inset-0 bg-gradient-to-tr from-wedding-gold/10 via-transparent to-wedding-gold/10" />
-                  <motion.div 
-                    initial={{ x: "-100%", y: "-100%" }}
-                    whileHover={{ x: "100%", y: "100%" }}
-                    transition={{ duration: 1.5, ease: "easeInOut" }}
-                    className="absolute inset-0 bg-gradient-to-br from-transparent via-wedding-gold/20 to-transparent"
-                  />
                 </div>
+                
+                {/* Subtle Batik Background inside card */}
+                <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] grayscale brightness-50" 
+                     style={{ backgroundImage: 'url(/assets/branding/batik_pattern.webp)', backgroundSize: '150px' }} />
               </div>
 
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-wedding-gold to-[#B8962E] text-white px-6 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg z-30">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-wedding-gold to-[#B8962E] text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg z-30 border border-white/20">
                   Most Preferred
                 </div>
               )}
 
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 ${
-                plan.premium ? "bg-wedding-gold text-white shadow-lg" : "bg-wedding-gold/10 text-wedding-gold"
-              }`}>
-                {plan.icon}
+              <div className="relative w-40 h-40 mb-10 flex items-center justify-center">
+                <div className="absolute inset-0 bg-wedding-gold/20 blur-[50px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <motion.div
+                  animate={{ 
+                    y: [0, -10, 0],
+                    rotate: [0, 5, 0]
+                  }}
+                  transition={{ 
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.5
+                  }}
+                  className="relative z-10 w-full h-full"
+                >
+                  <Image 
+                    src={plan.asset}
+                    alt={plan.name}
+                    fill
+                    className="object-contain drop-shadow-[0_20px_40px_rgba(180,140,80,0.4)] group-hover:scale-115 transition-transform duration-700"
+                  />
+                </motion.div>
               </div>
 
               <h3 className={`font-serif text-3xl font-bold mb-2 ${plan.premium ? "text-wedding-gold" : "text-wedding-text"}`}>

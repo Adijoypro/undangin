@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Lock, ArrowRight } from 'lucide-react';
 
@@ -75,41 +76,72 @@ const ThemeCatalog = () => {
   };
 
   return (
-    <div className="py-20 border-t border-wedding-gold/10 transition-colors duration-500">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
+    <div className="py-24 border-t border-wedding-gold/10 transition-colors duration-500 relative overflow-hidden">
+      {/* Decorative Assets */}
+      <div className="absolute -left-20 top-20 opacity-5 dark:opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity">
+        <motion.div
+          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+          transition={{ duration: 5, repeat: Infinity }}
+        >
+          <Image 
+            src="/assets/branding/final/nusantara_suntiang_solid_white_bg_1777350036130.webp" 
+            alt="Suntiang" 
+            width={300} 
+            height={300} 
+            className="object-contain"
+          />
+        </motion.div>
+      </div>
+
+      <div className="absolute -right-20 bottom-20 opacity-5 dark:opacity-10 pointer-events-none">
+        <motion.div
+          animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
+          transition={{ duration: 6, repeat: Infinity }}
+        >
+          <Image 
+            src="/assets/branding/final/nusantara_jamang_solid_white_bg_1777350107297.webp" 
+            alt="Jamang" 
+            width={300} 
+            height={300} 
+            className="object-contain"
+          />
+        </motion.div>
+      </div>
+
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6 relative z-10">
         <div>
-          <h2 className="text-3xl font-serif font-black text-wedding-text tracking-tight">Katalog Tema Premium</h2>
-          <div className="flex items-center gap-2 mt-2">
-            <div className="w-8 h-[2px] bg-wedding-gold"></div>
-            <p className="text-[10px] text-wedding-text/40 uppercase tracking-[0.3em] font-bold">Mahakarya Desain Digital</p>
+          <h2 className="text-4xl font-serif font-black text-wedding-text tracking-tight">Katalog Tema Premium</h2>
+          <div className="flex items-center gap-2 mt-3">
+            <div className="w-12 h-[2px] bg-wedding-gold"></div>
+            <p className="text-[10px] text-wedding-text/40 uppercase tracking-[0.4em] font-black">Modern Heritage Selection</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-3 bg-wedding-text/5 p-1.5 rounded-full">
-          <p className="hidden sm:block text-[9px] font-black text-wedding-text/40 uppercase tracking-widest pl-4">Geser untuk melihat</p>
-          <div className="flex gap-1">
+        <div className="flex items-center gap-4 bg-wedding-text/5 p-2 rounded-full border border-wedding-gold/10 backdrop-blur-sm">
+          <p className="hidden sm:block text-[9px] font-black text-wedding-text/40 uppercase tracking-[0.3em] pl-6">Koleksi Mahakarya</p>
+          <div className="flex gap-2">
             <button 
               onClick={() => scroll('left')}
-              className="w-10 h-10 rounded-full bg-white/40 dark:bg-wedding-text/10 backdrop-blur-md hover:bg-wedding-gold text-wedding-text hover:text-white transition-all flex items-center justify-center active:scale-90 border border-wedding-gold/20"
+              className="w-12 h-12 rounded-full bg-white/60 dark:bg-wedding-text/10 backdrop-blur-md hover:bg-wedding-gold text-wedding-text hover:text-white transition-all flex items-center justify-center active:scale-90 border border-wedding-gold/20 shadow-lg"
               aria-label="Previous"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-6 h-6" />
             </button>
             <button 
               onClick={() => scroll('right')}
-              className="w-10 h-10 rounded-full bg-white/40 dark:bg-wedding-text/10 backdrop-blur-md hover:bg-wedding-gold text-wedding-text hover:text-white transition-all flex items-center justify-center active:scale-90 border border-wedding-gold/20"
+              className="w-12 h-12 rounded-full bg-white/60 dark:bg-wedding-text/10 backdrop-blur-md hover:bg-wedding-gold text-wedding-text hover:text-white transition-all flex items-center justify-center active:scale-90 border border-wedding-gold/20 shadow-lg"
               aria-label="Next"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-6 h-6" />
             </button>
           </div>
         </div>
       </div>
 
-      <div className="relative group">
+      <div className="relative group z-10">
         <div 
           ref={scrollRef}
-          className="flex gap-4 md:gap-8 overflow-x-auto pb-10 px-4 no-scrollbar snap-x snap-mandatory scroll-smooth"
+          className="flex gap-4 md:gap-10 overflow-x-auto pb-10 px-4 no-scrollbar snap-x snap-mandatory scroll-smooth"
         >
           {themes.map((theme) => (
             <div 

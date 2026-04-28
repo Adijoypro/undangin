@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Script from "next/script";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Sparkles, Briefcase, Crown, Check, Lock, Zap, Gem, MessageCircle } from "lucide-react";
+import { Lock, Zap, Gem, MessageCircle, Check } from "lucide-react";
 
 interface Package {
   id: string;
@@ -14,6 +15,12 @@ interface Package {
   originalPrice?: number;
   description: string;
 }
+
+const assetMap: Record<string, string> = {
+  pkg_1: "/assets/branding/final/nusantara_keris_solid_white_bg_1777349884812.webp",
+  pkg_5: "/assets/branding/final/nusantara_rumah_gadang_solid_white_bg_1777350046759.webp",
+  pkg_10: "/assets/branding/final/nusantara_barong_solid_white_bg_1777349993913.webp",
+};
 
 interface TopUpClientProps {
   packages: Package[];
@@ -74,6 +81,33 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
         strategy="afterInteractive"
       />
 
+      <div className="flex flex-col items-center justify-center mb-16 relative">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ 
+            opacity: 1, 
+            scale: 1,
+            y: [0, -20, 0]
+          }}
+          transition={{ 
+            opacity: { duration: 1 },
+            scale: { duration: 1 },
+            y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+          }}
+          className="w-48 h-48 md:w-64 md:h-64 pointer-events-none relative z-10"
+        >
+          <Image 
+            src="/assets/branding/final/nusantara_borobudur_gold.webp"
+            alt="Golden Borobudur"
+            fill
+            className="object-contain drop-shadow-[0_20px_50px_rgba(184,134,11,0.3)]"
+          />
+        </motion.div>
+        
+        {/* Decorative Golden Aura behind Borobudur */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-wedding-gold/10 rounded-full blur-[100px] pointer-events-none" />
+      </div>
+
       <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-8 overflow-x-auto md:overflow-visible pb-8 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
         {packages.map((pkg, i) => {
           const savings = pkg.originalPrice ? pkg.originalPrice - pkg.price : 0;
@@ -86,28 +120,33 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
               className="relative flex-shrink-0 w-[85vw] sm:w-[320px] md:w-auto snap-center md:snap-align-none"
             >
               {pkg.id === "pkg_5" && (
-                <div className="absolute -inset-1 bg-gradient-to-r from-wedding-gold via-amber-300 to-wedding-gold rounded-3xl blur opacity-25 animate-pulse"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-wedding-gold via-amber-300 to-wedding-gold rounded-[3rem] blur opacity-25 animate-pulse"></div>
               )}
 
-                <div className={`h-full bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl rounded-[2.5rem] shadow-xl border-2 ${pkg.id === "pkg_5" ? 'border-wedding-gold shadow-wedding-gold/20' : 'border-wedding-gold/10'} overflow-hidden flex flex-col relative group transition-all duration-500 hover:shadow-2xl hover:border-wedding-gold/30`}>
+                <div className={`h-full bg-white/60 dark:bg-wedding-base/60 backdrop-blur-2xl rounded-[3rem] shadow-xl border-2 ${pkg.id === "pkg_5" ? 'border-wedding-gold shadow-wedding-gold/20' : 'border-wedding-gold/10'} overflow-hidden flex flex-col relative group transition-all duration-700 hover:shadow-2xl hover:border-wedding-gold/40`}>
                 
                 {pkg.id === "pkg_5" && (
-                  <div className="absolute top-6 right-6 z-10">
-                    <span className="bg-gradient-to-r from-wedding-gold to-amber-600 text-white text-[8px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg">
+                  <div className="absolute top-8 right-8 z-20">
+                    <span className="bg-gradient-to-r from-wedding-gold to-amber-600 text-black text-[8px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-lg border border-white/20">
                       BEST SELLER
                     </span>
                   </div>
                 )}
                 
-                <div className="p-10 text-center relative z-10">
-                  <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center shadow-lg ${
-                    pkg.id === "pkg_5" ? "bg-wedding-gold text-white" : "bg-wedding-gold/10 text-wedding-gold"
-                  }`}>
-                    {pkg.id === "pkg_1" ? <Gem className="w-8 h-8" /> : pkg.id === "pkg_5" ? <Sparkles className="w-8 h-8" /> : <Crown className="w-8 h-8" />}
+                <div className="p-10 text-center relative z-10 flex flex-col items-center">
+                  <div className="relative w-32 h-32 mb-4 flex items-center justify-center">
+                    <div className="absolute inset-4 bg-wedding-gold/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    <Image 
+                      src={assetMap[pkg.id] || assetMap.pkg_1}
+                      alt={pkg.name}
+                      width={140}
+                      height={140}
+                      className="object-contain relative z-10 drop-shadow-[0_20px_40px_rgba(180,140,80,0.3)] group-hover:scale-110 group-hover:rotate-6 transition-transform duration-700"
+                    />
                   </div>
                   
-                  <h3 className="font-serif text-2xl text-wedding-text font-bold mb-1">{pkg.name}</h3>
-                  <p className="text-wedding-text/40 text-[10px] font-bold uppercase tracking-widest">{pkg.description}</p>
+                  <h3 className="font-serif text-3xl text-wedding-text font-bold mb-1">{pkg.name}</h3>
+                  <p className="text-wedding-text/40 text-[10px] font-bold uppercase tracking-[0.3em]">{pkg.description}</p>
                 </div>
 
                 <div className="px-8 pb-4 text-center">

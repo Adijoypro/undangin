@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { PRESET_MUSIC } from "@/data/music";
+import { motion } from "framer-motion";
 import AIMusicGenerator from "./AIMusicGenerator";
 
 interface MusicSelectorProps {
@@ -97,9 +98,29 @@ export default function MusicSelector({ currentMusicUrl, onChange }: MusicSelect
       <div className="relative pt-4">
         <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-wedding-gold/10"></span></div>
         <div className="relative flex justify-center text-[10px] uppercase font-black tracking-widest text-wedding-text/40 bg-wedding-base px-4 transition-colors duration-500 italic">Opsi Canggih</div>
+        
+        {/* Floating Headphone Asset */}
+        <motion.div
+          animate={{ 
+            y: [0, -10, 0],
+            rotate: [5, -5, 5]
+          }}
+          transition={{ 
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -right-4 -top-8 w-20 h-20 pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity"
+        >
+          <img 
+            src="/assets/branding/final/ai_support_solid_white_bg_1777348338821.webp"
+            alt="Golden Headphones"
+            className="w-full h-full object-contain drop-shadow-lg"
+          />
+        </motion.div>
       </div>
 
-      <div className="flex flex-col items-center gap-6 py-8 bg-wedding-text/[0.03] rounded-3xl border border-wedding-gold/10 transition-all duration-500 shadow-inner">
+      <div className="flex flex-col items-center gap-6 py-8 bg-wedding-text/[0.03] rounded-3xl border border-wedding-gold/10 transition-all duration-500 shadow-inner group">
         {/* Tombol Generator */}
         <div className="text-center">
           <AIMusicGenerator onGenerated={(result: any) => {

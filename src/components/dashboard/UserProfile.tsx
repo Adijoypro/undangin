@@ -88,11 +88,24 @@ export default function UserProfile({ user }: UserProfileProps) {
               </div>
             </div>
 
-            <div className="p-2 space-y-1">
+            <div className="p-2 space-y-1 relative overflow-hidden">
+              {/* Decorative Background Gear */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute -right-8 -bottom-8 w-32 h-32 opacity-[0.03] dark:opacity-[0.07] pointer-events-none"
+              >
+                <img 
+                  src="/assets/branding/final/ai_config_gears_solid_white_bg_1777348354658.webp"
+                  alt="Decorative Gear"
+                  className="w-full h-full object-contain"
+                />
+              </motion.div>
+
               <Link
                 href="/dashboard/topup"
                 onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-3 px-4 py-3 text-sm text-wedding-gold hover:bg-wedding-gold/10 rounded-xl transition-colors group"
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm text-wedding-gold hover:bg-wedding-gold/10 rounded-xl transition-colors group relative z-10"
               >
                 <div className="w-8 h-8 rounded-lg bg-wedding-gold/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,7 +117,7 @@ export default function UserProfile({ user }: UserProfileProps) {
 
               <button
                 onClick={() => logout()}
-                className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-red-500/10 rounded-xl transition-colors group"
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-red-500/10 rounded-xl transition-colors group relative z-10"
               >
                 <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

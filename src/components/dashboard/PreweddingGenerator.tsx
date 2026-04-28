@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { generatePreweddingAI } from "@/app/api/ai-photo/actions";
 
@@ -39,21 +40,42 @@ export default function PreweddingGenerator({ currentPhotoUrl, isAiEnabled = fal
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="absolute inset-0 bg-wedding-text/80 backdrop-blur-md"
+              className="absolute inset-0 bg-wedding-text/80 backdrop-blur-md transition-colors duration-500"
             />
             
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-2xl p-8 border border-wedding-gold/20"
+              className="relative w-full max-w-md bg-wedding-base rounded-[3rem] overflow-hidden shadow-2xl p-10 border border-wedding-gold/20 transition-colors duration-500 flex flex-col items-center text-center"
             >
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-wedding-gold/10 text-wedding-gold rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner border border-wedding-gold/20">
-                  🪄
-                </div>
-                <h3 className="font-serif text-2xl text-wedding-text dark:text-white mb-2">Sulap Prewed AI</h3>
-                <p className="text-xs text-gray-400 dark:text-gray-500">Ubah foto biasa jadi foto prewedding studio kelas dunia</p>
+              <div className="relative mb-8">
+                <motion.div 
+                  animate={{ 
+                    y: [0, -10, 0],
+                    rotate: [0, 15, 0]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="relative z-10 w-40 h-40 flex items-center justify-center"
+                >
+                  <div className="absolute inset-8 bg-wedding-gold/20 blur-3xl rounded-full" />
+                  <Image 
+                    src="/assets/branding/final/ai_magic_wand_solid_white_bg_1777348322448.webp"
+                    alt="Magic Wand"
+                    width={160}
+                    height={160}
+                    className="object-contain relative z-10 drop-shadow-[0_20px_40px_rgba(180,140,80,0.4)]"
+                  />
+                </motion.div>
+              </div>
+
+              <div className="mb-8">
+                <h3 className="font-serif text-3xl text-wedding-text mb-2 tracking-tight">Sulap Prewed AI</h3>
+                <p className="text-[10px] text-wedding-gold font-black uppercase tracking-[0.4em]">Powered by Vision Studio AI</p>
               </div>
 
               <div className="p-6 bg-wedding-gold/5 dark:bg-wedding-gold/10 rounded-2xl border-2 border-dashed border-wedding-gold/30 text-center mb-8">
@@ -65,6 +87,7 @@ export default function PreweddingGenerator({ currentPhotoUrl, isAiEnabled = fal
 
               <div className="flex flex-col gap-3">
                 <button
+                  type="button"
                   onClick={() => setIsOpen(false)}
                   className="w-full py-4 bg-wedding-gold text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-wedding-gold/20"
                 >

@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { Gem, Sparkles, Crown, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 export default function MiniPricingGrid() {
   const packages = [
@@ -13,7 +14,7 @@ export default function MiniPricingGrid() {
       price: "89rb", 
       originalPrice: "150rb",
       desc: "Satu undangan premium.", 
-      icon: <Gem className="w-5 h-5" />,
+      asset: "/assets/branding/final/nusantara_keris_solid_white_bg_1777349884812.webp",
       isPopular: true,
       badge: "FAVORIT",
       save: null
@@ -25,7 +26,7 @@ export default function MiniPricingGrid() {
       price: "349rb", 
       originalPrice: "445rb",
       desc: "Hemat untuk WO.", 
-      icon: <Sparkles className="w-5 h-5" />,
+      asset: "/assets/branding/final/nusantara_rumah_gadang_solid_white_bg_1777350046759.webp",
       isPopular: false,
       badge: "HEMAT 20%",
       save: "Hemat 96rb"
@@ -37,7 +38,7 @@ export default function MiniPricingGrid() {
       price: "649rb", 
       originalPrice: "890rb",
       desc: "Undangan massal.", 
-      icon: <Crown className="w-5 h-5" />,
+      asset: "/assets/branding/final/nusantara_barong_solid_white_bg_1777349993913.webp",
       isPopular: false,
       badge: "VALUE",
       save: "Hemat 241rb"
@@ -70,18 +71,24 @@ export default function MiniPricingGrid() {
             className="relative flex-shrink-0 w-[75vw] sm:w-[280px] md:w-auto snap-center md:snap-align-none"
           >
             <Link href="/dashboard/topup" className="block h-full">
-              <div className={`group relative p-8 rounded-[2rem] border transition-all duration-500 h-full flex flex-col justify-between overflow-hidden shadow-lg ${
+              <div className={`group relative p-8 rounded-[2.5rem] border transition-all duration-700 h-full flex flex-col justify-between overflow-hidden shadow-xl ${
                 pkg.isPopular 
-                  ? 'bg-white/60 dark:bg-wedding-base/60 border-wedding-gold shadow-wedding-gold/10' 
-                  : 'bg-white/30 dark:bg-wedding-base/30 border-white/50 dark:border-wedding-gold/10 hover:border-wedding-gold/30'
-              } backdrop-blur-xl`}>
+                  ? 'bg-white/70 dark:bg-wedding-base/70 border-wedding-gold shadow-wedding-gold/20 scale-[1.02] z-10' 
+                  : 'bg-white/40 dark:bg-wedding-base/40 border-white/50 dark:border-wedding-gold/10 hover:border-wedding-gold/40'
+              } backdrop-blur-2xl`}>
                 
                 <div className="relative">
-                  <div className="flex items-start justify-between mb-8">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
-                      pkg.isPopular ? 'bg-wedding-gold text-white shadow-lg' : 'bg-wedding-gold/10 text-wedding-gold'
-                    }`}>
-                      {pkg.icon}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="relative w-24 h-24 -mt-4 -ml-4 flex items-center justify-center">
+                      {/* Ambient Glow behind asset */}
+                      <div className="absolute inset-4 bg-wedding-gold/10 blur-xl rounded-full" />
+                      <Image 
+                        src={pkg.asset}
+                        alt={pkg.name}
+                        width={120}
+                        height={120}
+                        className="object-contain relative z-10 drop-shadow-[0_15px_30px_rgba(180,140,80,0.3)] group-hover:scale-110 group-hover:rotate-6 transition-transform duration-700"
+                      />
                     </div>
                     {pkg.badge && (
                       <span className={`text-[7px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-sm border ${
@@ -92,29 +99,29 @@ export default function MiniPricingGrid() {
                     )}
                   </div>
                   
-                  <h4 className="font-serif text-xl font-bold text-wedding-text mb-1">
+                  <h4 className="font-serif text-2xl font-bold text-wedding-text mb-1">
                     {pkg.name} 
                   </h4>
-                  <p className="text-[9px] text-wedding-text/40 font-bold uppercase tracking-widest mb-4">{pkg.desc}</p>
+                  <p className="text-[10px] text-wedding-text/40 font-bold uppercase tracking-widest mb-4">{pkg.desc}</p>
                 </div>
 
-                <div className="relative pt-6 flex items-end justify-between border-t border-wedding-gold/10 mt-4">
+                <div className="relative pt-6 flex items-end justify-between border-t border-wedding-gold/10 mt-6">
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
-                       <p className="text-[10px] text-wedding-text/30 font-black uppercase tracking-tighter">
+                    <div className="flex items-center gap-2 mb-2">
+                       <p className="text-[11px] text-wedding-text/40 font-black uppercase tracking-tighter">
                         {pkg.credits}
                       </p>
-                      {pkg.save && <span className="text-[8px] text-green-500 font-black bg-green-500/10 px-2 py-0.5 rounded-full uppercase tracking-tighter">{pkg.save}</span>}
+                      {pkg.save && <span className="text-[9px] text-green-500 font-black bg-green-500/10 px-2 py-0.5 rounded-full uppercase tracking-tighter">{pkg.save}</span>}
                     </div>
                     <div className="flex items-baseline gap-2">
-                      <p className="text-2xl font-serif font-bold text-wedding-text group-hover:text-wedding-gold transition-colors tracking-tight">Rp {pkg.price}</p>
-                      <p className="text-[10px] text-wedding-text/20 line-through font-bold">{pkg.originalPrice}</p>
+                      <p className="text-3xl font-serif font-bold text-wedding-text group-hover:text-wedding-gold transition-colors tracking-tight">Rp {pkg.price}</p>
+                      <p className="text-[11px] text-wedding-text/20 line-through font-bold">{pkg.originalPrice}</p>
                     </div>
                   </div>
-                  <div className={`p-2.5 rounded-xl transition-all shadow-lg ${
+                  <div className={`p-3 rounded-xl transition-all shadow-lg ${
                     pkg.isPopular ? 'bg-wedding-gold text-white' : 'bg-wedding-text text-wedding-base'
-                  } group-hover:scale-110`}>
-                    <Plus className="w-4 h-4" />
+                  } group-hover:scale-110 group-hover:bg-wedding-gold group-hover:text-white`}>
+                    <Plus className="w-5 h-5" />
                   </div>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface AIMusicGeneratorProps {
@@ -39,14 +40,35 @@ export default function AIMusicGenerator({ onGenerated }: AIMusicGeneratorProps)
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-md bg-wedding-base rounded-[2.5rem] overflow-hidden shadow-2xl p-8 border border-wedding-gold/20 transition-colors duration-500"
+              className="relative w-full max-w-md bg-wedding-base rounded-[3rem] overflow-hidden shadow-2xl p-10 border border-wedding-gold/20 transition-colors duration-500 flex flex-col items-center text-center"
             >
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-wedding-gold/10 text-wedding-gold rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner border border-wedding-gold/20">
-                  🎼
-                </div>
-                <h3 className="font-serif text-2xl text-wedding-text mb-2">AI Music Composer</h3>
-                <p className="text-xs text-wedding-text/40">Gubah musik unik untuk hari spesialmu</p>
+              <div className="relative mb-8">
+                <motion.div 
+                  animate={{ 
+                    y: [0, -15, 0],
+                    rotate: [0, 5, 0]
+                  }}
+                  transition={{ 
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="relative z-10 w-40 h-40 flex items-center justify-center"
+                >
+                  <div className="absolute inset-6 bg-wedding-gold/20 blur-3xl rounded-full" />
+                  <Image 
+                    src="/assets/branding/final/nusantara_angklung_solid_white_bg_1777350011138.webp"
+                    alt="Angklung"
+                    width={160}
+                    height={160}
+                    className="object-contain relative z-10 drop-shadow-[0_20px_40px_rgba(180,140,80,0.4)]"
+                  />
+                </motion.div>
+              </div>
+
+              <div className="mb-8">
+                <h3 className="font-serif text-3xl text-wedding-text mb-2 tracking-tight">AI Music Composer</h3>
+                <p className="text-[10px] text-wedding-gold font-black uppercase tracking-[0.4em]">Powered by Neural Orchestra</p>
               </div>
 
               <div className="p-6 bg-wedding-text/[0.03] rounded-3xl border-2 border-dashed border-wedding-gold/30 text-center mb-8">
@@ -58,6 +80,7 @@ export default function AIMusicGenerator({ onGenerated }: AIMusicGeneratorProps)
 
               <div className="flex flex-col gap-3">
                 <button
+                  type="button"
                   onClick={() => setIsOpen(false)}
                   className="w-full py-4 bg-wedding-gold text-black rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-wedding-gold/20 hover:opacity-80 transition-all active:scale-95"
                 >

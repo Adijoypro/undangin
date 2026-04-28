@@ -13,6 +13,7 @@ import { toast } from "sonner";
 
 import LoveStorySection from "./LoveStorySection";
 import MapPicker from "./MapPicker";
+import Image from "next/image";
 
 interface InvitationFormProps {
   action: any;
@@ -62,12 +63,46 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
   const [isLocationConfirmed, setIsLocationConfirmed] = useState(false);
   const [showLocationWarning, setShowLocationWarning] = useState(false);
 
-  const nextStep = () => {
-    if (step === 3 && !isLocationConfirmed) {
-      setShowLocationWarning(true);
-      toast.error("Wajib kunci lokasi terlebih dahulu!");
-      return;
+  const validateStep = (currentStep: number) => {
+    switch (currentStep) {
+      case 1:
+        if (!formData.slug) {
+          toast.error("Alamat URL (Slug) wajib diisi kawan!");
+          return false;
+        }
+        return true;
+      case 2:
+        if (!formData.bride_name || !formData.bride_fullname) {
+          toast.error("Nama lengkap & panggilan mempelai wanita wajib diisi!");
+          return false;
+        }
+        if (!formData.groom_name || !formData.groom_fullname) {
+          toast.error("Nama lengkap & panggilan mempelai pria wajib diisi!");
+          return false;
+        }
+        return true;
+      case 3:
+        if (!formData.event_date || !formData.event_time) {
+          toast.error("Tanggal & waktu acara belum lengkap kawan!");
+          return false;
+        }
+        if (!formData.event_location || !formData.event_address) {
+          toast.error("Nama lokasi & alamat lengkap wajib diisi!");
+          return false;
+        }
+        if (!isLocationConfirmed) {
+          setShowLocationWarning(true);
+          toast.error("Wajib kunci lokasi di peta terlebih dahulu!");
+          return false;
+        }
+        return true;
+      default:
+        return true;
     }
+  };
+
+  const nextStep = () => {
+    if (!validateStep(step)) return;
     setShowLocationWarning(false);
     setStep((s) => Math.min(s + 1, totalSteps));
   };
@@ -136,8 +171,16 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent native form submission
     
+    // Final Validation
+    for (let i = 1; i <= 3; i++) {
+      if (!validateStep(i)) {
+        setStep(i); // Jump to the problematic step
+        return;
+      }
+    }
+
     const submitBtn = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement;
-    if (submitBtn && submitBtn.type === "submit") {
+    if (submitBtn && (submitBtn.type === "submit" || submitBtn.tagName === "BUTTON")) {
       toast.loading(`Menyimpan data dengan tema: ${formData.theme}...`, { id: "save-toast" });
       
       const fd = new FormData();
@@ -180,14 +223,23 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
       fd.append("turut_mengundang", formData.turut_mengundang || "");
 
       startTransition(async () => {
-        const result = await action(fd);
-        if (result?.success) {
-          toast.success("Perubahan berhasil disimpan! ✨", { id: "save-toast" });
-          // Redirect di sisi client agar lebih mulus
-          router.push(`/dashboard/edit/${initialData.id}?updated=true`);
-          router.refresh();
-        } else {
-          toast.error(result?.error || "Gagal menyimpan perubahan.", { id: "save-toast" });
+        try {
+          const result = await action(fd);
+          if (result?.success) {
+            toast.success("Perubahan berhasil disimpan! ✨", { id: "save-toast" });
+            // Redirect ke dashboard agar lebih praktis
+            if (initialData?.id) {
+              router.push(`/dashboard?updated=true`);
+            } else {
+              router.push(`/dashboard?created=true`);
+            }
+            router.refresh();
+          } else {
+            toast.error(result?.error || "Gagal menyimpan perubahan.", { id: "save-toast" });
+          }
+        } catch (error) {
+          console.error("Save error:", error);
+          toast.error("Terjadi kesalahan sistem saat menyimpan.", { id: "save-toast" });
         }
       });
     }
@@ -313,9 +365,31 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
             exit={{ opacity: 0, x: -20 }}
             className="space-y-8"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 relative">
               <span className="w-8 h-8 bg-wedding-gold/10 rounded-lg flex items-center justify-center text-sm font-bold text-wedding-gold">03</span>
               <h2 className="font-serif text-2xl text-wedding-text">Detail Acara</h2>
+              
+              {/* Floating Pendopo Asset */}
+              <motion.div
+                animate={{ 
+                  y: [0, -15, 0],
+                  scale: [1, 1.02, 1]
+                }}
+                transition={{ 
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute -right-4 -top-10 w-24 h-24 pointer-events-none opacity-40 md:opacity-80"
+              >
+                <Image 
+                  src="/assets/branding/final/nusantara_pendopo_gold.webp"
+                  alt="Golden Pendopo"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                />
+              </motion.div>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6 md:gap-10">
@@ -504,6 +578,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
               <SubmitButton 
                 label={initialData?.id ? "Simpan Perubahan" : "Simpan & Buat Undangan"} 
                 loadingLabel="Sedang Menyimpan..." 
+                loading={isPending}
               />
             </div>
           </motion.section>

@@ -2,20 +2,29 @@
 
 import { useFormStatus } from "react-dom";
 
-export default function SubmitButton({ label, loadingLabel }: { label: string; loadingLabel?: string }) {
+export default function SubmitButton({ 
+  label, 
+  loadingLabel,
+  loading = false
+}: { 
+  label: string; 
+  loadingLabel?: string;
+  loading?: boolean;
+}) {
   const { pending } = useFormStatus();
+  const isCurrentlyLoading = pending || loading;
 
   return (
     <button
       type="submit"
-      disabled={pending}
+      disabled={isCurrentlyLoading}
       className={`w-full py-5 font-black rounded-2xl transition-all uppercase tracking-[0.2em] text-xs shadow-2xl mt-12 flex items-center justify-center gap-3 active:scale-95 ${
-        pending 
+        isCurrentlyLoading 
           ? "bg-wedding-text/10 cursor-not-allowed text-wedding-text/40" 
           : "bg-wedding-gold text-black hover:opacity-90 shadow-wedding-gold/20"
       }`}
     >
-      {pending ? (
+      {isCurrentlyLoading ? (
         <>
           <svg className="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

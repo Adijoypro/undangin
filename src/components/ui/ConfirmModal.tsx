@@ -1,5 +1,7 @@
 "use client";
 
+import { createPortal } from "react-dom";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ConfirmModalProps {
@@ -23,7 +25,23 @@ export default function ConfirmModal({
   cancelLabel = "Batal",
   isDanger = false
 }: ConfirmModalProps) {
-  return (
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
@@ -38,7 +56,7 @@ export default function ConfirmModal({
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden p-8 text-center"
+            className="relative bg-white dark:bg-wedding-base w-full max-w-sm rounded-[2.5rem] shadow-2xl overflow-hidden p-8 text-center border border-wedding-gold/20"
           >
             <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 ${isDanger ? 'bg-red-50 text-red-500' : 'bg-wedding-gold/10 text-wedding-gold'}`}>
               {isDanger ? (
@@ -49,7 +67,7 @@ export default function ConfirmModal({
             </div>
             
             <h3 className="font-serif text-2xl text-wedding-text mb-2">{title}</h3>
-            <p className="text-gray-500 text-sm mb-8 leading-relaxed">{message}</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-8 leading-relaxed">{message}</p>
             
             <div className="flex flex-col gap-3">
               <button
@@ -64,7 +82,7 @@ export default function ConfirmModal({
               </button>
               <button
                 onClick={onCancel}
-                className="w-full py-4 rounded-xl font-bold uppercase tracking-widest text-xs text-gray-400 hover:bg-gray-50 transition-all"
+                className="w-full py-4 rounded-xl font-bold uppercase tracking-widest text-xs text-gray-400 hover:bg-wedding-text/[0.05] transition-all"
               >
                 {cancelLabel}
               </button>
@@ -72,6 +90,7 @@ export default function ConfirmModal({
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
