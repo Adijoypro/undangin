@@ -33,7 +33,7 @@ function LoginForm() {
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-wedding-gold/5 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
 
       {/* Floating 3D Mask Asset - Optimized for Mobile */}
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-20 md:z-0">
         <motion.div
           animate={{ 
             y: [0, -20, 0],
@@ -45,7 +45,7 @@ function LoginForm() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute -top-10 -left-10 md:-left-20 md:top-1/2 md:-translate-y-1/2 w-[250px] h-[250px] md:w-[400px] md:h-[400px] opacity-30 md:opacity-40"
+          className="absolute -top-10 -left-10 md:-left-20 md:top-1/2 md:-translate-y-1/2 w-[250px] h-[250px] md:w-[400px] md:h-[400px] opacity-25 md:opacity-40"
         >
           <Image 
             src="/assets/branding/final/nusantara_topeng_gold.webp"
