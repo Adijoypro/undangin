@@ -58,7 +58,7 @@ export default function ExclusiveProcess() {
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 px-4 md:px-0">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 px-2 md:px-0">
           {steps.map((step, index) => (
             <motion.div
               key={index}
@@ -66,19 +66,19 @@ export default function ExclusiveProcess() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
-              className="group relative p-8 rounded-[2rem] border border-wedding-gold/10 bg-white/50 backdrop-blur-sm hover:bg-white hover:border-wedding-gold/30 transition-all duration-500 hover:shadow-2xl hover:shadow-wedding-gold/5"
+              className="group relative p-5 md:p-10 rounded-[1.5rem] md:rounded-[2.5rem] border border-wedding-gold/10 bg-white/50 backdrop-blur-sm hover:bg-white hover:border-wedding-gold/30 transition-all duration-500 hover:shadow-2xl hover:shadow-wedding-gold/5"
             >
               {/* Step Number */}
-              <div className="absolute -top-3 -right-3 md:-top-4 md:-right-4 w-10 h-10 md:w-12 md:h-12 bg-wedding-base border border-wedding-gold/20 rounded-full flex items-center justify-center font-serif text-wedding-gold group-hover:bg-wedding-gold group-hover:text-white transition-colors duration-500 shadow-xl text-sm md:text-base">
+              <div className="absolute -top-2 -right-2 md:-top-4 md:-right-4 w-8 h-8 md:w-12 md:h-12 bg-wedding-base border border-wedding-gold/20 rounded-full flex items-center justify-center font-serif text-wedding-gold group-hover:bg-wedding-gold group-hover:text-white transition-colors duration-500 shadow-xl text-[10px] md:text-base">
                 0{index + 1}
               </div>
 
-              <div className="mb-6 text-wedding-gold bg-wedding-gold/5 w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                <div className="scale-75 md:scale-100">{step.icon}</div>
+              <div className="mb-4 md:mb-8 text-wedding-gold bg-wedding-gold/5 w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                <div className="scale-50 md:scale-100">{step.icon}</div>
               </div>
 
-              <h3 className="text-xl md:text-2xl font-serif mb-3 md:mb-4 text-wedding-text">{step.title}</h3>
-              <p className="text-sm md:text-base text-wedding-text/60 leading-relaxed font-light mb-6">
+              <h3 className="text-base md:text-2xl font-serif mb-2 md:mb-4 text-wedding-text">{step.title}</h3>
+              <p className="text-[10px] md:text-base text-wedding-text/60 leading-relaxed font-light mb-4 md:mb-6 line-clamp-3 md:line-clamp-none">
                 {step.description}
               </p>
 
