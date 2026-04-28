@@ -60,7 +60,7 @@ export default function MiniPricingGrid() {
         <Link href="/dashboard/topup" className="text-[10px] font-black text-wedding-gold uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all border-b border-wedding-gold/20 pb-1">Lihat Semua →</Link>
       </div>
       
-      <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible pb-8 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+      <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible pt-6 pb-8 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
         {packages.map((pkg, i) => (
           <motion.div
             key={pkg.id}
@@ -71,7 +71,7 @@ export default function MiniPricingGrid() {
             className="relative flex-shrink-0 w-[75vw] sm:w-[280px] md:w-auto snap-center md:snap-align-none"
           >
             <Link href="/dashboard/topup" className="block h-full">
-              <div className={`group relative p-8 rounded-[2.5rem] border transition-all duration-700 h-full flex flex-col justify-between overflow-hidden shadow-xl ${
+              <div className={`group relative p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border transition-all duration-700 h-full flex flex-col justify-between overflow-hidden shadow-xl ${
                 pkg.isPopular 
                   ? 'bg-white/70 dark:bg-wedding-base/70 border-wedding-gold shadow-wedding-gold/20 scale-[1.02] z-10' 
                   : 'bg-white/40 dark:bg-wedding-base/40 border-white/50 dark:border-wedding-gold/10 hover:border-wedding-gold/40'
