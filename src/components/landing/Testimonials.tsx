@@ -27,7 +27,7 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-20 md:py-32 px-4 bg-white relative overflow-hidden">
+    <section className="py-20 md:py-32 px-4 bg-white dark:bg-[#050505] relative overflow-hidden transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-20 gap-6 md:gap-8 px-4 md:px-0">
           <div className="max-w-2xl">
@@ -43,7 +43,7 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="font-serif text-4xl md:text-6xl text-wedding-text leading-tight"
+              className="font-serif text-4xl md:text-6xl text-wedding-text dark:text-white leading-tight"
             >
               Kisah Bahagia <br /> Bersama <span className="text-wedding-gold">Undangin</span>
             </motion.h2>
@@ -84,7 +84,7 @@ export default function Testimonials() {
               </div>
               <div className="relative px-2">
                 <Quote className="w-6 h-6 md:w-8 md:h-8 text-wedding-gold/20 absolute -top-3 -left-2 md:-top-4 md:-left-4 -z-10" />
-                <p className="text-base md:text-lg text-wedding-text/70 italic leading-relaxed font-light">
+                <p className="text-base md:text-lg text-wedding-text/70 dark:text-white/70 italic leading-relaxed font-light">
                   "{item.quote}"
                 </p>
               </div>
