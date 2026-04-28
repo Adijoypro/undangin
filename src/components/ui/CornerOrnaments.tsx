@@ -6,12 +6,13 @@ import { motion } from "framer-motion";
 interface CornerOrnamentsProps {
   opacity?: number;
   size?: number;
+  topOffset?: string;
 }
 
-export default function CornerOrnaments({ opacity = 0.4, size = 120 }: CornerOrnamentsProps) {
+export default function CornerOrnaments({ opacity = 0.4, size = 120, topOffset = "top-18" }: CornerOrnamentsProps) {
   const corners = [
-    { id: "top-left", className: "top-18 -left-1 md:-top-2 md:-left-2", rotate: 0 },
-    { id: "top-right", className: "top-18 -right-1 md:-top-2 md:-right-2", rotate: 90 },
+    { id: "top-left", className: `${topOffset} -left-1 md:-top-2 md:-left-2`, rotate: 0 },
+    { id: "top-right", className: `${topOffset} -right-1 md:-top-2 md:-right-2`, rotate: 90 },
     { id: "bottom-right", className: "-bottom-1 -right-1 md:-bottom-2 md:-right-2", rotate: 180 },
     { id: "bottom-left", className: "-bottom-1 -left-1 md:-bottom-2 md:-left-2", rotate: 270 },
   ];
