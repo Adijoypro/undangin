@@ -78,23 +78,23 @@ const SHOWCASE_THEMES = [
   }
 ];
 
-function ThemeCard({ t, index }: { t: typeof SHOWCASE_THEMES[0], index: number }) {
+function ThemeCard({ t }: { t: typeof SHOWCASE_THEMES[0] }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div 
-      className="min-w-[300px] sm:min-w-[400px] shrink-0 group"
+      className="w-[280px] md:w-[400px] flex-shrink-0 snap-center group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className={`rounded-2xl overflow-hidden aspect-[9/16] ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02]`}>
+      <div className={`w-full aspect-[9/16] rounded-2xl overflow-hidden ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02]`}>
         {t.bgImage && (
           <div className="absolute inset-0 opacity-40 mix-blend-multiply z-0">
             <Image 
               src={t.bgImage}
               alt={t.title}
               fill
-              sizes="(max-width: 768px) 300px, 400px"
+              sizes="(max-width: 768px) 280px, 400px"
               className="object-cover"
             />
           </div>
@@ -119,9 +119,9 @@ function ThemeCard({ t, index }: { t: typeof SHOWCASE_THEMES[0], index: number }
           )}
         </div>
       </div>
-      <div className="mt-8 text-center">
-        <h4 className="font-serif text-2xl font-bold mb-2 text-wedding-text">{t.name}</h4>
-        <p className="text-sm text-wedding-text/60">{t.desc}</p>
+      <div className="mt-6 text-center h-[100px] flex flex-col justify-start">
+        <h4 className="font-serif text-xl md:text-2xl font-bold mb-1 text-wedding-text line-clamp-1">{t.name}</h4>
+        <p className="text-xs md:text-sm text-wedding-text/60 line-clamp-2 leading-relaxed">{t.desc}</p>
       </div>
     </div>
   );
