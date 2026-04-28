@@ -142,7 +142,7 @@ export default function Features() {
               <div className="absolute -inset-4 bg-wedding-gold/10 blur-2xl rounded-3xl -z-10" />
               <div className="relative aspect-square rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white">
                 <Image 
-                  src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=1200" 
+                  src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1200" 
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-1000" 
                   alt="Premium Experience"
