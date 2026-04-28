@@ -78,7 +78,7 @@ const ThemeCatalog = () => {
 
   return (
     <div className="py-24 border-t border-wedding-gold/10 transition-colors duration-500 relative overflow-hidden">
-      <CornerOrnaments opacity={0.3} size={100} />
+      <CornerOrnaments opacity={0.3} size={100} topOffset="top-4 md:top-10" />
       {/* Decorative Assets Removed for Cleaner UI */}
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6 relative z-10">
