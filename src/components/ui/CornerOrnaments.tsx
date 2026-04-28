@@ -10,8 +10,8 @@ interface CornerOrnamentsProps {
 
 export default function CornerOrnaments({ opacity = 0.4, size = 120 }: CornerOrnamentsProps) {
   const corners = [
-    { id: "top-left", className: "-top-1 -left-1 md:-top-2 md:-left-2", rotate: 0 },
-    { id: "top-right", className: "-top-1 -right-1 md:-top-2 md:-right-2", rotate: 90 },
+    { id: "top-left", className: "top-16 -left-1 md:-top-2 md:-left-2", rotate: 0 },
+    { id: "top-right", className: "top-16 -right-1 md:-top-2 md:-right-2", rotate: 90 },
     { id: "bottom-right", className: "-bottom-1 -right-1 md:-bottom-2 md:-right-2", rotate: 180 },
     { id: "bottom-left", className: "-bottom-1 -left-1 md:-bottom-2 md:-left-2", rotate: 270 },
   ];
