@@ -153,7 +153,7 @@ export default function ThemeShowcase() {
           >
             {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
               <div key={`${t.id}-${i}`} className="snap-center">
-                <ThemeCard t={t} index={i} />
+                <ThemeCard t={t} />
               </div>
             ))}
           </motion.div>
