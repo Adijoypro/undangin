@@ -131,8 +131,8 @@ export default function ThemeShowcase() {
   const [sliderPaused, setSliderPaused] = useState(false);
 
   return (
-    <section id="template" className="py-20 md:py-32 px-4 border-t border-wedding-gold/10 relative overflow-hidden transition-colors duration-500">
-      <CornerOrnaments opacity={0.4} size={150} topOffset="top-[67px]" />
+    <section id="template" className="pt-28 pb-20 md:pt-32 md:pb-24 px-4 border-t border-wedding-gold/10 relative overflow-hidden transition-colors duration-500">
+      <CornerOrnaments opacity={0.4} size={150} topOffset="top-0 md:top-6" />
       <div className="max-w-7xl mx-auto relative z-10 px-4">
         <div className="mb-12 md:mb-20">
           <h2 className="font-serif text-4xl md:text-5xl mb-4 text-wedding-text">Koleksi Eksklusif</h2>
