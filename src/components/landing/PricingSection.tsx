@@ -43,7 +43,7 @@ const plans = [
     price: "649",
     unit: "rb",
     asset: "/assets/branding/final/nusantara_barong_solid_white_bg_1777349993913.webp",
-    features: ["15 Slot Premium", "Custom Domain", "Analitik Tamu VVIP", "Dedicated Manager"],
+    features: ["10 Slot Premium", "Custom Domain", "Analitik Tamu VVIP", "Dedicated Manager"],
     cta: "Cek Detail",
     premium: false
   }

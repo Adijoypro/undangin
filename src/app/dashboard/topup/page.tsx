@@ -34,11 +34,11 @@ export default async function TopUpPage() {
     },
     {
       id: "pkg_10",
-      name: "Enterprise Pack",
+      name: "Royal Pack",
       credits: 10,
       price: 649000,
       originalPrice: 890000,
-      description: "Harga Terbaik! 10 Kredit untuk bisnis undangan massal Anda."
+      description: "Kasta Tertinggi! 10 Kredit Undangan. Pilihan utama untuk para profesional."
     }
   ];
 

@@ -37,7 +37,7 @@ export default function MiniPricingGrid() {
       credits: "10 Kredit", 
       price: "649rb", 
       originalPrice: "890rb",
-      desc: "Undangan massal.", 
+      desc: "Kasta tertinggi kemewahan.", 
       asset: "/assets/branding/final/nusantara_barong_solid_white_bg_1777349993913.webp",
       isPopular: false,
       badge: "VALUE",

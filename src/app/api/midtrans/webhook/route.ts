@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 
 export async function POST(request: Request) {
   try {
@@ -10,8 +10,7 @@ export async function POST(request: Request) {
 
     // FOR LOCAL TESTING BYPASS WEBHOOK
     if (is_local_test && invitationId) {
-      const supabase = await createClient();
-      await supabase
+      await supabaseAdmin
         .from("invitations")
         .update({ is_ai_enabled: true })
         .eq("id", invitationId);
@@ -20,12 +19,11 @@ export async function POST(request: Request) {
     }
 
     if (transaction_status === "settlement" || transaction_status === "capture") {
-      const supabase = await createClient();
 
       // Case 1: Top up Credits (custom_field2 has credits count)
       if (userId && credits && parseInt(credits) > 0) {
         // Get current credits
-        const { data: profile } = await supabase
+        const { data: profile } = await supabaseAdmin
           .from("profiles")
           .select("credits")
           .eq("id", userId)
@@ -34,7 +32,7 @@ export async function POST(request: Request) {
         const currentCredits = profile?.credits || 0;
         const newCredits = currentCredits + parseInt(credits);
 
-        await supabase
+        await supabaseAdmin
           .from("profiles")
           .update({ credits: newCredits })
           .eq("id", userId);
@@ -42,7 +40,7 @@ export async function POST(request: Request) {
 
       // Case 2: Upgrade AI for specific invitation (custom_field3 has invitationId)
       if (invitationId) {
-        await supabase
+        await supabaseAdmin
           .from("invitations")
           .update({ is_ai_enabled: true })
           .eq("id", invitationId);
