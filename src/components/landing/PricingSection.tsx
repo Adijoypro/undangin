@@ -74,7 +74,7 @@ export default function PricingSection({ user }: { user: any }) {
           <p className="text-wedding-text/50 text-base md:text-xl font-light max-w-2xl mx-auto px-4">Pilih paket yang sesuai dengan kemegahan hari istimewa Anda.</p>
         </div>
 
-        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 overflow-x-auto md:overflow-visible pb-12 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 overflow-x-auto md:overflow-visible pt-8 md:pt-0 pb-12 md:pb-0 snap-x snap-mandatory no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
           {plans.map((plan, i) => (
             <motion.div
               key={i}

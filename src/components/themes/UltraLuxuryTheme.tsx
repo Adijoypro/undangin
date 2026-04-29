@@ -152,7 +152,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
       />
 
 
-      <div ref={containerRef} className={`bg-[#050505] text-white min-h-screen selection:bg-[#D4AF37]/30 selection:text-white font-serif overflow-hidden`}>
+      <div ref={containerRef} className={`bg-[#050505] text-white min-h-screen selection:bg-[#D4AF37]/30 selection:text-white font-serif overflow-x-hidden`}>
         
 
 

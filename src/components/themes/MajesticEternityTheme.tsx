@@ -54,7 +54,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
   };
 
   return (
-    <div className="min-h-screen font-sans selection:bg-[#D4AF37] selection:text-black bg-[#0A1C14] text-white overflow-hidden relative" ref={containerRef}>
+    <div className="min-h-screen font-sans selection:bg-[#D4AF37] selection:text-black bg-[#0A1C14] text-white overflow-x-hidden relative" ref={containerRef}>
 
       {/* Main Content */}
       <div className="relative z-10 pb-32">

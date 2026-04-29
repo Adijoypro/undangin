@@ -2,22 +2,22 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Zap, BarChart3, Music4, Smartphone, QrCode, BellRing } from "lucide-react";
+import { Smartphone, QrCode, BellRing } from "lucide-react";
 
 const features = [
   { 
     title: "Animasi Sinematik", 
-    icon: <Zap className="w-8 h-8" />, 
+    icon: "/assets/branding/final/nusantara_topeng_gold.webp", 
     desc: "Parallax scrolling halus dan transisi premium yang memanjakan mata tamu Anda." 
   },
   { 
     title: "RSVP Cerdas", 
-    icon: <BarChart3 className="w-8 h-8" />, 
+    icon: "/assets/branding/final/ai_rsvp_sphere_solid_white_bg_1777347973006.webp", 
     desc: "Sistem pendataan kehadiran real-time terintegrasi untuk manajemen tamu yang efisien." 
   },
   { 
     title: "Mahakarya Musik", 
-    icon: <Music4 className="w-8 h-8" />, 
+    icon: "/assets/branding/final/nusantara_gong_solid_white_bg_1777350027916.webp", 
     desc: "Personalisasi iringan melodi eksklusif yang menemani setiap detik perjalanan cinta Anda." 
   }
 ];
@@ -81,8 +81,14 @@ export default function Features() {
                   
                   <div className="absolute top-0 right-0 w-12 h-12 md:w-24 md:h-24 bg-wedding-gold/5 rounded-bl-[2rem] md:rounded-bl-[5rem] -z-10 group-hover:scale-150 transition-transform duration-700" />
                 </div>                
-                <div className="w-10 h-10 md:w-16 md:h-16 rounded-lg md:rounded-2xl bg-wedding-gold/5 text-wedding-gold flex items-center justify-center mb-3 md:mb-8 group-hover:scale-110 group-hover:bg-wedding-gold group-hover:text-white transition-all duration-500">
-                  <div className="scale-50 md:scale-100">{feat.icon}</div>
+                <div className="w-12 h-12 md:w-20 md:h-20 rounded-lg md:rounded-2xl bg-wedding-gold/5 text-wedding-gold flex items-center justify-center mb-3 md:mb-8 group-hover:scale-110 transition-all duration-500 overflow-hidden relative">
+                  <Image 
+                    src={feat.icon} 
+                    alt={feat.title}
+                    width={80}
+                    height={80}
+                    className="object-contain mix-blend-multiply"
+                  />
                 </div>
                 
                 <h3 className="font-serif text-sm md:text-2xl text-wedding-text mb-1 md:mb-4 group-hover:text-wedding-gold transition-colors line-clamp-1">{feat.title}</h3>
@@ -142,7 +148,7 @@ export default function Features() {
               <div className="absolute -inset-4 bg-wedding-gold/10 blur-2xl rounded-3xl -z-10" />
               <div className="relative aspect-square rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white">
                 <Image 
-                  src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=1200" 
+                  src="/luxury_kutai_dayak_wedding_final.png" 
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-1000" 
                   alt="Premium Experience"
@@ -150,7 +156,7 @@ export default function Features() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10 text-white">
                   <p className="font-serif italic text-lg md:text-2xl">"Kualitas yang melampaui ekspektasi."</p>
-                  <p className="text-[10px] md:text-sm uppercase tracking-widest mt-2 opacity-70">- Amanda & James</p>
+                  <p className="text-[10px] md:text-sm uppercase tracking-widest mt-2 opacity-70">- Adji & Putri</p>
                 </div>
               </div>
             </motion.div>

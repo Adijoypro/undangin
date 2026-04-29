@@ -73,7 +73,7 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
       <div className="paper-texture"></div>
 
       {/* MAIN */}
-      <main className={`relative h-full overflow-y-auto`}>
+      <main className={`relative min-h-screen`}>
         <div className="dust-container" id="dust-particles"></div>
 
         {/* HERO */}

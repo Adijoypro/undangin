@@ -48,14 +48,16 @@ export default function Footer() {
       </div>
       
       <div className="max-w-7xl mx-auto mt-24 pt-12 border-t border-wedding-gold/10 text-center flex flex-col items-center">
-        <div className="mb-12">
-          <Image 
-            src="/assets/branding/final/nusantara_keris_solid_white_bg_1777349884812.webp" 
-            alt="Keris Divider"
-            width={100}
-            height={100}
-            className="object-contain drop-shadow-[0_10px_20px_rgba(184,134,11,0.2)]"
-          />
+        {/* 🛡️ SEKSI KERIS DIVIDER - Atur 'h-[700px]' untuk panjang & 'w-24' untuk ketebalan */}
+        <div className="mb-12 mt-8 h-24 flex items-center justify-center relative w-full overflow-visible">
+          <div className="relative w-24 h-[700px] rotate-90 translate-y-[-10px] transition-all duration-500">
+            <Image 
+              src="/assets/branding/final/nusantara_keris_solid_white_bg_1777349884812.webp" 
+              alt="Keris Divider"
+              fill
+              className="object-contain drop-shadow-[0_30px_60px_rgba(184,134,11,0.4)] mix-blend-multiply"
+            />
+          </div>
         </div>
         <p className="text-[10px] text-wedding-text/40 uppercase tracking-[0.4em] font-bold">
           © 2026 Undangin — Mahakarya Undangan Nusantara Digital.

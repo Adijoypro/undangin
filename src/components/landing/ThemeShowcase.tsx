@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import CornerOrnaments from "@/components/ui/CornerOrnaments";
 
@@ -88,7 +88,7 @@ function ThemeCard({ t, onHoverChange }: { t: typeof SHOWCASE_THEMES[0], onHover
 
   return (
     <div 
-      className="w-[320px] md:w-[400px] flex-shrink-0 snap-center group"
+      className="w-[280px] md:w-[360px] flex-shrink-0 snap-center group"
       onMouseEnter={() => handleHover(true)}
       onMouseLeave={() => handleHover(false)}
     >
@@ -116,13 +116,10 @@ function ThemeCard({ t, onHoverChange }: { t: typeof SHOWCASE_THEMES[0], onHover
 
         <div 
           className={`absolute inset-0 z-30 transition-all duration-1000 ${t.iframeBg} ${isHovered ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-          onWheel={(e) => {
-            e.stopPropagation();
-          }}
         >
           {isHovered && (
             <iframe 
-              src={`/demo/${t.id}`} 
+              src={`/demo/${t.id}?mode=demo`} 
               className="w-full h-full border-none shadow-2xl" 
               title={t.name}
               allow="autoplay"
@@ -140,32 +137,115 @@ function ThemeCard({ t, onHoverChange }: { t: typeof SHOWCASE_THEMES[0], onHover
 }
 
 export default function ThemeShowcase() {
-  const [sliderPaused, setSliderPaused] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -392 : 392; // 360 + 32 gap
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <section id="template" className="pt-28 pb-20 md:pt-32 md:pb-24 px-4 border-t border-wedding-gold/10 relative overflow-hidden transition-colors duration-500">
-      <CornerOrnaments opacity={0.4} size={150} topOffset="top-0 md:top-6" />
+    <section id="template" className="pt-16 pb-20 md:pt-32 md:pb-24 px-4 border-t border-wedding-gold/10 relative overflow-hidden transition-colors duration-500">
+      <CornerOrnaments opacity={0.4} size={150} topOffset="top-2 md:top-8" />
+      
       <div className="max-w-7xl mx-auto relative z-10 px-4">
-        <div className="mb-12 md:mb-20">
-          <h2 className="font-serif text-4xl md:text-5xl mb-4 text-wedding-text">Koleksi Eksklusif</h2>
-          <p className="text-wedding-text/60 max-w-xl text-base md:text-lg">Pilih dari mahakarya desain yang dibuat oleh seniman digital kelas atas.</p>
+        <div className="mb-12 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="text-center md:text-left">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="font-serif text-4xl md:text-5xl mb-4 text-wedding-text"
+            >
+              Koleksi Eksklusif
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-wedding-text/60 max-w-xl text-base md:text-lg"
+            >
+              Pilih mahakarya desain dari seniman digital kelas atas.
+            </motion.p>
+          </div>
+          
+          {/* Navigation Buttons for Desktop */}
+          <div className="hidden md:flex gap-4">
+            <button 
+              onClick={() => scroll('left')}
+              className="w-12 h-12 rounded-full border border-wedding-gold/30 flex items-center justify-center text-wedding-gold hover:bg-wedding-gold hover:text-white transition-all active:scale-95"
+              aria-label="Previous"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button 
+              onClick={() => scroll('right')}
+              className="w-12 h-12 rounded-full border border-wedding-gold/30 flex items-center justify-center text-wedding-gold hover:bg-wedding-gold hover:text-white transition-all active:scale-95"
+              aria-label="Next"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
         </div>
 
-        <div 
-          className={`relative overflow-x-auto pb-10 no-scrollbar snap-x snap-mandatory ${sliderPaused ? 'overflow-x-hidden' : ''}`}
-        >
-          <motion.div 
-            className="flex gap-6 md:gap-8 w-max"
-            {...(typeof window !== 'undefined' && window.innerWidth > 768 ? {
-              animate: sliderPaused ? {} : { x: ["0%", "-50%"] },
-              transition: { duration: 60, repeat: Infinity, ease: "linear" }
-            } : {})}
+        <div className="relative group/showcase">
+          
+          <div 
+            ref={scrollRef}
+            className="relative overflow-x-auto md:overflow-hidden pb-10 no-scrollbar snap-x snap-mandatory"
           >
-            {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
-              <div key={`${t.id}-${i}`} className="snap-center">
-                <ThemeCard t={t} onHoverChange={(hovered) => setSliderPaused(hovered)} />
-              </div>
-            ))}
+            <div className="flex gap-6 md:gap-8 w-max md:animate-marquee md:hover:[animation-play-state:paused] py-4 md:justify-center">
+              {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => {
+                const uniqueKey = `${t.id}-${i}`;
+                const isThisHovered = hoveredId === uniqueKey;
+                
+                return (
+                  <motion.div 
+                    key={uniqueKey} 
+                    className={`snap-center transition-all duration-700 ${isThisHovered ? 'scale-105 z-30' : 'scale-100 z-10'}`}
+                    onMouseEnter={() => setHoveredId(uniqueKey)}
+                    onMouseLeave={() => setHoveredId(null)}
+                    animate={{
+                      y: isThisHovered ? -10 : [0, -5, 0],
+                    }}
+                    transition={{
+                      duration: 4 + (i % 3),
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <ThemeCard t={t} onHoverChange={() => {}} />
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* CTA SECTION */}
+        <div className="mt-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex flex-col items-center gap-6"
+          >
+            <p className="text-wedding-text/40 text-sm font-serif italic">Siap untuk membuat momen Anda tak terlupakan?</p>
+            <a 
+              href="/dashboard" 
+              className="px-12 py-5 bg-wedding-gold text-white rounded-full font-bold uppercase tracking-[0.2em] text-xs shadow-2xl hover:bg-wedding-text hover:-translate-y-1 transition-all duration-300"
+            >
+              Mulai Buat Undangan Sekarang
+            </a>
+            <div className="flex items-center gap-2 text-[10px] text-wedding-gold font-bold uppercase tracking-widest mt-2 opacity-60">
+              <span className="w-8 h-px bg-wedding-gold/30"></span>
+              Tanpa Kartu Kredit &bull; Gratis Coba
+              <span className="w-8 h-px bg-wedding-gold/30"></span>
+            </div>
           </motion.div>
         </div>
       </div>

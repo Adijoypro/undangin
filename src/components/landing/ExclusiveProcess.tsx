@@ -1,31 +1,31 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, PenTool, Globe, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 
 const steps = [
   {
     title: "The Vision",
     description: "Konsultasikan konsep pernikahan impian Anda dengan kurator desain kami.",
-    icon: <PenTool className="w-8 h-8" />,
+    icon: "/assets/branding/final/nusantara_wayang_solid_white_bg_1777349850175.webp",
     detail: "Desain Eksklusif"
   },
   {
     title: "The Craft",
     description: "Teknologi AI kami mengolah setiap detail dengan presisi artistik yang tinggi.",
-    icon: <Sparkles className="w-8 h-8" />,
+    icon: "/assets/branding/final/ai_vip_badge_solid_white_bg_1777348235668.webp",
     detail: "Presisi Tinggi"
   },
   {
     title: "The Reveal",
     description: "Undangan mahakarya Anda siap disebarkan ke seluruh penjuru dunia.",
-    icon: <Globe className="w-8 h-8" />,
+    icon: "/assets/branding/final/ai_global_network_solid_white_bg_1777348154457.webp",
     detail: "Jangkauan Global"
   },
   {
     title: "The Legacy",
     description: "Data dan kenangan Anda tersimpan aman dalam arsip digital premium kami.",
-    icon: <ShieldCheck className="w-8 h-8" />,
+    icon: "/assets/branding/final/ai_data_pillars_solid_white_bg_1777347988743.webp",
     detail: "Keamanan VVIP"
   }
 ];
@@ -73,8 +73,14 @@ export default function ExclusiveProcess() {
                 0{index + 1}
               </div>
 
-              <div className="mb-4 md:mb-8 text-wedding-gold bg-wedding-gold/5 w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                <div className="scale-50 md:scale-100">{step.icon}</div>
+              <div className="mb-4 md:mb-8 text-wedding-gold bg-wedding-gold/5 w-12 h-12 md:w-20 md:h-20 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500 overflow-hidden relative">
+                <Image 
+                  src={step.icon} 
+                  alt={step.title}
+                  width={80}
+                  height={80}
+                  className="object-contain mix-blend-multiply"
+                />
               </div>
 
               <h3 className="text-base md:text-2xl font-serif mb-2 md:mb-4 text-wedding-text">{step.title}</h3>

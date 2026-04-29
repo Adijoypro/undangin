@@ -114,7 +114,7 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
     <>
 
       {/* ═══ MAIN CONTENT ═══ */}
-      <div ref={containerRef} className={`min-h-screen overflow-hidden font-serif`}
+      <div ref={containerRef} className={`min-h-screen overflow-x-hidden font-serif`}
         style={{ backgroundColor: palette.bg, color: palette.text }}>
 
 

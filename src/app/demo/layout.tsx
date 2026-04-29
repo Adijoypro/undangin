@@ -11,7 +11,7 @@ export default function DemoLayout({
           padding: 0 !important;
           overflow-x: hidden !important;
           width: 100% !important;
-          height: 100% !important;
+          min-height: 100% !important;
           -webkit-overflow-scrolling: touch;
         }
         /* Hide scrollbars for a cleaner look in showcase if possible, 
