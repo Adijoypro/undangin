@@ -109,7 +109,10 @@ function ThemeCard({ t }: { t: typeof SHOWCASE_THEMES[0] }) {
           </div>
         </div>
 
-        <div className={`absolute inset-0 z-30 transition-opacity duration-700 ${t.iframeBg} ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div 
+          className={`absolute inset-0 z-30 transition-opacity duration-700 ${t.iframeBg} ${isHovered ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+          onWheel={(e) => e.stopPropagation()}
+        >
           {isHovered && (
             <iframe 
               src={`/demo/${t.id}`} 

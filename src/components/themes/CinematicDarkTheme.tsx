@@ -296,7 +296,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}
           className="text-center max-w-5xl w-full grid md:grid-cols-2 gap-12 items-center"
         >
-          <div className="bg-white/5 backdrop-blur-md p-16 rounded-3xl border border-white/10">
+          <div className="bg-white/5 backdrop-blur-md p-6 md:p-16 rounded-3xl border border-white/10">
             <h2 className="font-serif text-2xl md:text-5xl mb-8 tracking-tight uppercase">The Celebration</h2>
             <div className="w-12 h-px bg-white/30 mx-auto mb-12"></div>
             

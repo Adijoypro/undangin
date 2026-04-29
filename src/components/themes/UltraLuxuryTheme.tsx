@@ -291,7 +291,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
               {/* Event Details Card */}
               <motion.div 
                 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-                className="bg-black/60 backdrop-blur-3xl border border-[#D4AF37]/10 p-12 md:p-20 text-center relative"
+                className="bg-black/60 backdrop-blur-3xl border border-[#D4AF37]/10 p-6 md:p-20 text-center relative"
               >
                 <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 opacity-20 mix-blend-screen">
                   <Image src="/assets/gold-frame.png" fill className="object-contain" alt="Ornament" />
@@ -329,7 +329,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                   />
                 </div>
 
-                <div className="bg-black/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] flex items-center gap-10">
+                <div className="bg-black/40 backdrop-blur-xl border border-white/5 p-6 rounded-[2rem] flex items-center gap-10">
                   <div className="bg-white p-2 rounded-2xl shadow-[0_0_20px_rgba(212,175,55,0.1)]">
                     <QRCodeSVG 
                       value={data.event.mapsLink} 

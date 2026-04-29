@@ -134,7 +134,7 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="relative z-10 text-center px-4 py-20">
             <Ornament className="mx-auto mb-8" />
             <p className="text-xs tracking-[0.5em] uppercase mb-6" style={{ color: palette.accent }}>Our Wedding Day</p>
-            <h1 className="text-5xl md:text-8xl italic mb-6 leading-tight">{data.bride.name} <span className="text-3xl md:text-5xl" style={{ color: palette.gold }}>&</span> {data.groom.name}</h1>
+            <h1 className="text-6xl md:text-8xl italic mb-6 leading-tight">{data.bride.name} <span className="text-3xl md:text-5xl" style={{ color: palette.gold }}>&</span> {data.groom.name}</h1>
             <Ornament className="mx-auto mt-4 mb-12" />
             <CountdownTimer targetDate={data.event.date} theme="premium" />
             <div className="mt-10">

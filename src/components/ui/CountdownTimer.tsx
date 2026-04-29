@@ -17,9 +17,6 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
   });
 
   useEffect(() => {
-    // Basic parser for Indonesian date format (very simple for MVP)
-    // E.g., "14 Februari 2027" -> Parse it properly
-    // For MVP, we'll try to let standard JS parse it by mapping Indonesian months
     const indonesianMonths: { [key: string]: string } = {
       januari: "January", februari: "February", maret: "March", april: "April",
       mei: "May", juni: "June", juli: "July", agustus: "August",
@@ -31,7 +28,6 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
       parsedDateStr = parsedDateStr.replace(month, indonesianMonths[month]);
     });
 
-    // Enforce WIB (GMT+7) for consistency across browsers
     const dateWithTimezone = parsedDateStr.includes(":") 
       ? `${parsedDateStr} GMT+0700` 
       : `${parsedDateStr} 08:00:00 GMT+0700`;
@@ -57,9 +53,7 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
       return true;
     };
 
-    // Run once immediately
     updateTimer();
-
     const intervalId = setInterval(() => {
       if (!updateTimer()) {
         clearInterval(intervalId);
@@ -78,7 +72,7 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
 
   if (theme === "cinematic") {
     return (
-      <div className="flex gap-4 sm:gap-6 justify-center w-full">
+      <div className="flex gap-2 sm:gap-6 justify-center w-full">
         {units.map((unit, i) => (
           <motion.div 
             key={unit.label}
@@ -88,19 +82,18 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
             viewport={{ once: true }}
             className="flex flex-col items-center"
           >
-            <div className="w-16 h-16 sm:w-20 sm:h-20 border border-white/20 rounded-full flex items-center justify-center bg-black/30 backdrop-blur-md text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-              <span className="font-serif text-2xl sm:text-3xl">{unit.value}</span>
+            <div className="w-12 h-12 sm:w-20 sm:h-20 border border-white/20 rounded-full flex items-center justify-center bg-black/30 backdrop-blur-md text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+              <span className="font-serif text-lg sm:text-3xl">{unit.value}</span>
             </div>
-            <span className="text-[10px] sm:text-xs text-gray-400 mt-3 uppercase tracking-[0.2em]">{unit.label}</span>
+            <span className="text-[8px] sm:text-xs text-gray-400 mt-3 uppercase tracking-[0.2em]">{unit.label}</span>
           </motion.div>
         ))}
       </div>
     );
   }
 
-  // Premium Theme (Sage & Gold)
   return (
-    <div className="flex gap-3 sm:gap-5 justify-center w-full">
+    <div className="flex gap-2 sm:gap-5 justify-center w-full">
       {units.map((unit, i) => (
         <motion.div 
           key={unit.label}
@@ -108,10 +101,10 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 * i, duration: 0.6 }}
           viewport={{ once: true }}
-          className="flex flex-col items-center bg-white p-3 sm:p-4 rounded-xl shadow-lg border border-wedding-gold/20 min-w-[70px] sm:min-w-[80px]"
+          className="flex flex-col items-center bg-white p-2 sm:p-4 rounded-xl shadow-lg border border-wedding-gold/20 min-w-[60px] sm:min-w-[80px]"
         >
-          <span className="font-serif text-3xl sm:text-4xl text-wedding-gold mb-1">{unit.value}</span>
-          <span className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-widest">{unit.label}</span>
+          <span className="font-serif text-2xl sm:text-4xl text-wedding-gold mb-1">{unit.value}</span>
+          <span className="text-[8px] sm:text-xs text-gray-500 uppercase tracking-widest">{unit.label}</span>
         </motion.div>
       ))}
     </div>

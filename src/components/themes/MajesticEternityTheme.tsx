@@ -77,9 +77,9 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
             className="relative z-10 w-full max-w-2xl"
           >
             <p className="font-serif text-[#D4AF37] text-sm uppercase tracking-[0.4em] mb-8 ml-[0.4em]">The Wedding Of</p>
-            <h1 className="font-script text-7xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-4">{data.bride.name}</h1>
+            <h1 className="font-script text-6xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-4">{data.bride.name}</h1>
             <p className="font-serif text-2xl md:text-3xl text-[#D4AF37] italic my-2">&</p>
-            <h1 className="font-script text-7xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-12">{data.groom.name}</h1>
+            <h1 className="font-script text-6xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-12">{data.groom.name}</h1>
 
             <div className="inline-block border-y border-[#D4AF37]/50 py-4 px-12">
               <p className="font-sans text-xs font-bold uppercase tracking-[0.3em] text-gray-300">{data.event.date}</p>
@@ -205,7 +205,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
               initial={{ y: 50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
-              className="bg-white/5 border border-[#D4AF37]/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-[0_0_50px_rgba(212,175,55,0.05)] mb-20 relative overflow-hidden"
+              className="bg-white/5 border border-[#D4AF37]/30 backdrop-blur-xl rounded-3xl p-6 md:p-12 shadow-[0_0_50px_rgba(212,175,55,0.05)] mb-20 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/10 rounded-full blur-[50px]"></div>
 
