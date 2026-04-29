@@ -83,7 +83,7 @@ function ThemeCard({ t }: { t: typeof SHOWCASE_THEMES[0] }) {
 
   return (
     <div 
-      className="w-[280px] md:w-[400px] flex-shrink-0 snap-center group"
+      className="w-[320px] md:w-[400px] flex-shrink-0 snap-center group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -115,6 +115,8 @@ function ThemeCard({ t }: { t: typeof SHOWCASE_THEMES[0] }) {
               src={`/demo/${t.id}`} 
               className="w-full h-full border-none shadow-2xl" 
               title={t.name}
+              allow="autoplay"
+              loading="lazy"
             />
           )}
         </div>

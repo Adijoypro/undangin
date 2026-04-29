@@ -119,7 +119,7 @@ const ThemeCatalog = () => {
           {themes.map((theme) => (
             <div 
               key={theme.id} 
-              className="w-[260px] sm:w-[320px] flex-shrink-0 snap-start"
+              className="w-[300px] sm:w-[320px] flex-shrink-0 snap-start"
             >
               <motion.div 
                 whileHover={{ y: -10 }}

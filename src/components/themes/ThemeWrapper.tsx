@@ -139,7 +139,7 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
       />
 
       {/* THEME CONTENT */}
-      <div className={`transition-opacity duration-1000 ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
+      <div className={`transition-opacity duration-1000 w-full min-h-screen ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
         {children}
       </div>
 
