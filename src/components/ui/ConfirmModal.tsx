@@ -75,7 +75,7 @@ export default function ConfirmModal({
                 className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-all shadow-lg ${
                   isDanger 
                     ? 'bg-red-500 text-white hover:bg-red-600 shadow-red-500/20' 
-                    : 'bg-wedding-text text-white hover:bg-wedding-gold shadow-wedding-gold/20'
+                    : 'bg-wedding-gold text-white hover:opacity-90 shadow-wedding-gold/20'
                 }`}
               >
                 {confirmLabel}

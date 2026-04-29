@@ -124,8 +124,18 @@ export async function publishInvitation(invitationId: string) {
 
   const { error: publishError } = await supabase.from("invitations").update({ status: 'published' }).eq("id", invitationId);
   if (!publishError) {
-    await supabase.rpc('deduct_invitation_credit', { user_id_param: user.id });
+    const newCredits = profile.credits - 1;
+    const { error: creditError } = await supabase.from("profiles").update({ credits: newCredits }).eq("id", user.id);
+    
+    if (creditError) {
+      console.error("Gagal memotong kredit:", creditError);
+      // Revert status if credit deduction fails to prevent abuse
+      await supabase.from("invitations").update({ status: 'draft' }).eq("id", invitationId);
+      return { success: false, message: "Gagal memotong kredit. Publikasi dibatalkan." };
+    }
+    
     return { success: true, message: "Undangan berhasil dipublikasikan! 🎉" };
   }
   return { success: false, message: "Gagal mempublikasikan undangan." };
+
 }
