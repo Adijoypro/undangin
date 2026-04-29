@@ -27,7 +27,7 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
           initial={{ opacity: 1 }}
           exit={{ y: "-100%", opacity: 0 }}
           transition={{ duration: 1, ease: [0.43, 0.13, 0.23, 0.96] }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-wedding-text overflow-hidden"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#111111] overflow-hidden"
         >
           {/* Decorative Background Elements */}
           <div className="absolute inset-0 opacity-20">
