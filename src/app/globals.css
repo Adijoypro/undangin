@@ -29,6 +29,12 @@
   --wedding-base: #020617; /* slate-950 */
 }
 
+/* Penangkal Dark Mode Khusus Halaman Publikasi */
+.theme-isolate {
+  --wedding-text: #111111 !important;
+  --wedding-base: #FDFBF7 !important;
+}
+
 body {
   overflow-x: hidden;
   background-color: var(--wedding-base);

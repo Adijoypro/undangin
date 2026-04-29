@@ -72,7 +72,7 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
   };
 
   return (
-    <div className="relative">
+    <div className="relative theme-isolate">
       {/* GLOBAL AUDIO TAG */}
       <audio 
         ref={audioRef} 
