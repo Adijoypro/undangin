@@ -44,8 +44,8 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
   };
 
   const fadeUp: Variants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } }
+    hidden: { opacity: 0, y: 20, filter: "blur(10px)" },
+    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
   };
 
   // CSS-based ornament as SVG fallback

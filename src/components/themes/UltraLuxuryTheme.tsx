@@ -58,8 +58,8 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
   };
 
   const fadeUp: Variants = {
-    hidden: { opacity: 0, y: 60, filter: "blur(10px)" },
-    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
+    hidden: { opacity: 0, y: 20, filter: "blur(10px)" },
+    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
   };
 
   // Floating Petals / Gold Dust effect

@@ -78,14 +78,19 @@ const SHOWCASE_THEMES = [
   }
 ];
 
-function ThemeCard({ t }: { t: typeof SHOWCASE_THEMES[0] }) {
+function ThemeCard({ t, onHoverChange }: { t: typeof SHOWCASE_THEMES[0], onHoverChange: (hovered: boolean) => void }) {
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleHover = (state: boolean) => {
+    setIsHovered(state);
+    onHoverChange(state);
+  };
 
   return (
     <div 
       className="w-[320px] md:w-[400px] flex-shrink-0 snap-center group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => handleHover(true)}
+      onMouseLeave={() => handleHover(false)}
     >
       <div className={`w-full aspect-[9/16] rounded-2xl overflow-hidden ${t.bgClass} relative border transition-all duration-700 ${t.frameClass} group-hover:scale-[1.02]`}>
         {t.bgImage && (
@@ -110,8 +115,10 @@ function ThemeCard({ t }: { t: typeof SHOWCASE_THEMES[0] }) {
         </div>
 
         <div 
-          className={`absolute inset-0 z-30 transition-opacity duration-700 ${t.iframeBg} ${isHovered ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-          onWheel={(e) => e.stopPropagation()}
+          className={`absolute inset-0 z-30 transition-all duration-1000 ${t.iframeBg} ${isHovered ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+          onWheel={(e) => {
+            e.stopPropagation();
+          }}
         >
           {isHovered && (
             <iframe 
@@ -145,9 +152,7 @@ export default function ThemeShowcase() {
         </div>
 
         <div 
-          className="relative overflow-x-auto pb-10 no-scrollbar snap-x snap-mandatory" 
-          onMouseEnter={() => setSliderPaused(true)} 
-          onMouseLeave={() => setSliderPaused(false)}
+          className={`relative overflow-x-auto pb-10 no-scrollbar snap-x snap-mandatory ${sliderPaused ? 'overflow-x-hidden' : ''}`}
         >
           <motion.div 
             className="flex gap-6 md:gap-8 w-max"
@@ -158,7 +163,7 @@ export default function ThemeShowcase() {
           >
             {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => (
               <div key={`${t.id}-${i}`} className="snap-center">
-                <ThemeCard t={t} />
+                <ThemeCard t={t} onHoverChange={(hovered) => setSliderPaused(hovered)} />
               </div>
             ))}
           </motion.div>
