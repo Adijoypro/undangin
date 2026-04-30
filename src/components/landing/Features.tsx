@@ -148,7 +148,7 @@ export default function Features() {
               <div className="absolute -inset-4 bg-wedding-gold/10 blur-2xl rounded-3xl -z-10" />
               <div className="relative aspect-square rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white">
                 <Image 
-                  src="/luxury_kutai_dayak_wedding_final.png" 
+                  src="/luxury_kutai_dayak_wedding_final.webp" 
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-1000" 
                   alt="Premium Experience"
