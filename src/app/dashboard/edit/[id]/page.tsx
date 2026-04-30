@@ -7,6 +7,7 @@ import UpgradeAiButton from "@/components/dashboard/UpgradeAiButton";
 import SaveNotification from "@/components/dashboard/SaveNotification";
 import InvitationForm from "@/components/dashboard/InvitationForm";
 import DashboardShell from "@/components/dashboard/DashboardShell";
+import InvitationLinkGenerator from "@/components/dashboard/InvitationLinkGenerator";
 import { Suspense } from "react";
 
 
@@ -26,6 +27,15 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
     .eq("id", id)
     .eq("user_id", user.id)
     .single();
+
+  // Fetch user profile for credits
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("credits")
+    .eq("id", user.id)
+    .single();
+
+  const userCredits = profile?.credits || 0;
 
   if (error || !invitation) {
     return redirect("/dashboard");
@@ -57,7 +67,13 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
             />
           </div>
         )}
-
+        <div className="mb-10">
+          <InvitationLinkGenerator 
+            slug={invitation.slug} 
+            isPublished={invitation.status === 'published'} 
+            credits={userCredits}
+          />
+        </div>
         <div className="bg-wedding-base p-8 rounded-3xl border border-wedding-gold/10 transition-all duration-500 shadow-sm">
           <InvitationForm action={updateInvitation} initialData={invitation} />
         </div>

@@ -357,6 +357,22 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
           </div>
         </section>
 
+        {/* CLOSING STATEMENT */}
+        <section className="py-32 px-4 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-2xl mx-auto text-center"
+          >
+            <div className="w-12 h-px bg-[#D4AF37]/30 mx-auto mb-10"></div>
+            <p className="font-serif italic text-xl md:text-2xl text-gray-300 leading-relaxed">
+              {data.closing_statement || "Kehadiran serta doa restu Anda adalah kado terindah yang melengkapi perjalanan cinta kami."}
+            </p>
+            <div className="w-12 h-px bg-[#D4AF37]/30 mx-auto mt-10"></div>
+            <p className="mt-20 font-sans text-[10px] uppercase tracking-[0.5em] text-[#D4AF37]/40">Undangin Premium</p>
+          </motion.div>
+        </section>
       </div>
 
 

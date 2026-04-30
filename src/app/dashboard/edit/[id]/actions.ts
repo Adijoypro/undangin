@@ -51,12 +51,14 @@ export async function updateInvitation(formData: FormData) {
     const accountNumber = formData.get("account_number") as string;
     const accountName = formData.get("account_name") as string;
     const turutMengundang = formData.get("turut_mengundang") as string;
+    const closingStatement = formData.get("closing_statement") as string;
     const selectedMusicUrl = formData.get("selected_music_url") as string;
 
     // Foto-foto (diambil dari state string URL)
     const bridePhotoUrl = formData.get("bride_photo") as string;
     const groomPhotoUrl = formData.get("groom_photo") as string;
     const couplePhotoUrl = formData.get("couple_photo") as string;
+    const giftQrUrl = formData.get("gift_qr_url") as string;
 
     const cleanSlug = slug.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     
@@ -88,7 +90,9 @@ export async function updateInvitation(formData: FormData) {
       account_number: accountNumber,
       account_name: accountName,
       music_url: selectedMusicUrl,
-      turut_mengundang: turutMengundang
+      turut_mengundang: turutMengundang,
+      closing_statement: closingStatement,
+      gift_qr_url: giftQrUrl
     };
 
     console.log("=== UPDATING DB ===");

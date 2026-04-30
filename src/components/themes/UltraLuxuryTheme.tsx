@@ -465,7 +465,24 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           </div>
         </section>
 
-        <footer className="py-60 text-center border-t border-white/5 relative overflow-hidden bg-[#050505]">
+      {/* CLOSING STATEMENT */}
+      <section className="py-32 px-4 relative z-10">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          className="max-w-2xl mx-auto text-center"
+        >
+          <div className="w-16 h-px bg-[#D4AF37]/30 mx-auto mb-10"></div>
+          <p className="font-serif italic text-xl md:text-2xl text-gray-300 leading-relaxed tracking-wide">
+            {data.closing_statement || "Kehadiran serta doa restu Anda adalah kado terindah yang melengkapi perjalanan cinta kami."}
+          </p>
+          <div className="w-16 h-px bg-[#D4AF37]/30 mx-auto mt-10"></div>
+        </motion.div>
+      </section>
+
+      <footer className="py-60 text-center border-t border-white/5 relative overflow-hidden bg-[#050505]">
           <Image src="/assets/marble-bg.webp" fill className="object-cover opacity-10" alt="Marble" />
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative z-10 px-4">
             <h2 className="text-7xl md:text-[10rem] text-white/[0.03] font-serif mb-12 select-none tracking-tighter">{data.bride.name} & {data.groom.name}</h2>

@@ -75,6 +75,7 @@ export async function createInvitation(formData: FormData) {
   const accountNumber = formData.get("account_number") as string;
   const accountName = formData.get("account_name") as string;
   const turutMengundang = formData.get("turut_mengundang") as string;
+  const closingStatement = formData.get("closing_statement") as string;
 
   const selectedMusicUrl = formData.get("selected_music_url") as string;
 
@@ -94,6 +95,7 @@ export async function createInvitation(formData: FormData) {
   const bridePhotoUrl = await getPhotoUrl("bride_photo");
   const groomPhotoUrl = await getPhotoUrl("groom_photo");
   const couplePhotoUrl = await getPhotoUrl("couple_photo");
+  const giftQrUrl = await getPhotoUrl("gift_qr_url");
 
   let musicUrl = selectedMusicUrl || "";
   const musicFile = formData.get("music_file") as File;
@@ -136,7 +138,9 @@ export async function createInvitation(formData: FormData) {
         account_number: accountNumber,
         account_name: accountName,
         music_url: musicUrl,
-        turut_mengundang: turutMengundang
+        turut_mengundang: turutMengundang,
+        closing_statement: closingStatement,
+        gift_qr_url: giftQrUrl
       }
     ])
     .select()

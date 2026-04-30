@@ -9,11 +9,15 @@ interface InvitationCoverProps {
   onOpen: () => void;
   forcedOpen?: boolean;
   variant?: 'default' | 'premium' | 'ultra-luxury' | 'cinematic' | 'majestic' | 'renaissance';
+  guestName?: string;
+  imageUrl?: string;
 }
 
-export default function InvitationCover({ bride, groom, onOpen, forcedOpen = false, variant = 'default' }: InvitationCoverProps) {
+export default function InvitationCover({ bride, groom, onOpen, forcedOpen = false, variant = 'default', guestName, imageUrl }: InvitationCoverProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [manualName, setManualName] = useState("");
+  const [showInput, setShowInput] = useState(!guestName);
 
   useEffect(() => {
     setIsMounted(true);
@@ -22,6 +26,17 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
   const handleOpen = () => {
     setIsOpen(true);
     onOpen(); // Trigger music playback in parent
+  };
+
+  const currentGuestName = guestName || manualName;
+
+  const [isEditingName, setIsEditingName] = useState(false);
+
+  const handleNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (manualName.trim()) {
+      setIsEditingName(false);
+    }
   };
 
   const isActuallyOpen = isOpen || forcedOpen;
@@ -191,16 +206,58 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
             transition={{ duration: 1.5, ease: "easeInOut" }}
             className={`fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden ${isActuallyOpen ? 'pointer-events-none' : 'pointer-events-auto'}`}
           >
-            {/* Spotlight Effect */}
-            <motion.div 
-              animate={{ 
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3]
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute w-[800px] h-[800px] bg-white/[0.03] rounded-full blur-[120px] pointer-events-none"
-            />
-            
+            {/* LUXURY DARK BACKGROUND WITH CINEMATIC SPOTLIGHT */}
+            <div className="absolute inset-0 z-0 bg-[#050505]">
+              {/* Subtle Ambient Light (Not a blob) */}
+              <div 
+                className="absolute inset-0 opacity-40 pointer-events-none"
+                style={{
+                  background: "radial-gradient(circle at 50% 45%, rgba(212,175,55,0.08) 0%, transparent 70%)"
+                }}
+              />
+              
+              {/* Deep Vignette Overlay */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] pointer-events-none" />
+              
+              {/* Moving Light Glint (Projector Effect) */}
+              <motion.div 
+                animate={{ 
+                  opacity: [0.05, 0.1, 0.05],
+                  x: ["-20%", "20%"]
+                }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.03) 50%, transparent 55%)"
+                }}
+              />
+            </div>
+
+            {/* GOLD DUST PARTICLES (Enhanced for dark bg) */}
+            <div className="absolute inset-0 z-[5] pointer-events-none">
+              {isMounted && [...Array(40)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-[1.5px] h-[1.5px] bg-wedding-gold rounded-full blur-[0.5px]"
+                  initial={{ 
+                    x: Math.random() * 100 + "%", 
+                    y: Math.random() * 100 + "%",
+                    opacity: 0 
+                  }}
+                  animate={{ 
+                    y: ["0%", "100%"],
+                    x: ["0%", (Math.random() > 0.5 ? "2%" : "-2%")],
+                    opacity: [0, 0.4, 0]
+                  }}
+                  transition={{ 
+                    duration: 10 + Math.random() * 20, 
+                    repeat: Infinity, 
+                    delay: Math.random() * 10 
+                  }}
+                />
+              ))}
+            </div>
+
             <div className="relative z-10 text-center px-6">
               <motion.div
                 initial="hidden"
@@ -208,56 +265,123 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
                 variants={{
                   visible: { transition: { staggerChildren: 0.4 } }
                 }}
-                className="mb-12"
+                className="mb-12 flex flex-col items-center"
               >
+                <motion.div 
+                  variants={{
+                    hidden: { width: 0, opacity: 0 },
+                    visible: { width: 100, opacity: 0.3, transition: { duration: 2 } }
+                  }}
+                  className="h-[1px] bg-wedding-gold mb-8"
+                />
+                
                 <motion.p 
                   variants={{
                     hidden: { opacity: 0, y: 10 },
                     visible: { opacity: 1, y: 0, transition: { duration: 1.5 } }
                   }}
-                  className="text-gray-500 uppercase tracking-[0.6em] text-[10px] mb-8 font-light"
+                  className="text-wedding-gold uppercase tracking-[0.8em] text-[9px] mb-8 font-black ml-[0.8em]"
                 >
-                  Premiere Invitation
+                  The Royal Premiere
                 </motion.p>
-                <motion.h1 
-                  variants={{
-                    hidden: { opacity: 0, filter: "blur(10px)", scale: 1.1 },
-                    visible: { opacity: 1, filter: "blur(0px)", scale: 1, transition: { duration: 2, ease: [0.22, 1, 0.36, 1] } }
-                  }}
-                  className="font-serif text-5xl md:text-8xl text-white/90 mb-2 font-bold tracking-tight"
-                >
-                   {bride} <span className="text-gray-600">&</span> {groom}
-                </motion.h1>
+                
+                <div className="relative overflow-hidden group">
+                  <motion.h1 
+                    variants={{
+                      hidden: { opacity: 0, filter: "blur(10px)", scale: 0.9 },
+                      visible: { opacity: 1, filter: "blur(0px)", scale: 1, transition: { duration: 2, ease: [0.22, 1, 0.36, 1] } }
+                    }}
+                    className="font-serif text-6xl md:text-8xl text-white mb-2 font-bold tracking-tight relative"
+                  >
+                     <span className="relative z-10">{bride} <span className="text-gray-700 font-light">&</span> {groom}</span>
+                     
+                     {/* SHIMMER EFFECT LAYER */}
+                     <motion.span 
+                       animate={{ x: ["-100%", "200%"] }}
+                       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
+                       className="absolute inset-0 z-20 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg] pointer-events-none"
+                     />
+                  </motion.h1>
+                </div>
+
                 <motion.div 
                   variants={{
                     hidden: { width: 0, opacity: 0 },
-                    visible: { width: 48, opacity: 0.2, transition: { duration: 1.5, delay: 1 } }
+                    visible: { width: 100, opacity: 0.3, transition: { duration: 2, delay: 1 } }
                   }}
-                  className="h-[1px] bg-white mx-auto mt-8"
+                  className="h-[1px] bg-wedding-gold mt-8"
                 />
               </motion.div>
 
-              <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 2 }}
-                onClick={handleOpen}
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative px-12 py-4 bg-white/5 border border-white/20 text-white font-sans text-[10px] uppercase tracking-[0.4em] overflow-hidden transition-all duration-700"
-              >
-                <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></span>
-                <span className="relative z-10 group-hover:text-black font-bold">Watch Now</span>
-              </motion.button>
-              
-              <motion.p 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.3 }}
-                transition={{ delay: 2.5 }}
-                className="text-gray-600 text-[10px] mt-12 uppercase tracking-[0.3em] italic"
-              >
-                The Story Begins
-              </motion.p>
+              {/* ACTION BUTTON */}
+              <div className="flex flex-col items-center gap-12">
+                <motion.button
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 2 }}
+                  onClick={handleOpen}
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="group relative px-12 py-4 bg-white/5 border border-white/20 text-white font-sans text-[10px] uppercase tracking-[0.4em] overflow-hidden transition-all duration-700"
+                >
+                  <span className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></span>
+                  <span className="relative z-10 group-hover:text-black font-bold">Watch Now</span>
+                </motion.button>
+                
+                {/* GUEST LABEL - NOW INTERACTIVE */}
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 2.5 }}
+                  className="text-center min-h-[60px]"
+                >
+                  <p className="text-gray-600 text-[10px] uppercase tracking-[0.3em] italic mb-3">Exclusive For</p>
+                  
+                  <AnimatePresence mode="wait">
+                    {isEditingName && !guestName ? (
+                      <motion.form 
+                        key="input"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        onSubmit={handleNameSubmit}
+                        className="relative"
+                      >
+                        <input 
+                          autoFocus
+                          type="text"
+                          value={manualName}
+                          onChange={(e) => setManualName(e.target.value)}
+                          onBlur={() => !manualName && setIsEditingName(false)}
+                          placeholder="TULIS NAMA ANDA..."
+                          className="bg-transparent border-b border-wedding-gold/40 py-1 text-center font-serif text-lg text-white focus:border-wedding-gold focus:outline-none transition-all uppercase tracking-widest outline-none"
+                        />
+                        <button type="submit" className="hidden">Submit</button>
+                      </motion.form>
+                    ) : (
+                      <motion.div
+                        key="label"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="cursor-pointer group/label"
+                        onClick={() => !guestName && setIsEditingName(true)}
+                      >
+                        <p className="text-white text-lg font-serif italic tracking-wide flex items-center justify-center gap-2">
+                          {currentGuestName || "Tamu Undangan"}
+                          {!guestName && (
+                            <svg className="w-3 h-3 text-wedding-gold/40 group-hover/label:text-wedding-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                          )}
+                        </p>
+                        {!guestName && !manualName && (
+                          <p className="text-[9px] text-wedding-gold/40 mt-1 uppercase tracking-widest group-hover/label:text-wedding-gold transition-colors">
+                            Klik untuk personalisasi
+                          </p>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              </div>
             </div>
             
             {/* Fine Film Grain/Dust */}
@@ -374,17 +498,16 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
                 <span className="relative z-10 group-hover:text-black">Enter Experience</span>
               </motion.button>
               
-              <motion.p 
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: { opacity: 0.4 }
-                }}
-                className="text-white text-[10px] mt-12 uppercase tracking-[0.3em] font-light"
-              >
-                The Wedding Celebration
-              </motion.p>
+                <p className="text-white text-[10px] mt-12 uppercase tracking-[0.3em] font-light">
+                  The Wedding Celebration
+                </p>
+
+                <div className="mt-10">
+                  <p className="text-[#D4AF37] text-[10px] uppercase tracking-[0.4em] font-bold mb-1">Dear Distinguished Guest</p>
+                  <p className="text-white text-xl font-serif italic tracking-wider">{guestName || "Tamu Undangan"}</p>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
         )}
       </AnimatePresence>
     );

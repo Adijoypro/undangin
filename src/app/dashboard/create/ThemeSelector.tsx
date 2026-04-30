@@ -71,8 +71,8 @@ export default function ThemeSelector({ defaultValue = "premium", onChange }: { 
 
         {/* Live Preview - Phone Frame Aesthetic */}
         <div className="flex flex-col items-center md:items-start">
-          <label className="block text-xs font-bold text-wedding-text/40 mb-3 w-full text-center md:text-left uppercase tracking-widest">Preview Tema</label>
-          <div className="relative mx-auto w-[240px] aspect-[9/16] rounded-[2.5rem] border-[8px] border-wedding-text bg-wedding-text shadow-2xl overflow-hidden group transition-all duration-500">
+          <label className="block text-xs font-bold text-wedding-text/40 mb-1 w-full text-center md:text-left uppercase tracking-widest">Preview Tema</label>
+          <div className="relative w-[240px] aspect-[9/16] rounded-[2.5rem] border-[8px] border-wedding-text bg-wedding-text shadow-2xl overflow-hidden group transition-all duration-500">
             {/* Speaker hole */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-wedding-text z-50 rounded-b-2xl">
               <div className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-wedding-text/20 rounded-full"></div>

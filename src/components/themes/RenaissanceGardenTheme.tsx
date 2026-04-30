@@ -406,6 +406,23 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           </div>
         </section>
 
+        {/* ═══ CLOSING ═══ */}
+        <section className="py-32 px-4 relative z-10 text-center" style={{ backgroundColor: palette.bg }}>
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            className="max-w-2xl mx-auto"
+          >
+            <div className="w-12 h-px mx-auto mb-10" style={{ backgroundColor: palette.accent + '30' }}></div>
+            <p className="font-serif italic text-xl md:text-2xl leading-relaxed" style={{ color: palette.text }}>
+              {data.closing_statement || "Kehadiran serta doa restu Anda adalah kado terindah yang melengkapi perjalanan cinta kami."}
+            </p>
+            <div className="w-12 h-px mx-auto mt-10" style={{ backgroundColor: palette.accent + '30' }}></div>
+          </motion.div>
+        </section>
+
         {/* ═══ FOOTER ═══ */}
         <footer className="py-20 text-center px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-48 opacity-10 -scale-y-100">

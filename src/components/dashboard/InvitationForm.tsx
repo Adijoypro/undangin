@@ -54,6 +54,8 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
     account_name: initialData?.account_name || "",
     music_url: initialData?.music_url || "",
     turut_mengundang: initialData?.turut_mengundang || "",
+    closing_statement: initialData?.closing_statement || "",
+    gift_qr_url: initialData?.gift_qr_url || "",
     gallery: initialData?.gallery || []
   });
 
@@ -213,6 +215,8 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
       fd.append("latitude", formData.latitude?.toString() || "-6.2088");
       fd.append("longitude", formData.longitude?.toString() || "106.8456");
       
+      fd.append("gift_qr_url", formData.gift_qr_url || "");
+      
       fd.append("love_story", JSON.stringify(formData.love_story || []));
       fd.append("quote", formData.quote || "");
       
@@ -222,7 +226,12 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
       
       fd.append("selected_music_url", formData.music_url || "");
       fd.append("turut_mengundang", formData.turut_mengundang || "");
+      fd.append("closing_statement", formData.closing_statement || "");
       fd.append("gallery", JSON.stringify(formData.gallery || []));
+      
+      if (initialData?.id) {
+        fd.append("id", initialData.id);
+      }
 
       startTransition(async () => {
         try {
@@ -741,9 +750,99 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
                 </div>
               </div>
 
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <label className="block text-xs font-bold text-wedding-text/40 uppercase tracking-widest">Nomor Rekening</label>
+                  <input type="text" value={formData.account_number} onChange={(e) => updateField("account_number", e.target.value)} placeholder="Contoh: 12345678" className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
+                </div>
+                <div className="space-y-4">
+                  <label className="block text-xs font-bold text-wedding-gold uppercase tracking-widest">Upload QRIS (Opsional)</label>
+                  <div className="relative group">
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => updateField("gift_qr_url", reader.result);
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
+                    />
+                    <div className="p-4 bg-wedding-gold/5 border-2 border-dashed border-wedding-gold/20 rounded-xl flex flex-col items-center justify-center gap-2 group-hover:border-wedding-gold/40 transition-all">
+                      {formData.gift_qr_url ? (
+                        <div className="relative w-full aspect-square max-w-[100px]">
+                           <img src={formData.gift_qr_url} className="w-full h-full object-contain rounded-lg" alt="QRIS" />
+                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
+                              <span className="text-[10px] text-white font-bold">Ganti</span>
+                           </div>
+                        </div>
+                      ) : (
+                        <>
+                          <svg className="w-6 h-6 text-wedding-gold/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+                          <span className="text-[10px] font-bold text-wedding-gold/60 uppercase tracking-widest">Upload QRIS</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-4">
                 <label className="block text-xs font-bold text-wedding-text/40 uppercase tracking-widest">Turut Mengundang</label>
                 <textarea value={formData.turut_mengundang} onChange={(e) => updateField("turut_mengundang", e.target.value)} rows={4} placeholder="Kel. Besar Bpk. Ahmad, Sahabat SMP 1..." className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all"></textarea>
+              </div>
+
+              <div className="bg-wedding-gold/[0.03] p-6 rounded-3xl border border-wedding-gold/10 relative overflow-hidden group">
+                {/* Decorative AI Sparkle */}
+                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <svg className="w-12 h-12 text-wedding-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2L22 12l-7.6 2.4L12 22l-2.4-7.2L2 12l7.6-2.4L12 2z"/></svg>
+                </div>
+
+                <div className="relative z-10 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <label className="block text-[10px] font-bold text-wedding-gold uppercase tracking-[0.3em] mb-1">Final Touch</label>
+                      <h4 className="font-serif text-lg text-wedding-text">Kata-kata Penutup</h4>
+                    </div>
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        const messages = [
+                          "Kehadiran serta doa restu Anda adalah kado terindah yang melengkapi perjalanan cinta kami. Terima kasih telah menjadi bagian dari cerita ini. Sampai jumpa di hari bahagia kami.",
+                          "Satu kehormatan bagi kami jika Anda hadir menyaksikan ikrar suci kami. Terima kasih atas cinta dan dukungan yang tak terhingga. Sampai jumpa di pelaminan!",
+                          "Cinta membawa kita bertemu, dan doa Anda mengiringi langkah kami menuju masa depan. Terima kasih atas segala cinta yang telah Anda berikan kepada kami.",
+                          "Terima kasih telah menemani perjalanan kami hingga titik ini. Doa Anda adalah restu terbaik bagi masa depan kami. Sampai jumpa di hari bahagia kami!"
+                        ];
+                        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+                        updateField("closing_statement", randomMsg);
+                        toast.success("Magic Closing Generated! ✨");
+                      }}
+                      className="px-4 py-2 bg-wedding-gold text-black rounded-full text-[9px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center gap-2"
+                    >
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                      Generate AI
+                    </button>
+                  </div>
+
+                  <div className="relative">
+                    <textarea 
+                      name="closing_statement"
+                      value={formData.closing_statement} 
+                      onChange={(e) => updateField("closing_statement", e.target.value)} 
+                      rows={3} 
+                      placeholder="Klik 'Generate AI' untuk kata-kata manis otomatis..." 
+                      className="w-full p-5 bg-wedding-base/50 border border-wedding-gold/10 rounded-2xl outline-none focus:border-wedding-gold text-wedding-text transition-all text-sm italic leading-relaxed placeholder:text-wedding-text/20"
+                    ></textarea>
+                    {formData.closing_statement && (
+                      <div className="absolute bottom-3 right-3">
+                        <span className="text-[8px] bg-wedding-gold/10 text-wedding-gold px-2 py-1 rounded-md font-bold uppercase tracking-widest border border-wedding-gold/20">AI Enhanced</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
 
               <SubmitButton 

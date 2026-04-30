@@ -36,6 +36,7 @@ export interface InvitationData {
     bankName: string;
     accountNumber: string;
     accountName: string;
+    qrUrl?: string;
   };
   musicUrl: string;
   guestbook: Array<{
@@ -50,6 +51,8 @@ export interface InvitationData {
   bride_mother?: string;
   groom_father?: string;
   groom_mother?: string;
+  closing_statement?: string;
+  guestName?: string;
 }
 
 export const dummyDatabase: InvitationData[] = [];
@@ -102,5 +105,6 @@ export const dummyData: InvitationData = {
   },
   musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
   guestbook: [],
-  turut_mengundang: "Keluarga Besar Bapak Budi, Keluarga Besar Bapak Joko, Kerabat & Sahabat"
+  turut_mengundang: "Keluarga Besar Bapak Budi, Keluarga Besar Bapak Joko, Kerabat & Sahabat",
+  closing_statement: "Kehadiran serta doa restu Anda adalah kado terindah yang melengkapi perjalanan cinta kami. Terima kasih telah menjadi bagian dari cerita ini. Sampai jumpa di hari bahagia kami."
 };

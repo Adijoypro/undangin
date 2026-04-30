@@ -19,6 +19,11 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   const { scrollYProgress } = useScroll({ target: containerRef });
   const smoothProgress = useSpring(scrollYProgress, { damping: 20, stiffness: 100 });
 
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
   const createCalendarLink = () => {
     const text = encodeURIComponent(`Pernikahan ${data.bride.name} & ${data.groom.name}`);
     const details = encodeURIComponent(`Acara pernikahan ${data.bride.fullName} dan ${data.groom.fullName}.`);
@@ -36,16 +41,33 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   const leftPhotoY = useTransform(smoothProgress, [0.1, 0.4], ["100px", "-50px"]);
   const rightPhotoY = useTransform(smoothProgress, [0.1, 0.4], ["200px", "0px"]);
 
-  // Mouse position for Spotlight effect
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [showToast, setShowToast] = useState(false);
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+
+    const timer = setInterval(() => {
+      // Use event.date, but fallback to a default if invalid
+      const targetDate = new Date(data.event.date).getTime();
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (!isNaN(targetDate) && difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        });
+      }
+    }, 1000);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      clearInterval(timer);
+    };
+  }, [data.event.date]);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -53,8 +75,6 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       setTimeout(() => setShowToast(false), 3000);
     });
   };
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRSVP = async (formData: FormData) => {
     setIsSubmitting(true);
@@ -86,6 +106,8 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
         onOpen={onOpen} 
         forcedOpen={isOpened}
         variant="cinematic"
+        guestName={data.guestName}
+        imageUrl={data.couplePhoto}
       />
         <style dangerouslySetInnerHTML={{ __html: `
           ::-webkit-scrollbar { width: 4px; }
@@ -142,6 +164,18 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           }}
           className="flex flex-col items-center"
         >
+          {data.guestName && (
+            <motion.div
+              variants={fadeUpVariant}
+              className="mb-10 text-center"
+            >
+              <p className="font-sans uppercase tracking-[0.4em] text-[9px] text-gray-500 mb-2">Special Guest</p>
+              <h2 className="font-serif italic text-2xl md:text-3xl text-wedding-gold tracking-wide">
+                {data.guestName}
+              </h2>
+            </motion.div>
+          )}
+
           <motion.p 
             variants={fadeUpVariant}
             className="font-sans uppercase tracking-[0.6em] text-xs text-gray-400 mb-8 ml-[0.6em]"
@@ -361,8 +395,13 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
               <p className="font-sans text-xl uppercase tracking-[0.3em] font-light text-white ml-[0.3em]">{data.event.date}</p>
               <p className="font-serif text-3xl">{data.event.time}</p>
               
-              <div className="pt-8 pb-4 w-full flex justify-center">
-                <CountdownTimer targetDate={data.event.date} theme="cinematic" />
+              <div className="pt-12 pb-8 w-full flex justify-center border-y border-white/5 my-8">
+                <div className="grid grid-cols-4 gap-6 md:gap-10">
+                  <CountdownItem value={timeLeft.days} label="Days" />
+                  <CountdownItem value={timeLeft.hours} label="Hours" />
+                  <CountdownItem value={timeLeft.minutes} label="Mins" />
+                  <CountdownItem value={timeLeft.seconds} label="Secs" />
+                </div>
               </div>
 
               <div className="space-y-2 text-center">
@@ -456,7 +495,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
               </div>
             </div>
 
-            {/* Floating Copy Button */}
+              {/* Floating Copy Button */}
             <motion.button 
               whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
               onClick={() => handleCopy(data.gift.accountNumber)} 
@@ -466,6 +505,21 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
               Copy Number
             </motion.button>
           </motion.div>
+
+          {/* QRIS SECTION */}
+          {data.gift.qrUrl && (
+            <motion.div
+              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
+              className="mt-20 flex flex-col items-center"
+            >
+              <div className="p-4 bg-white rounded-3xl shadow-2xl shadow-white/5">
+                <div className="p-2 border-2 border-black/5 rounded-2xl">
+                   <img src={data.gift.qrUrl} alt="QRIS" className="w-48 h-48 md:w-64 md:h-64 object-contain" />
+                </div>
+              </div>
+              <p className="mt-6 text-[9px] uppercase tracking-[0.4em] text-gray-500 font-bold">Scan to Give a Gift</p>
+            </motion.div>
+          )}
         </motion.div>
       </section>
 
@@ -542,6 +596,69 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
         </div>
       </section>
 
+      {/* 8. CLOSING STATEMENT (Final Scene) */}
+      <section className="py-48 px-4 relative z-10 overflow-hidden">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={fadeUpVariant}
+          className="max-w-3xl mx-auto text-center"
+        >
+          <div className="w-12 h-px bg-white/20 mx-auto mb-12"></div>
+          
+          <h3 className="font-serif italic text-2xl md:text-4xl text-gray-200 leading-relaxed tracking-wide mb-24">
+            {data.closing_statement || "Terima kasih telah menjadi bagian dari perjalanan cinta kami. Doa restu Anda adalah kado terindah bagi kami."}
+          </h3>
+
+              {/* COUNTDOWN TIMER */}
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={{
+                  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.5 } }
+                }}
+                className="mt-24 grid grid-cols-4 gap-4 md:gap-12 mb-20 relative"
+              >
+                {/* Decorative Line */}
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-px h-8 bg-gradient-to-b from-transparent via-wedding-gold/30 to-transparent"></div>
+                
+                <CountdownItem value={timeLeft.days} label="Days" />
+                <CountdownItem value={timeLeft.hours} label="Hours" />
+                <CountdownItem value={timeLeft.minutes} label="Mins" />
+                <CountdownItem value={timeLeft.seconds} label="Secs" />
+
+                {/* Decorative Line Bottom */}
+                <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-px h-8 bg-gradient-to-b from-wedding-gold/30 via-wedding-gold/10 to-transparent"></div>
+              </motion.div>
+
+          <div className="w-12 h-px bg-white/20 mx-auto mb-20 mt-10"></div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 2, delay: 0.5 }}
+            className="font-sans uppercase tracking-[0.6em] text-[10px] text-gray-500 ml-[0.6em]"
+          >
+            Until We Meet Again
+          </motion.div>
+        </motion.div>
+
+        {/* Decorative Background for Closing */}
+        <div className="absolute inset-0 z-[-1] opacity-20 pointer-events-none">
+          {data.couplePhoto && (
+            <Image 
+              src={data.couplePhoto} 
+              fill
+              className="object-cover grayscale blur-sm" 
+              alt="Final Scene"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="pt-32 text-center text-white relative z-10">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
@@ -593,6 +710,27 @@ function GalleryItem({ photo, index }: { photo: string; index: number }) {
         {/* Subtle Overlay */}
         <div className="absolute inset-0 bg-black/20 group-hover/item:bg-transparent transition-colors duration-700"></div>
       </motion.div>
+    </motion.div>
+  );
+}
+
+function CountdownItem({ value, label }: { value: number, label: string }) {
+  return (
+    <motion.div 
+      variants={{
+        hidden: { opacity: 0, y: 10 },
+        visible: { opacity: 1, y: 0 }
+      }}
+      className="flex flex-col items-center group"
+    >
+      <div className="relative group">
+        <div className="text-4xl md:text-6xl font-serif mb-1 bg-gradient-to-b from-white via-wedding-gold to-wedding-gold/70 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-all duration-700">
+          {value.toString().padStart(2, '0')}
+        </div>
+        {/* Subtle Shine Reflection */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+      </div>
+      <div className="text-[7px] md:text-[9px] uppercase tracking-[0.4em] text-wedding-gold font-bold mt-3 opacity-80">{label}</div>
     </motion.div>
   );
 }

@@ -54,8 +54,15 @@ export async function generateMetadata(
   };
 }
 
-export default async function InvitationPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function InvitationPage({ 
+  params, 
+  searchParams 
+}: { 
+  params: Promise<{ slug: string }>, 
+  searchParams: Promise<{ to?: string }> 
+}) {
   const resolvedParams = await params;
+  const { to: guestName } = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -137,12 +144,15 @@ export default async function InvitationPage({ params }: { params: Promise<{ slu
     gift: {
       bankName: dbData.bank_name || "BCA",
       accountNumber: dbData.account_number || "1234567890",
-      accountName: dbData.account_name || (dbData.bride_name + " & " + dbData.groom_name)
+      accountName: dbData.account_name || (dbData.bride_name + " & " + dbData.groom_name),
+      qrUrl: dbData.gift_qr_url
     },
     musicUrl: dbData.music_url || "https://cdn.pixabay.com/download/audio/2022/05/16/audio_18dc903e1e.mp3?filename=wedding-piano-111166.mp3",
     guestbook: guestbookData || [],
     gallery: dbData.gallery || [],
-    turut_mengundang: dbData.turut_mengundang || ""
+    turut_mengundang: dbData.turut_mengundang || "",
+    closing_statement: dbData.closing_statement,
+    guestName: guestName || ""
   };
 
   const renderTheme = () => {
