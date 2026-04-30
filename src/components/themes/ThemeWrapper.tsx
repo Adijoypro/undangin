@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import InvitationCover from "./InvitationCover";
+import { useState, useRef, useEffect, createContext } from "react";
 import { deleteGuestbookEntry } from "@/app/api/guestbook/delete/actions";
 import MusicSelector from "../ui/MusicSelector";
 import { AnimatePresence } from "framer-motion";
@@ -14,6 +13,11 @@ interface ThemeWrapperProps {
   isOwner: boolean;
   children: React.ReactNode;
 }
+
+export const ThemeContext = createContext({
+  isOpened: false,
+  onOpen: () => {},
+});
 
 export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperProps) {
   const [isOpened, setIsOpened] = useState(false);
@@ -130,18 +134,10 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
 
 
 
-      {/* INVITATION COVER */}
-      <InvitationCover 
-        bride={data.bride.name} 
-        groom={data.groom.name} 
-        onOpen={handleOpen} 
-        forcedOpen={isOpened}
-      />
-
       {/* THEME CONTENT */}
-      <div className={`transition-opacity duration-1000 w-full min-h-screen ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
+      <ThemeContext.Provider value={{ isOpened, onOpen: handleOpen }}>
         {children}
-      </div>
+      </ThemeContext.Provider>
 
       {/* MODERATION OVERLAY (Injecting styles for delete buttons) */}
       {isOwner && (

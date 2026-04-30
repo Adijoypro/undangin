@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { ThemeContext } from "./ThemeWrapper";
+import InvitationCover, { ScrollIndicator } from "./InvitationCover";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,7 +15,7 @@ import MapSimulation from "@/components/ui/MapSimulation";
 import { QRCodeSVG } from "qrcode.react";
 
 export default function PremiumTheme({ data }: { data: InvitationData }) {
-
+  const { isOpened, onOpen } = useContext(ThemeContext);
 
   const createCalendarLink = () => {
     const text = encodeURIComponent(`Pernikahan ${data.bride.name} & ${data.groom.name}`);
@@ -70,7 +72,16 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
 
   return (
     <>
-      <div className="paper-texture"></div>
+      <InvitationCover 
+        bride={data.bride.name} 
+        groom={data.groom.name} 
+        onOpen={onOpen} 
+        forcedOpen={isOpened}
+        variant="premium"
+      />
+      <div className={`transition-opacity duration-1000 w-full min-h-screen ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
+        {isOpened && <ScrollIndicator color="#D4AF37" />}
+        <div className="paper-texture"></div>
 
       {/* MAIN */}
       <main className={`relative min-h-screen`}>
@@ -332,7 +343,7 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
             <p className="font-sans text-[10px] uppercase tracking-widest opacity-30 border-t border-white/20 pt-8 inline-block">Powered by Undangin</p>
         </footer>
       </main>
-
+      </div>
     </>
   );
 }

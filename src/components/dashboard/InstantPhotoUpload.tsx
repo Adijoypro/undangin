@@ -12,6 +12,7 @@ interface InstantPhotoUploadProps {
   showAiStudio?: boolean;
   accentColor?: "gold" | "sage";
   onUpload?: (url: string) => void;
+  variant?: "default" | "minimal";
 }
 
 export default function InstantPhotoUpload({ 
@@ -21,7 +22,8 @@ export default function InstantPhotoUpload({
   isAiEnabled = false, 
   showAiStudio = false,
   accentColor = "gold",
-  onUpload
+  onUpload,
+  variant = "default"
 }: InstantPhotoUploadProps) {
   const [photoUrl, setPhotoUrl] = useState(initialPhotoUrl || "");
   const [uploading, setUploading] = useState(false);
@@ -69,6 +71,25 @@ export default function InstantPhotoUpload({
     }
   };
 
+  if (variant === "minimal") {
+    return (
+      <div className="absolute inset-0 cursor-pointer">
+        <input 
+          type="file" 
+          accept="image/*,.heic,.heif" 
+          onChange={handleFileChange}
+          disabled={uploading}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-50" 
+        />
+        {uploading && (
+          <div className="absolute inset-0 bg-wedding-base/80 flex items-center justify-center backdrop-blur-sm z-40">
+            <div className={`w-5 h-5 border-2 border-wedding-gold/30 border-t-wedding-gold rounded-full animate-spin`} />
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-3">
       <label className="block text-xs font-bold text-wedding-text/40 uppercase tracking-wider">{label}</label>
@@ -97,7 +118,7 @@ export default function InstantPhotoUpload({
         <div className="flex-1 flex flex-col justify-center gap-3">
           <input 
             type="file" 
-            accept="image/*" 
+            accept="image/*,.heic,.heif" 
             onChange={handleFileChange}
             className={`w-full text-xs text-wedding-text/40 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-bold ${currentTheme.bg} ${currentTheme.text} ${currentTheme.hover} cursor-pointer transition-all`} 
           />

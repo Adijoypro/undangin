@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { motion, useScroll, useTransform, useSpring, Variants, AnimatePresence } from "framer-motion";
+import { ThemeContext } from "./ThemeWrapper";
+import InvitationCover, { ScrollIndicator } from "./InvitationCover";
 import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
@@ -10,6 +12,7 @@ import MapSimulation from "@/components/ui/MapSimulation";
 import { QRCodeSVG } from "qrcode.react";
 
 export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
+  const { isOpened, onOpen } = useContext(ThemeContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -144,7 +147,16 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
 
   return (
     <>
-      {/* CUSTOM CURSOR */}
+      <InvitationCover 
+        bride={data.bride.name} 
+        groom={data.groom.name} 
+        onOpen={onOpen} 
+        forcedOpen={isOpened}
+        variant="ultra-luxury"
+      />
+      <div className={`transition-opacity duration-1000 w-full min-h-screen ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
+        {isOpened && <ScrollIndicator color="#D4AF37" />}
+        {/* CUSTOM CURSOR */}
       <motion.div 
         className="fixed top-0 left-0 w-8 h-8 border border-[#D4AF37] rounded-full pointer-events-none z-[999] hidden md:block mix-blend-difference"
         animate={{ x: mousePos.x - 16, y: mousePos.y - 16 }}
@@ -461,6 +473,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
             <p className="font-sans text-[11px] uppercase tracking-[1em] text-[#D4AF37]/60 ml-[1em]">UNDANGIN PREMIUM</p>
           </motion.div>
         </footer>
+      </div>
       </div>
     </>
   );

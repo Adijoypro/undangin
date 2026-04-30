@@ -35,11 +35,15 @@ export async function updateInvitation(formData: FormData) {
     const longitude = parseFloat(formData.get("longitude") as string || "0");
     
     const loveStoryRaw = formData.get("love_story") as string;
+    const galleryRaw = formData.get("gallery") as string;
     let loveStory = [];
+    let gallery = [];
+    
     try {
       loveStory = JSON.parse(loveStoryRaw || "[]");
+      gallery = JSON.parse(galleryRaw || "[]");
     } catch (e) {
-      console.error("Error parsing love story:", e);
+      console.error("Error parsing JSON data:", e);
     }
 
     const quote = formData.get("quote") as string;
@@ -78,6 +82,7 @@ export async function updateInvitation(formData: FormData) {
       latitude: latitude,
       longitude: longitude,
       love_story: loveStory,
+      gallery: gallery,
       quote: quote,
       bank_name: bankName,
       account_number: accountNumber,

@@ -53,7 +53,8 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
     account_number: initialData?.account_number || "",
     account_name: initialData?.account_name || "",
     music_url: initialData?.music_url || "",
-    turut_mengundang: initialData?.turut_mengundang || ""
+    turut_mengundang: initialData?.turut_mengundang || "",
+    gallery: initialData?.gallery || []
   });
 
   const updateField = (name: string, value: any) => {
@@ -221,6 +222,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
       
       fd.append("selected_music_url", formData.music_url || "");
       fd.append("turut_mengundang", formData.turut_mengundang || "");
+      fd.append("gallery", JSON.stringify(formData.gallery || []));
 
       startTransition(async () => {
         try {
@@ -273,7 +275,7 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
               {step === 2 && "Mempelai"}
               {step === 3 && "Acara"}
               {step === 4 && "Story"}
-              {step === 5 && "Kado"}
+              {step === 5 && "Kado & Musik"}
             </span>
           </div>
           <div className="h-1.5 md:h-2 bg-wedding-text/5 rounded-full overflow-hidden w-full md:w-64">
@@ -323,35 +325,204 @@ export default function InvitationForm({ action, initialData }: InvitationFormPr
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="space-y-8"
+            className="space-y-12"
           >
             <div className="flex items-center gap-3">
               <span className="w-8 h-8 bg-wedding-gold/10 rounded-lg flex items-center justify-center text-sm font-bold text-wedding-gold">02</span>
               <h2 className="font-serif text-2xl text-wedding-text">Data Mempelai</h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-6 md:gap-10">
-              {/* Bride */}
-              <div className="space-y-4">
-                <h3 className="font-bold text-sm uppercase tracking-widest text-wedding-gold">Mempelai Wanita</h3>
-                <input type="text" value={formData.bride_name} onChange={(e) => updateField("bride_name", e.target.value)} required placeholder="Nama Panggilan" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
-                <input type="text" value={formData.bride_fullname} onChange={(e) => updateField("bride_fullname", e.target.value)} required placeholder="Nama Lengkap" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
-                <input type="text" value={formData.bride_father} onChange={(e) => updateField("bride_father", e.target.value)} placeholder="Nama Ayah" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
-                <input type="text" value={formData.bride_mother} onChange={(e) => updateField("bride_mother", e.target.value)} placeholder="Nama Ibu" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
-                <InstantPhotoUpload label="Foto Mempelai Wanita" name="bride_photo_input" initialPhotoUrl={formData.bride_photo} onUpload={(url) => updateField("bride_photo", url)} accentColor="sage" />
+
+            <div className="grid gap-12">
+              {/* Bride & Groom Container */}
+              <div className="grid lg:grid-cols-2 gap-8">
+                {/* Mempelai Wanita Card */}
+                <div className="bg-wedding-text/[0.02] border border-wedding-gold/10 rounded-3xl p-6 md:p-8 space-y-6 relative overflow-hidden group hover:border-wedding-gold/30 transition-all duration-500">
+                  <div className="flex justify-between items-center pb-4 border-b border-wedding-gold/10">
+                    <h3 className="font-serif text-xl text-wedding-gold">Mempelai Wanita</h3>
+                    <span className="text-[9px] text-wedding-text/30 uppercase tracking-widest font-bold">Lengkap & Detail</span>
+                  </div>
+                  
+                  <div className="grid gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest ml-1">Nama Panggilan</label>
+                      <input type="text" value={formData.bride_name} onChange={(e) => updateField("bride_name", e.target.value)} required placeholder="Contoh: Meisya" className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-2xl outline-none focus:border-wedding-gold text-wedding-text transition-all shadow-sm" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest ml-1">Nama Lengkap</label>
+                      <input type="text" value={formData.bride_fullname} onChange={(e) => updateField("bride_fullname", e.target.value)} required placeholder="Nama Lengkap Sesuai KTP" className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-2xl outline-none focus:border-wedding-gold text-wedding-text transition-all shadow-sm" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest ml-1">Nama Ayah</label>
+                        <input type="text" value={formData.bride_father} onChange={(e) => updateField("bride_father", e.target.value)} placeholder="Bpk. Nama Ayah" className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-2xl outline-none focus:border-wedding-gold text-wedding-text transition-all shadow-sm" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest ml-1">Nama Ibu</label>
+                        <input type="text" value={formData.bride_mother} onChange={(e) => updateField("bride_mother", e.target.value)} placeholder="Ibu Nama Ibu" className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-2xl outline-none focus:border-wedding-gold text-wedding-text transition-all shadow-sm" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 space-y-3">
+                    <div className="flex justify-between items-end">
+                      <label className="text-[10px] font-bold text-wedding-gold uppercase tracking-[0.2em]">Foto Profile Wanita</label>
+                      <span className="text-[8px] text-wedding-text/30 font-bold">JPG, PNG, HEIC • 10MB</span>
+                    </div>
+                    <InstantPhotoUpload 
+                      label="Foto Mempelai" 
+                      name="bride_photo_input" 
+                      initialPhotoUrl={formData.bride_photo} 
+                      onUpload={(url) => updateField("bride_photo", url)} 
+                      accentColor="sage" 
+                    />
+                  </div>
+                </div>
+
+                {/* Mempelai Pria Card */}
+                <div className="bg-wedding-text/[0.02] border border-wedding-gold/10 rounded-3xl p-6 md:p-8 space-y-6 relative overflow-hidden group hover:border-wedding-gold/30 transition-all duration-500">
+                  <div className="flex justify-between items-center pb-4 border-b border-wedding-gold/10">
+                    <h3 className="font-serif text-xl text-wedding-gold">Mempelai Pria</h3>
+                    <span className="text-[9px] text-wedding-text/30 uppercase tracking-widest font-bold">Lengkap & Detail</span>
+                  </div>
+                  
+                  <div className="grid gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest ml-1">Nama Panggilan</label>
+                      <input type="text" value={formData.groom_name} onChange={(e) => updateField("groom_name", e.target.value)} required placeholder="Contoh: Aris" className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-2xl outline-none focus:border-wedding-gold text-wedding-text transition-all shadow-sm" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest ml-1">Nama Lengkap</label>
+                      <input type="text" value={formData.groom_fullname} onChange={(e) => updateField("groom_fullname", e.target.value)} required placeholder="Nama Lengkap Sesuai KTP" className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-2xl outline-none focus:border-wedding-gold text-wedding-text transition-all shadow-sm" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest ml-1">Nama Ayah</label>
+                        <input type="text" value={formData.groom_father} onChange={(e) => updateField("groom_father", e.target.value)} placeholder="Bpk. Nama Ayah" className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-2xl outline-none focus:border-wedding-gold text-wedding-text transition-all shadow-sm" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-bold text-wedding-text/40 uppercase tracking-widest ml-1">Nama Ibu</label>
+                        <input type="text" value={formData.groom_mother} onChange={(e) => updateField("groom_mother", e.target.value)} placeholder="Ibu Nama Ibu" className="w-full p-4 bg-wedding-base border border-wedding-gold/10 rounded-2xl outline-none focus:border-wedding-gold text-wedding-text transition-all shadow-sm" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 space-y-3">
+                    <div className="flex justify-between items-end">
+                      <label className="text-[10px] font-bold text-wedding-gold uppercase tracking-[0.2em]">Foto Profile Pria</label>
+                      <span className="text-[8px] text-wedding-text/30 font-bold">JPG, PNG, HEIC • 10MB</span>
+                    </div>
+                    <InstantPhotoUpload 
+                      label="Foto Mempelai" 
+                      name="groom_photo_input" 
+                      initialPhotoUrl={formData.groom_photo} 
+                      onUpload={(url) => updateField("groom_photo", url)} 
+                      accentColor="gold" 
+                    />
+                  </div>
+                </div>
               </div>
 
-              {/* Groom */}
-              <div className="space-y-4">
-                <h3 className="font-bold text-sm uppercase tracking-widest text-wedding-gold">Mempelai Pria</h3>
-                <input type="text" value={formData.groom_name} onChange={(e) => updateField("groom_name", e.target.value)} required placeholder="Nama Panggilan" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
-                <input type="text" value={formData.groom_fullname} onChange={(e) => updateField("groom_fullname", e.target.value)} required placeholder="Nama Lengkap" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
-                <input type="text" value={formData.groom_father} onChange={(e) => updateField("groom_father", e.target.value)} placeholder="Nama Ayah" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
-                <input type="text" value={formData.groom_mother} onChange={(e) => updateField("groom_mother", e.target.value)} placeholder="Nama Ibu" className="w-full p-4 bg-wedding-text/[0.03] border border-wedding-gold/10 rounded-xl outline-none focus:border-wedding-gold text-wedding-text transition-all" />
-                <InstantPhotoUpload label="Foto Mempelai Pria" name="groom_photo_input" initialPhotoUrl={formData.groom_photo} onUpload={(url) => updateField("groom_photo", url)} accentColor="gold" />
+              <div className="bg-wedding-text/[0.01] border border-dashed border-wedding-gold/20 rounded-3xl p-6 md:p-8 space-y-6">
+                <div className="flex justify-between items-center">
+                  <div className="space-y-1">
+                    <h3 className="font-serif text-lg text-wedding-text">Foto Utama Pasangan</h3>
+                    <p className="text-[10px] text-wedding-text/30 font-bold uppercase tracking-widest">Akan Tampil di Cover & Pembuka</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[10px] text-wedding-gold/60 font-bold uppercase tracking-tighter">JPG • PNG • HEIC • 10MB</span>
+                  </div>
+                </div>
+                <InstantPhotoUpload 
+                  label="Foto Berdua" 
+                  name="couple_photo_input" 
+                  initialPhotoUrl={formData.couple_photo} 
+                  onUpload={(url) => updateField("couple_photo", url)} 
+                  isAiEnabled={false} 
+                />
               </div>
-            </div>
-            <div className="mt-8">
-              <InstantPhotoUpload label="Foto Berdua (Halaman Utama)" name="couple_photo_input" initialPhotoUrl={formData.couple_photo} onUpload={(url) => updateField("couple_photo", url)} isAiEnabled={false} />
+              
+              {/* PREMIUM GALLERY UPLOADER IN STEP 2 */}
+              <div className="bg-wedding-text/[0.03] p-6 md:p-8 rounded-3xl border border-wedding-gold/10 relative overflow-hidden">
+                {/* Decorative Background Icon */}
+                <div className="absolute -right-4 -top-4 opacity-[0.03] pointer-events-none">
+                  <svg className="w-32 h-32 text-wedding-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M4 5q-.825 0-1.412.588Q2 6.175 2 7v10q0 .825.588 1.413Q3.175 19 4 19h16q.825 0 1.413-.587Q22 17.825 22 17V7q0-.825-.587-1.412Q20.825 5 20 5Zm0 2h16v10H4V7Zm2 8h12l-3.75-5-3 4L9.5 12Zm-2 2V7v10Z"/></svg>
+                </div>
+
+                <div className="flex justify-between items-center mb-8">
+                  <div>
+                    <label className="block text-[10px] font-bold text-wedding-gold uppercase tracking-[0.3em] mb-1">Visual Showcase</label>
+                    <h4 className="font-serif text-xl text-wedding-text">Galeri Foto Sinematik</h4>
+                    <p className="text-[10px] text-wedding-text/40 mt-1 uppercase tracking-widest">{formData.gallery.length} / 12 Foto Terunggah</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[9px] text-wedding-text/30 uppercase tracking-widest block font-medium">Format Terdukung</span>
+                    <span className="text-[10px] text-wedding-gold/60 font-bold uppercase tracking-tighter">JPG • PNG • HEIC • Maks 10MB</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {/* Gallery Items */}
+                  {formData.gallery.map((url: string, index: number) => (
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      key={index} 
+                      className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-wedding-gold/20 shadow-sm group bg-black/5"
+                    >
+                      <Image src={url} fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt={`Gallery ${index}`} />
+                      
+                      {/* Delete Overlay */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                        <button 
+                          type="button"
+                          onClick={() => {
+                            const newGallery = formData.gallery.filter((_: any, i: number) => i !== index);
+                            updateField("gallery", newGallery);
+                          }}
+                          className="w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-xl"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                      </div>
+                      
+                      {/* Badge Number */}
+                      <div className="absolute top-2 left-2 w-5 h-5 bg-black/60 backdrop-blur-md rounded-md flex items-center justify-center text-[10px] font-bold text-wedding-gold border border-wedding-gold/20">
+                        {index + 1}
+                      </div>
+                    </motion.div>
+                  ))}
+                  
+                  {/* Add Button - Integrated as a card */}
+                  {formData.gallery.length < 12 && (
+                    <div className="aspect-[3/4] relative group cursor-pointer overflow-hidden rounded-2xl">
+                      {/* UI Layer */}
+                      <div className="absolute inset-0 border-2 border-dashed border-wedding-gold/20 rounded-2xl group-hover:border-wedding-gold/40 transition-colors flex flex-col items-center justify-center gap-3 bg-wedding-gold/[0.02]">
+                        <div className="w-10 h-10 rounded-full bg-wedding-gold/10 flex items-center justify-center text-wedding-gold group-hover:bg-wedding-gold group-hover:text-black transition-all">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+                        </div>
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-wedding-text/40 group-hover:text-wedding-gold transition-colors">Tambah Foto</span>
+                      </div>
+                      
+                      {/* Interaction Layer (InstantPhotoUpload must fill the box) */}
+                      <div className="absolute inset-0 z-20">
+                        <InstantPhotoUpload 
+                          label="TAMBAH" 
+                          variant="minimal"
+                          name="gallery_upload" 
+                          onUpload={(url) => updateField("gallery", [...formData.gallery, url])} 
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Empty State Instruction */}
+                {formData.gallery.length === 0 && (
+                  <div className="mt-8 py-10 border-t border-wedding-gold/5 text-center">
+                    <p className="text-[10px] text-wedding-text/40 italic">Klik tombol "Tambah Foto" di atas untuk menyusun galeri sinematik Anda.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </motion.section>
         )}

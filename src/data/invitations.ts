@@ -15,6 +15,7 @@ export interface InvitationData {
     photo: string;
   };
   couplePhoto?: string;
+  gallery?: string[];
   event: {
     date: string;
     dateFormatted: {
@@ -70,6 +71,13 @@ export const dummyData: InvitationData = {
     photo: "/assets/demo/groom.png",
   },
   couplePhoto: "/assets/demo/couple.png",
+  gallery: [
+    "/assets/demo/couple.png",
+    "/assets/demo/bride.png",
+    "/assets/demo/groom.png",
+    "/assets/demo/couple.png",
+    "/assets/demo/bride.png"
+  ],
   event: {
     date: "14 Februari 2027",
     dateFormatted: {

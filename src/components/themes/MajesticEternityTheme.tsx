@@ -1,7 +1,9 @@
 "use client";
 
 import { motion, useScroll, useTransform, AnimatePresence, Variants } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
+import { ThemeContext } from "./ThemeWrapper";
+import InvitationCover, { ScrollIndicator } from "./InvitationCover";
 import Image from "next/image";
 import MapSimulation from "@/components/ui/MapSimulation";
 import { QRCodeSVG } from "qrcode.react";
@@ -12,6 +14,7 @@ import { submitRSVP } from "@/app/[slug]/actions";
 
 
 export default function MajesticEternityTheme({ data }: { data: InvitationData }) {
+  const { isOpened, onOpen } = useContext(ThemeContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -54,7 +57,17 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
   };
 
   return (
-    <div className="min-h-screen font-sans selection:bg-[#D4AF37] selection:text-black bg-[#0A1C14] text-white overflow-x-hidden relative" ref={containerRef}>
+    <>
+      <InvitationCover 
+        bride={data.bride.name} 
+        groom={data.groom.name} 
+        onOpen={onOpen} 
+        forcedOpen={isOpened}
+        variant="majestic"
+      />
+      <div className={`transition-opacity duration-1000 w-full min-h-screen ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
+        {isOpened && <ScrollIndicator color="#D4AF37" />}
+        <div className="min-h-screen font-sans selection:bg-[#D4AF37] selection:text-black bg-[#0A1C14] text-white overflow-x-hidden relative" ref={containerRef}>
 
       {/* Main Content */}
       <div className="relative z-10 pb-32">
@@ -348,5 +361,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
 
 
     </div>
+    </div>
+    </>
   );
 }

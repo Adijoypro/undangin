@@ -141,6 +141,7 @@ export default async function InvitationPage({ params }: { params: Promise<{ slu
     },
     musicUrl: dbData.music_url || "https://cdn.pixabay.com/download/audio/2022/05/16/audio_18dc903e1e.mp3?filename=wedding-piano-111166.mp3",
     guestbook: guestbookData || [],
+    gallery: dbData.gallery || [],
     turut_mengundang: dbData.turut_mengundang || ""
   };
 

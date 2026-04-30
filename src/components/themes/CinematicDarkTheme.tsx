@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { motion, useScroll, useTransform, useSpring, Variants } from "framer-motion";
 import Image from "next/image";
+import { ThemeContext } from "./ThemeWrapper";
+import InvitationCover, { ScrollIndicator } from "./InvitationCover";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
@@ -10,6 +12,7 @@ import MapSimulation from "@/components/ui/MapSimulation";
 import { QRCodeSVG } from "qrcode.react";
 
 export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
+  const { isOpened, onOpen } = useContext(ThemeContext);
   const containerRef = useRef<HTMLDivElement>(null);
   
   // Smooth scroll progress
@@ -24,9 +27,10 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   };
 
   // Parallax transforms for Hero
-  const heroY = useTransform(smoothProgress, [0, 0.2], ["0%", "40%"]);
-  const heroOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
-  const heroScale = useTransform(smoothProgress, [0, 0.2], [1, 1.1]);
+  const heroY = useTransform(smoothProgress, [0, 0.2], ["0%", "20%"]);
+  const heroOpacity = useTransform(smoothProgress, [0, 0.15], [1, 0]);
+  const heroScale = useTransform(smoothProgress, [0, 0.3], [1, 1.2]);
+  const heroBgScale = useTransform(smoothProgress, [0, 0.4], [1.1, 1.4]);
 
   // Parallax for Profile Photos
   const leftPhotoY = useTransform(smoothProgress, [0.1, 0.4], ["100px", "-50px"]);
@@ -75,20 +79,40 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   };
 
   return (
-    <div 
-      ref={containerRef} 
-      className="bg-[#050505] text-white min-h-screen font-sans selection:bg-white/30 overflow-x-hidden relative pb-32"
-    >
+    <>
+      <InvitationCover 
+        bride={data.bride.name} 
+        groom={data.groom.name} 
+        onOpen={onOpen} 
+        forcedOpen={isOpened}
+        variant="cinematic"
+      />
+        <style dangerouslySetInnerHTML={{ __html: `
+          ::-webkit-scrollbar { width: 4px; }
+          ::-webkit-scrollbar-track { background: transparent; }
+          ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+          ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+        `}} />
+      <div 
+        ref={containerRef} 
+        className={`transition-opacity duration-1000 w-full bg-[#050505] text-white selection:bg-white/30 relative ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}
+      >
+        {isOpened && <ScrollIndicator color="#FFFFFF" />}
       {/* Background Image */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         {data.couplePhoto && (
-          <Image 
-            src={data.couplePhoto} 
-            fill
-            className="object-cover opacity-[0.15] grayscale mix-blend-luminosity" 
-            alt="Background"
-            priority
-          />
+          <motion.div 
+            style={{ scale: heroBgScale }}
+            className="absolute inset-0"
+          >
+            <Image 
+              src={data.couplePhoto} 
+              fill
+              className="object-cover opacity-[0.15] grayscale mix-blend-luminosity" 
+              alt="Background"
+              priority
+            />
+          </motion.div>
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80"></div>
       </div>
@@ -106,50 +130,59 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
 
 
 
-      {/* 1. HERO SECTION */}
       <motion.section 
         className="h-screen flex flex-col items-center justify-center text-center px-4 relative z-10"
         style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
       >
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="font-sans uppercase tracking-[0.6em] text-xs text-gray-400 mb-8 ml-[0.6em]"
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: { transition: { staggerChildren: 0.3 } }
+          }}
+          className="flex flex-col items-center"
         >
-          The Wedding Celebration
-        </motion.p>
-        
-        <div className="overflow-hidden">
-          <motion.h1 
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1], delay: 0.8 }}
-            className="font-serif text-6xl md:text-9xl font-bold tracking-tighter"
+          <motion.p 
+            variants={fadeUpVariant}
+            className="font-sans uppercase tracking-[0.6em] text-xs text-gray-400 mb-8 ml-[0.6em]"
           >
-            {data.bride.name}
-          </motion.h1>
-        </div>
-        
-        <motion.span 
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="font-script text-5xl md:text-7xl text-gray-500 my-4"
-        >
-          &
-        </motion.span>
-        
-        <div className="overflow-hidden">
-          <motion.h1 
-            initial={{ y: "-100%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1], delay: 0.8 }}
-            className="font-serif text-6xl md:text-9xl font-bold tracking-tighter"
+            The Wedding Celebration
+          </motion.p>
+          
+          <div className="overflow-hidden mb-4">
+            <motion.h1 
+              variants={{
+                hidden: { y: "100%", opacity: 0 },
+                visible: { y: 0, opacity: 1, transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] } }
+              }}
+              className="font-serif text-6xl md:text-9xl font-bold tracking-tighter"
+            >
+              {data.bride.name}
+            </motion.h1>
+          </div>
+          
+          <motion.span 
+            variants={{
+              hidden: { opacity: 0, scale: 0.5 },
+              visible: { opacity: 1, scale: 1, transition: { duration: 1 } }
+            }}
+            className="font-script text-5xl md:text-7xl text-gray-500 my-4"
           >
-            {data.groom.name}
-          </motion.h1>
-        </div>
+            &
+          </motion.span>
+          
+          <div className="overflow-hidden">
+            <motion.h1 
+              variants={{
+                hidden: { y: "-100%", opacity: 0 },
+                visible: { y: 0, opacity: 1, transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] } }
+              }}
+              className="font-serif text-6xl md:text-9xl font-bold tracking-tighter"
+            >
+              {data.groom.name}
+            </motion.h1>
+          </div>
+        </motion.div>
 
         <motion.div 
           initial={{ opacity: 0 }}
@@ -163,7 +196,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       </motion.section>
 
       {/* 2. QUOTE SECTION */}
-      <section className="py-32 px-4 relative z-10 flex items-center justify-center min-h-[50vh]">
+      <section className="py-32 px-4 relative z-10 flex items-center justify-center min-h-screen">
         <motion.div 
           initial="hidden"
           whileInView="visible"
@@ -193,12 +226,14 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
               {/* Decorative Arch Frame */}
               <div className="absolute -inset-4 border border-white/10 rounded-t-full pointer-events-none group-hover:border-white/30 transition-colors duration-700"></div>
               <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20 relative">
-                <Image 
-                  src={data.bride.photo} 
-                  fill
-                  className="object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
-                  alt={data.bride.name} 
-                />
+                <motion.div style={{ y: leftPhotoY }} className="absolute inset-0 scale-125">
+                  <Image 
+                    src={data.bride.photo} 
+                    fill
+                    className="object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
+                    alt={data.bride.name} 
+                  />
+                </motion.div>
               </div>
               <div className="mt-8 text-center">
                 <h3 className="font-serif text-3xl md:text-5xl mb-2 tracking-tight text-white">{data.bride.name}</h3>
@@ -221,12 +256,14 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
               {/* Decorative Arch Frame */}
               <div className="absolute -inset-4 border border-white/10 rounded-t-full pointer-events-none group-hover:border-white/30 transition-colors duration-700"></div>
               <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20 relative">
-                <Image 
-                  src={data.groom.photo} 
-                  fill
-                  className="object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
-                  alt={data.groom.name} 
-                />
+                <motion.div style={{ y: rightPhotoY }} className="absolute inset-0 scale-125">
+                  <Image 
+                    src={data.groom.photo} 
+                    fill
+                    className="object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
+                    alt={data.groom.name} 
+                  />
+                </motion.div>
               </div>
               <div className="mt-8 text-center">
                 <h3 className="font-serif text-3xl md:text-5xl mb-2 tracking-tight text-white">{data.groom.name}</h3>
@@ -290,8 +327,28 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
         </div>
       </section>
 
+      {/* GALLERY SECTION (Cinematic Parallax Masonry) */}
+      <section className="py-32 px-4 relative z-10 bg-black overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <motion.div 
+            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
+            className="text-center mb-24"
+          >
+            <p className="text-[#D4AF37] uppercase tracking-[0.6em] text-[10px] mb-4 font-bold ml-[0.6em]">Captured Moments</p>
+            <h2 className="font-serif text-5xl md:text-7xl text-white">Our Gallery</h2>
+          </motion.div>
+
+          {/* Masonry Layout with Bokeh Group Hover */}
+          <div className="columns-2 md:columns-3 gap-6 space-y-6 group/gallery">
+            {data.gallery?.map((photo: string, index: number) => (
+              <GalleryItem key={index} photo={photo} index={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 5. EVENT DETAILS */}
-      <section className="min-h-[80vh] relative z-10 flex items-center justify-center px-4 py-32 border-t border-white/5">
+      <section className="min-h-screen relative z-10 flex items-center justify-center px-4 py-32 border-t border-white/5">
         <motion.div 
           initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}
           className="text-center max-w-5xl w-full grid md:grid-cols-2 gap-12 items-center"
@@ -354,19 +411,61 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             Kehadiran Anda adalah anugerah terbesar. Namun, apabila Anda ingin memberikan tanda kasih, Anda dapat mengirimkannya melalui rekening berikut:
           </p>
           
-          <div className="bg-[#0f0f0f] p-10 rounded-xl border border-white/10 max-w-sm mx-auto group hover:border-white/30 transition-colors duration-500">
-            <p className="font-sans font-bold uppercase tracking-widest text-gray-500 text-xs mb-4">{data.gift.bankName}</p>
-            <p className="font-serif text-4xl mb-2 tracking-widest text-white">{data.gift.accountNumber}</p>
-            <p className="text-sm font-sans font-light text-gray-400 mb-8">{data.gift.accountName}</p>
-            
+          {/* ELITE BANK CARD DESIGN */}
+          <motion.div 
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="relative max-w-sm mx-auto group perspective-1000"
+          >
+            {/* The Card */}
+            <div className="relative aspect-[1.586/1] w-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/20 p-8 text-left overflow-hidden shadow-2xl transition-all duration-500 group-hover:border-white/40 group-hover:shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+              
+              {/* Metallic Shine Animation */}
+              <motion.div 
+                animate={{ x: ['-100%', '200%'] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg] pointer-events-none"
+              />
+
+              {/* Card Chip */}
+              <div className="w-12 h-10 bg-gradient-to-br from-[#D4AF37] via-[#F9E498] to-[#B8860B] rounded-md mb-8 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-30 grid grid-cols-3 grid-rows-3 border border-black/20">
+                  <div className="border border-black/10"></div><div className="border border-black/10"></div><div className="border border-black/10"></div>
+                  <div className="border border-black/10"></div><div className="border border-black/10"></div><div className="border border-black/10"></div>
+                </div>
+              </div>
+
+              {/* Card Numbers */}
+              <p className="font-serif text-2xl md:text-3xl text-white mb-6 tracking-[0.2em] drop-shadow-lg">{data.gift.accountNumber}</p>
+              
+              {/* Card Holder */}
+              <div className="flex justify-between items-end">
+                <div>
+                  <p className="text-[8px] uppercase tracking-widest text-gray-500 mb-1">Account Holder</p>
+                  <p className="text-sm font-sans font-bold uppercase tracking-widest text-white/90">{data.gift.accountName}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[8px] uppercase tracking-widest text-gray-500 mb-1">Bank Name</p>
+                  <p className="text-xs font-bold tracking-widest text-[#D4AF37]">{data.gift.bankName}</p>
+                </div>
+              </div>
+
+              {/* NFC Icon Decor */}
+              <div className="absolute top-8 right-8 text-white/20">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M4 20h2v-2H4v2zm0-4h2v-2H4v2zm0-4h2v-2H4v2zm0-4h2V6H4v2zm4 12h2v-2H8v2zm0-4h2v-2H8v2zm0-4h2v-2H8v2zm0-4h2V6H8v2zm4 12h2v-2h-2v2zm0-4h2v-2h-2v2zm0-4h2v-2h-2v2zm0-4h2V6h-2v2zm4 12h2v-2h-2v2zm0-4h2v-2h-2v2zm0-4h2v-2h-2v2zm0-4h2V6h-2v2z"/></svg>
+              </div>
+            </div>
+
+            {/* Floating Copy Button */}
             <motion.button 
-              whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
               onClick={() => handleCopy(data.gift.accountNumber)} 
-              className="px-6 py-3 border border-white/20 text-white rounded-sm hover:bg-white hover:text-black transition-colors text-xs font-bold uppercase tracking-widest w-full"
+              className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-10 py-4 bg-white text-black rounded-full shadow-2xl hover:bg-gray-100 transition-all text-[10px] font-black uppercase tracking-[0.3em] z-20 flex items-center gap-3 whitespace-nowrap"
             >
-              Salin Rekening
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+              Copy Number
             </motion.button>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 
@@ -457,5 +556,44 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       </div>
 
     </div>
+    </>
   );
 }
+
+// --- HELPER COMPONENTS ---
+
+function GalleryItem({ photo, index }: { photo: string; index: number }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+
+  // Each item drifts differently based on index
+  const speed = index % 3 === 0 ? 40 : index % 2 === 0 ? -30 : 20;
+  const y = useTransform(scrollYProgress, [0, 1], [speed, -speed]);
+
+  return (
+    <motion.div 
+      ref={ref}
+      initial={{ opacity: 0, y: 50, clipPath: "inset(100% 0% 0% 0%)" }}
+      whileInView={{ opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 1.2, delay: (index % 3) * 0.2, ease: [0.22, 1, 0.36, 1] }}
+      className="relative break-inside-avoid group/item overflow-hidden rounded-sm cursor-pointer"
+    >
+      <motion.div style={{ y }} className="relative aspect-auto">
+        <Image 
+          src={photo} 
+          width={600}
+          height={800}
+          className="w-full object-cover grayscale group-hover/gallery:grayscale-[0.5] group-hover/item:grayscale-0 group-hover/item:blur-0 group-hover/item:scale-110 transition-all duration-1000 ease-out" 
+          alt={`Gallery ${index}`} 
+        />
+        {/* Subtle Overlay */}
+        <div className="absolute inset-0 bg-black/20 group-hover/item:bg-transparent transition-colors duration-700"></div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
