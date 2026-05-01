@@ -14,7 +14,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   }
 
   return (
-    <div className="min-h-screen bg-wedding-base text-wedding-text transition-colors duration-500 font-sans selection:bg-wedding-gold selection:text-black relative overflow-hidden">
+    <div className="min-h-screen bg-wedding-base text-wedding-text transition-colors duration-500 font-sans selection:bg-wedding-gold selection:text-black relative">
       {/* Background Decorative Blurs */}
       <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-wedding-gold/10 rounded-full blur-[150px] pointer-events-none fixed" />
       <div className="absolute bottom-[-10%] left-[-5%] w-[800px] h-[800px] bg-wedding-gold/5 rounded-full blur-[150px] pointer-events-none fixed" />

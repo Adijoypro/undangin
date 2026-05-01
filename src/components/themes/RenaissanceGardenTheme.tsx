@@ -227,64 +227,68 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           </div>
         </section>
 
-        {/* ═══ EVENT ═══ */}
+        {/* ═══ EVENT (Multi-Event) ═══ */}
         <section className="py-24 md:py-40 px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
           <div className="absolute bottom-0 left-0 w-48 h-48 opacity-20 -scale-y-100">
             <Image src="/assets/renaissance/botanical-corner.png" fill className="object-contain" alt="Botanical" />
           </div>
           <div className="max-w-5xl mx-auto text-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-              <h2 className="text-3xl md:text-5xl italic mb-4">Lokasi</h2>
-              <Ornament className="mx-auto mb-12" />
+              <h2 className="text-3xl md:text-5xl italic mb-4">Waktu & Tempat</h2>
+              <Ornament className="mx-auto mb-20" />
             </motion.div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-center max-w-4xl mx-auto">
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="order-2 lg:order-1">
-                <div className="space-y-6">
-                  <MapSimulation 
-                    lat={data.event.latitude ?? -6.2088} 
-                    lng={data.event.longitude ?? 106.8456} 
-                    locationName={data.event.locationName} 
-                  />
-                  
-                  <div className="p-6 bg-wedding-gold/5 border border-wedding-gold/10 rounded-3xl flex items-center gap-6">
-                    <div className="bg-white p-2 rounded-xl shadow-sm border border-wedding-gold/10">
-                      <QRCodeSVG 
-                        value={data.event.mapsLink} 
-                        size={80} 
-                        level="H"
-                        fgColor={palette.accent}
+            <div className="space-y-24">
+              {(data.events && data.events.length > 0 ? data.events : [data.event]).map((event: any, index: number) => (
+                <div key={index} className="grid lg:grid-cols-2 gap-12 items-center max-w-4xl mx-auto">
+                  <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className={`${index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}`}>
+                    <div className="space-y-6">
+                      <MapSimulation 
+                        lat={event.latitude ?? -6.2088} 
+                        lng={event.longitude ?? 106.8456} 
+                        locationName={event.location || event.locationName} 
                       />
+                      
+                      <div className="p-6 bg-wedding-gold/5 border border-wedding-gold/10 rounded-3xl flex items-center gap-6">
+                        <div className="bg-white p-2 rounded-xl shadow-sm border border-wedding-gold/10">
+                          <QRCodeSVG 
+                            value={event.maps_link || event.mapsLink} 
+                            size={80} 
+                            level="H"
+                            fgColor={palette.accent}
+                          />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-[10px] font-black text-wedding-gold uppercase tracking-widest mb-1">Scan for Navigation</p>
+                          <p className="text-[9px] leading-relaxed text-gray-500 italic">Scan barcode ini untuk membuka lokasi di Google Maps ponsel Anda.</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-left">
-                      <p className="text-[10px] font-black text-wedding-gold uppercase tracking-widest mb-1">Scan for Navigation</p>
-                      <p className="text-[9px] leading-relaxed text-gray-500 italic">Scan barcode ini untuk membuka lokasi di Google Maps ponsel Anda.</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                  </motion.div>
 
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-                className="p-10 md:p-14 border order-1 lg:order-2" style={{ borderColor: palette.gold + '30', backgroundColor: palette.bg }}>
-                <p className="text-xs tracking-[0.4em] uppercase mb-4" style={{ color: palette.accent }}>Acara Pernikahan</p>
-                <h3 className="text-2xl md:text-4xl italic mb-6">{data.event.dateFormatted.day}, {data.event.dateFormatted.date} {data.event.dateFormatted.monthYear}</h3>
-                <div className="w-12 h-px mx-auto mb-6" style={{ backgroundColor: palette.gold + '40' }}></div>
-                <p className="text-lg mb-2">{data.event.time}</p>
-                <h4 className="text-xl italic mb-2" style={{ color: palette.gold }}>{data.event.locationName}</h4>
-                <p className="text-sm mb-10 leading-relaxed" style={{ color: palette.textMuted }}>{data.event.locationAddress}</p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href={data.event.mapsLink} target="_blank"
-                    className="px-8 py-3 text-xs tracking-[0.2em] uppercase text-white transition-all duration-500 hover:opacity-80"
-                    style={{ backgroundColor: palette.accent }}>
-                    Buka Maps
-                  </a>
-                  <a href={createCalendarLink()} target="_blank"
-                    className="px-8 py-3 text-xs tracking-[0.2em] uppercase border transition-all duration-500"
-                    style={{ borderColor: palette.accent, color: palette.accent }}>
-                    Simpan Kalender
-                  </a>
+                  <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+                    className={`p-10 md:p-14 border ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`} style={{ borderColor: palette.gold + '30', backgroundColor: palette.bg }}>
+                    <p className="text-xs tracking-[0.4em] uppercase mb-4" style={{ color: palette.accent }}>{event.title || (index === 0 ? "Akad Nikah" : "Resepsi")}</p>
+                    <h3 className="text-2xl md:text-4xl italic mb-6">{event.date}</h3>
+                    <div className="w-12 h-px mx-auto mb-6" style={{ backgroundColor: palette.gold + '40' }}></div>
+                    <p className="text-lg mb-2">{event.time}</p>
+                    <h4 className="text-xl italic mb-2" style={{ color: palette.gold }}>{event.location || event.locationName}</h4>
+                    <p className="text-sm mb-10 leading-relaxed" style={{ color: palette.textMuted }}>{event.address || event.locationAddress}</p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                      <a href={event.maps_link || event.mapsLink} target="_blank"
+                        className="px-8 py-3 text-xs tracking-[0.2em] uppercase text-white transition-all duration-500 hover:opacity-80"
+                        style={{ backgroundColor: palette.accent }}>
+                        Buka Maps
+                      </a>
+                      <a href={createCalendarLink()} target="_blank"
+                        className="px-8 py-3 text-xs tracking-[0.2em] uppercase border transition-all duration-500"
+                        style={{ borderColor: palette.accent, color: palette.accent }}>
+                        Simpan Kalender
+                      </a>
+                    </div>
+                  </motion.div>
                 </div>
-              </motion.div>
+              ))}
             </div>
           </div>
         </section>

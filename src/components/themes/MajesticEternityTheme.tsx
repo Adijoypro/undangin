@@ -209,66 +209,70 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
           </div>
         </section>
 
-        {/* EVENT DETAILS & VIP TICKET (WOW FACTOR 3) */}
-        <section className="py-32 px-6 relative bg-gradient-to-b from-[#06120C] to-[#0A1C14]">
+        {/* EVENT DETAILS & VIP TICKET (Multi-Event) */}
+        <section className="py-32 px-6 relative bg-gradient-to-b from-[#06120C] to-[#0A1C14] space-y-20">
           <div className="max-w-4xl mx-auto text-center">
+            <h2 className="font-serif text-3xl md:text-5xl text-[#D4AF37] mb-12 uppercase tracking-widest">Waktu & Tempat</h2>
+            
+            {(data.events && data.events.length > 0 ? data.events : [data.event]).map((event: any, index: number) => (
+              <motion.div
+                key={index}
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                className="bg-white/5 border border-[#D4AF37]/30 backdrop-blur-xl rounded-3xl p-6 md:p-12 shadow-[0_0_50px_rgba(212,175,55,0.05)] mb-12 last:mb-0 relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/10 rounded-full blur-[50px]"></div>
 
-            {/* VIP TICKET UI */}
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              className="bg-white/5 border border-[#D4AF37]/30 backdrop-blur-xl rounded-3xl p-6 md:p-12 shadow-[0_0_50px_rgba(212,175,55,0.05)] mb-20 relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4AF37]/10 rounded-full blur-[50px]"></div>
-
-              <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-                <div className="text-left flex-1">
-                  <div className="inline-block bg-[#D4AF37] text-black px-4 pl-[0.3em] py-1 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">VIP Invitation Pass</div>
-                  <h3 className="font-serif text-4xl text-white mb-2">{data.event.locationName}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-8">{data.event.locationAddress}</p>
-
-                  <div className="flex gap-8 border-t border-white/10 pt-6">
-                    <div>
-                      <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Date</p>
-                      <p className="font-serif text-white">{data.event.date}</p>
+                <div className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} items-center justify-between gap-12`}>
+                  <div className="text-left flex-1">
+                    <div className="inline-block bg-[#D4AF37] text-black px-4 pl-[0.3em] py-1 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">
+                      {event.title || (index === 0 ? "Akad Nikah" : "Resepsi")}
                     </div>
-                    <div>
-                      <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Time</p>
-                      <p className="font-serif text-white">{data.event.time}</p>
+                    <h3 className="font-serif text-4xl text-white mb-2">{event.location || event.locationName}</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed mb-8">{event.address || event.locationAddress}</p>
+
+                    <div className="flex gap-8 border-t border-white/10 pt-6">
+                      <div>
+                        <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Date</p>
+                        <p className="font-serif text-white">{event.date}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Time</p>
+                        <p className="font-serif text-white">{event.time}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center gap-4 mt-10">
+                      <a href={event.maps_link || event.mapsLink} target="_blank" className="w-full sm:w-auto px-8 py-3 bg-[#D4AF37] text-black font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-white transition-colors duration-500 text-center">
+                        Direction
+                      </a>
+                      <a href={createCalendarLink()} target="_blank" className="w-full sm:w-auto px-8 py-3 border border-[#D4AF37] text-[#D4AF37] font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-[#D4AF37] hover:text-black transition-colors duration-500 text-center">
+                        Calendar
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="w-full md:w-[350px] space-y-6">
+                    <MapSimulation 
+                      lat={event.latitude ?? -6.2088} 
+                      lng={event.longitude ?? 106.8456} 
+                      locationName={event.location || event.locationName} 
+                    />
+                    
+                    <div className="bg-white p-6 rounded-2xl flex items-center justify-between gap-4">
+                      <div className="text-left">
+                        <p className="text-black font-bold text-xs uppercase tracking-widest">Digital Pass</p>
+                        <p className="text-gray-400 text-[10px] italic">Scan for navigation</p>
+                      </div>
+                      <div className="bg-gray-50 p-1 rounded-lg">
+                        <QRCodeSVG value={event.maps_link || event.mapsLink} size={80} />
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                <div className="w-full md:w-[350px] space-y-6">
-                  <MapSimulation 
-                    lat={data.event.latitude ?? -6.2088} 
-                    lng={data.event.longitude ?? 106.8456} 
-                    locationName={data.event.locationName} 
-                  />
-                  
-                  <div className="bg-white p-6 rounded-2xl flex items-center justify-between gap-4">
-                    <div className="text-left">
-                      <p className="text-black font-bold text-xs uppercase tracking-widest">Digital Pass</p>
-                      <p className="text-gray-400 text-[10px] italic">Scan for navigation</p>
-                    </div>
-                    <div className="bg-gray-50 p-1 rounded-lg">
-                      <QRCodeSVG value={data.event.mapsLink} size={80} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Actions */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <a href={data.event.mapsLink} target="_blank" className="w-full sm:w-auto px-10 py-4 bg-[#D4AF37] text-black font-bold uppercase tracking-[0.2em] text-xs hover:bg-white transition-colors duration-500">
-                Direction to Venue
-              </a>
-              <a href={createCalendarLink()} target="_blank" className="w-full sm:w-auto px-10 py-4 border border-[#D4AF37] text-[#D4AF37] font-bold uppercase tracking-[0.2em] text-xs hover:bg-[#D4AF37] hover:text-black transition-colors duration-500">
-                Save to Calendar
-              </a>
-            </div>
+              </motion.div>
+            ))}
           </div>
         </section>
 

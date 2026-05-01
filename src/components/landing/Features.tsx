@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Smartphone, QrCode, BellRing } from "lucide-react";
 
 const features = [
   { 
@@ -23,9 +22,9 @@ const features = [
 ];
 
 const subFeatures = [
-  { icon: <Smartphone className="w-5 h-5" />, title: "Mobile Optimized", desc: "Tampilan sempurna di semua perangkat." },
-  { icon: <QrCode className="w-5 h-5" />, title: "Digital Check-in", desc: "Sistem QR Code untuk tamu undangan." },
-  { icon: <BellRing className="w-5 h-5" />, title: "Real-time Notification", desc: "Notifikasi instan setiap ada tamu RSVP." }
+  { icon: "/assets/branding/final/nusantara_mobile_optimized_3d.webp", title: "Mobile Optimized", desc: "Tampilan sempurna di semua perangkat." },
+  { icon: "/assets/branding/final/nusantara_digital_checkin_3d.webp", title: "Digital Check-in", desc: "Sistem QR Code untuk tamu undangan." },
+  { icon: "/assets/branding/final/ai_notifications_solid_white_bg_1777348251055.webp", title: "Real-time Notification", desc: "Notifikasi instan setiap ada tamu RSVP." }
 ];
 
 export default function Features() {
@@ -127,8 +126,14 @@ export default function Features() {
                     transition={{ delay: i * 0.1 }}
                     className="flex gap-4 md:gap-6 items-start group"
                   >
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-wedding-gold/10 flex items-center justify-center text-wedding-gold flex-shrink-0 group-hover:bg-wedding-gold group-hover:text-white transition-all">
-                      {item.icon}
+                    <div className="w-10 h-10 md:w-16 md:h-16 rounded-xl bg-wedding-gold/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-all overflow-hidden p-1.5">
+                      <Image 
+                        src={item.icon} 
+                        alt={item.title} 
+                        width={64} 
+                        height={64} 
+                        className="object-contain mix-blend-multiply"
+                      />
                     </div>
                     <div>
                       <h4 className="font-serif text-lg md:text-xl text-wedding-text mb-1">{item.title}</h4>

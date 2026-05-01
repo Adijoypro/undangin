@@ -4,6 +4,7 @@ import HeroSection from "@/components/landing/HeroSection";
 import ExclusiveProcess from "@/components/landing/ExclusiveProcess";
 import Features from "@/components/landing/Features";
 import ThemeShowcase from "@/components/landing/ThemeShowcase";
+import AITeaser from "@/components/landing/AITeaser";
 import Testimonials from "@/components/landing/Testimonials";
 import FAQ from "@/components/landing/FAQ";
 import PricingSection from "@/components/landing/PricingSection";
@@ -25,6 +26,8 @@ export default async function LandingPage() {
         <Features />
         
         <ThemeShowcase />
+        
+        <AITeaser />
 
         <Testimonials />
 

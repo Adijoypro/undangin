@@ -30,6 +30,16 @@ export interface InvitationData {
     latitude?: number;
     longitude?: number;
   };
+  events?: Array<{
+    title: string;
+    date: string;
+    time: string;
+    location: string;
+    address: string;
+    maps_link: string;
+    latitude: number;
+    longitude: number;
+  }>;
   loveStory: any[];
   quote: string;
   gift: {

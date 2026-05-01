@@ -62,12 +62,20 @@ export async function createInvitation(formData: FormData) {
   const mapsLink = formData.get("maps_link") as string;
   const latitude = parseFloat(formData.get("latitude") as string || "0");
   const longitude = parseFloat(formData.get("longitude") as string || "0");
+  
   const loveStoryRaw = formData.get("love_story") as string;
+  const galleryRaw = formData.get("gallery") as string;
+  const eventsRaw = formData.get("events") as string;
   let loveStory = [];
+  let gallery = [];
+  let events = [];
+  
   try {
     loveStory = JSON.parse(loveStoryRaw || "[]");
+    gallery = JSON.parse(galleryRaw || "[]");
+    events = JSON.parse(eventsRaw || "[]");
   } catch (e) {
-    console.error("Error parsing love story:", e);
+    console.error("Error parsing JSON data:", e);
   }
 
   const quote = formData.get("quote") as string;
@@ -89,7 +97,7 @@ export async function createInvitation(formData: FormData) {
         return supabase.storage.from("invitations-media").getPublicUrl(uploadData.path).data.publicUrl;
       }
     }
-    return ""; // NO MORE TABLE PHOTO FALLBACK
+    return ""; 
   };
 
   const bridePhotoUrl = await getPhotoUrl("bride_photo");
@@ -133,6 +141,8 @@ export async function createInvitation(formData: FormData) {
         latitude: latitude,
         longitude: longitude,
         love_story: loveStory,
+        gallery: gallery,
+        events: events,
         quote: quote,
         bank_name: bankName,
         account_number: accountNumber,
@@ -154,4 +164,52 @@ export async function createInvitation(formData: FormData) {
   const { revalidatePath } = await import("next/cache");
   revalidatePath("/dashboard");
   redirect(`/dashboard?success=created`);
+}
+
+export async function publishInvitation(invitationId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { success: false };
+
+  const { data: profile } = await supabase.from("profiles").select("credits").eq("id", user.id).single();
+  if (!profile || profile.credits < 1) {
+    return { success: false, message: "Kredit tidak cukup. Silakan Top Up terlebih dahulu." };
+  }
+
+  const { error: publishError } = await supabase.from("invitations").update({ status: 'published' }).eq("id", invitationId);
+  if (!publishError) {
+    const newCredits = profile.credits - 1;
+    const { error: creditError } = await supabase.from("profiles").update({ credits: newCredits }).eq("id", user.id);
+    
+    if (creditError) {
+      console.error("Gagal memotong kredit:", creditError);
+      await supabase.from("invitations").update({ status: 'draft' }).eq("id", invitationId);
+      return { success: false, message: "Gagal memotong kredit. Publikasi dibatalkan." };
+    }
+    
+    return { success: true, message: "Undangan berhasil dipublikasikan! 🎉" };
+  }
+  return { success: false, message: "Gagal mempublikasikan undangan." };
+}
+
+export async function deductCredit(amount: number) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { success: false, error: "Unauthorized" };
+
+  const { data: profile } = await supabase.from("profiles").select("credits").eq("id", user.id).single();
+  if (!profile || profile.credits < amount) {
+    return { success: false, error: "Kredit tidak cukup." };
+  }
+
+  const newCredits = profile.credits - amount;
+  const { error } = await supabase.from("profiles").update({ credits: newCredits }).eq("id", user.id);
+
+  if (error) {
+    return { success: false, error: "Gagal memproses kredit." };
+  }
+
+  const { revalidatePath } = await import("next/cache");
+  revalidatePath("/dashboard");
+  return { success: true };
 }

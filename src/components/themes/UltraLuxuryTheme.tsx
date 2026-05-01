@@ -286,8 +286,8 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           </section>
         )}
 
-        {/* 4. EVENT */}
-        <section className="relative py-48 bg-[#030303] overflow-hidden">
+        {/* 4. EVENT (Multi-Event) */}
+        <section className="relative py-48 bg-[#030303] overflow-hidden space-y-32">
           <div className="absolute inset-0">
              <Image src="/assets/marble-bg.webp" fill className="object-cover opacity-15" alt="Marble" />
              <div className="absolute inset-0 bg-black/40"></div>
@@ -299,64 +299,66 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
               <h2 className="text-4xl md:text-6xl text-white/90 font-serif uppercase tracking-[0.2em]">The Event.</h2>
             </motion.div>
 
-            <div className="grid lg:grid-cols-2 gap-20 items-center">
-              {/* Event Details Card */}
-              <motion.div 
-                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-                className="bg-black/60 backdrop-blur-3xl border border-[#D4AF37]/10 p-6 md:p-20 text-center relative"
-              >
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 opacity-20 mix-blend-screen">
-                  <Image src="/assets/gold-frame.webp" fill className="object-contain" alt="Ornament" />
-                </div>
+            {(data.events && data.events.length > 0 ? data.events : [data.event]).map((event: any, index: number) => (
+              <div key={index} className={`grid lg:grid-cols-2 gap-20 items-center mb-32 last:mb-0 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                {/* Event Details Card */}
+                <motion.div 
+                  initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+                  className={`bg-black/60 backdrop-blur-3xl border border-[#D4AF37]/10 p-6 md:p-20 text-center relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}
+                >
+                  <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 opacity-20 mix-blend-screen">
+                    <Image src="/assets/gold-frame.webp" fill className="object-contain" alt="Ornament" />
+                  </div>
 
-                <p className="font-sans text-xl tracking-[0.5em] text-[#D4AF37] uppercase font-light mb-8">{data.event.dateFormatted.day}, {data.event.dateFormatted.date} {data.event.dateFormatted.monthYear}</p>
-                <div className="w-12 h-px bg-white/10 mx-auto mb-8"></div>
-                <p className="text-2xl font-light tracking-[0.3em] mb-12">{data.event.time}</p>
-                
-                <h3 className="text-3xl text-[#D4AF37]/80 font-serif italic tracking-wide mb-6">{data.event.locationName}</h3>
-                <p className="text-gray-400 text-base leading-relaxed mb-16 font-light tracking-wide">{data.event.locationAddress}</p>
-                
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                  <a href={data.event.mapsLink} target="_blank" className="group relative px-10 py-5 overflow-hidden border border-[#D4AF37]/40 text-[#D4AF37] font-sans text-[10px] uppercase tracking-[0.4em] w-full text-center transition-all duration-700">
-                    <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
-                    <span className="relative z-10 group-hover:text-black">Google Maps</span>
-                  </a>
-                  <a href={createCalendarLink()} target="_blank" className="group relative px-10 py-5 overflow-hidden bg-[#D4AF37]/90 text-black font-sans text-[10px] uppercase tracking-[0.4em] w-full text-center transition-all duration-700">
-                    <span className="absolute inset-0 bg-white w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
-                    <span className="relative z-10">Calendar</span>
-                  </a>
-                </div>
-              </motion.div>
+                  <p className="font-sans text-xl tracking-[0.5em] text-[#D4AF37] uppercase font-light mb-8">{event.date}</p>
+                  <div className="w-12 h-px bg-white/10 mx-auto mb-8"></div>
+                  <p className="text-2xl font-light tracking-[0.3em] mb-12">{event.time}</p>
+                  
+                  <h3 className="text-3xl text-[#D4AF37]/80 font-serif italic tracking-wide mb-6">{event.location || event.locationName}</h3>
+                  <p className="text-gray-400 text-base leading-relaxed mb-16 font-light tracking-wide">{event.address || event.locationAddress}</p>
+                  
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <a href={event.maps_link || event.mapsLink} target="_blank" className="group relative px-10 py-5 overflow-hidden border border-[#D4AF37]/40 text-[#D4AF37] font-sans text-[10px] uppercase tracking-[0.4em] w-full text-center transition-all duration-700">
+                      <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
+                      <span className="relative z-10 group-hover:text-black">Google Maps</span>
+                    </a>
+                    <a href={createCalendarLink()} target="_blank" className="group relative px-10 py-5 overflow-hidden bg-[#D4AF37]/90 text-black font-sans text-[10px] uppercase tracking-[0.4em] w-full text-center transition-all duration-700">
+                      <span className="absolute inset-0 bg-white w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
+                      <span className="relative z-10">Calendar</span>
+                    </a>
+                  </div>
+                </motion.div>
 
-              {/* Map & QR Simulation */}
-              <motion.div 
-                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-                className="space-y-8"
-              >
-                <div className="p-2 border border-[#D4AF37]/20 rounded-[2rem] overflow-hidden bg-[#050505]">
-                  <MapSimulation 
-                    lat={data.event.latitude ?? -6.2088} 
-                    lng={data.event.longitude ?? 106.8456} 
-                    locationName={data.event.locationName} 
-                  />
-                </div>
-
-                <div className="bg-black/40 backdrop-blur-xl border border-white/5 p-6 rounded-[2rem] flex items-center gap-10">
-                  <div className="bg-white p-2 rounded-2xl shadow-[0_0_20px_rgba(212,175,55,0.1)]">
-                    <QRCodeSVG 
-                      value={data.event.mapsLink} 
-                      size={100} 
-                      level="H"
-                      fgColor="#050505"
+                {/* Map & QR Simulation */}
+                <motion.div 
+                  initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+                  className={`space-y-8 ${index % 2 === 1 ? 'lg:order-1' : ''}`}
+                >
+                  <div className="p-2 border border-[#D4AF37]/20 rounded-[2rem] overflow-hidden bg-[#050505]">
+                    <MapSimulation 
+                      lat={event.latitude ?? -6.2088} 
+                      lng={event.longitude ?? 106.8456} 
+                      locationName={event.location || event.locationName} 
                     />
                   </div>
-                  <div className="text-left">
-                    <p className="font-sans text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.3em] mb-2">Instant Navigation</p>
-                    <p className="text-[11px] leading-relaxed text-gray-500 italic font-light">Scan code ini untuk panduan navigasi langsung ke lokasi acara di ponsel Anda.</p>
+
+                  <div className="bg-black/40 backdrop-blur-xl border border-white/5 p-6 rounded-[2rem] flex items-center gap-10">
+                    <div className="bg-white p-2 rounded-2xl shadow-[0_0_20px_rgba(212,175,55,0.1)]">
+                      <QRCodeSVG 
+                        value={event.maps_link || event.mapsLink} 
+                        size={100} 
+                        level="H"
+                        fgColor="#050505"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-sans text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.3em] mb-2">Instant Navigation</p>
+                      <p className="text-[11px] leading-relaxed text-gray-500 italic font-light">Scan code ini untuk panduan navigasi langsung ke lokasi acara di ponsel Anda.</p>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            </div>
+                </motion.div>
+              </div>
+            ))}
           </div>
         </section>
 

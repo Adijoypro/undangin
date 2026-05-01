@@ -1,9 +1,11 @@
+import { formatWeddingDate } from "@/lib/formatters";
 import PremiumTheme from "@/components/themes/PremiumTheme";
 import CinematicDarkTheme from "@/components/themes/CinematicDarkTheme";
 import UltraLuxuryTheme from "@/components/themes/UltraLuxuryTheme";
 import MajesticEternityTheme from "@/components/themes/MajesticEternityTheme";
 import RenaissanceGardenTheme from "@/components/themes/RenaissanceGardenTheme";
 import ThemeWrapper from "@/components/themes/ThemeWrapper";
+import DraftMarketingPage from "@/components/themes/DraftMarketingPage";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Metadata } from "next";
@@ -77,10 +79,12 @@ export default async function InvitationPage({
   }
 
   const isOwner = user?.id === dbData.user_id;
+  const isGuest = !!guestName;
 
-  // Security: Only owner can see non-published invitations
-  if (dbData.status !== 'published' && !isOwner) {
-    notFound();
+  // Security: Only owner can see non-published invitations,
+  // OR guests who have a special link (with 'to' parameter)
+  if (dbData.status !== 'published' && !isOwner && !isGuest) {
+    return <DraftMarketingPage />;
   }
 
   // Fetch Guestbook entries
@@ -118,20 +122,7 @@ export default async function InvitationPage({
     couplePhoto: dbData.couple_photo,
     event: {
       date: dbData.event_date || "14 Februari 2027",
-      dateFormatted: (() => {
-        try {
-          const d = new Date(dbData.event_date);
-          const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-          const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-          return {
-            day: days[d.getDay()] || "Minggu",
-            date: d.getDate().toString() || "14",
-            monthYear: `${months[d.getMonth()]} ${d.getFullYear()}` || "Februari 2027"
-          };
-        } catch (e) {
-          return { day: "Minggu", date: "14", monthYear: "Februari 2027" };
-        }
-      })(),
+      dateFormatted: formatWeddingDate(dbData.event_date),
       time: dbData.event_time || "08:00 - Selesai",
       locationName: dbData.event_location || "Gedung Serbaguna",
       locationAddress: dbData.event_address || "Jakarta",
@@ -139,6 +130,9 @@ export default async function InvitationPage({
       latitude: dbData.latitude ?? -6.2088,
       longitude: dbData.longitude ?? 106.8456
     },
+    events: typeof dbData.events === 'string' 
+      ? JSON.parse(dbData.events) 
+      : (dbData.events || []),
     loveStory: dbData.love_story || [],
     quote: dbData.quote || "Dan di antara tanda-tanda kebesaran-Nya...",
     gift: {

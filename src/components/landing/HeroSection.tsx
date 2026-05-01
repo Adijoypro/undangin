@@ -30,11 +30,11 @@ export default function HeroSection({ user }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative pt-16 pb-20 md:pt-40 md:pb-32 px-4 min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative pt-28 pb-20 md:pt-40 md:pb-32 px-4 min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Blurs */}
       <div className="absolute top-1/4 -left-1/4 w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] rounded-full bg-wedding-gold/10 dark:bg-wedding-gold/5 blur-[80px] pointer-events-none transform-gpu" />
       
-      <CornerOrnaments opacity={0.6} size={150} topOffset="top-4 md:top-8" />
+      <CornerOrnaments opacity={0.6} size={150} topOffset="top-[82px] md:top-[85px]" />
       
       <div className="max-w-5xl mx-auto text-center relative z-10">
         <motion.div 

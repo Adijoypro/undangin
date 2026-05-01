@@ -2,12 +2,11 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { createInvitation } from "./actions";
-import SubmitButton from "@/components/dashboard/SubmitButton";
-import LogoutButton from "@/components/dashboard/LogoutButton";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import AdminContactCard from "@/components/dashboard/AdminContactCard";
 import InvitationForm from "@/components/dashboard/InvitationForm";
 import DashboardShell from "@/components/dashboard/DashboardShell";
-import { ChevronLeft, AlertTriangle } from "lucide-react";
+import { ChevronLeft, AlertTriangle, Sparkles } from "lucide-react";
 
 export default async function CreateInvitationPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const { error } = await searchParams;
@@ -50,19 +49,9 @@ export default async function CreateInvitationPage({ searchParams }: { searchPar
 
   return (
     <DashboardShell>
-      <header className="bg-white/40 dark:bg-wedding-base/40 border-b border-white/50 dark:border-wedding-gold/20 backdrop-blur-2xl sticky top-0 z-50 transition-colors duration-500 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
-          <div className="flex items-center gap-6">
-            <Link href="/dashboard" className="w-10 h-10 rounded-full bg-white/40 dark:bg-wedding-text/10 backdrop-blur-md hover:bg-wedding-gold text-wedding-text hover:text-white transition-all flex items-center justify-center active:scale-90 border border-wedding-gold/20">
-              <ChevronLeft className="w-5 h-5" />
-            </Link>
-            <h1 className="font-serif text-xl font-bold text-wedding-text">Rancang Mahakarya</h1>
-          </div>
-          <LogoutButton />
-        </div>
-      </header>
+      <DashboardNavbar user={user} credits={credits} />
 
-      <main className="max-w-4xl mx-auto px-4 py-12">
+      <main className="max-w-6xl mx-auto px-4 py-12">
         {error && (
           <div className="mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-500 transition-all">
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,6 +93,34 @@ export default async function CreateInvitationPage({ searchParams }: { searchPar
         ) : (
           <div className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] border border-white/50 dark:border-wedding-gold/20 transition-all duration-500 shadow-xl relative overflow-hidden">
              <div className="absolute top-0 right-0 w-64 h-64 bg-wedding-gold/5 rounded-full blur-3xl pointer-events-none" />
+             
+             {/* AI Coming Soon Banner */}
+             <Link href="/dashboard/ai-studio" className="block mb-10 group">
+               <div className="p-5 bg-gradient-to-r from-wedding-gold/10 via-transparent to-transparent border border-wedding-gold/20 rounded-2xl flex items-center justify-between overflow-hidden relative hover:border-wedding-gold/40 transition-all duration-500 hover:shadow-lg hover:shadow-wedding-gold/5">
+                 <div className="absolute -right-4 -top-4 w-24 h-24 bg-wedding-gold/5 rounded-full blur-2xl group-hover:bg-wedding-gold/10 transition-all duration-700" />
+                 <div className="flex items-center gap-4 relative z-10">
+                   <div className="w-12 h-12 bg-wedding-gold/20 rounded-xl flex items-center justify-center border border-wedding-gold/30 group-hover:scale-110 transition-transform duration-500">
+                     <Sparkles className="w-6 h-6 text-wedding-gold animate-pulse" />
+                   </div>
+                   <div>
+                     <h3 className="text-sm font-bold text-wedding-text uppercase tracking-widest group-hover:text-wedding-gold transition-colors">AI Prewedding Studio</h3>
+                     <div className="flex items-center gap-2 mt-1">
+                       <span className="text-[9px] bg-wedding-gold text-black px-2 py-0.5 rounded-full font-black uppercase tracking-tighter">Coming Soon</span>
+                       <p className="text-[10px] text-wedding-text/40 italic">Ubah foto biasa jadi foto Prewedd mewah secara instan</p>
+                     </div>
+                   </div>
+                 </div>
+                 <div className="hidden md:flex items-center gap-3">
+                   <div className="px-4 py-2 bg-wedding-text/5 border border-wedding-text/10 rounded-lg text-[9px] font-bold text-wedding-text/30 uppercase tracking-[0.2em]">
+                     Premium Only
+                   </div>
+                   <div className="w-8 h-8 rounded-full bg-wedding-gold/20 flex items-center justify-center text-wedding-gold group-hover:bg-wedding-gold group-hover:text-black transition-all">
+                      <ChevronLeft className="w-4 h-4 rotate-180" />
+                   </div>
+                 </div>
+               </div>
+             </Link>
+
              <InvitationForm action={createInvitation} />
           </div>
         )}

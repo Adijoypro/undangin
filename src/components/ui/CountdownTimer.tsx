@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 
 interface CountdownTimerProps {
   targetDate: string; // e.g. "14 Februari 2027"
-  theme?: "premium" | "cinematic";
+  theme?: "premium" | "cinematic" | "cinematic-dark" | "mini";
+  color?: string; // Optional custom color
 }
 
-export default function CountdownTimer({ targetDate, theme = "premium" }: CountdownTimerProps) {
+export default function CountdownTimer({ targetDate, theme = "premium", color }: CountdownTimerProps) {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -20,20 +21,36 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
     const indonesianMonths: { [key: string]: string } = {
       januari: "January", februari: "February", maret: "March", april: "April",
       mei: "May", juni: "June", juli: "July", agustus: "August",
-      september: "September", oktober: "October", november: "November", desember: "December"
+      september: "September", oktober: "October", november: "November", 
+      desember: "December", desemner: "December", // Typo defensive
+      jan: "January", feb: "February", mar: "March", apr: "April",
+      jun: "June", jul: "July", agu: "August", sep: "September",
+      okt: "October", nov: "November", des: "December"
     };
     
-    let parsedDateStr = targetDate.toLowerCase();
-    Object.keys(indonesianMonths).forEach(month => {
-      parsedDateStr = parsedDateStr.replace(month, indonesianMonths[month]);
-    });
+    let parsedDateStr = (targetDate || "").toLowerCase();
+    
+    // Check if it's already in YYYY-MM-DD format (from <input type="date">)
+    const isIsoFormat = /^\d{4}-\d{2}-\d{2}$/.test(parsedDateStr);
+    
+    if (!isIsoFormat) {
+      Object.keys(indonesianMonths).forEach(month => {
+        parsedDateStr = parsedDateStr.replace(new RegExp(month, 'g'), indonesianMonths[month]);
+      });
+    }
 
     const dateWithTimezone = parsedDateStr.includes(":") 
       ? `${parsedDateStr} GMT+0700` 
       : `${parsedDateStr} 08:00:00 GMT+0700`;
 
-    const targetTime = new Date(dateWithTimezone).getTime();
-    const validTargetTime = isNaN(targetTime) ? new Date().getTime() + 30 * 24 * 60 * 60 * 1000 : targetTime;
+    let targetTime = new Date(dateWithTimezone).getTime();
+    
+    // Ultimate Fallback for invalid dates
+    if (isNaN(targetTime)) {
+      targetTime = new Date(parsedDateStr).getTime();
+    }
+
+    const validTargetTime = isNaN(targetTime) ? new Date().getTime() + 7 * 24 * 60 * 60 * 1000 : targetTime;
 
     const updateTimer = () => {
       const now = new Date().getTime();
@@ -64,11 +81,50 @@ export default function CountdownTimer({ targetDate, theme = "premium" }: Countd
   }, [targetDate]);
 
   const units = [
-    { label: "Hari", value: timeLeft.days },
-    { label: "Jam", value: timeLeft.hours },
-    { label: "Menit", value: timeLeft.minutes },
-    { label: "Detik", value: timeLeft.seconds }
+    { label: "Hari", labelEn: "Days", value: timeLeft.days },
+    { label: "Jam", labelEn: "Hours", value: timeLeft.hours },
+    { label: "Menit", labelEn: "Mins", value: timeLeft.minutes },
+    { label: "Detik", labelEn: "Secs", value: timeLeft.seconds }
   ];
+
+  if (theme === "mini") {
+    return (
+      <div className="flex gap-4 justify-center items-center">
+        {units.map((unit, i) => (
+          <div key={unit.label} className="flex flex-col items-center">
+            <span className={`text-xl sm:text-2xl font-serif font-bold ${color || 'text-wedding-gold'}`}>
+              {unit.value.toString().padStart(2, '0')}
+            </span>
+            <span className="text-[6px] uppercase tracking-[0.2em] text-gray-500 mt-0.5">{unit.labelEn}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (theme === "cinematic-dark") {
+    return (
+      <div className="flex gap-6 sm:gap-10 justify-center w-full">
+        {units.map((unit, i) => (
+          <motion.div 
+            key={unit.label}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 * i, duration: 0.8 }}
+            className="flex flex-col items-center group"
+          >
+            <div className="relative group">
+              <div className="text-4xl sm:text-6xl font-serif mb-1 bg-gradient-to-b from-white via-wedding-gold to-wedding-gold/70 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                {unit.value.toString().padStart(2, '0')}
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+            </div>
+            <div className="text-[7px] sm:text-[9px] uppercase tracking-[0.4em] text-wedding-gold font-bold mt-3 opacity-80">{unit.labelEn}</div>
+          </motion.div>
+        ))}
+      </div>
+    );
+  }
 
   if (theme === "cinematic") {
     return (

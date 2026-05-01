@@ -1,14 +1,14 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { updateInvitation } from "./actions";
-import LogoutButton from "@/components/dashboard/LogoutButton";
+import { updateInvitation, deductCredit } from "./actions";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import UpgradeAiButton from "@/components/dashboard/UpgradeAiButton";
 import SaveNotification from "@/components/dashboard/SaveNotification";
 import InvitationForm from "@/components/dashboard/InvitationForm";
 import DashboardShell from "@/components/dashboard/DashboardShell";
-import InvitationLinkGenerator from "@/components/dashboard/InvitationLinkGenerator";
 import { Suspense } from "react";
+import { Sparkles } from "lucide-react";
 
 
 export default async function EditInvitationPage({ params }: { params: Promise<{ id: string }> }) {
@@ -44,19 +44,9 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
   return (
     <DashboardShell>
       <Suspense><SaveNotification /></Suspense>
-      <header className="bg-wedding-base/80 border-b border-wedding-gold/10 backdrop-blur-md sticky top-0 z-50 transition-colors duration-500">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
-          <div className="flex items-center gap-6">
-            <Link href="/dashboard" className="w-8 h-8 rounded-full bg-wedding-text/5 flex items-center justify-center text-wedding-text/40 hover:bg-wedding-gold hover:text-black transition-all">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            </Link>
-            <h1 className="font-serif text-lg font-bold text-wedding-text">Edit Undangan</h1>
-          </div>
-          <LogoutButton />
-        </div>
-      </header>
+      <DashboardNavbar user={user} credits={userCredits} />
 
-      <main className="max-w-4xl mx-auto px-4 py-12">
+      <main className="max-w-6xl mx-auto px-4 py-12">
         {/* BANNER UPGRADE AI - TAMPIL HANYA JIKA BELUM PREMIUM */}
         {!invitation.is_ai_enabled && (
           <div className="mb-10">
@@ -67,15 +57,40 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
             />
           </div>
         )}
-        <div className="mb-10">
-          <InvitationLinkGenerator 
-            slug={invitation.slug} 
-            isPublished={invitation.status === 'published'} 
-            credits={userCredits}
-          />
-        </div>
+        {/* AI Coming Soon Banner - Consistency Fix */}
+        <Link href="/dashboard/ai-studio" className="block mb-10 group">
+          <div className="p-5 bg-gradient-to-r from-wedding-gold/10 via-transparent to-transparent border border-wedding-gold/20 rounded-2xl flex items-center justify-between overflow-hidden relative backdrop-blur-xl hover:border-wedding-gold/40 transition-all duration-500 hover:shadow-lg hover:shadow-wedding-gold/5">
+            <div className="absolute -right-4 -top-4 w-24 h-24 bg-wedding-gold/5 rounded-full blur-2xl group-hover:bg-wedding-gold/10 transition-all duration-700" />
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="w-12 h-12 bg-wedding-gold/20 rounded-xl flex items-center justify-center border border-wedding-gold/30 group-hover:scale-110 transition-transform duration-500">
+                <Sparkles className="w-6 h-6 text-wedding-gold animate-pulse" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-wedding-text uppercase tracking-widest group-hover:text-wedding-gold transition-colors">AI Prewedding Studio</h3>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-[9px] bg-wedding-gold text-black px-2 py-0.5 rounded-full font-black uppercase tracking-tighter">Coming Soon</span>
+                  <p className="text-[10px] text-wedding-text/40 italic">Ubah foto biasa jadi foto Prewedd mewah secara instan</p>
+                </div>
+              </div>
+            </div>
+            <div className="hidden md:flex items-center gap-3">
+              <div className="px-4 py-2 bg-wedding-text/5 border border-wedding-text/10 rounded-lg text-[9px] font-bold text-wedding-text/30 uppercase tracking-[0.2em]">
+                Premium Only
+              </div>
+              <div className="w-8 h-8 rounded-full bg-wedding-gold/20 flex items-center justify-center text-wedding-gold group-hover:bg-wedding-gold group-hover:text-black transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="rotate-180"><path d="m15 18-6-6 6-6"/></svg>
+              </div>
+            </div>
+          </div>
+        </Link>
+
         <div className="bg-wedding-base p-8 rounded-3xl border border-wedding-gold/10 transition-all duration-500 shadow-sm">
-          <InvitationForm action={updateInvitation} initialData={invitation} />
+          <InvitationForm 
+            action={updateInvitation} 
+            deductCreditAction={deductCredit}
+            initialData={invitation} 
+            credits={userCredits} 
+          />
         </div>
       </main>
     </DashboardShell>

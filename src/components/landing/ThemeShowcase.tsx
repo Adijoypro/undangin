@@ -149,7 +149,7 @@ export default function ThemeShowcase() {
 
   return (
     <section id="template" className="pt-16 pb-20 md:pt-32 md:pb-24 px-4 border-t border-wedding-gold/10 relative overflow-hidden transition-colors duration-500">
-      <CornerOrnaments opacity={0.4} size={150} topOffset="top-2 md:top-8" />
+      <CornerOrnaments opacity={0.4} size={150} topOffset="top-4 md:top-6" />
       
       <div className="max-w-7xl mx-auto relative z-10 px-4">
         <div className="mb-12 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -192,13 +192,33 @@ export default function ThemeShowcase() {
           </div>
         </div>
 
-        <div className="relative group/showcase">
+        <div className="relative group/showcase px-0 md:px-4">
+          {/* FLOATING NAVIGATION BUTTONS (Mobile: Always Visible, Desktop: Hover Reveal) */}
+          <div className="absolute top-1/2 -left-2 md:-left-8 -translate-y-1/2 z-40 opacity-100 md:opacity-0 md:group-hover/showcase:opacity-100 transition-all duration-500">
+            <button 
+              onClick={() => scroll('left')}
+              className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-wedding-gold/30 flex items-center justify-center text-wedding-gold hover:bg-wedding-gold hover:text-white transition-all active:scale-90 shadow-xl"
+              aria-label="Previous"
+            >
+              <svg className="w-5 h-5 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+          </div>
+          
+          <div className="absolute top-1/2 -right-2 md:-right-8 -translate-y-1/2 z-40 opacity-100 md:opacity-0 md:group-hover/showcase:opacity-100 transition-all duration-500">
+            <button 
+              onClick={() => scroll('right')}
+              className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-wedding-gold/30 flex items-center justify-center text-wedding-gold hover:bg-wedding-gold hover:text-white transition-all active:scale-90 shadow-xl"
+              aria-label="Next"
+            >
+              <svg className="w-5 h-5 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
           
           <div 
             ref={scrollRef}
-            className="relative overflow-x-auto md:overflow-hidden pb-10 no-scrollbar snap-x snap-mandatory"
+            className="relative overflow-x-auto md:overflow-hidden pb-10 no-scrollbar snap-x snap-mandatory px-8 md:px-0"
           >
-            <div className="flex gap-6 md:gap-8 w-max md:animate-marquee md:hover:[animation-play-state:paused] py-4 md:justify-center">
+            <div className="flex gap-6 md:gap-8 w-max md:animate-marquee md:hover:[animation-play-state:paused] py-8 md:py-12 md:justify-center">
               {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => {
                 const uniqueKey = `${t.id}-${i}`;
                 const isThisHovered = hoveredId === uniqueKey;

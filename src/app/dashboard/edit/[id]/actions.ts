@@ -36,12 +36,15 @@ export async function updateInvitation(formData: FormData) {
     
     const loveStoryRaw = formData.get("love_story") as string;
     const galleryRaw = formData.get("gallery") as string;
+    const eventsRaw = formData.get("events") as string;
     let loveStory = [];
     let gallery = [];
+    let events = [];
     
     try {
       loveStory = JSON.parse(loveStoryRaw || "[]");
       gallery = JSON.parse(galleryRaw || "[]");
+      events = JSON.parse(eventsRaw || "[]");
     } catch (e) {
       console.error("Error parsing JSON data:", e);
     }
@@ -85,6 +88,7 @@ export async function updateInvitation(formData: FormData) {
       longitude: longitude,
       love_story: loveStory,
       gallery: gallery,
+      events: events, // ADDED THIS
       quote: quote,
       bank_name: bankName,
       account_number: accountNumber,
@@ -147,4 +151,24 @@ export async function publishInvitation(invitationId: string) {
   }
   return { success: false, message: "Gagal mempublikasikan undangan." };
 
+}
+export async function deductCredit(amount: number) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { success: false, error: "Unauthorized" };
+
+  const { data: profile } = await supabase.from("profiles").select("credits").eq("id", user.id).single();
+  if (!profile || profile.credits < amount) {
+    return { success: false, error: "Kredit tidak cukup." };
+  }
+
+  const newCredits = profile.credits - amount;
+  const { error } = await supabase.from("profiles").update({ credits: newCredits }).eq("id", user.id);
+
+  if (error) {
+    return { success: false, error: "Gagal memproses kredit." };
+  }
+
+  revalidatePath("/dashboard");
+  return { success: true };
 }

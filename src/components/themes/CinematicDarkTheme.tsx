@@ -22,7 +22,6 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   const createCalendarLink = () => {
     const text = encodeURIComponent(`Pernikahan ${data.bride.name} & ${data.groom.name}`);
@@ -47,27 +46,10 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
     };
     window.addEventListener("mousemove", handleMouseMove);
 
-    const timer = setInterval(() => {
-      // Use event.date, but fallback to a default if invalid
-      const targetDate = new Date(data.event.date).getTime();
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      if (!isNaN(targetDate) && difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((difference % (1000 * 60)) / 1000)
-        });
-      }
-    }, 1000);
-
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      clearInterval(timer);
     };
-  }, [data.event.date]);
+  }, []);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -381,62 +363,117 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
         </div>
       </section>
 
-      {/* 5. EVENT DETAILS */}
-      <section className="min-h-screen relative z-10 flex items-center justify-center px-4 py-32 border-t border-white/5">
-        <motion.div 
-          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}
-          className="text-center max-w-5xl w-full grid md:grid-cols-2 gap-12 items-center"
-        >
-          <div className="bg-white/5 backdrop-blur-md p-6 md:p-16 rounded-3xl border border-white/10">
-            <h2 className="font-serif text-2xl md:text-5xl mb-8 tracking-tight uppercase">The Celebration</h2>
-            <div className="w-12 h-px bg-white/30 mx-auto mb-12"></div>
-            
-            <div className="space-y-6 text-gray-300">
-              <p className="font-sans text-xl uppercase tracking-[0.3em] font-light text-white ml-[0.3em]">{data.event.date}</p>
-              <p className="font-serif text-3xl">{data.event.time}</p>
-              
-              <div className="pt-12 pb-8 w-full flex justify-center border-y border-white/5 my-8">
-                <div className="grid grid-cols-4 gap-6 md:gap-10">
-                  <CountdownItem value={timeLeft.days} label="Days" />
-                  <CountdownItem value={timeLeft.hours} label="Hours" />
-                  <CountdownItem value={timeLeft.minutes} label="Mins" />
-                  <CountdownItem value={timeLeft.seconds} label="Secs" />
+      {/* 5. EVENT DETAILS (Multi-Event) */}
+      <section className="relative z-10 px-4 py-32 border-t border-white/5 space-y-32">
+        {(data.events && data.events.length > 0 ? data.events : [data.event]).map((event: any, index: number) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: index * 0.2 }}
+            className="relative flex flex-col items-center"
+          >
+            {/* Event Card - Ultra Premium */}
+            <div className="w-full relative group max-w-4xl">
+              {/* Backdrop Blur Card */}
+              <div className="relative z-10 overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent backdrop-blur-xl p-10 md:p-20 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
+                
+                {/* Decorative Elements */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-wedding-gold/40 to-transparent"></div>
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-wedding-gold/40 to-transparent"></div>
+                
+                <div className="flex flex-col items-center text-center">
+                  {/* Event Header */}
+                  <motion.div 
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="mb-12"
+                  >
+                    <h2 className="text-4xl md:text-6xl font-serif tracking-[0.2em] text-wedding-gold uppercase mb-6 drop-shadow-2xl">
+                      {event.title || (index === 0 ? "Akad Nikah" : "Resepsi")}
+                    </h2>
+                    <div className="h-px w-12 bg-wedding-gold/30 mx-auto mb-6"></div>
+                    <div className="flex flex-col items-center gap-2">
+                      <p className="font-sans text-xl md:text-2xl uppercase tracking-[0.4em] text-white/90">
+                        {event.date || data.event.date}
+                      </p>
+                      <p className="font-serif text-2xl text-wedding-gold/80 italic tracking-widest">
+                        {event.time || data.event.time}
+                      </p>
+                    </div>
+                  </motion.div>
+
+                  {/* INDIVIDUAL MINI COUNTDOWN */}
+                  <div className="mb-16 py-8 px-12 rounded-3xl bg-black/40 border border-white/5 relative overflow-hidden group/timer">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-wedding-gold/5 to-transparent opacity-0 group-hover/timer:opacity-100 transition-opacity duration-1000"></div>
+                    <p className="text-[9px] uppercase tracking-[0.5em] text-gray-500 mb-6 font-bold">Counting down to this event</p>
+                    <CountdownTimer 
+                      targetDate={event.date || data.event.date} 
+                      theme="mini" 
+                      color="text-wedding-gold"
+                    />
+                  </div>
+
+                  {/* Venue & Location */}
+                  <div className="space-y-6 max-w-xl mx-auto">
+                    <div className="space-y-3">
+                      <h3 className="text-2xl md:text-3xl font-serif text-white tracking-wide">
+                        {event.location || event.locationName}
+                      </h3>
+                      <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light">
+                        {event.address || event.locationAddress}
+                      </p>
+                    </div>
+
+                    {/* Map Simulation - Integrated */}
+                    <div className="mt-12 w-full rounded-2xl overflow-hidden border border-white/10 h-48 md:h-64 relative">
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                        scrolling="no"
+                        marginHeight={0}
+                        marginWidth={0}
+                        src={`https://maps.google.com/maps?q=${event.latitude || -6.2088},${event.longitude || 106.8456}&hl=id&z=14&output=embed`}
+                        className="grayscale contrast-[1.1] invert opacity-30 hover:opacity-60 transition-all duration-1000 scale-110 hover:scale-100"
+                      ></iframe>
+                    </div>
+
+                    {/* Action Links */}
+                    <div className="pt-12 flex flex-wrap justify-center gap-4">
+                      <a 
+                        href={event.maps_link || event.mapsLink} 
+                        target="_blank" 
+                        className="px-10 py-4 bg-transparent border border-wedding-gold/40 text-wedding-gold font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-wedding-gold hover:text-black transition-all duration-500 rounded-full"
+                      >
+                        Google Maps
+                      </a>
+                      <button 
+                        onClick={createCalendarLink} 
+                        className="px-10 py-4 bg-white/5 border border-white/10 text-white/70 font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-white hover:text-black transition-all duration-500 rounded-full"
+                      >
+                        Save Date
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-2 text-center">
-                <h3 className="text-2xl text-white/90">{data.event.locationName}</h3>
-                <p className="text-gray-400 text-sm md:text-base leading-relaxed">{data.event.locationAddress}</p>
-                <div className="pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <a href={data.event.mapsLink} target="_blank" className="inline-block px-8 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-gray-200 transition-colors w-full sm:w-auto text-center">
-                    Google Maps
-                  </a>
-                  <a href={createCalendarLink()} target="_blank" className="inline-block px-8 py-3 bg-transparent border border-white text-white font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-colors w-full sm:w-auto text-center">
-                    Simpan Kalender
-                  </a>
-                </div>
-              </div>
+              {/* Floating Glow Behind Card */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-wedding-gold/[0.03] blur-[120px] rounded-full pointer-events-none -z-0"></div>
             </div>
-          </div>
 
-          <div className="space-y-8">
-            <MapSimulation 
-              lat={data.event.latitude ?? -6.2088} 
-              lng={data.event.longitude ?? 106.8456} 
-              locationName={data.event.locationName} 
-            />
-            
-            <div className="bg-white/5 p-8 rounded-3xl flex flex-col items-center gap-4 border border-white/10 backdrop-blur-sm">
-              <div className="p-4 bg-white rounded-2xl">
-                <QRCodeSVG value={data.event.mapsLink} size={150} fgColor="#000000" />
+            {/* Digital Navigation Helper */}
+            <div className="mt-12 flex flex-col items-center gap-4 opacity-40">
+              <div className="w-16 h-16 p-2 bg-white rounded-xl">
+                <QRCodeSVG value={event.maps_link || event.mapsLink} size={48} />
               </div>
-              <div className="text-center">
-                <p className="text-white font-bold text-sm mb-1 uppercase tracking-widest">Digital Navigation</p>
-                <p className="text-gray-500 text-[10px] italic">Scan for instant directions</p>
-              </div>
+              <p className="text-[8px] uppercase tracking-widest text-gray-500">Scan for direct navigation</p>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        ))}
       </section>
 
       {/* 6. WEDDING GIFT */}
@@ -612,26 +649,18 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           </h3>
 
               {/* COUNTDOWN TIMER */}
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={{
-                  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.5 } }
-                }}
-                className="mt-24 grid grid-cols-4 gap-4 md:gap-12 mb-20 relative"
-              >
+              <div className="mt-24 mb-20 relative">
                 {/* Decorative Line */}
                 <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-px h-8 bg-gradient-to-b from-transparent via-wedding-gold/30 to-transparent"></div>
                 
-                <CountdownItem value={timeLeft.days} label="Days" />
-                <CountdownItem value={timeLeft.hours} label="Hours" />
-                <CountdownItem value={timeLeft.minutes} label="Mins" />
-                <CountdownItem value={timeLeft.seconds} label="Secs" />
+                <CountdownTimer 
+                  targetDate={data.events?.[0]?.date || data.event.date} 
+                  theme="cinematic-dark" 
+                />
 
                 {/* Decorative Line Bottom */}
                 <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-px h-8 bg-gradient-to-b from-wedding-gold/30 via-wedding-gold/10 to-transparent"></div>
-              </motion.div>
+              </div>
 
           <div className="w-12 h-px bg-white/20 mx-auto mb-20 mt-10"></div>
           
@@ -714,24 +743,4 @@ function GalleryItem({ photo, index }: { photo: string; index: number }) {
   );
 }
 
-function CountdownItem({ value, label }: { value: number, label: string }) {
-  return (
-    <motion.div 
-      variants={{
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0 }
-      }}
-      className="flex flex-col items-center group"
-    >
-      <div className="relative group">
-        <div className="text-4xl md:text-6xl font-serif mb-1 bg-gradient-to-b from-white via-wedding-gold to-wedding-gold/70 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-all duration-700">
-          {value.toString().padStart(2, '0')}
-        </div>
-        {/* Subtle Shine Reflection */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-      </div>
-      <div className="text-[7px] md:text-[9px] uppercase tracking-[0.4em] text-wedding-gold font-bold mt-3 opacity-80">{label}</div>
-    </motion.div>
-  );
-}
 

@@ -205,48 +205,53 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
             </div>
         </section>
 
-        {/* EVENT */}
-        <section className="py-32 px-4 relative z-10 bg-wedding-sage text-white text-center">
+        {/* EVENT (Multi-Event) */}
+        <section className="py-32 px-4 relative z-10 bg-wedding-sage text-white text-center space-y-24">
             <div className="max-w-5xl mx-auto">
-                <h3 className="font-serif text-3xl md:text-4xl mb-6 tracking-widest uppercase" data-aos="fade-up">Akad Nikah</h3>
-                <div className="w-16 h-1 bg-wedding-gold mx-auto mb-12" data-aos="fade-up"></div>
+                <h3 className="font-serif text-3xl md:text-5xl mb-6 tracking-widest uppercase" data-aos="fade-up">Waktu & Tempat</h3>
+                <div className="w-16 h-1 bg-wedding-gold mx-auto mb-16" data-aos="fade-up"></div>
 
-                <div className="grid md:grid-cols-2 gap-12 items-center">
-                  <div className="bg-white/10 backdrop-blur-md p-10 border border-wedding-gold/30 rounded-t-full rounded-b-[40px] shadow-2xl" data-aos="zoom-in">
-                      <p className="font-serif text-3xl mb-2 text-wedding-gold">{data.event.dateFormatted.day}</p>
-                      <p className="font-serif text-6xl font-bold text-white mb-2">{data.event.dateFormatted.date}</p>
-                      <p className="font-serif text-2xl text-wedding-gold mb-6">{data.event.dateFormatted.monthYear}</p>
-                      <div className="w-12 h-px bg-white/30 mx-auto my-6"></div>
-                      <p className="font-sans text-sm font-bold tracking-widest uppercase mb-6">{data.event.time}</p>
-                      <h3 className="font-serif text-2xl text-wedding-gold mb-2">{data.event.locationName}</h3>
-                      <p className="text-white/80 mb-6">{data.event.locationAddress}</p>
-                      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                          <a href={data.event.mapsLink} target="_blank" className="bg-wedding-gold text-white px-8 py-3 rounded-full hover:bg-white hover:text-wedding-text transition-colors font-sans text-xs uppercase tracking-widest font-bold">
-                              Buka Google Maps
-                          </a>
-                          <a href={createCalendarLink()} target="_blank" className="bg-white text-wedding-gold border border-white px-8 py-3 rounded-full hover:bg-wedding-gold hover:text-white transition-colors font-sans text-xs uppercase tracking-widest font-bold">
-                              Simpan Kalender
-                          </a>
+                <div className="space-y-20">
+                  {(data.events && data.events.length > 0 ? data.events : [data.event]).map((event: any, index: number) => (
+                    <div key={index} className={`grid md:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
+                      <div className={`bg-white/10 backdrop-blur-md p-10 border border-wedding-gold/30 rounded-t-full rounded-b-[40px] shadow-2xl ${index % 2 === 1 ? 'md:order-2' : ''}`} data-aos="zoom-in">
+                          <p className="font-sans text-[10px] uppercase tracking-widest text-wedding-gold mb-4 font-bold">
+                            {event.title || (index === 0 ? "Akad Nikah" : "Resepsi")}
+                          </p>
+                          <p className="font-serif text-2xl md:text-3xl mb-2 text-white">{event.date}</p>
+                          <div className="w-12 h-px bg-white/30 mx-auto my-6"></div>
+                          <p className="font-sans text-sm font-bold tracking-widest uppercase mb-6">{event.time}</p>
+                          <h3 className="font-serif text-2xl text-wedding-gold mb-2">{event.location || event.locationName}</h3>
+                          <p className="text-white/80 mb-8 text-sm leading-relaxed">{event.address || event.locationAddress}</p>
+                          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                              <a href={event.maps_link || event.mapsLink} target="_blank" className="bg-wedding-gold text-white px-8 py-3 rounded-full hover:bg-white hover:text-wedding-text transition-colors font-sans text-xs uppercase tracking-widest font-bold w-full sm:w-auto">
+                                  Buka Maps
+                              </a>
+                              <a href={createCalendarLink()} target="_blank" className="bg-white text-wedding-gold border border-white px-8 py-3 rounded-full hover:bg-wedding-gold hover:text-white transition-colors font-sans text-xs uppercase tracking-widest font-bold w-full sm:w-auto">
+                                  Kalender
+                              </a>
+                          </div>
                       </div>
-                  </div>
 
-                  <div className="space-y-8" data-aos="fade-left">
-                    <MapSimulation 
-                      lat={data.event.latitude ?? -6.2088} 
-                      lng={data.event.longitude ?? 106.8456} 
-                      locationName={data.event.locationName} 
-                    />
-                    
-                    <div className="bg-white p-8 rounded-[40px] flex flex-col items-center gap-4 shadow-xl border-4 border-wedding-gold/20">
-                      <div className="p-4 bg-gray-50 rounded-2xl">
-                        <QRCodeSVG value={data.event.mapsLink} size={150} />
-                      </div>
-                      <div className="text-center">
-                        <p className="text-wedding-text font-bold text-sm mb-1 uppercase tracking-widest">Scan Navigasi</p>
-                        <p className="text-gray-400 text-[10px] italic">Scan untuk petunjuk arah langsung</p>
+                      <div className={`space-y-8 ${index % 2 === 1 ? 'md:order-1' : ''}`} data-aos="fade-left">
+                        <MapSimulation 
+                          lat={event.latitude ?? -6.2088} 
+                          lng={event.longitude ?? 106.8456} 
+                          locationName={event.location || event.locationName} 
+                        />
+                        
+                        <div className="bg-white p-8 rounded-[40px] flex flex-col items-center gap-4 shadow-xl border-4 border-wedding-gold/20">
+                          <div className="p-4 bg-gray-50 rounded-2xl">
+                            <QRCodeSVG value={event.maps_link || event.mapsLink} size={150} />
+                          </div>
+                          <div className="text-center">
+                            <p className="text-wedding-text font-bold text-sm mb-1 uppercase tracking-widest">Scan Navigasi</p>
+                            <p className="text-gray-400 text-[10px] italic">Scan untuk petunjuk arah langsung</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
             </div>
         </section>
