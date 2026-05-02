@@ -3,6 +3,7 @@ import CinematicDarkTheme from "@/components/themes/CinematicDarkTheme";
 import UltraLuxuryTheme from "@/components/themes/UltraLuxuryTheme";
 import MajesticEternityTheme from "@/components/themes/MajesticEternityTheme";
 import RenaissanceGardenTheme from "@/components/themes/RenaissanceGardenTheme";
+import CelestialHarmonyTheme from "@/components/themes/CelestialHarmonyTheme";
 import ThemeWrapper from "@/components/themes/ThemeWrapper";
 import { notFound } from "next/navigation";
 import { dummyData } from "@/data/invitations";
@@ -30,6 +31,8 @@ export default async function DemoPage({ params }: { params: Promise<{ theme: st
         return <MajesticEternityTheme data={data} />;
       case "renaissance-garden":
         return <RenaissanceGardenTheme data={data} />;
+      case "celestial-harmony":
+        return <CelestialHarmonyTheme data={data} />;
       default:
         notFound();
     }

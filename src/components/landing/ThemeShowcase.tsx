@@ -7,6 +7,20 @@ import CornerOrnaments from "@/components/ui/CornerOrnaments";
 
 const SHOWCASE_THEMES = [
   {
+    id: "celestial-harmony",
+    series: "The Cinematic Series",
+    title: "Celestial Harmony",
+    name: "Celestial Harmony",
+    desc: "Scrollytelling sinematik dengan transisi 3D yang megah.",
+    bgClass: "bg-[#020202]",
+    frameClass: "border-white/10 group-hover:border-[#D4AF37]/50 shadow-2xl",
+    gradientClass: "bg-gradient-to-t from-black via-transparent to-transparent opacity-90 z-10",
+    seriesColor: "text-[#D4AF37]",
+    titleClass: "font-serif text-4xl text-white font-black uppercase tracking-tighter",
+    btnClass: "bg-[#D4AF37] text-black",
+    iframeBg: "bg-black"
+  },
+  {
     id: "ultra-luxury",
     series: "The VVIP Series",
     title: "Ultra Luxury",

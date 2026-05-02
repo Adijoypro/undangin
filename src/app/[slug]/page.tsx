@@ -4,6 +4,7 @@ import CinematicDarkTheme from "@/components/themes/CinematicDarkTheme";
 import UltraLuxuryTheme from "@/components/themes/UltraLuxuryTheme";
 import MajesticEternityTheme from "@/components/themes/MajesticEternityTheme";
 import RenaissanceGardenTheme from "@/components/themes/RenaissanceGardenTheme";
+import CelestialHarmonyTheme from "@/components/themes/CelestialHarmonyTheme";
 import ThemeWrapper from "@/components/themes/ThemeWrapper";
 import DraftMarketingPage from "@/components/themes/DraftMarketingPage";
 import { notFound } from "next/navigation";
@@ -160,8 +161,11 @@ export default async function InvitationPage({
         return <MajesticEternityTheme data={mappedData} />;
       case "renaissance-garden":
         return <RenaissanceGardenTheme data={mappedData} />;
+      case "celestial-harmony":
+        return <CelestialHarmonyTheme data={mappedData} />;
       case "premium":
       default:
+        console.warn(`Unknown theme: ${mappedData.theme}, falling back to premium.`);
         return <PremiumTheme data={mappedData} />;
     }
   };

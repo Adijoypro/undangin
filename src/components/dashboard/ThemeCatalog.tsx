@@ -8,6 +8,14 @@ import CornerOrnaments from '@/components/ui/CornerOrnaments';
 
 const themes = [
   { 
+    id: "celestial-harmony", 
+    name: "CELESTIAL HARMONY", 
+    desc: "Mahakarya scrollytelling sinematik dengan transisi 3D yang megah, nuansa malam berbintang, dan performa ultra-smooth.",
+    color: "bg-[#020202]", 
+    text: "text-white",
+    status: "Premium"
+  },
+  { 
     id: "ultra-luxury", 
     name: "ULTRA LUXURY", 
     desc: "Kasta tertinggi kemewahan digital dengan mawar emas animasi dan latar onyx onyx gelap yang eksklusif.",

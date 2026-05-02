@@ -27,6 +27,11 @@ const THEME_PREVIEWS: Record<string, { name: string; desc: string; color: string
     name: "Majestic Eternity", 
     desc: "Kasta tertinggi dengan perpaduan warna emerald dan emas yang megah bak kerajaan.",
     color: "bg-[#0A1C14]"
+  },
+  "celestial-harmony": { 
+    name: "Celestial Harmony", 
+    desc: "Scroll parallax sinematik — foto utama jadi latar, konten mengalir seamless seperti film.",
+    color: "bg-black"
   }
 };
 
@@ -58,14 +63,15 @@ export default function ThemeSelector({ defaultValue = "premium", onChange }: { 
               <option value="ultra-luxury" className="bg-wedding-base">The Ultra Luxury (Onyx & Rose Gold)</option>
               <option value="renaissance-garden" className="bg-wedding-base">The Renaissance Garden (Vintage Floral)</option>
               <option value="majestic-eternity" className="bg-wedding-base">Majestic Eternity (Emerald & Gold) - DEWA TIER</option>
+              <option value="celestial-harmony" className="bg-wedding-base">Celestial Harmony (Scroll Parallax) - BARU!</option>
             </select>
             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-wedding-gold">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
           </div>
           <div className="mt-4 p-5 bg-wedding-text/[0.03] rounded-xl border border-wedding-gold/10 transition-all">
-            <h4 className="font-bold text-sm text-wedding-gold">{THEME_PREVIEWS[selectedTheme].name}</h4>
-            <p className="text-xs text-wedding-text/60 mt-1 leading-relaxed">{THEME_PREVIEWS[selectedTheme].desc}</p>
+            <h4 className="font-bold text-sm text-wedding-gold">{THEME_PREVIEWS[selectedTheme]?.name || "Premium Theme"}</h4>
+            <p className="text-xs text-wedding-text/60 mt-1 leading-relaxed">{THEME_PREVIEWS[selectedTheme]?.desc || "Tema elegan untuk hari bahagia Anda."}</p>
           </div>
         </div>
 
@@ -78,7 +84,7 @@ export default function ThemeSelector({ defaultValue = "premium", onChange }: { 
               <div className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-wedding-text/20 rounded-full"></div>
             </div>
             
-            <div className={`absolute inset-0 ${THEME_PREVIEWS[selectedTheme].color} opacity-20`}></div>
+            <div className={`absolute inset-0 ${THEME_PREVIEWS[selectedTheme]?.color || 'bg-wedding-base'} opacity-20`}></div>
             
             {/* Precision Mobile Scaling Container */}
             <div 

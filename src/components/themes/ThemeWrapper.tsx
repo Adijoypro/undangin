@@ -31,11 +31,6 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
   const totalAttending = data.guestbook?.filter((g: any) => g.attendance === 'Hadir').length || 0;
 
   useEffect(() => {
-    // Auto-open if in iframe (for demo showcase)
-    if (typeof window !== 'undefined' && window.self !== window.top) {
-      setIsOpened(true);
-    }
-
     (window as any).handleDeleteEntry = (id: string) => {
       setDeletingId(id);
     };

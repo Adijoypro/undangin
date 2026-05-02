@@ -38,9 +38,6 @@ export default function GoldenAura() {
 
       {/* Center Soft Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-radial from-wedding-gold/[0.02] to-transparent opacity-50" />
-      
-      {/* Subtle Noise Texture for Organic Feel */}
-      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
     </div>
   );
 }
