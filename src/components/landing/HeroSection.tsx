@@ -62,16 +62,16 @@ export default function HeroSection({ user }: HeroSectionProps) {
 
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link href={user ? "/dashboard" : "/login"} className="w-full sm:w-auto">
-              <button className="w-full px-10 py-5 bg-gradient-to-r from-wedding-gold to-[#B8962E] text-white rounded-full font-bold text-lg shadow-xl shadow-wedding-gold/20 hover:scale-105 active:scale-95 transition-all">
+              <button className="w-full px-12 py-5 bg-wedding-gold text-white rounded-xl font-black uppercase tracking-[0.2em] text-[10px] md:text-xs shadow-2xl shadow-wedding-gold/30 hover:scale-[1.05] active:scale-95 transition-all">
                 Buat Undangan Gratis
               </button>
             </Link>
             
-            <a href="#template" className="w-full sm:w-auto">
-              <button className="w-full px-10 py-5 backdrop-blur-md border border-wedding-gold/20 rounded-full font-bold text-lg transition-all bg-wedding-text/5 text-wedding-text hover:bg-wedding-text/10">
+            <Link href="/katalog" className="w-full sm:w-auto">
+              <button className="w-full px-12 py-5 backdrop-blur-md border border-wedding-gold/20 rounded-xl font-black uppercase tracking-[0.2em] text-[10px] md:text-xs transition-all bg-wedding-text/5 text-wedding-text hover:bg-wedding-gold hover:text-white shadow-xl">
                 Lihat Koleksi Tema
               </button>
-            </a>
+            </Link>
           </motion.div>
         </motion.div>
       </div>

@@ -3,8 +3,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/image";
-import { Sparkles, Camera, Zap, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { Sparkles, Camera, Zap, ChevronRight, PenTool } from "lucide-react";
 
 export default function AITeaser() {
   return (
@@ -34,23 +34,23 @@ export default function AITeaser() {
               {/* Before/After Labels Overlay */}
               <div className="absolute inset-0 pointer-events-none z-10">
                 <div className="absolute top-6 left-6 px-3 py-1 bg-black/40 backdrop-blur-md rounded-full border border-white/10">
-                  <span className="text-[8px] font-black uppercase tracking-widest text-white/70">Before</span>
+                  <span className="text-[8px] font-black uppercase tracking-widest text-white/70">Daily Photo</span>
                 </div>
                 <div className="absolute top-6 right-6 px-3 py-1 bg-wedding-gold/60 backdrop-blur-md rounded-full border border-white/20">
-                  <span className="text-[8px] font-black uppercase tracking-widest text-black font-bold">After AI</span>
+                  <span className="text-[8px] font-black uppercase tracking-widest text-black font-bold">AI Wedding Render</span>
                 </div>
               </div>
 
               {/* Overlay Text */}
               <div className="absolute inset-x-0 bottom-0 p-8 flex justify-between items-end">
                  <div className="space-y-1">
-                    <p className="text-[10px] font-black text-wedding-gold uppercase tracking-[0.3em]">AI Comparison</p>
+                    <p className="text-[10px] font-black text-wedding-gold uppercase tracking-[0.3em]">Next-Gen Feature</p>
                     <p className="text-xl font-serif text-white">Daily Photo to Luxury Portrait</p>
                  </div>
               </div>
             </div>
 
-            {/* Floating Brain Asset - Shrunk to be more subtle */}
+            {/* Floating Wand Asset */}
             <motion.div 
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -71,7 +71,7 @@ export default function AITeaser() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-wedding-gold/10 border border-wedding-gold/20 text-wedding-gold text-[10px] font-black uppercase tracking-[0.3em]">
                 <Sparkles className="w-4 h-4 animate-pulse" />
-                Coming Soon
+                AI Studio Live
               </div>
               
               <h2 className="text-4xl md:text-6xl font-serif text-wedding-text leading-tight">
@@ -80,18 +80,27 @@ export default function AITeaser() {
               </h2>
               
               <p className="text-lg text-wedding-text/60 font-light leading-relaxed">
-                Nggak perlu lagi pusing soal biaya Prewedding. Cukup upload foto selfie harian kamu, dan biarkan AI kami mengubahnya menjadi foto pernikahan kelas dunia dengan latar belakang destinasi impian.
+                Nggak perlu lagi pusing soal biaya Prewedding atau bingung merangkai kata-kata puitis. Biarkan teknologi AI kami mengubah foto selfie harianmu dan menciptakan narasi cinta yang sempurna dalam sekejap.
               </p>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 bg-wedding-gold/10 rounded-xl flex items-center justify-center text-wedding-gold shrink-0">
+                  <PenTool className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-wedding-text">AI Copywriter</h4>
+                  <p className="text-xs text-wedding-text/40">Generate kata-kata puitis otomatis.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 bg-wedding-gold/10 rounded-xl flex items-center justify-center text-wedding-gold shrink-0">
                   <Camera className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm text-wedding-text">Pro Lighting</h4>
-                  <p className="text-xs text-wedding-text/40">Pencahayaan cinematic otomatis.</p>
+                  <h4 className="font-bold text-sm text-wedding-text">AI Prewedding</h4>
+                  <p className="text-xs text-wedding-text/40">Ubah foto harian jadi foto gaun & jas.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">

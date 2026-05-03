@@ -55,7 +55,7 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
             className="fixed inset-0 z-[9999] bg-[#F5EFE6] flex flex-col items-center justify-center overflow-hidden"
           >
             {/* Soft Botanical Overlay */}
-            <div className="absolute inset-0 opacity-[0.08] bg-[url('/assets/renaissance/garden-bg.jpg')] bg-cover mix-blend-multiply"></div>
+            <div className="absolute inset-0 opacity-[0.08] bg-[url('/assets/renaissance/garden-bg.webp')] bg-cover mix-blend-multiply"></div>
             
             <div className="relative z-10 text-center px-6">
               <motion.div
@@ -66,7 +66,7 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
               >
                 <div className="w-20 h-[1px] bg-[#3D3229]/20 mx-auto mb-10"></div>
                 <p className="text-[#8B7355] uppercase tracking-[0.4em] text-[10px] mb-8 font-bold">The Fine Art of Love</p>
-                <h1 className="font-serif text-5xl md:text-8xl text-[#3D3229] mb-4 italic leading-tight">
+                <h1 className="font-serif text-3xl sm:text-5xl md:text-8xl text-[#3D3229] mb-4 italic leading-tight">
                    {bride} <span className="text-[#B8963E]">&</span> {groom}
                 </h1>
                 <div className="w-20 h-[1px] bg-[#3D3229]/20 mx-auto mt-10"></div>
@@ -159,7 +159,7 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
                     hidden: { opacity: 0, scale: 0.9 },
                     visible: { opacity: 1, scale: 1 }
                   }}
-                  className="font-script text-6xl md:text-8xl text-white mb-6 drop-shadow-2xl"
+                  className="font-script text-4xl sm:text-6xl md:text-8xl text-white mb-6 drop-shadow-2xl"
                 >
                    {bride} <span className="text-[#D4AF37]">&</span> {groom}
                 </motion.h1>
@@ -291,7 +291,7 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
                       hidden: { opacity: 0, filter: "blur(10px)", scale: 0.9 },
                       visible: { opacity: 1, filter: "blur(0px)", scale: 1, transition: { duration: 2, ease: [0.22, 1, 0.36, 1] } }
                     }}
-                    className="font-serif text-6xl md:text-8xl text-white mb-2 font-bold tracking-tight relative"
+                    className="font-serif text-4xl sm:text-6xl md:text-8xl text-white mb-2 font-bold tracking-tight relative"
                   >
                      <span className="relative z-10">{bride} <span className="text-gray-700 font-light">&</span> {groom}</span>
                      
@@ -477,7 +477,7 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
                     hidden: { opacity: 0, scale: 0.9 },
                     visible: { opacity: 1, scale: 1 }
                   }}
-                  className="font-serif text-6xl md:text-8xl text-white mb-6 tracking-tighter leading-none"
+                  className="font-serif text-4xl sm:text-6xl md:text-8xl text-white mb-6 tracking-tighter leading-none"
                 >
                   {bride} <span className="text-[#D4AF37] font-script text-5xl md:text-7xl block my-4 italic">&</span> {groom}
                 </motion.h1>
@@ -545,7 +545,7 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
                 className="mb-16 mt-[-10vh]"
               >
                 <p className="text-[#D4AF37] uppercase tracking-[0.4em] text-[10px] mb-6 font-bold">The Wedding of</p>
-                <h1 className="font-serif text-5xl md:text-7xl text-[#2C2C2C] mb-4 italic">
+                <h1 className="font-serif text-3xl sm:text-5xl md:text-7xl text-[#2C2C2C] mb-4 italic">
                   {groom} <span className="text-[#D4AF37] text-4xl">&</span> {bride}
                 </h1>
               </motion.div>
@@ -607,7 +607,7 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
               className="mb-8"
             >
               <p className="text-[#D4AF37] uppercase tracking-[0.3em] text-[10px] mb-4 font-bold">The Wedding of</p>
-              <h1 className="font-serif text-4xl md:text-6xl text-white mb-2 italic">
+              <h1 className="font-serif text-2xl sm:text-4xl md:text-6xl text-white mb-2 italic">
                 {groom} <span className="text-[#D4AF37]">&</span> {bride}
               </h1>
               <div className="w-12 h-[1px] bg-[#D4AF37] mx-auto mt-6"></div>

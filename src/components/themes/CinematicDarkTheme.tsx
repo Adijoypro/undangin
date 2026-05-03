@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef, useState, useEffect, useContext } from "react";
-import { motion, useScroll, useTransform, useSpring, Variants } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, Variants, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ThemeContext } from "./ThemeWrapper";
-import InvitationCover, { ScrollIndicator } from "./InvitationCover";
+import { TheaterCurtainCover } from "@/components/covers";
+import { ScrollIndicator } from "./InvitationCover";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
@@ -82,15 +83,17 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
 
   return (
     <>
-      <InvitationCover 
-        bride={data.bride.name} 
-        groom={data.groom.name} 
-        onOpen={onOpen} 
-        forcedOpen={isOpened}
-        variant="cinematic"
-        guestName={data.guestName}
-        imageUrl={data.couplePhoto}
-      />
+      <AnimatePresence>
+        {!isOpened && (
+          <TheaterCurtainCover
+            bride={data.bride.name}
+            groom={data.groom.name}
+            date={data.event.date}
+            onOpen={onOpen}
+            guestName={data.guestName}
+          />
+        )}
+      </AnimatePresence>
         <style dangerouslySetInnerHTML={{ __html: `
           ::-webkit-scrollbar { width: 4px; }
           ::-webkit-scrollbar-track { background: transparent; }
@@ -166,37 +169,36 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           </motion.p>
           
           <div className="overflow-hidden mb-4">
-            <motion.h1 
-              variants={{
-                hidden: { y: "100%", opacity: 0 },
-                visible: { y: 0, opacity: 1, transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] } }
-              }}
-              className="font-serif text-6xl md:text-9xl font-bold tracking-tighter"
-            >
-              {data.bride.name}
-            </motion.h1>
+              <motion.h1 
+                variants={{
+                  hidden: { y: "100%", opacity: 0 },
+                  visible: { y: 0, opacity: 1, transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] } }
+                }}
+                className="font-serif text-2xl sm:text-6xl md:text-9xl font-bold tracking-tighter"
+              >
+                {data.bride.name}
+              </motion.h1>
           </div>
-          
-          <motion.span 
-            variants={{
-              hidden: { opacity: 0, scale: 0.5 },
-              visible: { opacity: 1, scale: 1, transition: { duration: 1 } }
-            }}
-            className="font-script text-5xl md:text-7xl text-gray-500 my-4"
-          >
-            &
-          </motion.span>
+                    <motion.span 
+              variants={{
+                hidden: { opacity: 0, scale: 0.5 },
+                visible: { opacity: 1, scale: 1, transition: { duration: 1 } }
+              }}
+              className="font-script text-2xl md:text-7xl text-gray-500 my-4"
+            >
+              &
+            </motion.span>
           
           <div className="overflow-hidden">
-            <motion.h1 
-              variants={{
-                hidden: { y: "-100%", opacity: 0 },
-                visible: { y: 0, opacity: 1, transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] } }
-              }}
-              className="font-serif text-6xl md:text-9xl font-bold tracking-tighter"
-            >
-              {data.groom.name}
-            </motion.h1>
+              <motion.h1 
+                variants={{
+                  hidden: { y: "-100%", opacity: 0 },
+                  visible: { y: 0, opacity: 1, transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] } }
+                }}
+                className="font-serif text-2xl sm:text-6xl md:text-9xl font-bold tracking-tighter"
+              >
+                {data.groom.name}
+              </motion.h1>
           </div>
         </motion.div>
 
@@ -252,7 +254,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
                 </motion.div>
               </div>
               <div className="mt-8 text-center">
-                <h3 className="font-serif text-3xl md:text-5xl mb-2 tracking-tight text-white">{data.bride.name}</h3>
+                  <h3 className="font-serif text-2xl md:text-5xl mb-2 tracking-tight text-white">{data.bride.name}</h3>
                 <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-4 font-bold">Mempelai Wanita</p>
                 <div className="w-10 h-px bg-white/20 mx-auto mb-4"></div>
                 <p className="font-serif italic text-gray-400 text-sm leading-relaxed">{data.bride.parents}</p>
@@ -282,7 +284,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
                 </motion.div>
               </div>
               <div className="mt-8 text-center">
-                <h3 className="font-serif text-3xl md:text-5xl mb-2 tracking-tight text-white">{data.groom.name}</h3>
+                  <h3 className="font-serif text-2xl md:text-5xl mb-2 tracking-tight text-white">{data.groom.name}</h3>
                 <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-4 font-bold">Mempelai Pria</p>
                 <div className="w-10 h-px bg-white/20 mx-auto mb-4"></div>
                 <p className="font-serif italic text-gray-400 text-sm leading-relaxed">{data.groom.parents}</p>
@@ -391,9 +393,9 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
                     transition={{ delay: 0.3 }}
                     className="mb-12"
                   >
-                    <h2 className="text-4xl md:text-6xl font-serif tracking-[0.2em] text-wedding-gold uppercase mb-6 drop-shadow-2xl">
-                      {event.title || (index === 0 ? "Akad Nikah" : "Resepsi")}
-                    </h2>
+                      <h2 className="text-2xl sm:text-4xl md:text-6xl font-serif tracking-[0.2em] text-wedding-gold uppercase mb-6 drop-shadow-2xl">
+                        {event.title || (index === 0 ? "Akad Nikah" : "Resepsi")}
+                      </h2>
                     <div className="h-px w-12 bg-wedding-gold/30 mx-auto mb-6"></div>
                     <div className="flex flex-col items-center gap-2">
                       <p className="font-sans text-xl md:text-2xl uppercase tracking-[0.4em] text-white/90">
@@ -482,7 +484,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
           className="max-w-2xl mx-auto text-center"
         >
-          <h3 className="font-serif text-5xl mb-6">Wedding Gift</h3>
+            <h3 className="font-serif text-2xl md:text-5xl mb-6 uppercase tracking-widest text-[#D4AF37]">Wedding Gift</h3>
           <p className="font-sans font-light text-gray-400 mb-12 leading-relaxed text-sm max-w-md mx-auto">
             Kehadiran Anda adalah anugerah terbesar. Namun, apabila Anda ingin memberikan tanda kasih, Anda dapat mengirimkannya melalui rekening berikut:
           </p>
@@ -494,7 +496,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             className="relative max-w-sm mx-auto group perspective-1000"
           >
             {/* The Card */}
-            <div className="relative aspect-[1.586/1] w-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/20 p-8 text-left overflow-hidden shadow-2xl transition-all duration-500 group-hover:border-white/40 group-hover:shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+            <div className="relative aspect-[1.586/1] w-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/20 p-5 md:p-8 text-left overflow-hidden shadow-2xl transition-all duration-500 group-hover:border-white/40 group-hover:shadow-[0_0_50px_rgba(255,255,255,0.1)]">
               
               {/* Metallic Shine Animation */}
               <motion.div 
@@ -512,13 +514,13 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
               </div>
 
               {/* Card Numbers */}
-              <p className="font-serif text-2xl md:text-3xl text-white mb-6 tracking-[0.2em] drop-shadow-lg">{data.gift.accountNumber}</p>
+                <p className="font-serif text-[10px] sm:text-xl md:text-3xl text-white mb-6 tracking-[0.1em] md:tracking-[0.2em] drop-shadow-lg">{data.gift.accountNumber}</p>
               
               {/* Card Holder */}
               <div className="flex justify-between items-end">
                 <div>
                   <p className="text-[8px] uppercase tracking-widest text-gray-500 mb-1">Account Holder</p>
-                  <p className="text-sm font-sans font-bold uppercase tracking-widest text-white/90">{data.gift.accountName}</p>
+                  <p className="text-[10px] md:text-sm font-sans font-bold uppercase tracking-widest text-white/90">{data.gift.accountName}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-[8px] uppercase tracking-widest text-gray-500 mb-1">Bank Name</p>
@@ -533,14 +535,14 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             </div>
 
               {/* Floating Copy Button */}
-            <motion.button 
-              whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
-              onClick={() => handleCopy(data.gift.accountNumber)} 
-              className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-10 py-4 bg-white text-black rounded-full shadow-2xl hover:bg-gray-100 transition-all text-[10px] font-black uppercase tracking-[0.3em] z-20 flex items-center gap-3 whitespace-nowrap"
-            >
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-              Copy Number
-            </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
+                onClick={() => handleCopy(data.gift.accountNumber)} 
+                className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-6 md:px-10 py-2.5 md:py-4 bg-white text-black rounded-full shadow-2xl hover:bg-gray-100 transition-all text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] z-20 flex items-center gap-3 whitespace-nowrap"
+              >
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                Copy
+              </motion.button>
           </motion.div>
 
           {/* QRIS SECTION */}
@@ -567,7 +569,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
             className="text-center md:text-left"
           >
-            <h3 className="font-serif text-4xl mb-4 uppercase tracking-widest">RSVP</h3>
+            <h3 className="font-serif text-2xl mb-4 uppercase tracking-widest">RSVP</h3>
             <p className="font-sans font-light text-gray-400 mb-12 text-sm">Berikan doa dan konfirmasi kehadiran Anda.</p>
             
             <form id="rsvp-form" action={handleRSVP} className="space-y-6 text-left">
@@ -583,14 +585,14 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
                 <div>
                     <textarea name="message" rows={4} required placeholder="UCAPAN & DOA" className="w-full bg-transparent border-b border-white/20 py-4 font-sans text-xs uppercase tracking-widest focus:border-white focus:outline-none transition-colors text-white placeholder:text-gray-600 resize-none"></textarea>
                 </div>
-                <motion.button 
-                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                  type="submit" 
-                  disabled={isSubmitting}
-                  className="w-full py-5 mt-4 bg-white text-black font-sans font-bold uppercase tracking-[0.3em] text-xs disabled:opacity-50"
-                >
-                    {isSubmitting ? "MENGIRIM..." : "KIRIM PESAN"}
-                </motion.button>
+                  <motion.button 
+                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full py-3 md:py-5 mt-4 bg-white text-black font-sans font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs disabled:opacity-50"
+                  >
+                      {isSubmitting ? "MENGIRIM..." : "KIRIM"}
+                  </motion.button>
             </form>
           </motion.div>
 
@@ -599,7 +601,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
             className="border-t md:border-t-0 md:border-l border-white/10 pt-16 md:pt-0 md:pl-16 flex flex-col h-full"
           >
-            <h3 className="font-serif text-3xl mb-8 uppercase tracking-widest">Buku Tamu ({data.guestbook?.length || 0})</h3>
+            <h3 className="font-serif text-2xl mb-8 uppercase tracking-widest">Buku Tamu ({data.guestbook?.length || 0})</h3>
             <div className="flex-1 max-h-[500px] overflow-y-auto pr-4 space-y-6 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
               {data.guestbook && data.guestbook.length > 0 ? (
                 data.guestbook.map((guest, idx) => (
@@ -691,7 +693,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       {/* FOOTER */}
       <footer className="pt-32 text-center text-white relative z-10">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
-            <h2 className="font-script text-6xl md:text-8xl mb-8 text-white/80">{data.bride.name} & {data.groom.name}</h2>
+            <h2 className="font-script text-4xl md:text-8xl mb-8 text-white/80">{data.bride.name} & {data.groom.name}</h2>
             <p className="font-sans text-[10px] uppercase tracking-widest text-gray-600 border-t border-white/10 pt-8 inline-block">Theme by Undangin Platform</p>
           </motion.div>
       </footer>

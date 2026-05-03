@@ -5,7 +5,6 @@ import PublishButton from "@/components/dashboard/PublishButton";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import AdminContactCard from "@/components/dashboard/AdminContactCard";
 import MiniPricingGrid from "@/components/dashboard/MiniPricingGrid";
-import ThemeCatalog from "@/components/dashboard/ThemeCatalog";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import SuccessNotification from "@/components/dashboard/SuccessNotification";
 import WelcomeHero from "@/components/dashboard/WelcomeHero";
@@ -212,7 +211,6 @@ export default async function DashboardPage() {
           </div>
         )}
 
-        <ThemeCatalog />
       </main>
     </DashboardShell>
   );

@@ -75,21 +75,21 @@ export const dummyData: InvitationData = {
     name: "Ayu",
     fullName: "Ayu Saraswati, S.E.",
     parents: "Bapak Budi & Ibu Siti",
-    photo: "/assets/demo/bride.png",
+    photo: "/assets/demo/bride.webp",
   },
   groom: {
     name: "Bima",
     fullName: "Bima Aryasena, S.T.",
     parents: "Bapak Joko & Ibu Sri",
-    photo: "/assets/demo/groom.png",
+    photo: "/assets/demo/groom.webp",
   },
-  couplePhoto: "/assets/demo/couple.png",
+  couplePhoto: "/assets/demo/couple.webp",
   gallery: [
-    "/assets/demo/couple.png",
-    "/assets/demo/bride.png",
-    "/assets/demo/groom.png",
-    "/assets/demo/couple.png",
-    "/assets/demo/bride.png"
+    "/assets/demo/couple.webp",
+    "/assets/demo/bride.webp",
+    "/assets/demo/groom.webp",
+    "/assets/demo/couple.webp",
+    "/assets/demo/bride.webp"
   ],
   event: {
     date: "14 Februari 2027",
@@ -113,7 +113,7 @@ export const dummyData: InvitationData = {
     accountNumber: "1234567890",
     accountName: "Ayu Saraswati"
   },
-  musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+  musicUrl: "/music/A Thousand Years – Piano.mp3",
   guestbook: [],
   turut_mengundang: "Keluarga Besar Bapak Budi, Keluarga Besar Bapak Joko, Kerabat & Sahabat",
   closing_statement: "Kehadiran serta doa restu Anda adalah kado terindah yang melengkapi perjalanan cinta kami. Terima kasih telah menjadi bagian dari cerita ini. Sampai jumpa di hari bahagia kami."

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -17,10 +18,10 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-16 relative z-10">
         <div className="col-span-2">
-          <div className="flex items-center gap-3 mb-8">
-            <Image src="/logo.png" alt="Undangin Logo" width={40} height={40} className="w-10 h-10 object-contain" />
-            <span className="font-serif text-2xl font-bold tracking-widest text-wedding-text uppercase">Undangin</span>
-          </div>
+          <Link href="/" className="flex items-center gap-3 mb-8 group w-fit">
+            <Image src="/logo.webp" alt="Undangin Logo" width={40} height={40} className="w-10 h-10 object-contain group-hover:rotate-12 transition-transform" />
+            <span className="font-serif text-2xl font-bold tracking-widest text-wedding-text uppercase group-hover:text-wedding-gold transition-colors">Undangin</span>
+          </Link>
           <p className="text-wedding-text/60 max-w-sm font-light leading-relaxed text-sm">
             Mewujudkan kemegahan tradisi melalui kecanggihan digital. Undangin adalah platform mahakarya untuk merancang memori abadi hari istimewa Anda.
           </p>

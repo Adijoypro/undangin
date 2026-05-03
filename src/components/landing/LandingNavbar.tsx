@@ -23,26 +23,25 @@ export default function LandingNavbar({ user }: { user: any }) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
-          <div className="flex items-center gap-3">
-            <Image src="/logo.png" alt="Undangin Logo" width={40} height={40} priority className="w-10 h-10 object-contain" />
-            <span className="font-serif text-2xl font-bold tracking-widest text-wedding-text">Undangin</span>
-          </div>
+          <Link href="/" className="flex items-center gap-3 group transition-transform hover:scale-[1.02] active:scale-95">
+            <Image src="/logo.webp" alt="Undangin Logo" width={40} height={40} priority className="w-10 h-10 object-contain group-hover:rotate-12 transition-transform duration-300" />
+            <span className="font-serif text-2xl font-bold tracking-widest text-wedding-text group-hover:text-wedding-gold transition-colors duration-300">Undangin</span>
+          </Link>
           
           <div className="hidden md:flex space-x-8 items-center">
             <a href="#fitur" className="text-xs font-bold uppercase tracking-widest text-wedding-text/60 hover:text-wedding-gold transition-colors">Fitur</a>
-            <a href="#template" className="text-xs font-bold uppercase tracking-widest text-wedding-text/60 hover:text-wedding-gold transition-colors">Tema</a>
-            <Link href="/dashboard" className="text-xs font-bold uppercase tracking-widest text-wedding-text/60 hover:text-wedding-gold transition-colors">Dasbor</Link>
+            <Link href="/katalog" className="text-xs font-bold uppercase tracking-widest text-wedding-text/60 hover:text-wedding-gold transition-colors">Katalog</Link>
  
             <Link 
               href={user ? "/dashboard" : "/login"}
-              className="px-10 py-4 bg-wedding-gold text-black rounded-full font-bold uppercase tracking-widest text-sm hover:bg-[#F3E5AB] transition-all shadow-lg"
+              className="px-8 py-3.5 bg-wedding-gold text-white rounded-xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-wedding-gold/20 hover:scale-[1.05] active:scale-95 transition-all"
             >
               {user ? "Lanjut ke Dasbor" : "Mulai Sekarang"}
             </Link>
           </div>
 
           <div className="md:hidden">
-            <Link href={user ? "/dashboard" : "/login"} className="px-5 py-2 bg-wedding-gold text-black rounded-full font-bold text-[10px] uppercase tracking-widest">
+            <Link href={user ? "/dashboard" : "/login"} className="px-6 py-2.5 bg-wedding-gold text-white rounded-xl font-black text-[9px] uppercase tracking-widest shadow-lg shadow-wedding-gold/20">
               {user ? "Dasbor" : "Mulai"}
             </Link>
           </div>

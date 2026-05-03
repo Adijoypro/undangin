@@ -3,7 +3,6 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { updateInvitation, deductCredit } from "./actions";
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
-import UpgradeAiButton from "@/components/dashboard/UpgradeAiButton";
 import SaveNotification from "@/components/dashboard/SaveNotification";
 import InvitationForm from "@/components/dashboard/InvitationForm";
 import DashboardShell from "@/components/dashboard/DashboardShell";
@@ -47,17 +46,7 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
       <DashboardNavbar user={user} credits={userCredits} />
 
       <main className="max-w-6xl mx-auto px-4 py-12">
-        {/* BANNER UPGRADE AI - TAMPIL HANYA JIKA BELUM PREMIUM */}
-        {!invitation.is_ai_enabled && (
-          <div className="mb-10">
-            <UpgradeAiButton 
-              invitationId={invitation.id} 
-              userId={user.id} 
-              userEmail={user.email || ""} 
-            />
-          </div>
-        )}
-        {/* AI Coming Soon Banner - Consistency Fix */}
+        {/* AI Studio Banner - Consistency Fix */}
         <Link href="/dashboard/ai-studio" className="block mb-10 group">
           <div className="p-5 bg-gradient-to-r from-wedding-gold/10 via-transparent to-transparent border border-wedding-gold/20 rounded-2xl flex items-center justify-between overflow-hidden relative backdrop-blur-xl hover:border-wedding-gold/40 transition-all duration-500 hover:shadow-lg hover:shadow-wedding-gold/5">
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-wedding-gold/5 rounded-full blur-2xl group-hover:bg-wedding-gold/10 transition-all duration-700" />

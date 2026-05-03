@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, useContext } from "react";
 import { motion, useScroll, useTransform, useSpring, Variants, AnimatePresence } from "framer-motion";
 import { ThemeContext } from "./ThemeWrapper";
-import InvitationCover, { ScrollIndicator } from "./InvitationCover";
+import { ScrollIndicator } from "./InvitationCover";
+import EnvelopeCover from "@/components/covers/EnvelopeCover";
 import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
@@ -115,13 +116,17 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
 
   return (
     <>
-      <InvitationCover 
-        bride={data.bride.name} 
-        groom={data.groom.name} 
-        onOpen={onOpen} 
-        forcedOpen={isOpened}
-        variant="renaissance"
-      />
+      <AnimatePresence>
+        {!isOpened && (
+          <EnvelopeCover 
+            bride={data.bride.name} 
+            groom={data.groom.name} 
+            date={data.event.date}
+            onOpen={onOpen} 
+            variant="renaissance"
+          />
+        )}
+      </AnimatePresence>
       <div className={`transition-opacity duration-1000 w-full min-h-screen ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
         {isOpened && <ScrollIndicator color="#8B7355" />}
 
@@ -135,7 +140,7 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image 
-              src={data.couplePhoto || "/assets/renaissance/garden-bg.jpg"} 
+              src={data.couplePhoto || "/assets/renaissance/garden-bg.webp"} 
               fill
               className="object-cover opacity-50"
               alt="Garden Background"
@@ -146,17 +151,17 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           <motion.div initial="hidden" animate="visible" variants={fadeUp} className="relative z-10 text-center px-4 py-20">
             <Ornament className="mx-auto mb-8" />
             <p className="text-xs tracking-[0.5em] uppercase mb-6" style={{ color: palette.accent }}>Our Wedding Day</p>
-            <h1 className="text-6xl md:text-8xl italic mb-6 leading-tight">{data.bride.name} <span className="text-3xl md:text-5xl" style={{ color: palette.gold }}>&</span> {data.groom.name}</h1>
+            <h1 className="text-2xl sm:text-6xl md:text-8xl italic mb-6 leading-tight tracking-tighter">{data.bride.name} <span className="text-xl md:text-5xl" style={{ color: palette.gold }}>&</span> {data.groom.name}</h1>
             <Ornament className="mx-auto mt-4 mb-12" />
             <CountdownTimer targetDate={data.event.date} theme="premium" />
             <div className="mt-10">
-              <a href={createCalendarLink()} target="_blank"
-                className="inline-block px-8 py-3 text-xs tracking-[0.3em] uppercase border transition-all duration-500 hover:text-white"
-                style={{ borderColor: palette.accent, color: palette.accent }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = palette.accent)}
-                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = palette.accent; }}>
-                Save the Date
-              </a>
+                <a href={createCalendarLink()} target="_blank"
+                  className="inline-block px-6 py-3 md:px-8 md:py-3 text-[10px] md:text-xs tracking-[0.3em] uppercase border transition-all duration-500 hover:text-white"
+                  style={{ borderColor: palette.accent, color: palette.accent }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = palette.accent)}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = palette.accent; }}>
+                  Save the Date
+                </a>
             </div>
           </motion.div>
         </motion.section>
@@ -164,7 +169,7 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
         {/* ═══ COUPLE ═══ */}
         <section className="py-24 md:py-40 px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
           <div className="absolute top-0 right-0 w-48 h-48 opacity-30 -scale-x-100">
-            <Image src="/assets/renaissance/botanical-corner.png" fill className="object-contain" alt="Botanical" />
+            <Image src="/assets/renaissance/botanical-corner.webp" fill className="object-contain" alt="Botanical" />
           </div>
           <div className="max-w-5xl mx-auto">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-20">
@@ -178,13 +183,13 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center">
                 <div className="relative w-64 h-72 md:w-72 md:h-80 mx-auto mb-8">
                   <div className="absolute inset-0 z-20 pointer-events-none">
-                    <Image src="/assets/renaissance/oval-frame.png" fill className="object-contain" alt="Frame" />
+                    <Image src="/assets/renaissance/oval-frame.webp" fill className="object-contain" alt="Frame" />
                   </div>
                   <div className="absolute inset-[10%] overflow-hidden rounded-[50%] z-10">
                     <Image src={data.bride.photo} fill className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700" alt="Bride" />
                   </div>
                 </div>
-                <h3 className="text-3xl italic mb-2">{data.bride.fullName}</h3>
+                <h3 className="text-xl md:text-3xl italic mb-2">{data.bride.fullName}</h3>
                 <p className="text-xs tracking-[0.3em] uppercase mb-1" style={{ color: palette.accent }}>Putri Dari</p>
                 <p className="text-sm italic" style={{ color: palette.textMuted }}>
                   {data.bride_father && data.bride_mother
@@ -197,13 +202,13 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center">
                 <div className="relative w-64 h-72 md:w-72 md:h-80 mx-auto mb-8">
                   <div className="absolute inset-0 z-20 pointer-events-none">
-                    <Image src="/assets/renaissance/oval-frame.png" fill className="object-contain" alt="Frame" />
+                    <Image src="/assets/renaissance/oval-frame.webp" fill className="object-contain" alt="Frame" />
                   </div>
                   <div className="absolute inset-[10%] overflow-hidden rounded-[50%] z-10">
                     <Image src={data.groom.photo} fill className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700" alt="Groom" />
                   </div>
                 </div>
-                <h3 className="text-3xl italic mb-2">{data.groom.fullName}</h3>
+                <h3 className="text-xl md:text-3xl italic mb-2">{data.groom.fullName}</h3>
                 <p className="text-xs tracking-[0.3em] uppercase mb-1" style={{ color: palette.accent }}>Putra Dari</p>
                 <p className="text-sm italic" style={{ color: palette.textMuted }}>
                   {data.groom_father && data.groom_mother
@@ -230,7 +235,7 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
         {/* ═══ EVENT (Multi-Event) ═══ */}
         <section className="py-24 md:py-40 px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
           <div className="absolute bottom-0 left-0 w-48 h-48 opacity-20 -scale-y-100">
-            <Image src="/assets/renaissance/botanical-corner.png" fill className="object-contain" alt="Botanical" />
+            <Image src="/assets/renaissance/botanical-corner.webp" fill className="object-contain" alt="Botanical" />
           </div>
           <div className="max-w-5xl mx-auto text-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
@@ -269,19 +274,19 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
                   <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
                     className={`p-10 md:p-14 border ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`} style={{ borderColor: palette.gold + '30', backgroundColor: palette.bg }}>
                     <p className="text-xs tracking-[0.4em] uppercase mb-4" style={{ color: palette.accent }}>{event.title || (index === 0 ? "Akad Nikah" : "Resepsi")}</p>
-                    <h3 className="text-2xl md:text-4xl italic mb-6">{event.date}</h3>
+                    <h3 className="text-xl md:text-4xl italic mb-6">{event.date}</h3>
                     <div className="w-12 h-px mx-auto mb-6" style={{ backgroundColor: palette.gold + '40' }}></div>
-                    <p className="text-lg mb-2">{event.time}</p>
-                    <h4 className="text-xl italic mb-2" style={{ color: palette.gold }}>{event.location || event.locationName}</h4>
-                    <p className="text-sm mb-10 leading-relaxed" style={{ color: palette.textMuted }}>{event.address || event.locationAddress}</p>
+                    <p className="text-base mb-2">{event.time}</p>
+                    <h4 className="text-lg italic mb-2" style={{ color: palette.gold }}>{event.location || event.locationName}</h4>
+                    <p className="text-xs mb-10 leading-relaxed" style={{ color: palette.textMuted }}>{event.address || event.locationAddress}</p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                       <a href={event.maps_link || event.mapsLink} target="_blank"
-                        className="px-8 py-3 text-xs tracking-[0.2em] uppercase text-white transition-all duration-500 hover:opacity-80"
+                        className="px-6 py-3 md:px-8 md:py-3 text-[10px] md:text-xs tracking-[0.2em] uppercase text-white transition-all duration-500 hover:opacity-80"
                         style={{ backgroundColor: palette.accent }}>
                         Buka Maps
                       </a>
                       <a href={createCalendarLink()} target="_blank"
-                        className="px-8 py-3 text-xs tracking-[0.2em] uppercase border transition-all duration-500"
+                        className="px-6 py-3 md:px-8 md:py-3 text-[10px] md:text-xs tracking-[0.2em] uppercase border transition-all duration-500"
                         style={{ borderColor: palette.accent, color: palette.accent }}>
                         Simpan Kalender
                       </a>
@@ -337,11 +342,11 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
               <textarea name="message" rows={3} required placeholder="Ucapan & Doa"
                 className="w-full bg-transparent border-b py-4 text-sm tracking-widest focus:outline-none resize-none"
                 style={{ borderColor: palette.accent + '30', color: palette.text }}></textarea>
-              <button type="submit" disabled={isSubmitting}
-                className="w-full py-4 text-xs tracking-[0.3em] uppercase text-white transition-all duration-500 hover:opacity-80 disabled:opacity-50"
-                style={{ backgroundColor: palette.accent }}>
-                {isSubmitting ? "Mengirim..." : "Kirim Konfirmasi"}
-              </button>
+                  <button type="submit" disabled={isSubmitting}
+                    className="w-full py-3 md:py-4 text-[9px] md:text-xs tracking-[0.3em] uppercase text-white transition-all duration-500 hover:opacity-80 disabled:opacity-50"
+                    style={{ backgroundColor: palette.accent }}>
+                    {isSubmitting ? "Mengirim..." : "KIRIM"}
+                  </button>
             </motion.form>
           </div>
         </section>
@@ -394,12 +399,12 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
               <p className="text-sm mb-12" style={{ color: palette.textMuted }}>
                 Bagi yang ingin memberikan tanda kasih, dapat mengirimkan melalui:
               </p>
-              <div className="p-10 border" style={{ borderColor: palette.gold + '20', backgroundColor: palette.card }}>
+              <div className="p-5 border" style={{ borderColor: palette.gold + '20', backgroundColor: palette.card }}>
                 <p className="text-xs tracking-[0.4em] uppercase mb-4" style={{ color: palette.accent }}>{data.gift.bankName}</p>
-                <p className="text-3xl tracking-[0.15em] mb-2 font-serif">{data.gift.accountNumber}</p>
-                <p className="text-xs mb-8" style={{ color: palette.textMuted }}>A/N {data.gift.accountName}</p>
+                <p className="text-[11px] md:text-3xl tracking-[0.1em] md:tracking-[0.15em] mb-2 font-serif">{data.gift.accountNumber}</p>
+                <p className="text-[10px] mb-8" style={{ color: palette.textMuted }}>A/N {data.gift.accountName}</p>
                 <button onClick={() => handleCopy(data.gift.accountNumber)}
-                  className="px-8 py-3 text-xs tracking-[0.2em] uppercase border transition-all duration-500 hover:text-white"
+                  className="px-6 py-3 md:px-8 md:py-3 text-[9px] md:text-xs tracking-[0.2em] uppercase border transition-all duration-500 hover:text-white"
                   style={{ borderColor: palette.accent, color: palette.accent }}
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = palette.accent)}
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = palette.accent; }}>
@@ -430,12 +435,12 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
         {/* ═══ FOOTER ═══ */}
         <footer className="py-20 text-center px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-48 opacity-10 -scale-y-100">
-            <Image src="/assets/renaissance/botanical-corner.png" fill className="object-contain" alt="Botanical" />
+            <Image src="/assets/renaissance/botanical-corner.webp" fill className="object-contain" alt="Botanical" />
           </div>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative z-10">
             <Ornament className="mx-auto mb-8" />
             <p className="text-sm italic mb-2" style={{ color: palette.textMuted }}>Thank you</p>
-            <h2 className="text-3xl md:text-5xl italic mb-6">{data.bride.name} & {data.groom.name}</h2>
+            <h2 className="text-2xl md:text-5xl italic mb-6 tracking-tighter">{data.bride.name} & {data.groom.name}</h2>
             <p className="text-[10px] tracking-[0.3em] uppercase" style={{ color: palette.textMuted }}>
               Undangin Premium • Saves paper, reduces carbon footprint 🌱
             </p>

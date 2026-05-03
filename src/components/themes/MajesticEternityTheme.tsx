@@ -90,9 +90,9 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
             className="relative z-10 w-full max-w-2xl"
           >
             <p className="font-serif text-[#D4AF37] text-sm uppercase tracking-[0.4em] mb-8 ml-[0.4em]">The Wedding Of</p>
-            <h1 className="font-script text-6xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-4">{data.bride.name}</h1>
+            <h1 className="font-script text-2xl sm:text-6xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-4">{data.bride.name}</h1>
             <p className="font-serif text-2xl md:text-3xl text-[#D4AF37] italic my-2">&</p>
-            <h1 className="font-script text-6xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-12">{data.groom.name}</h1>
+            <h1 className="font-script text-2xl sm:text-6xl md:text-9xl text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-12">{data.groom.name}</h1>
 
             <div className="inline-block border-y border-[#D4AF37]/50 py-4 px-12">
               <p className="font-sans text-xs font-bold uppercase tracking-[0.3em] text-gray-300">{data.event.date}</p>
@@ -103,7 +103,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
         {/* DRAW ON SCROLL LOVE STORY (WOW FACTOR 2) */}
         <section className="py-32 px-6 relative bg-[#0A1C14]">
           <div className="max-w-4xl mx-auto text-center mb-20 relative z-10">
-            <h2 className="font-serif text-4xl text-[#D4AF37] mb-4">A Journey to Eternity</h2>
+            <h2 className="font-serif text-2xl sm:text-4xl text-[#D4AF37] mb-4">A Journey to Eternity</h2>
             <p className="text-gray-400 font-light max-w-xl mx-auto">Setiap langkah membawa kami lebih dekat kepada takdir.</p>
           </div>
 
@@ -163,7 +163,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
                     />
                   </div>
                 </div>
-                <h3 className="text-4xl md:text-5xl mb-4 font-script text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">{data.bride.name}</h3>
+                <h3 className="text-xl md:text-5xl mb-4 font-script text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">{data.bride.name}</h3>
                 <p className="font-serif text-[11px] uppercase tracking-[0.4em] text-[#D4AF37] mb-6 ml-[0.4em]">Mempelai Wanita</p>
                 <div className="w-12 h-px bg-[#D4AF37]/30 mb-6"></div>
                 <p className="text-base text-gray-400 italic font-light max-w-xs leading-relaxed">
@@ -195,7 +195,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
                     />
                   </div>
                 </div>
-                <h3 className="text-4xl md:text-5xl mb-4 font-script text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">{data.groom.name}</h3>
+                <h3 className="text-xl md:text-5xl mb-4 font-script text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">{data.groom.name}</h3>
                 <p className="font-serif text-[11px] uppercase tracking-[0.4em] text-[#D4AF37] mb-6 ml-[0.4em]">Mempelai Pria</p>
                 <div className="w-12 h-px bg-[#D4AF37]/30 mb-6"></div>
                 <p className="text-base text-gray-400 italic font-light max-w-xs leading-relaxed">
@@ -229,7 +229,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
                     <div className="inline-block bg-[#D4AF37] text-black px-4 pl-[0.3em] py-1 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full mb-6">
                       {event.title || (index === 0 ? "Akad Nikah" : "Resepsi")}
                     </div>
-                    <h3 className="font-serif text-4xl text-white mb-2">{event.location || event.locationName}</h3>
+                    <h3 className="font-serif text-xl sm:text-4xl text-white mb-2">{event.location || event.locationName}</h3>
                     <p className="text-gray-400 text-sm leading-relaxed mb-8">{event.address || event.locationAddress}</p>
 
                     <div className="flex gap-8 border-t border-white/10 pt-6">
@@ -244,10 +244,10 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center gap-4 mt-10">
-                      <a href={event.maps_link || event.mapsLink} target="_blank" className="w-full sm:w-auto px-8 py-3 bg-[#D4AF37] text-black font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-white transition-colors duration-500 text-center">
+                      <a href={event.maps_link || event.mapsLink} target="_blank" className="w-full sm:w-auto px-6 py-3 md:px-8 md:py-3 bg-[#D4AF37] text-black font-bold uppercase tracking-[0.2em] text-[9px] md:text-[10px] hover:bg-white transition-colors duration-500 text-center">
                         Direction
                       </a>
-                      <a href={createCalendarLink()} target="_blank" className="w-full sm:w-auto px-8 py-3 border border-[#D4AF37] text-[#D4AF37] font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-[#D4AF37] hover:text-black transition-colors duration-500 text-center">
+                      <a href={createCalendarLink()} target="_blank" className="w-full sm:w-auto px-6 py-3 md:px-8 md:py-3 border border-[#D4AF37] text-[#D4AF37] font-bold uppercase tracking-[0.2em] text-[9px] md:text-[10px] hover:bg-[#D4AF37] hover:text-black transition-colors duration-500 text-center">
                         Calendar
                       </a>
                     </div>
@@ -299,11 +299,81 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
           </section>
         )}
 
-        {/* RSVP FORM */}
+        {/* GIFT / TANDA KASIH */}
         <section className="py-24 px-6 bg-[#0A1C14]">
           <div className="max-w-xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="font-serif text-3xl text-white mb-4">Kehadiran Anda</h2>
+              <p className="text-[10px] text-[#D4AF37] uppercase tracking-[0.5em] font-black mb-4">Tanda Kasih</p>
+              <h2 className="font-serif text-3xl text-white mb-6 italic">Wedding Gift</h2>
+              <p className="text-gray-400 text-sm italic font-light leading-relaxed">
+                Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun, apabila Anda ingin memberikan tanda kasih, Anda dapat memberikannya melalui:
+              </p>
+            </div>
+
+            <div className="space-y-8">
+              {/* Premium Bank Card */}
+              <div className="relative group perspective-1000">
+                <div className="relative w-full aspect-[1.6/1] bg-gradient-to-br from-[#0D251B] via-[#0A1C14] to-[#050D0A] rounded-[1.5rem] border border-[#D4AF37]/20 p-5 md:p-8 flex flex-col justify-between overflow-hidden shadow-2xl transition-transform duration-700 group-hover:rotate-y-12">
+                  {/* Texture & Light */}
+                  <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/10 via-transparent to-transparent pointer-events-none" />
+                  
+                  <div className="flex justify-between items-start relative z-10">
+                    <div className="space-y-4">
+                      {/* Card Chip */}
+                      <div className="w-10 h-7 md:w-12 md:h-9 bg-gradient-to-br from-[#FBF5B7] via-[#D4AF37] to-[#B38728] rounded-md relative overflow-hidden shadow-lg">
+                        <div className="absolute inset-0 opacity-30 bg-[repeating-linear-gradient(0deg,transparent,transparent_1px,black_1px,black_2px)]" />
+                        <div className="absolute inset-0 opacity-30 bg-[repeating-linear-gradient(90deg,transparent,transparent_1px,black_1px,black_2px)]" />
+                      </div>
+                      <p className="text-[10px] md:text-xs text-[#D4AF37] font-black uppercase tracking-[0.3em]">{data.gift.bankName}</p>
+                    </div>
+                    
+                    {data.gift.qrUrl && (
+                      <div className="w-16 h-16 md:w-20 md:h-20 bg-white p-1 rounded-lg shadow-2xl relative">
+                        <div className="absolute -inset-1 bg-[#D4AF37]/20 rounded-lg blur-[2px]" />
+                        <div className="relative w-full h-full bg-white rounded flex items-center justify-center overflow-hidden">
+                           <Image src={data.gift.qrUrl} alt="QR" fill className="object-contain p-0.5" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Account Number */}
+                  <div className="relative z-10">
+                    <p className="text-lg md:text-2xl font-mono tracking-[0.15em] text-white/90 [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
+                      {data.gift.accountNumber.replace(/(\d{4})/g, '$1 ').trim()}
+                    </p>
+                  </div>
+
+                  <div className="flex justify-between items-end relative z-10">
+                    <div className="space-y-1 text-left">
+                      <p className="text-[8px] text-white/30 uppercase tracking-widest">Account Holder</p>
+                      <p className="text-white/80 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">{data.gift.accountName}</p>
+                    </div>
+                    <div className="text-right">
+                       <p className="text-[7px] text-[#D4AF37]/40 uppercase font-black tracking-widest">Majestic Member</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button 
+                onClick={() => {
+                  navigator.clipboard.writeText(data.gift.accountNumber);
+                  alert("Nomor rekening berhasil disalin!");
+                }}
+                className="w-full py-4 bg-white/5 border border-[#D4AF37]/20 text-[#D4AF37] text-[10px] font-black uppercase tracking-[0.4em] rounded-2xl hover:bg-[#D4AF37] hover:text-black transition-all active:scale-[0.98] shadow-xl"
+              >
+                Salin Rekening
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-24 px-6 bg-[#0A1C14]">
+          <div className="max-w-xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="font-serif text-2xl sm:text-3xl text-white mb-4">Kehadiran Anda</h2>
               <p className="text-gray-400 text-sm">Merupakan suatu kehormatan jika Anda dapat hadir.</p>
             </div>
 
@@ -321,7 +391,7 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
               <div>
                 <textarea name="message" placeholder="Pesan & Doa (Opsional)" rows={4} className="w-full bg-[#06120C] border border-[#D4AF37]/30 text-white px-6 py-4 focus:outline-none focus:border-[#D4AF37] transition-colors"></textarea>
               </div>
-              <button type="submit" disabled={isSubmitting} className="w-full py-4 bg-[#D4AF37] text-black font-bold uppercase tracking-[0.2em] text-xs hover:bg-white transition-colors disabled:opacity-50">
+              <button type="submit" disabled={isSubmitting} className="w-full py-3 md:py-4 bg-[#D4AF37] text-black font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs hover:bg-white transition-colors disabled:opacity-50">
                 {isSubmitting ? "Mengirim..." : "Kirim RSVP"}
               </button>
             </form>

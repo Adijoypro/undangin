@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, useContext } from "react";
 import { motion, useScroll, useTransform, useSpring, Variants, AnimatePresence } from "framer-motion";
 import { ThemeContext } from "./ThemeWrapper";
-import InvitationCover, { ScrollIndicator } from "./InvitationCover";
+import { GoldenGateCover } from "@/components/covers";
+import { ScrollIndicator } from "./InvitationCover";
 import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
@@ -147,13 +148,17 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
 
   return (
     <>
-      <InvitationCover 
-        bride={data.bride.name} 
-        groom={data.groom.name} 
-        onOpen={onOpen} 
-        forcedOpen={isOpened}
-        variant="ultra-luxury"
-      />
+      <AnimatePresence>
+        {!isOpened && (
+          <GoldenGateCover
+            bride={data.bride.name}
+            groom={data.groom.name}
+            date={data.event.date}
+            onOpen={onOpen}
+            guestName={data.guestName}
+          />
+        )}
+      </AnimatePresence>
       <div className={`transition-opacity duration-1000 w-full min-h-screen ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
         {isOpened && <ScrollIndicator color="#D4AF37" />}
         {/* CUSTOM CURSOR */}
@@ -190,9 +195,9 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           
           <div className="z-10 text-center px-4">
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 1 }} className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#D4AF37]/80 mb-12">The Union of Two Souls</motion.p>
-            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 1.2 }} className="text-7xl md:text-[8rem] tracking-tight mb-4 font-serif leading-none">{data.bride.name}</motion.h1>
-            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, delay: 1.8 }} className="block text-5xl md:text-6xl text-[#D4AF37]/60 font-script my-4">and</motion.span>
-            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 1.4 }} className="text-7xl md:text-[8rem] tracking-tight font-serif leading-none">{data.groom.name}</motion.h1>
+            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 1.2 }} className="text-2xl sm:text-4xl md:text-[8rem] tracking-tighter mb-2 font-serif leading-none">{data.bride.name}</motion.h1>
+            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, delay: 1.8 }} className="block text-xl md:text-6xl text-[#D4AF37]/60 font-script my-2">and</motion.span>
+            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 1.4 }} className="text-2xl sm:text-4xl md:text-[8rem] tracking-tighter font-serif leading-none">{data.groom.name}</motion.h1>
             
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 2.5 }} className="mt-20">
               <CountdownTimer targetDate={data.event.date} theme="cinematic" />
@@ -228,7 +233,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                     <Image src="/assets/gold-frame.webp" fill className="object-contain" alt="Ornament" />
                   </div>
                 </div>
-                <h3 className="text-4xl mb-4 font-serif text-[#D4AF37]/90">{data.bride.fullName}</h3>
+                <h3 className="text-lg sm:text-4xl mb-4 font-serif text-[#D4AF37]/90">{data.bride.fullName}</h3>
                 <p className="font-sans text-[11px] uppercase tracking-[0.4em] text-gray-500 mb-2">Putri Dari</p>
                 <p className="text-base text-gray-400 italic font-light max-w-xs">
                   {data.bride_father && data.bride_mother 
@@ -249,7 +254,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                     <Image src="/assets/gold-frame.webp" fill className="object-contain" alt="Ornament" />
                   </div>
                 </div>
-                <h3 className="text-4xl mb-4 font-serif text-[#D4AF37]/90">{data.groom.fullName}</h3>
+                <h3 className="text-lg sm:text-4xl mb-4 font-serif text-[#D4AF37]/90">{data.groom.fullName}</h3>
                 <p className="font-sans text-[11px] uppercase tracking-[0.4em] text-gray-500 mb-2">Putra Dari</p>
                 <p className="text-base text-gray-400 italic font-light max-w-xs">
                   {data.groom_father && data.groom_mother 
@@ -314,7 +319,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                   <div className="w-12 h-px bg-white/10 mx-auto mb-8"></div>
                   <p className="text-2xl font-light tracking-[0.3em] mb-12">{event.time}</p>
                   
-                  <h3 className="text-3xl text-[#D4AF37]/80 font-serif italic tracking-wide mb-6">{event.location || event.locationName}</h3>
+                  <h3 className="text-xl md:text-3xl text-[#D4AF37]/80 font-serif italic tracking-wide mb-6">{event.location || event.locationName}</h3>
                   <p className="text-gray-400 text-base leading-relaxed mb-16 font-light tracking-wide">{event.address || event.locationAddress}</p>
                   
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
@@ -373,25 +378,25 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
             
             {/* GIFT */}
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-              <h3 className="text-3xl md:text-4xl mb-10 font-serif text-white/90 tracking-wide">Tanda Kasih</h3>
+              <h3 className="text-xl md:text-4xl mb-10 font-serif text-white/90 tracking-wide uppercase tracking-[0.2em]">Tanda Kasih</h3>
               <p className="text-base text-gray-500 mb-16 leading-relaxed font-light tracking-wide max-w-md">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika Anda ingin memberikan tanda kasih lainnya, dapat melalui:</p>
               
-              <div className="bg-black/60 backdrop-blur-xl p-12 border border-white/5 relative overflow-hidden group">
+              <div className="bg-black/60 backdrop-blur-xl p-5 md:p-12 border border-white/5 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-4 w-20 h-20 opacity-10 mix-blend-screen group-hover:opacity-20 transition-opacity">
                   <Image src="/assets/gold-frame.webp" fill className="object-contain" alt="Ornament" />
                 </div>
-                <p className="font-sans text-[11px] uppercase tracking-[0.5em] text-[#D4AF37] mb-6">{data.gift.bankName}</p>
-                <p className="text-3xl md:text-4xl tracking-[0.2em] mb-4 font-serif text-white/80">{data.gift.accountNumber}</p>
-                <p className="text-xs text-gray-500 uppercase tracking-[0.3em] font-light mb-16">A/N {data.gift.accountName}</p>
-                <button onClick={() => handleCopy(data.gift.accountNumber)} className="w-full py-5 bg-[#D4AF37]/5 text-[#D4AF37] border border-[#D4AF37]/20 hover:bg-[#D4AF37] hover:text-black transition-all duration-700 font-sans text-[10px] uppercase tracking-[0.4em] font-bold">
-                  Salin Nomor Rekening
+                <p className="font-sans text-[9px] md:text-[11px] uppercase tracking-[0.5em] text-[#D4AF37] mb-4">{data.gift.bankName}</p>
+                <p className="text-[10px] sm:text-2xl md:text-4xl tracking-[0.1em] md:tracking-[0.2em] mb-4 font-serif text-white/80">{data.gift.accountNumber}</p>
+                <p className="text-[10px] text-gray-500 uppercase tracking-[0.3em] font-light mb-12">A/N {data.gift.accountName}</p>
+                <button onClick={() => handleCopy(data.gift.accountNumber)} className="w-full py-4 bg-[#D4AF37]/5 text-[#D4AF37] border border-[#D4AF37]/20 hover:bg-[#D4AF37] hover:text-black transition-all duration-700 font-sans text-[8px] uppercase tracking-[0.3em] font-bold">
+                  Salin Nomor
                 </button>
               </div>
             </motion.div>
 
             {/* RSVP */}
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-              <h3 className="text-3xl md:text-4xl mb-10 font-serif text-white/90 tracking-wide">Reservation</h3>
+              <h3 className="text-xl md:text-4xl mb-10 font-serif text-white/90 tracking-wide uppercase tracking-[0.2em]">Reservation</h3>
               <p className="text-base text-gray-500 mb-16 leading-relaxed font-light tracking-wide max-w-md">Mohon konfirmasi kehadiran Anda untuk membantu kami menyambut Anda dengan persiapan terbaik.</p>
               
               <form id="rsvp-form" action={handleRSVP} className="space-y-12">
@@ -411,9 +416,9 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                 <div className="relative group">
                   <textarea name="message" rows={4} required placeholder="UCAPAN & DOA TULUS" className="w-full bg-transparent border-b border-white/10 py-5 font-sans text-[11px] uppercase tracking-[0.3em] text-white focus:border-[#D4AF37] focus:outline-none transition-all duration-500 resize-none"></textarea>
                 </div>
-                <button type="submit" disabled={isSubmitting} className="group relative w-full py-6 overflow-hidden bg-white/5 border border-white/10 text-white font-sans text-[10px] font-bold uppercase tracking-[0.5em] transition-all duration-700 hover:border-[#D4AF37] disabled:opacity-50">
+                <button type="submit" disabled={isSubmitting} className="group relative w-full py-3 md:py-6 overflow-hidden bg-white/5 border border-white/10 text-white font-sans text-[8px] md:text-[10px] font-bold uppercase tracking-[0.5em] transition-all duration-700 hover:border-[#D4AF37] disabled:opacity-50">
                   <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
-                  <span className="relative z-10 group-hover:text-black">{isSubmitting ? "MENGIRIM..." : "KIRIM KONFIRMASI"}</span>
+                  <span className="relative z-10 group-hover:text-black">{isSubmitting ? "MENGIRIM..." : "KIRIM"}</span>
                 </button>
               </form>
             </motion.div>
@@ -430,7 +435,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           <div className="max-w-4xl mx-auto relative z-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-24">
               <p className="font-sans text-[10px] uppercase tracking-[0.6em] text-[#D4AF37] mb-6">Wishes</p>
-              <h3 className="text-4xl md:text-5xl text-white/90 font-serif tracking-widest italic">Untaian Doa.</h3>
+              <h3 className="text-2xl md:text-5xl text-white/90 font-serif tracking-widest italic">Untaian Doa.</h3>
             </motion.div>
 
             <div className="max-h-[800px] overflow-y-auto pr-8 space-y-12 scrollbar-thin scrollbar-thumb-[#D4AF37]/10 scrollbar-track-transparent">
@@ -487,8 +492,33 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
       <footer className="py-60 text-center border-t border-white/5 relative overflow-hidden bg-[#050505]">
           <Image src="/assets/marble-bg.webp" fill className="object-cover opacity-10" alt="Marble" />
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative z-10 px-4">
-            <h2 className="text-7xl md:text-[10rem] text-white/[0.03] font-serif mb-12 select-none tracking-tighter">{data.bride.name} & {data.groom.name}</h2>
-            <div className="w-12 h-px bg-[#D4AF37]/30 mx-auto mb-12"></div>
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 1.2 }}
+              className="text-3xl sm:text-5xl md:text-8xl lg:text-9xl font-serif text-[#D4AF37] mb-2 leading-none tracking-tighter break-words px-4"
+            >
+              {data.bride.name}
+            </motion.h1>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8 }}
+              className="text-2xl md:text-5xl lg:text-6xl text-[#D4AF37]/50 my-2"
+            >
+              &
+            </motion.div>
+
+            <motion.h1 
+              initial={{ opacity: 0, y: -30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1, duration: 1.2 }}
+              className="text-3xl sm:text-5xl md:text-8xl lg:text-9xl font-serif text-[#D4AF37] mt-2 leading-none tracking-tighter break-words px-4"
+            >
+              {data.groom.name}
+            </motion.h1>
+            <div className="w-12 h-px bg-[#D4AF37]/30 mx-auto mb-12 mt-12"></div>
             <p className="font-sans text-[11px] uppercase tracking-[1em] text-[#D4AF37]/60 ml-[1em]">UNDANGIN PREMIUM</p>
           </motion.div>
         </footer>

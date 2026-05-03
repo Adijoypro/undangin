@@ -164,7 +164,7 @@ export default function EnvelopeTestPage() {
                         <div className="absolute top-0.5 right-1.5 w-3 h-3 bg-[#6a0000] rounded-full blur-[1px] opacity-40" />
                         <div className="w-[46px] h-[46px] rounded-full border-2 border-wedding-gold/25 flex items-center justify-center bg-[#350000]/60 backdrop-blur-sm overflow-hidden p-1">
                           <Image
-                            src="/logo.png"
+                            src="/logo.webp"
                             alt="Undangin"
                             width={32}
                             height={32}
@@ -258,7 +258,7 @@ export default function EnvelopeTestPage() {
               transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
               className="bg-white/[0.04] backdrop-blur-3xl p-14 md:p-20 rounded-[3rem] border border-white/10 shadow-[0_40px_150px_rgba(0,0,0,0.8)] flex flex-col items-center"
             >
-              <Image src="/logo.png" alt="Logo" width={48} height={48} className="w-12 h-12 object-contain mb-10" />
+              <Image src="/logo.webp" alt="Logo" width={48} height={48} className="w-12 h-12 object-contain mb-10" />
               <h2 className="font-serif text-4xl md:text-6xl mb-3 tracking-tighter">Mahakarya</h2>
               <p className="text-wedding-gold/40 uppercase tracking-[0.5em] text-[9px] font-black ml-[0.5em]">
                 Undangan Digital Premium

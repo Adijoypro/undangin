@@ -90,7 +90,7 @@ function LoginForm() {
           
           <div className="text-center mb-10">
             <Link href="/" className="inline-block mb-6 hover:scale-105 transition-transform duration-300">
-              <img src="/logo.png" alt="Undangin" className="w-12 h-12 object-contain mx-auto" />
+              <img src="/logo.webp" alt="Undangin" className="w-12 h-12 object-contain mx-auto" />
             </Link>
             
             <h1 className="font-serif text-3xl text-wedding-text dark:text-white mb-2 font-bold tracking-tight">
