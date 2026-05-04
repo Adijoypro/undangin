@@ -97,10 +97,10 @@ export default function TopUpClient({ packages, user }: TopUpClientProps) {
           className="w-48 h-48 md:w-64 md:h-64 pointer-events-none relative z-10"
         >
           <Image 
-            src="/assets/branding/final/nusantara_borobudur_gold.webp"
-            alt="Golden Borobudur"
+            src="/assets/branding/final/nusantara_gold_coins_3d.webp"
+            alt="Nusantara Gold Coins"
             fill
-            className="object-contain drop-shadow-[0_20px_50px_rgba(184,134,11,0.3)]"
+            className="object-contain drop-shadow-[0_20px_60px_rgba(255,215,0,0.4)]"
           />
         </motion.div>
         
