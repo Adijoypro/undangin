@@ -178,21 +178,21 @@ export default function ExperienceShowcase() {
                 className={`group cursor-pointer p-6 rounded-3xl transition-all duration-500 border ${
                   activeIndex === index 
                     ? 'bg-[#1a1a1a] text-white border-[#D4AF37] shadow-2xl scale-[1.02]' 
-                    : 'bg-transparent border-white/5 hover:border-white/20'
+                    : 'bg-transparent border-wedding-text/10 dark:border-white/5 hover:border-wedding-gold/30'
                 }`}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${activeIndex === index ? 'text-[#D4AF37]' : 'text-white/20'}`}>
+                  <span className={`text-[10px] font-black uppercase tracking-[0.5em] ${activeIndex === index ? 'text-[#D4AF37]' : 'text-wedding-text/30 dark:text-white/20'}`}>
                     {exp.series}
                   </span>
-                  <span className={`px-2 py-1 rounded text-[8px] font-black uppercase tracking-tighter ${activeIndex === index ? 'bg-[#D4AF37] text-black' : 'bg-white/5 text-white/40'}`}>
+                  <span className={`px-2 py-1 rounded text-[8px] font-black uppercase tracking-tighter ${activeIndex === index ? 'bg-[#D4AF37] text-black' : 'bg-wedding-text/10 dark:bg-white/5 text-wedding-text/50 dark:text-white/40'}`}>
                     {exp.tag}
                   </span>
                 </div>
-                <h3 className={`font-serif text-2xl md:text-3xl mb-3 ${activeIndex === index ? 'text-white' : 'text-white/40'}`}>
+                <h3 className={`font-serif text-2xl md:text-3xl mb-3 ${activeIndex === index ? 'text-white' : 'text-wedding-text/50 dark:text-white/40'}`}>
                   {exp.title}
                 </h3>
-                <p className={`text-sm leading-relaxed ${activeIndex === index ? 'text-white/60' : 'text-white/20'}`}>
+                <p className={`text-sm leading-relaxed ${activeIndex === index ? 'text-white/60' : 'text-wedding-text/40 dark:text-white/20'}`}>
                   {exp.desc}
                 </p>
                 

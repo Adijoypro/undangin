@@ -13,7 +13,14 @@ import Footer from "@/components/landing/Footer";
 
 export default async function LandingPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  let user = null;
+  
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data?.user || null;
+  } catch (error) {
+    user = null;
+  }
 
   return (
     <div className="min-h-screen bg-wedding-base text-wedding-text font-sans selection:bg-[#D4AF37] selection:text-black overflow-x-hidden transition-colors duration-500">
