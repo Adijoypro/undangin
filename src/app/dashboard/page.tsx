@@ -115,11 +115,11 @@ export default async function DashboardPage() {
           <div className="bg-white/80 dark:bg-wedding-base/90 lg:backdrop-blur-xl p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm md:shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-3 md:gap-4 lg:hover:scale-[1.02] transition-transform duration-500 transform-gpu">
             <div className="relative w-12 h-12 md:w-14 md:h-14 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl flex items-center justify-center overflow-hidden">
               <Image 
-                src="/assets/branding/final/nusantara_stupa_solid_white_bg_1777349902920.webp" 
-                alt="Stupa"
+                src="/assets/branding/final/nusantara_topeng_gold.webp" 
+                alt="Mask"
                 width={40}
                 height={40}
-                className="object-contain relative z-10"
+                className="object-contain relative z-10 scale-125"
               />
             </div>
             <div className="min-w-0">
