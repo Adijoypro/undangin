@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 interface CornerOrnamentsProps {
   opacity?: number;
@@ -10,6 +11,14 @@ interface CornerOrnamentsProps {
 }
 
 export default function CornerOrnaments({ opacity = 0.4, size = 120, topOffset = "top-18" }: CornerOrnamentsProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   const corners = [
     { id: "top-left", className: `${topOffset} -left-1 md:-left-2`, rotate: 0 },
     { id: "top-right", className: `${topOffset} -right-1 md:-right-2`, rotate: 90 },
@@ -29,26 +38,20 @@ export default function CornerOrnaments({ opacity = 0.4, size = 120, topOffset =
           className={`absolute ${corner.className}`}
           style={{ rotate: `${corner.rotate}deg` }}
         >
-          {/* Responsive Size: Half size on mobile, full size on desktop */}
-          <div className="relative w-[60px] h-[60px] md:w-[120px] md:h-[120px]" style={{ width: `calc(${size}px / 2.5)`, height: `calc(${size}px / 2.5)` }}>
-            <div className="md:hidden w-full h-full relative">
-               <Image
-                src="/assets/branding/final/nusantara_corner_ornament_luxury_gold_3d_final_v1_1777373271596.webp"
-                alt="Corner Ornament"
-                fill
-                sizes="60px"
-                className="object-contain"
-              />
-            </div>
-            <div className="hidden md:block w-full h-full relative" style={{ width: size, height: size }}>
-              <Image
-                src="/assets/branding/final/nusantara_corner_ornament_luxury_gold_3d_final_v1_1777373271596.webp"
-                alt="Corner Ornament"
-                fill
-                sizes={`${size}px`}
-                className="object-contain"
-              />
-            </div>
+          <div 
+            className="relative transform-gpu" 
+            style={{ 
+              width: isMobile ? `calc(${size}px / 2)` : `${size}px`, 
+              height: isMobile ? `calc(${size}px / 2)` : `${size}px` 
+            }}
+          >
+            <Image
+              src="/assets/branding/final/nusantara_corner_ornament_luxury_gold_3d_final_v1_1777373271596.webp"
+              alt="Corner Ornament"
+              fill
+              sizes="(max-width: 768px) 60px, 120px"
+              className="object-contain"
+            />
           </div>
         </motion.div>
       ))}

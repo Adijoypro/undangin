@@ -115,7 +115,8 @@ export default function KatalogClient({ user }: { user: any }) {
                     src={theme.image}
                     alt={theme.title}
                     fill
-                    className="object-cover opacity-60 transition-transform duration-1000 group-hover:scale-110"
+                    priority={index < 3}
+                    className="object-cover opacity-60 transition-transform duration-1000 group-hover:scale-110 transform-gpu"
                   />
                   
                   {/* Overlay Gradient */}

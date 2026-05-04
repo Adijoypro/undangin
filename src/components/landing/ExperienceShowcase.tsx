@@ -1,7 +1,5 @@
-"use client";
-
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 const EXPERIENCES = [
@@ -42,6 +40,14 @@ const EXPERIENCES = [
 
 export default function ExperienceShowcase() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <section className="py-24 md:py-32 bg-wedding-base relative overflow-hidden border-t border-wedding-gold/10">
@@ -67,6 +73,7 @@ export default function ExperienceShowcase() {
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             className="text-wedding-gold text-xs uppercase tracking-[0.5em] font-black mb-4"
           >
             Luxury Experience
@@ -74,6 +81,7 @@ export default function ExperienceShowcase() {
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="font-serif text-5xl md:text-7xl text-wedding-text"
           >
@@ -82,6 +90,7 @@ export default function ExperienceShowcase() {
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.2 }}
             className="text-wedding-text/50 max-w-2xl mx-auto mt-6 font-light text-lg"
           >
@@ -93,18 +102,18 @@ export default function ExperienceShowcase() {
           {/* Left: Interactive Mockup Display */}
           <div className="relative order-2 lg:order-1 flex justify-center">
             <div className="relative aspect-[4/3] flex items-center justify-center">
-              {/* Decorative Rings - Optimized with will-change */}
+              {/* Decorative Rings - Animation disabled on mobile */}
               <motion.div 
-                animate={{ rotate: 360 }}
+                animate={isMobile ? {} : { rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 style={{ willChange: "transform" }}
-                className="absolute w-[80%] h-[80%] border border-wedding-gold/10 rounded-full"
+                className="absolute w-[80%] h-[80%] border border-wedding-gold/10 rounded-full transform-gpu"
               />
               <motion.div 
-                animate={{ rotate: -360 }}
+                animate={isMobile ? {} : { rotate: -360 }}
                 transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
                 style={{ willChange: "transform" }}
-                className="absolute w-[60%] h-[60%] border border-wedding-gold/5 rounded-full"
+                className="absolute w-[60%] h-[60%] border border-wedding-gold/5 rounded-full transform-gpu"
               />
 
               {/* Smartphone Mockup */}
@@ -114,7 +123,7 @@ export default function ExperienceShowcase() {
                 animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 style={{ transformStyle: "preserve-3d", willChange: "transform" }}
-                className="relative z-20 w-[300px] h-[600px] md:w-[380px] md:h-[760px] bg-black rounded-[3rem] md:rounded-[4rem] p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border-[8px] border-[#1a1a1a]"
+                className="relative z-20 w-[300px] h-[600px] md:w-[380px] md:h-[760px] bg-black rounded-[3rem] md:rounded-[4rem] p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border-[8px] border-[#1a1a1a] transform-gpu"
               >
                 {/* Screen Content */}
                 <div className="w-full h-full rounded-[2.2rem] md:rounded-[3.2rem] overflow-hidden bg-[#050103] relative group">
@@ -133,7 +142,11 @@ export default function ExperienceShowcase() {
               <motion.div 
                 key={`icon-${EXPERIENCES[activeIndex].id}`}
                 initial={{ opacity: 0, x: -20, scale: 0.8 }}
-                animate={{ opacity: 1, x: 0, scale: 1, y: [0, -15, 0], rotate: [0, 5, 0] }}
+                animate={isMobile ? { opacity: 1, x: 0, scale: 1 } : { 
+                  opacity: 1, x: 0, scale: 1, 
+                  y: [0, -15, 0], 
+                  rotate: [0, 5, 0] 
+                }}
                 transition={{ 
                   opacity: { duration: 0.5 },
                   x: { duration: 0.5 },
@@ -141,7 +154,7 @@ export default function ExperienceShowcase() {
                   rotate: { duration: 5, repeat: Infinity }
                 }}
                 style={{ willChange: "transform" }}
-                className="absolute -top-10 -left-10 md:-top-20 md:-left-20 p-2 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.3)] z-[25] w-24 h-24 md:w-32 md:h-32 flex items-center justify-center overflow-hidden"
+                className="absolute -top-10 -left-10 md:-top-20 md:-left-20 p-2 bg-white/5 rounded-3xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.3)] z-[25] w-24 h-24 md:w-32 md:h-32 flex items-center justify-center overflow-hidden transform-gpu"
               >
                 <Image 
                   src={EXPERIENCES[activeIndex].icon} 
@@ -153,7 +166,6 @@ export default function ExperienceShowcase() {
               </motion.div>
             </div>
           </div>
-
           {/* Right: Selection Details */}
           <div className="space-y-6 md:space-y-8 order-1 lg:order-2">
             {EXPERIENCES.map((exp, index) => (
