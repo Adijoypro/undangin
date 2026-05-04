@@ -76,7 +76,7 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
       <audio 
         ref={audioRef} 
         loop 
-        src={isOpened ? (data.musicUrl || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3") : ""} 
+        src={isOpened ? (data.musicUrl || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3") : undefined} 
       />
 
       {/* ADMIN PANEL (Only for Owner) */}
