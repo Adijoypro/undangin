@@ -62,6 +62,12 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.png",
   },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Undangin",
+  },
 };
 
 const jsonLd = {
@@ -104,6 +110,22 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased">
         <GlobalLoader />
+        <Script id="register-sw" strategy="afterInteractive">
+          {`
+            if ('serviceWorker' in navigator) {
+              window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(
+                  function(registration) {
+                    console.log('Service Worker registration successful with scope: ', registration.scope);
+                  },
+                  function(err) {
+                    console.log('Service Worker registration failed: ', err);
+                  }
+                );
+              });
+            }
+          `}
+        </Script>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
