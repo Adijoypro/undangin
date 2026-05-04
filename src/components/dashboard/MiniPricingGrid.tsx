@@ -66,20 +66,20 @@ export default function MiniPricingGrid() {
             key={pkg.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -5 }}
+            whileHover={typeof window !== 'undefined' && window.innerWidth >= 1024 ? { y: -5 } : {}}
             transition={{ delay: i * 0.1 }}
-            className="relative flex-shrink-0 w-[75vw] sm:w-[280px] md:w-auto snap-center md:snap-align-none"
+            className="relative flex-shrink-0 w-[75vw] sm:w-[280px] md:w-auto snap-center md:snap-align-none transform-gpu"
           >
             <Link href="/dashboard/topup" className="block h-full">
-              <div className={`group relative p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border transition-all duration-700 h-full flex flex-col justify-between overflow-hidden shadow-xl ${
+              <div className={`group relative p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border transition-all duration-700 h-full flex flex-col justify-between overflow-hidden shadow-md md:shadow-xl ${
                 pkg.isPopular 
-                  ? 'bg-white/70 dark:bg-wedding-base/70 border-wedding-gold shadow-wedding-gold/20 scale-[1.02] z-10' 
-                  : 'bg-white/40 dark:bg-wedding-base/40 border-white/50 dark:border-wedding-gold/10 hover:border-wedding-gold/40'
-              } backdrop-blur-2xl`}>
+                  ? 'bg-white/90 dark:bg-wedding-base/95 border-wedding-gold shadow-wedding-gold/20 scale-[1.02] z-10' 
+                  : 'bg-white/80 dark:bg-wedding-base/90 border-white/50 dark:border-wedding-gold/10 lg:hover:border-wedding-gold/40'
+              } lg:backdrop-blur-2xl`}>
                 
                 <div className="relative">
                   <div className="flex items-start justify-between mb-6">
-                    <div className="relative w-24 h-24 -mt-4 -ml-4 flex items-center justify-center">
+                    <div className="relative w-20 h-20 md:w-24 md:h-24 -mt-4 -ml-4 flex items-center justify-center">
                       {/* Ambient Glow behind asset */}
                       <div className="absolute inset-4 bg-wedding-gold/10 blur-xl rounded-full" />
                       <Image 
@@ -87,7 +87,7 @@ export default function MiniPricingGrid() {
                         alt={pkg.name}
                         width={120}
                         height={120}
-                        className="object-contain relative z-10 drop-shadow-[0_15px_30px_rgba(180,140,80,0.3)] group-hover:scale-110 group-hover:rotate-6 transition-transform duration-700"
+                        className="object-contain relative z-10 drop-shadow-[0_15px_30px_rgba(180,140,80,0.3)] lg:group-hover:scale-110 lg:group-hover:rotate-6 transition-transform duration-700"
                       />
                     </div>
                     {pkg.badge && (
@@ -114,13 +114,13 @@ export default function MiniPricingGrid() {
                       {pkg.save && <span className="text-[9px] text-green-500 font-black bg-green-500/10 px-2 py-0.5 rounded-full uppercase tracking-tighter">{pkg.save}</span>}
                     </div>
                     <div className="flex items-baseline gap-2">
-                      <p className="text-3xl font-serif font-bold text-wedding-text group-hover:text-wedding-gold transition-colors tracking-tight">Rp {pkg.price}</p>
+                      <p className="text-2xl md:text-3xl font-serif font-bold text-wedding-text lg:group-hover:text-wedding-gold transition-colors tracking-tight">Rp {pkg.price}</p>
                       <p className="text-[11px] text-wedding-text/20 line-through font-bold">{pkg.originalPrice}</p>
                     </div>
                   </div>
                   <div className={`p-3 rounded-xl transition-all shadow-lg ${
                     pkg.isPopular ? 'bg-wedding-gold text-white' : 'bg-wedding-text text-wedding-base'
-                  } group-hover:scale-110 group-hover:bg-wedding-gold group-hover:text-white`}>
+                  } lg:group-hover:scale-110 lg:group-hover:bg-wedding-gold lg:group-hover:text-white`}>
                     <Plus className="w-5 h-5" />
                   </div>
                 </div>

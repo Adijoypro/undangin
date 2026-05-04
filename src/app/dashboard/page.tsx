@@ -61,9 +61,8 @@ export default async function DashboardPage() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
           {/* STAT 1: UNDANGAN (WAYANG) */}
-          <div className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-6 rounded-[2rem] shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-4 hover:scale-[1.02] transition-transform duration-500">
-            <div className="relative w-14 h-14 bg-wedding-gold/10 border border-wedding-gold/20 rounded-2xl flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 bg-wedding-gold/5 blur-sm" />
+          <div className="bg-white/80 dark:bg-wedding-base/90 lg:backdrop-blur-xl p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm md:shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-3 md:gap-4 lg:hover:scale-[1.02] transition-transform duration-500 transform-gpu">
+            <div className="relative w-12 h-12 md:w-14 md:h-14 bg-wedding-gold/10 border border-wedding-gold/20 rounded-2xl flex items-center justify-center overflow-hidden">
               <Image 
                 src="/assets/branding/final/nusantara_wayang_solid_white_bg_1777349850175.webp" 
                 alt="Wayang"
@@ -74,14 +73,13 @@ export default async function DashboardPage() {
             </div>
             <div className="min-w-0">
               <p className="text-[10px] text-wedding-text/50 font-bold uppercase tracking-[0.2em] mb-1 truncate">UNDANGAN</p>
-              <p className="text-3xl font-serif font-bold text-wedding-text leading-none">{totalInvitations}</p>
+              <p className="text-2xl md:text-3xl font-serif font-bold text-wedding-text leading-none">{totalInvitations}</p>
             </div>
           </div>
 
           {/* STAT 2: RSVP (GONG) */}
-          <div className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-6 rounded-[2rem] shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-4 hover:scale-[1.02] transition-transform duration-500">
-            <div className="relative w-14 h-14 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 bg-blue-500/5 blur-sm" />
+          <div className="bg-white/80 dark:bg-wedding-base/90 lg:backdrop-blur-xl p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm md:shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-3 md:gap-4 lg:hover:scale-[1.02] transition-transform duration-500 transform-gpu">
+            <div className="relative w-12 h-12 md:w-14 md:h-14 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center overflow-hidden">
               <Image 
                 src="/assets/branding/final/nusantara_gong_solid_white_bg_1777350027916.webp" 
                 alt="Gong"
@@ -92,14 +90,13 @@ export default async function DashboardPage() {
             </div>
             <div className="min-w-0">
               <p className="text-[10px] text-wedding-text/50 font-bold uppercase tracking-[0.2em] mb-1 truncate">RSVP</p>
-              <p className="text-3xl font-serif font-bold text-wedding-text leading-none">{totalRSVP}</p>
+              <p className="text-2xl md:text-3xl font-serif font-bold text-wedding-text leading-none">{totalRSVP}</p>
             </div>
           </div>
 
           {/* STAT 3: HADIR (PENDET) */}
-          <div className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-6 rounded-[2rem] shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-4 hover:scale-[1.02] transition-transform duration-500">
-            <div className="relative w-14 h-14 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 bg-green-500/5 blur-sm" />
+          <div className="bg-white/80 dark:bg-wedding-base/90 lg:backdrop-blur-xl p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm md:shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-3 md:gap-4 lg:hover:scale-[1.02] transition-transform duration-500 transform-gpu">
+            <div className="relative w-12 h-12 md:w-14 md:h-14 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center overflow-hidden">
               <Image 
                 src="/assets/branding/final/ai_guestbook_solid_white_bg_1777348210241.webp" 
                 alt="Guestbook"
@@ -110,14 +107,13 @@ export default async function DashboardPage() {
             </div>
             <div className="min-w-0">
               <p className="text-[10px] text-wedding-text/50 font-bold uppercase tracking-[0.2em] mb-1 truncate">HADIR</p>
-              <p className="text-3xl font-serif font-bold text-wedding-text leading-none">{totalHadir}</p>
+              <p className="text-2xl md:text-3xl font-serif font-bold text-wedding-text leading-none">{totalHadir}</p>
             </div>
           </div>
 
           {/* STAT 4: STATUS (STUPA) */}
-          <div className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-6 rounded-[2rem] shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-4 hover:scale-[1.02] transition-transform duration-500">
-            <div className="relative w-14 h-14 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 bg-indigo-500/5 blur-sm" />
+          <div className="bg-white/80 dark:bg-wedding-base/90 lg:backdrop-blur-xl p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm md:shadow-lg border border-white/50 dark:border-wedding-gold/20 flex items-center gap-3 md:gap-4 lg:hover:scale-[1.02] transition-transform duration-500 transform-gpu">
+            <div className="relative w-12 h-12 md:w-14 md:h-14 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl flex items-center justify-center overflow-hidden">
               <Image 
                 src="/assets/branding/final/nusantara_stupa_solid_white_bg_1777349902920.webp" 
                 alt="Stupa"
@@ -128,7 +124,7 @@ export default async function DashboardPage() {
             </div>
             <div className="min-w-0">
               <p className="text-[10px] text-wedding-text/50 font-bold uppercase tracking-[0.2em] mb-1 truncate">STATUS</p>
-              <p className="text-3xl font-serif font-bold text-wedding-text leading-none uppercase text-xs tracking-widest">ACTIVE</p>
+              <p className="text-2xl md:text-3xl font-serif font-bold text-wedding-text leading-none uppercase text-xs tracking-widest">ACTIVE</p>
             </div>
           </div>
         </div>
@@ -148,7 +144,7 @@ export default async function DashboardPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <Link href="/dashboard/create">
-              <div className="bg-white/30 dark:bg-wedding-base/30 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-lg border-2 border-dashed border-wedding-gold/40 text-center group cursor-pointer hover:bg-white/50 hover:border-wedding-gold hover:scale-[1.02] transition-all h-full flex flex-col justify-center duration-500">
+              <div className="bg-white/70 dark:bg-wedding-base/70 lg:backdrop-blur-xl p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm md:shadow-lg border-2 border-dashed border-wedding-gold/40 text-center group cursor-pointer hover:bg-white/50 lg:hover:scale-[1.02] transition-all h-full flex flex-col justify-center duration-500 transform-gpu">
                 <div className="w-16 h-16 bg-wedding-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-wedding-gold group-hover:text-white text-wedding-gold transition-colors">
                   <Plus className="w-8 h-8" />
                 </div>
@@ -158,7 +154,7 @@ export default async function DashboardPage() {
             </Link>
 
             {invitations?.map((invitation) => (
-              <div key={invitation.id} className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-xl border border-white/50 dark:border-wedding-gold/20 flex flex-col justify-between hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 relative overflow-hidden group">
+              <div key={invitation.id} className="bg-white/80 dark:bg-wedding-base/90 lg:backdrop-blur-xl p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] shadow-md md:shadow-xl border border-white/50 dark:border-wedding-gold/20 flex flex-col justify-between lg:hover:shadow-2xl lg:hover:scale-[1.02] transition-all duration-500 relative overflow-hidden group transform-gpu">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-wedding-gold/5 rounded-full blur-2xl group-hover:bg-wedding-gold/10 transition-colors pointer-events-none" />
                 
                 <div className="relative z-10">
