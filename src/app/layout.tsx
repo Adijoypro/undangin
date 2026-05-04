@@ -87,6 +87,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { LuxuryThemeToggle } from "@/components/ui/LuxuryThemeToggle";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import GoldenAura from "@/components/ui/GoldenAura";
+import GlobalLoader from "@/components/ui/GlobalLoader";
 
 export default function RootLayout({
   children,
@@ -102,6 +103,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
+        <GlobalLoader />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
