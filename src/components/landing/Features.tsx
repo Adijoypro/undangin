@@ -31,7 +31,7 @@ export default function Features() {
   return (
     <>
       {/* MAIN FEATURES */}
-      <section id="fitur" className="py-20 md:py-32 px-4 relative border-t border-wedding-gold/10 overflow-hidden">
+      <section id="fitur" className="py-12 md:py-32 px-4 relative border-t border-wedding-gold/10 overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[800px] md:h-[800px] bg-wedding-gold/5 rounded-full blur-[80px] md:blur-[150px] -z-10" />
         
         <div className="max-w-7xl mx-auto">
@@ -99,7 +99,7 @@ export default function Features() {
       </section>
 
       {/* SHOWCASE SECTION - WHY US */}
-      <section className="py-20 md:py-32 px-4 bg-wedding-text/[0.02]">
+      <section className="py-12 md:py-32 px-4 bg-wedding-text/[0.02]">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
             <motion.div

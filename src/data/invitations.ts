@@ -4,12 +4,14 @@ export interface InvitationData {
   theme: "premium" | "cinematic" | "ultra-luxury" | "majestic-eternity" | "renaissance-garden" | "celestial-harmony";
   bride: {
     name: string;
+    nickname?: string;
     fullName: string;
     parents: string;
     photo: string;
   };
   groom: {
     name: string;
+    nickname?: string;
     fullName: string;
     parents: string;
     photo: string;
@@ -73,12 +75,14 @@ export const dummyData: InvitationData = {
   theme: "ultra-luxury",
   bride: {
     name: "Ayu",
+    nickname: "Ayu",
     fullName: "Ayu Saraswati, S.E.",
     parents: "Bapak Budi & Ibu Siti",
     photo: "/assets/demo/bride.webp",
   },
   groom: {
     name: "Bima",
+    nickname: "Bima",
     fullName: "Bima Aryasena, S.T.",
     parents: "Bapak Joko & Ibu Sri",
     photo: "/assets/demo/groom.webp",

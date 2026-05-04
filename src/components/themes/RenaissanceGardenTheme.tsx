@@ -9,6 +9,8 @@ import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
+import { toast } from "sonner";
+import BottomSheet from "@/components/ui/BottomSheet";
 import MapSimulation from "@/components/ui/MapSimulation";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -16,6 +18,8 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
   const { isOpened, onOpen } = useContext(ThemeContext);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRSVPOpen, setIsRSVPOpen] = useState(false);
+  const [isQRISOpen, setIsQRISOpen] = useState(false);
 
   const { scrollYProgress } = useScroll({ target: containerRef });
   const smoothProgress = useSpring(scrollYProgress, { damping: 20, stiffness: 100 });
@@ -30,14 +34,14 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
     const result = await submitRSVP(formData);
     setIsSubmitting(false);
     if (result.success) {
-      alert("Terima kasih atas konfirmasi Anda.");
-      (document.getElementById("rsvp-form-rg") as HTMLFormElement).reset();
-    } else { alert("Gagal mengirim, silakan coba lagi."); }
+      toast.success("Terima kasih atas konfirmasi Anda.");
+      setIsRSVPOpen(false);
+    } else { toast.error("Gagal mengirim, silakan coba lagi."); }
   };
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
-    alert("Nomor rekening tersalin.");
+    toast.success("Nomor rekening tersalin.");
   };
 
   const createCalendarLink = () => {
@@ -52,14 +56,14 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
     visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
   };
 
-  // CSS-based ornament as SVG fallback
+
+  // Small subtle ornament
   const Ornament = ({ className = "" }: { className?: string }) => (
-    <svg className={`w-32 h-8 ${className}`} viewBox="0 0 200 40" fill="none">
-      <path d="M0 20 Q50 0 100 20 Q150 40 200 20" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.4" />
-      <circle cx="100" cy="20" r="3" fill="currentColor" opacity="0.3" />
-      <circle cx="60" cy="12" r="2" fill="currentColor" opacity="0.2" />
-      <circle cx="140" cy="28" r="2" fill="currentColor" opacity="0.2" />
-    </svg>
+    <div className={`flex items-center justify-center gap-3 ${className}`}>
+      <div className="w-8 h-px bg-wedding-gold/30"></div>
+      <div className="w-1 h-1 rounded-full bg-wedding-gold/40"></div>
+      <div className="w-8 h-px bg-wedding-gold/30"></div>
+    </div>
   );
 
   const palette = {
@@ -158,8 +162,14 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
                 <a href={createCalendarLink()} target="_blank"
                   className="inline-block px-6 py-3 md:px-8 md:py-3 text-[10px] md:text-xs tracking-[0.3em] uppercase border transition-all duration-500 hover:text-white"
                   style={{ borderColor: palette.accent, color: palette.accent }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = palette.accent)}
-                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = palette.accent; }}>
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = palette.accent;
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => { 
+                    e.currentTarget.style.backgroundColor = 'transparent'; 
+                    e.currentTarget.style.color = palette.accent; 
+                  }}>
                   Save the Date
                 </a>
             </div>
@@ -174,8 +184,10 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           <div className="max-w-5xl mx-auto">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-20">
               <Ornament className="mx-auto mb-6" />
-              <p className="text-base italic leading-relaxed max-w-2xl mx-auto" style={{ color: palette.textMuted }}>
-                {data.loveStory[0]?.story || data.loveStory[0] || "Kami adalah sepasang manusia yang sedang berbahagia dan mengundang Anda untuk hadir di hari bahagia kami."}
+              <p className="text-sm italic leading-[2] max-w-2xl mx-auto px-4" style={{ color: palette.textMuted }}>
+                "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir."
+                <br />
+                <span className="block mt-4 font-bold tracking-widest text-[10px] uppercase">— QS. Ar-Rum: 21</span>
               </p>
             </motion.div>
             <div className="grid md:grid-cols-2 gap-16 md:gap-24">
@@ -221,11 +233,60 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           </div>
         </section>
 
+
+        {/* ═══ GALLERY ═══ */}
+        {data.gallery && data.gallery.length > 0 && (
+          <section className="py-24 md:py-40 px-4 relative overflow-hidden" style={{ backgroundColor: palette.bg }}>
+            {/* Botanical Corner Ornaments */}
+            <div className="absolute top-0 left-0 w-48 h-48 md:w-80 md:h-80 opacity-20 pointer-events-none z-0">
+              <Image src="/assets/renaissance/botanical-corner.webp" fill className="object-contain" alt="Botanical" />
+            </div>
+            <div className="absolute bottom-0 right-0 w-48 h-48 md:w-80 md:h-80 opacity-20 pointer-events-none z-0 rotate-180">
+              <Image src="/assets/renaissance/botanical-corner.webp" fill className="object-contain" alt="Botanical" />
+            </div>
+
+            <div className="max-w-6xl mx-auto relative z-10">
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-20">
+                <h2 className="text-3xl md:text-5xl italic mb-4">Momen Indah</h2>
+                <Ornament className="mx-auto" />
+              </motion.div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[200px] md:auto-rows-[300px]">
+                {data.gallery.map((img, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    className={`relative group overflow-hidden bg-white p-2 shadow-xl border border-wedding-gold/10 cursor-pointer ${
+                      idx === 0 ? 'col-span-2 row-span-2' : 
+                      idx === 3 ? 'row-span-2' : ''
+                    }`}
+                  >
+                    <div className="relative w-full h-full overflow-hidden">
+                      <Image 
+                        src={img} 
+                        alt={`Gallery ${idx}`} 
+                        fill 
+                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                      />
+                      {/* Soft Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+
         {/* ═══ LOVE STORY ═══ */}
         <section className="py-24 md:py-40 px-4 relative overflow-hidden" style={{ backgroundColor: palette.bg }}>
           <div className="max-w-4xl mx-auto text-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-              <h2 className="text-3xl md:text-5xl italic mb-4">Our Story</h2>
+              <h2 className="text-3xl md:text-5xl italic mb-4">Kisah Cinta Kami</h2>
               <Ornament className="mx-auto mb-16" />
               {renderLoveStory()}
             </motion.div>
@@ -257,14 +318,14 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
                       <div className="p-6 bg-wedding-gold/5 border border-wedding-gold/10 rounded-3xl flex items-center gap-6">
                         <div className="bg-white p-2 rounded-xl shadow-sm border border-wedding-gold/10">
                           <QRCodeSVG 
-                            value={event.maps_link || event.mapsLink} 
+                            value={event.maps_link || event.mapsLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((event.location || event.locationName || "") + " " + (event.address || event.locationAddress || ""))}`} 
                             size={80} 
                             level="H"
                             fgColor={palette.accent}
                           />
                         </div>
                         <div className="text-left">
-                          <p className="text-[10px] font-black text-wedding-gold uppercase tracking-widest mb-1">Scan for Navigation</p>
+                          <p className="text-[10px] font-black text-wedding-gold uppercase tracking-widest mb-1">Scan untuk Navigasi</p>
                           <p className="text-[9px] leading-relaxed text-gray-500 italic">Scan barcode ini untuk membuka lokasi di Google Maps ponsel Anda.</p>
                         </div>
                       </div>
@@ -280,8 +341,11 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
                     <h4 className="text-lg italic mb-2" style={{ color: palette.gold }}>{event.location || event.locationName}</h4>
                     <p className="text-xs mb-10 leading-relaxed" style={{ color: palette.textMuted }}>{event.address || event.locationAddress}</p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                      <a href={event.maps_link || event.mapsLink} target="_blank"
-                        className="px-6 py-3 md:px-8 md:py-3 text-[10px] md:text-xs tracking-[0.2em] uppercase text-white transition-all duration-500 hover:opacity-80"
+                      <a 
+                        href={event.maps_link || event.mapsLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((event.location || event.locationName || "") + " " + (event.address || event.locationAddress || ""))}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center px-6 py-4 md:px-8 md:py-4 text-[10px] md:text-xs tracking-[0.3em] uppercase text-white shadow-xl active:scale-95 transition-all duration-300"
                         style={{ backgroundColor: palette.accent }}>
                         Buka Maps
                       </a>
@@ -323,39 +387,128 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
         )}
 
         {/* ═══ RSVP ═══ */}
-        <section className="py-24 md:py-40 px-4" style={{ backgroundColor: palette.bg }}>
-          <div className="max-w-xl mx-auto">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12">
-              <h2 className="text-3xl md:text-5xl italic mb-4">RSVP</h2>
+        <section className="py-24 md:py-32 px-4" style={{ backgroundColor: palette.bg }}>
+          <div className="max-w-xl mx-auto text-center">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mb-12">
+              <h2 className="text-3xl md:text-5xl italic mb-4">Konfirmasi Kehadiran</h2>
               <Ornament className="mx-auto" />
+              <p className="mt-8 text-sm italic" style={{ color: palette.textMuted }}>Sampaikan konfirmasi kehadiran Anda untuk merayakan hari bahagia ini bersama kami.</p>
             </motion.div>
-            <motion.form id="rsvp-form-rg" action={handleRSVP} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="space-y-8">
-              <input type="text" name="name" required placeholder="Nama Lengkap"
-                className="w-full bg-transparent border-b py-4 text-sm tracking-widest focus:outline-none transition-colors"
-                style={{ borderColor: palette.accent + '30', color: palette.text }} />
-              <select name="attendance"
-                className="w-full bg-transparent border-b py-4 text-sm tracking-widest focus:outline-none appearance-none cursor-pointer"
-                style={{ borderColor: palette.accent + '30', color: palette.text }}>
-                <option value="Hadir">Saya Akan Hadir</option>
-                <option value="Tidak Hadir">Tidak Bisa Hadir</option>
-              </select>
-              <textarea name="message" rows={3} required placeholder="Ucapan & Doa"
-                className="w-full bg-transparent border-b py-4 text-sm tracking-widest focus:outline-none resize-none"
-                style={{ borderColor: palette.accent + '30', color: palette.text }}></textarea>
-                  <button type="submit" disabled={isSubmitting}
-                    className="w-full py-3 md:py-4 text-[9px] md:text-xs tracking-[0.3em] uppercase text-white transition-all duration-500 hover:opacity-80 disabled:opacity-50"
-                    style={{ backgroundColor: palette.accent }}>
-                    {isSubmitting ? "Mengirim..." : "KIRIM"}
-                  </button>
-            </motion.form>
+
+            <button 
+              onClick={() => setIsRSVPOpen(true)}
+              className="group relative w-full py-10 border transition-all duration-700 hover:border-opacity-100"
+              style={{ borderColor: palette.accent + '30', backgroundColor: palette.card }}
+            >
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity" style={{ backgroundColor: palette.accent }} />
+              <span className="relative z-10 text-[10px] md:text-xs tracking-[0.5em] uppercase font-bold" style={{ color: palette.accent }}>Kirim Konfirmasi Kehadiran</span>
+            </button>
           </div>
         </section>
+
+        {/* RENAISSANCE BOTTOM SHEET */}
+        <BottomSheet 
+          isOpen={isRSVPOpen} 
+          onClose={() => setIsRSVPOpen(false)} 
+          title="KONFIRMASI KEHADIRAN"
+          className="!bg-[#FFFDF8] dark:!bg-[#FFFDF8]"
+          titleClassName="!text-[#3D3229] font-bold text-2xl tracking-widest"
+        >
+          <form action={handleRSVP} className="space-y-10 py-10">
+            <div className="hidden">
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: palette.text }}>Nama Lengkap</label>
+              <input 
+                type="text" 
+                name="name" 
+                required 
+                placeholder="NAMA ANDA" 
+                className="w-full bg-transparent border-b py-4 text-sm tracking-widest focus:outline-none transition-all placeholder:opacity-20" 
+                style={{ borderColor: palette.accent + '30', color: palette.text }}
+              />
+            </div>
+
+            <div className="space-y-2 text-left">
+              <label className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: palette.text }}>Status Kehadiran</label>
+              <div className="relative">
+                <select 
+                  name="attendance" 
+                  required 
+                  className="w-full bg-transparent border-b py-4 text-sm tracking-widest focus:outline-none appearance-none cursor-pointer"
+                  style={{ borderColor: palette.accent + '30', color: palette.text }}
+                >
+                  <option value="Hadir" style={{ backgroundColor: palette.card, color: palette.text }}>Saya Akan Hadir</option>
+                  <option value="Tidak Hadir" style={{ backgroundColor: palette.card, color: palette.text }}>Maaf, Saya Tidak Bisa Hadir</option>
+                </select>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-30">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M19 9l-7 7-7-7" /></svg>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2 text-left">
+              <label className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: palette.text }}>Ucapan & Doa Restu</label>
+              <textarea 
+                name="message" 
+                rows={5} 
+                required 
+                placeholder="TULISKAN DOA & HARAPAN ANDA" 
+                className="w-full bg-transparent border-b py-4 text-sm tracking-widest focus:outline-none resize-none placeholder:opacity-20"
+                style={{ borderColor: palette.accent + '30', color: palette.text }}
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="w-full py-6 text-white font-bold uppercase tracking-[0.3em] text-xs shadow-xl active:scale-95 transition-all disabled:opacity-50"
+              style={{ backgroundColor: palette.accent }}
+            >
+              {isSubmitting ? "MENGIRIM..." : "KONFIRMASI KEHADIRAN"}
+            </button>
+          </form>
+        </BottomSheet>
+        
+        {/* RENAISSANCE QRIS */}
+        <BottomSheet 
+          isOpen={isQRISOpen} 
+          onClose={() => setIsQRISOpen(false)} 
+          title="HADIAH PERNIKAHAN"
+          className="!bg-[#FFFDF8] dark:!bg-[#FFFDF8]"
+          titleClassName="!text-[#3D3229] font-bold text-2xl tracking-widest"
+        >
+          <div className="p-8 text-center space-y-8">
+            <div className="relative w-full aspect-square max-w-[300px] mx-auto bg-white p-4 rounded-3xl shadow-xl overflow-hidden border-2" style={{ borderColor: palette.gold + '30' }}>
+              {data.gift.qrUrl && (
+                <Image src={data.gift.qrUrl} alt="QRIS" fill className="object-contain p-4" />
+              )}
+            </div>
+            <div className="space-y-3">
+              <p className="text-xl italic tracking-wide" style={{ color: palette.accent }}>{data.gift.bankName}</p>
+              <div className="p-5 rounded-2xl border" style={{ borderColor: palette.gold + '20', backgroundColor: palette.card }}>
+                <p className="text-lg font-serif tracking-widest">{data.gift.accountNumber}</p>
+                <p className="text-[10px] uppercase tracking-widest mt-1 opacity-50">A/N {data.gift.accountName}</p>
+              </div>
+            </div>
+            <button 
+              onClick={() => setIsQRISOpen(false)}
+              className="w-full py-5 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl shadow-lg active:scale-95 transition-all"
+              style={{ backgroundColor: palette.accent }}
+            >
+              TUTUP JENDELA HADIAH
+            </button>
+          </div>
+        </BottomSheet>
+
 
         {/* ═══ GUESTBOOK ═══ */}
         <section className="py-24 px-4" style={{ backgroundColor: palette.card }}>
           <div className="max-w-3xl mx-auto">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl italic mb-4">Wedding Wishes</h2>
+              <h2 className="text-3xl md:text-5xl italic mb-4">Ucapan & Doa</h2>
               <Ornament className="mx-auto" />
             </motion.div>
             <div className="space-y-8 max-h-[600px] overflow-y-auto pr-4">
@@ -390,6 +543,7 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           </div>
         </section>
 
+
         {/* ═══ GIFT ═══ */}
         <section className="py-24 px-4" style={{ backgroundColor: palette.bg }}>
           <div className="max-w-xl mx-auto text-center">
@@ -399,17 +553,70 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
               <p className="text-sm mb-12" style={{ color: palette.textMuted }}>
                 Bagi yang ingin memberikan tanda kasih, dapat mengirimkan melalui:
               </p>
-              <div className="p-5 border" style={{ borderColor: palette.gold + '20', backgroundColor: palette.card }}>
-                <p className="text-xs tracking-[0.4em] uppercase mb-4" style={{ color: palette.accent }}>{data.gift.bankName}</p>
-                <p className="text-[11px] md:text-3xl tracking-[0.1em] md:tracking-[0.15em] mb-2 font-serif">{data.gift.accountNumber}</p>
-                <p className="text-[10px] mb-8" style={{ color: palette.textMuted }}>A/N {data.gift.accountName}</p>
-                <button onClick={() => handleCopy(data.gift.accountNumber)}
-                  className="px-6 py-3 md:px-8 md:py-3 text-[9px] md:text-xs tracking-[0.2em] uppercase border transition-all duration-500 hover:text-white"
-                  style={{ borderColor: palette.accent, color: palette.accent }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = palette.accent)}
-                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = palette.accent; }}>
-                  Salin Rekening
-                </button>
+              <div className="max-w-md mx-auto relative group">
+                {/* Luxury Card Mockup */}
+                <div className="relative aspect-[1.6/1] w-full bg-gradient-to-br from-[#3D3229] to-[#1A1612] rounded-2xl p-6 md:p-8 text-left overflow-hidden shadow-2xl border border-white/10 mb-8">
+                  {/* Decorative Elements */}
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-[#B8963E]/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#C4867A]/5 rounded-full blur-2xl -ml-16 -mb-16"></div>
+                  
+                  {/* Card Content */}
+                  <div className="relative z-10 h-full flex flex-col justify-between">
+                    <div className="flex justify-between items-start">
+                      <div className="w-12 h-10 bg-gradient-to-br from-[#D4AF37] via-[#F3E5AB] to-[#D4AF37] rounded-md shadow-inner flex items-center justify-center">
+                        <div className="w-8 h-px bg-black/20 my-1"></div>
+                      </div>
+                      <p className="text-[10px] md:text-xs tracking-[0.3em] font-bold text-[#D4AF37] uppercase">{data.gift.bankName}</p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <p className="text-xs md:text-sm tracking-[0.2em] text-white/40 uppercase font-light">Nomor Rekening</p>
+                      <p className="text-lg md:text-3xl font-serif tracking-[0.15em] text-white drop-shadow-lg">{data.gift.accountNumber}</p>
+                    </div>
+
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <p className="text-[8px] md:text-[10px] tracking-[0.2em] text-white/40 uppercase mb-1">Pemilik Rekening</p>
+                        <p className="text-xs md:text-sm tracking-widest text-[#D4AF37] font-bold uppercase">{data.gift.accountName}</p>
+                      </div>
+                      <div className="flex -space-x-2">
+                        <div className="w-8 h-8 rounded-full bg-white/10 border border-white/5 backdrop-blur-sm"></div>
+                        <div className="w-8 h-8 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37]/10 backdrop-blur-sm"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <button onClick={() => handleCopy(data.gift.accountNumber)}
+                    className="flex-1 px-6 py-4 text-[9px] md:text-xs tracking-[0.2em] uppercase border transition-all duration-500 hover:text-white"
+                    style={{ borderColor: palette.accent, color: palette.accent }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = palette.accent;
+                      e.currentTarget.style.color = 'white';
+                    }}
+                    onMouseLeave={(e) => { 
+                      e.currentTarget.style.backgroundColor = 'transparent'; 
+                      e.currentTarget.style.color = palette.accent; 
+                    }}>
+                    Salin Rekening
+                  </button>
+                  {data.gift.qrUrl && (
+                    <button onClick={() => setIsQRISOpen(true)}
+                      className="flex-1 px-6 py-4 text-[9px] md:text-xs tracking-[0.2em] uppercase border transition-all duration-500"
+                      style={{ borderColor: palette.gold, color: palette.gold }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = palette.gold;
+                        e.currentTarget.style.color = 'white';
+                      }}
+                      onMouseLeave={(e) => { 
+                        e.currentTarget.style.backgroundColor = 'transparent'; 
+                        e.currentTarget.style.color = palette.gold; 
+                      }}>
+                      Lihat QRIS
+                    </button>
+                  )}
+                </div>
               </div>
             </motion.div>
           </div>
@@ -433,17 +640,23 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
         </section>
 
         {/* ═══ FOOTER ═══ */}
-        <footer className="py-20 text-center px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-48 opacity-10 -scale-y-100">
-            <Image src="/assets/renaissance/botanical-corner.webp" fill className="object-contain" alt="Botanical" />
+        <footer className="py-24 text-center px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
+          {/* Floral Pattern Border */}
+          <div className="absolute bottom-0 left-0 right-0 h-16 opacity-30 mix-blend-multiply">
+            <div className="flex w-[200%] animate-scroll-linear">
+              <div className="w-full h-full relative">
+                <Image src="/assets/renaissance/floral-divider.webp" fill className="object-contain" alt="Pattern" />
+              </div>
+              <div className="w-full h-full relative">
+                <Image src="/assets/renaissance/floral-divider.webp" fill className="object-contain" alt="Pattern" />
+              </div>
+            </div>
           </div>
+
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative z-10">
             <Ornament className="mx-auto mb-8" />
-            <p className="text-sm italic mb-2" style={{ color: palette.textMuted }}>Thank you</p>
-            <h2 className="text-2xl md:text-5xl italic mb-6 tracking-tighter">{data.bride.name} & {data.groom.name}</h2>
-            <p className="text-[10px] tracking-[0.3em] uppercase" style={{ color: palette.textMuted }}>
-              Undangin Premium • Saves paper, reduces carbon footprint 🌱
-            </p>
+            <p className="text-sm italic mb-2" style={{ color: palette.textMuted }}>Terima Kasih</p>
+            <h2 className="text-2xl md:text-5xl italic mb-6 tracking-tighter">{data.bride.nickname || data.bride.name} & {data.groom.nickname || data.groom.name}</h2>
           </motion.div>
         </footer>
       </div>

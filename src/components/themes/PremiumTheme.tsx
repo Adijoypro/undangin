@@ -13,6 +13,7 @@ import { submitRSVP } from "@/app/[slug]/actions";
 import { toast } from "sonner";
 import MapSimulation from "@/components/ui/MapSimulation";
 import { QRCodeSVG } from "qrcode.react";
+import BottomSheet from "@/components/ui/BottomSheet";
 
 export default function PremiumTheme({ data }: { data: InvitationData }) {
   const { isOpened, onOpen } = useContext(ThemeContext);
@@ -54,6 +55,9 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [isRSVPOpen, setIsRSVPOpen] = useState(false);
+  const [isQRISOpen, setIsQRISOpen] = useState(false);
+
   const handleRSVP = async (formData: FormData) => {
     setIsSubmitting(true);
     formData.append("invitation_id", data.id);
@@ -64,7 +68,7 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
     setIsSubmitting(false);
     if (result.success) {
       toast.success("Terima kasih atas doa dan kehadiran Anda!");
-      (document.getElementById("rsvp-form") as HTMLFormElement).reset();
+      setIsRSVPOpen(false);
     } else {
       toast.error(result.error || "Gagal mengirim pesan, silakan coba lagi.");
     }
@@ -263,89 +267,169 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
                 <div className="bg-white p-10 rounded-2xl shadow-xl border border-wedding-gold/20 relative overflow-hidden group max-w-sm mx-auto mt-12">
                     <p className="font-serif text-4xl mb-2 tracking-widest text-wedding-sage relative z-10">{data.gift.accountNumber}</p>
                     <p className="text-sm font-sans font-bold uppercase tracking-widest text-wedding-text/60 mb-8 relative z-10">{data.gift.bankName} - {data.gift.accountName}</p>
-                    <button onClick={() => handleCopy(data.gift.accountNumber)} className="px-6 py-3 border border-wedding-gold text-wedding-text rounded-full hover:bg-wedding-gold hover:text-white transition-colors text-xs font-bold uppercase tracking-widest w-full">
-                        Salin Rekening
-                    </button>
+                    <div className="flex flex-col sm:flex-row gap-4 mt-8 relative z-10">
+                      <button onClick={() => handleCopy(data.gift.accountNumber)} className="flex-1 px-6 py-3 border border-wedding-gold text-wedding-text rounded-full hover:bg-wedding-gold hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
+                          Salin Rekening
+                      </button>
+                      {data.gift.qrUrl && (
+                        <button onClick={() => setIsQRISOpen(true)} className="flex-1 px-6 py-3 bg-wedding-gold text-white rounded-full hover:bg-wedding-sage transition-colors text-xs font-bold uppercase tracking-widest shadow-lg shadow-wedding-gold/20">
+                            Lihat QRIS
+                        </button>
+                      )}
+                    </div>
                 </div>
             </div>
         </section>
         
-        {/* GUESTBOOK & RSVP */}
-      <section className="py-32 px-4 bg-white relative z-10 border-t border-wedding-gold/20">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16">
-          <div data-aos="fade-right">
-            <h3 className="font-script text-6xl text-wedding-gold mb-4">RSVP</h3>
-            <p className="font-sans text-sm text-gray-500 mb-8 leading-relaxed">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.</p>
+        {/* GUESTBOOK & RSVP SECTION */}
+        <section className="py-24 px-4 bg-white relative z-10 border-t border-wedding-gold/20">
+          <div className="max-w-4xl mx-auto text-center">
+            <h3 className="font-script text-6xl text-wedding-gold mb-8" data-aos="fade-up">Guestbook</h3>
             
-            <form id="rsvp-form" action={handleRSVP} className="space-y-6">
-              {/* Honeypot field for spam protection */}
-              <div className="hidden">
-                <input type="text" name="website" tabIndex={-1} autoComplete="off" />
-              </div>
-              
-              <div>
-                <input type="text" name="name" required placeholder="Nama Lengkap" className="w-full p-4 border border-gray-200 rounded-xl focus:border-wedding-gold outline-none bg-gray-50 font-sans text-sm" />
-              </div>
-              <div>
-                <select name="attendance" className="w-full p-4 border border-gray-200 rounded-xl focus:border-wedding-gold outline-none bg-gray-50 font-sans text-sm appearance-none">
-                  <option value="Hadir">Ya, Saya akan hadir</option>
-                  <option value="Tidak Hadir">Maaf, saya tidak bisa hadir</option>
-                </select>
-              </div>
-              <div>
-                <textarea name="message" rows={4} required placeholder="Berikan ucapan dan doa restu..." className="w-full p-4 border border-gray-200 rounded-xl focus:border-wedding-gold outline-none bg-gray-50 font-sans text-sm resize-none"></textarea>
-              </div>
+            {/* CTA Button to Open Bottom Sheet */}
+            <div className="mb-16" data-aos="zoom-in">
               <button 
-                type="submit" 
-                disabled={isSubmitting}
-                className="w-full py-4 bg-wedding-gold text-white rounded-xl hover:bg-[#B8982D] transition-colors font-sans text-xs font-bold uppercase tracking-widest disabled:opacity-50 shadow-lg"
+                onClick={() => setIsRSVPOpen(true)}
+                className="inline-flex flex-col items-center group transition-all duration-500"
               >
-                {isSubmitting ? "Mengirim..." : "Kirim RSVP"}
+                <div className="w-20 h-20 bg-wedding-gold text-white rounded-full flex items-center justify-center shadow-2xl shadow-wedding-gold/40 group-hover:scale-110 active:scale-95 transition-all duration-500 mb-4">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </div>
+                <span className="font-serif text-xl text-wedding-text group-hover:text-wedding-gold transition-colors">Berikan Ucapan & RSVP</span>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-wedding-text/40 mt-2">Klik untuk mengisi kehadiran</p>
               </button>
-            </form>
-          </div>
+            </div>
 
-          <div data-aos="fade-left" className="bg-gray-50 p-8 rounded-2xl border border-gray-100 flex flex-col h-full">
-            <h3 className="font-serif text-2xl text-wedding-text mb-6">Buku Tamu ({data.guestbook?.length || 0})</h3>
-            <div className="flex-1 max-h-[500px] overflow-y-auto pr-4 space-y-4 scrollbar-thin scrollbar-thumb-wedding-gold/20 scrollbar-track-transparent">
+            {/* Guestbook List - Aesthetic Display */}
+            <div className="grid md:grid-cols-2 gap-6 text-left">
               {data.guestbook && data.guestbook.length > 0 ? (
                 data.guestbook.map((guest, idx) => (
-                  <div key={idx} className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 relative group/entry">
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="font-sans font-bold text-wedding-text text-sm">{guest.name}</span>
-                      <div className="flex items-center gap-2">
-                        <span className={`text-[10px] uppercase tracking-widest px-2 py-1 rounded-md ${guest.attendance === 'Hadir' ? 'bg-wedding-sage/10 text-wedding-sage font-bold' : 'bg-red-50 text-red-500 font-bold'}`}>
-                          {guest.attendance}
-                        </span>
-                        {/* Hidden Delete Button (Visible via ThemeWrapper for Owner) */}
-                        <button 
-                          onClick={() => (window as any).handleDeleteEntry?.(guest.id)}
-                          className="guest-entry-delete hidden p-1 text-red-400 hover:text-red-600 transition-colors"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                        </button>
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: (idx % 4) * 0.1 }}
+                    key={idx} 
+                    className="bg-[#FAF8F5] p-6 rounded-3xl border border-wedding-gold/5 hover:border-wedding-gold/20 transition-all group"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-wedding-gold/10 rounded-full flex items-center justify-center font-serif text-wedding-gold">
+                          {guest.name[0]}
+                        </div>
+                        <div>
+                          <p className="font-serif text-lg text-wedding-text leading-tight">{guest.name}</p>
+                          <span className={`text-[9px] uppercase tracking-widest font-bold ${guest.attendance === 'Hadir' ? 'text-wedding-sage' : 'text-red-400'}`}>
+                            {guest.attendance}
+                          </span>
+                        </div>
                       </div>
+                      <span className="text-[10px] text-wedding-text/30 font-sans italic">
+                        {new Date(guest.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                      </span>
                     </div>
-                    <p className="font-serif text-sm text-gray-600 leading-relaxed italic">"{guest.message}"</p>
-                    <p className="font-sans text-[10px] text-gray-400 mt-3">
-                      {new Date(guest.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </p>
-                  </div>
+                    <p className="font-serif text-sm text-wedding-text/70 italic leading-relaxed">"{guest.message}"</p>
+                  </motion.div>
                 ))
               ) : (
-                <p className="text-gray-400 text-sm italic">Belum ada ucapan.</p>
+                <div className="col-span-2 py-12 border-2 border-dashed border-wedding-gold/10 rounded-[3rem] text-wedding-text/30 italic">
+                  Belum ada ucapan dari para tamu...
+                </div>
               )}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* BOTTOM SHEET RSVP FORM */}
+        <BottomSheet 
+          isOpen={isRSVPOpen} 
+          onClose={() => setIsRSVPOpen(false)} 
+          title="Kirim Doa & RSVP"
+        >
+          <form action={handleRSVP} className="space-y-6">
+            <div className="hidden">
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-[0.2em] text-wedding-text/50 ml-1 font-bold">Nama Lengkap</label>
+              <input 
+                type="text" 
+                name="name" 
+                required 
+                placeholder="Contoh: Budi & Keluarga" 
+                className="w-full p-5 bg-gray-50 dark:bg-white/5 border border-wedding-gold/10 rounded-[1.5rem] focus:border-wedding-gold outline-none font-serif text-lg" 
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-[0.2em] text-wedding-text/50 ml-1 font-bold">Kehadiran</label>
+              <select 
+                name="attendance" 
+                className="w-full p-5 bg-gray-50 dark:bg-white/5 border border-wedding-gold/10 rounded-[1.5rem] focus:border-wedding-gold outline-none font-serif text-lg appearance-none cursor-pointer"
+              >
+                <option value="Hadir">Insya Allah, Saya Hadir</option>
+                <option value="Tidak Hadir">Maaf, Berhalangan Hadir</option>
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-[0.2em] text-wedding-text/50 ml-1 font-bold">Ucapan & Doa</label>
+              <textarea 
+                name="message" 
+                rows={5} 
+                required 
+                placeholder="Tuliskan doa restu Anda..." 
+                className="w-full p-5 bg-gray-50 dark:bg-white/5 border border-wedding-gold/10 rounded-[1.5rem] focus:border-wedding-gold outline-none font-serif text-lg resize-none"
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="w-full py-5 bg-gradient-to-r from-wedding-gold to-[#B8962E] text-white rounded-[1.5rem] font-bold text-[10px] uppercase tracking-[0.2em] shadow-xl shadow-wedding-gold/20 active:scale-95 transition-all disabled:opacity-50"
+            >
+              {isSubmitting ? "Sedang Mengirim..." : "Kirim Mahakarya Doa"}
+            </button>
+            <p className="text-center text-[10px] text-wedding-text/30 italic">Pesan Anda akan langsung tampil di Buku Tamu.</p>
+          </form>
+        </BottomSheet>
+
+        {/* PREMIUM QRIS SHEET */}
+        <BottomSheet 
+          isOpen={isQRISOpen} 
+          onClose={() => setIsQRISOpen(false)} 
+          title="Digital Wedding Gift"
+        >
+          <div className="p-8 text-center space-y-8 bg-white">
+            <div className="relative w-full aspect-square max-w-[300px] mx-auto bg-gray-50 p-6 rounded-[2.5rem] shadow-inner border border-wedding-gold/10">
+              {data.gift.qrUrl && (
+                <Image src={data.gift.qrUrl} alt="QRIS" fill className="object-contain p-6" />
+              )}
+            </div>
+            <div className="space-y-3">
+              <p className="text-2xl font-serif text-wedding-text">{data.gift.bankName}</p>
+              <div className="p-6 bg-[#FAF8F5] rounded-3xl border border-wedding-gold/10">
+                <p className="text-xl font-bold tracking-[0.2em] text-wedding-gold">{data.gift.accountNumber}</p>
+                <p className="text-[10px] uppercase tracking-widest text-wedding-text/40 mt-2 font-bold">A/N {data.gift.accountName}</p>
+              </div>
+            </div>
+            <button 
+              onClick={() => setIsQRISOpen(false)}
+              className="w-full py-5 bg-wedding-sage text-white rounded-[1.5rem] font-bold text-[10px] uppercase tracking-[0.2em] shadow-xl active:scale-95 transition-all"
+            >
+              Tutup Jendela Kado
+            </button>
+          </div>
+        </BottomSheet>
       
       {/* FOOTER */}
         <footer className="py-24 text-center bg-wedding-sage text-white relative">
             <h2 className="font-script text-7xl mb-2 gold-foil py-4" data-aos="fade-up">{data.bride.name}</h2>
             <h2 className="font-script text-5xl mb-2 text-wedding-gold" data-aos="fade-in">&amp;</h2>
             <h2 className="font-script text-7xl mb-10 gold-foil py-4" data-aos="fade-up">{data.groom.name}</h2>
-            <p className="font-sans text-[10px] uppercase tracking-widest opacity-30 border-t border-white/20 pt-8 inline-block">Powered by Undangin</p>
         </footer>
       </main>
       </div>

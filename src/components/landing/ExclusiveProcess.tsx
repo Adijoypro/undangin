@@ -32,7 +32,7 @@ const steps = [
 
 export default function ExclusiveProcess() {
   return (
-    <section className="py-20 md:py-32 px-4 bg-wedding-base relative overflow-hidden">
+    <section className="py-12 md:py-32 px-4 bg-wedding-base relative overflow-hidden">
       {/* Background Decorative Element - Optimized for Mobile */}
       <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-wedding-gold/5 rounded-full blur-[60px] md:blur-[120px] -z-10" />
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-wedding-gold/5 rounded-full blur-[60px] md:blur-[120px] -z-10" />

@@ -9,13 +9,14 @@ import Image from "next/image";
 import { InvitationData } from "@/data/invitations";
 import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
+import { toast } from "sonner";
 import MapSimulation from "@/components/ui/MapSimulation";
 import { QRCodeSVG } from "qrcode.react";
+import BottomSheet from "@/components/ui/BottomSheet";
 
 export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
   const { isOpened, onOpen } = useContext(ThemeContext);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -41,6 +42,9 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
   const heroY = useTransform(smoothProgress, [0, 0.3], ["0%", "50%"]);
   const heroOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRSVPOpen, setIsRSVPOpen] = useState(false);
+  const [isQRISOpen, setIsQRISOpen] = useState(false);
 
   const handleRSVP = async (formData: FormData) => {
     setIsSubmitting(true);
@@ -49,16 +53,16 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
     const result = await submitRSVP(formData);
     setIsSubmitting(false);
     if (result.success) {
-      alert("Doa dan kehadiran Anda sangat berarti bagi kami.");
-      (document.getElementById("rsvp-form") as HTMLFormElement).reset();
+      toast.success("Doa dan kehadiran Anda sangat berarti bagi kami.");
+      setIsRSVPOpen(false);
     } else {
-      alert("Gagal mengirim, silakan coba lagi.");
+      toast.error("Gagal mengirim, silakan coba lagi.");
     }
   };
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
-    alert("Nomor rekening tersalin.");
+    toast.success("Nomor rekening tersalin.");
   };
 
   const fadeUp: Variants = {
@@ -193,14 +197,40 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
             <h1 className="text-[35vw] font-script whitespace-nowrap text-white/5">{data.bride.name[0]}&{data.groom.name[0]}</h1>
           </motion.div>
           
-          <div className="z-10 text-center px-4">
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 1 }} className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#D4AF37]/80 mb-12">The Union of Two Souls</motion.p>
-            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 1.2 }} className="text-2xl sm:text-4xl md:text-[8rem] tracking-tighter mb-2 font-serif leading-none">{data.bride.name}</motion.h1>
-            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2, delay: 1.8 }} className="block text-xl md:text-6xl text-[#D4AF37]/60 font-script my-2">and</motion.span>
-            <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 1.4 }} className="text-2xl sm:text-4xl md:text-[8rem] tracking-tighter font-serif leading-none">{data.groom.name}</motion.h1>
-            
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 2.5 }} className="mt-20">
-              <CountdownTimer targetDate={data.event.date} theme="cinematic" />
+          <div className="z-10 text-center px-4 w-full flex justify-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 2, ease: "easeOut" }}
+              className="relative p-16 md:p-32 flex flex-col items-center justify-center min-h-[500px] w-full max-w-4xl"
+            >
+              {/* Gold Frame as the main container background */}
+              <div className="absolute inset-0 z-0">
+                <Image 
+                  src="/assets/gold-frame.webp" 
+                  fill 
+                  className="object-contain opacity-80 drop-shadow-[0_0_30px_rgba(212,175,55,0.2)]" 
+                  alt="Gold Frame" 
+                />
+              </div>
+
+              <div className="relative z-10 space-y-6">
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="font-sans text-[10px] md:text-xs tracking-[0.6em] uppercase mb-8 text-[#D4AF37]/80">The Union of Two Souls</motion.p>
+                
+                <h1 className="text-6xl md:text-[9rem] tracking-tighter uppercase font-serif leading-none text-white drop-shadow-2xl">
+                  {data.bride.nickname || data.bride.name}
+                </h1>
+                
+                <div className="flex items-center justify-center gap-6 my-10">
+                  <div className="h-px w-10 md:w-20 bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent"></div>
+                  <span className="text-3xl md:text-6xl text-[#D4AF37]/60 font-script italic">and</span>
+                  <div className="h-px w-10 md:w-20 bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent"></div>
+                </div>
+
+                <h1 className="text-6xl md:text-[9rem] tracking-tighter uppercase font-serif leading-none text-white drop-shadow-2xl">
+                  {data.groom.nickname || data.groom.name}
+                </h1>
+              </div>
             </motion.div>
           </div>
 
@@ -279,6 +309,51 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           </div>
         </section>
 
+        {/* 4. GALLERY EXHIBITION */}
+        {data.gallery && data.gallery.length > 0 && (
+          <section className="relative py-48 bg-[#050505] overflow-hidden">
+            <div className="absolute inset-0 z-0">
+              <Image src="/assets/marble-bg.webp" fill className="object-cover opacity-5 mix-blend-overlay" alt="Marble" />
+            </div>
+
+            <div className="max-w-6xl mx-auto px-4 relative z-10">
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-32">
+                <div className="w-12 h-px bg-[#D4AF37]/50 mx-auto mb-8"></div>
+                <p className="font-sans text-[10px] uppercase tracking-[0.6em] text-[#D4AF37] mb-6">Visual Journey</p>
+                <h2 className="text-4xl md:text-7xl font-serif text-white/90 uppercase tracking-tighter">The Gallery.</h2>
+              </motion.div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                {data.gallery.map((img, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: idx * 0.1 }}
+                    className={`relative group overflow-hidden border border-white/5 ${
+                      idx === 0 || idx === 7 ? 'col-span-2 row-span-2' : 'col-span-1 row-span-1'
+                    }`}
+                  >
+                    <div className="relative aspect-square md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
+                      <Image 
+                        src={img} 
+                        alt={`Gallery ${idx}`} 
+                        fill 
+                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+                      
+                      {/* Frame Accent on Hover */}
+                      <div className="absolute inset-0 border border-[#D4AF37]/0 group-hover:border-[#D4AF37]/20 transition-all duration-700 m-4"></div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* TURUT MENGUNDANG */}
         {data.turut_mengundang && (
           <section className="py-24 px-6 bg-[#050505] relative border-y border-white/5">
@@ -299,6 +374,10 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           </div>
           
           <div className="max-w-6xl mx-auto px-4 relative z-10">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mb-24">
+              <CountdownTimer targetDate={data.event.date} theme="cinematic" />
+            </motion.div>
+
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-24">
               <p className="font-sans text-[10px] uppercase tracking-[0.6em] text-[#D4AF37] mb-6">The Celebration</p>
               <h2 className="text-4xl md:text-6xl text-white/90 font-serif uppercase tracking-[0.2em]">The Event.</h2>
@@ -323,13 +402,18 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                   <p className="text-gray-400 text-base leading-relaxed mb-16 font-light tracking-wide">{event.address || event.locationAddress}</p>
                   
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                    <a href={event.maps_link || event.mapsLink} target="_blank" className="group relative px-10 py-5 overflow-hidden border border-[#D4AF37]/40 text-[#D4AF37] font-sans text-[10px] uppercase tracking-[0.4em] w-full text-center transition-all duration-700">
+                    <a 
+                      href={event.maps_link || event.mapsLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((event.location || event.locationName || "") + " " + (event.address || event.locationAddress || ""))}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="group relative px-10 py-5 overflow-hidden border border-[#D4AF37]/40 text-[#D4AF37] font-sans text-[10px] uppercase tracking-[0.4em] w-full text-center transition-all duration-700"
+                    >
                       <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
-                      <span className="relative z-10 group-hover:text-black">Google Maps</span>
+                      <span className="relative z-10 group-hover:text-black font-bold">Buka Google Maps</span>
                     </a>
                     <a href={createCalendarLink()} target="_blank" className="group relative px-10 py-5 overflow-hidden bg-[#D4AF37]/90 text-black font-sans text-[10px] uppercase tracking-[0.4em] w-full text-center transition-all duration-700">
                       <span className="absolute inset-0 bg-white w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
-                      <span className="relative z-10">Calendar</span>
+                      <span className="relative z-10 font-bold">Simpan Kalender</span>
                     </a>
                   </div>
                 </motion.div>
@@ -350,7 +434,7 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                   <div className="bg-black/40 backdrop-blur-xl border border-white/5 p-6 rounded-[2rem] flex items-center gap-10">
                     <div className="bg-white p-2 rounded-2xl shadow-[0_0_20px_rgba(212,175,55,0.1)]">
                       <QRCodeSVG 
-                        value={event.maps_link || event.mapsLink} 
+                        value={event.maps_link || event.mapsLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((event.location || event.locationName || "") + " " + (event.address || event.locationAddress || ""))}`} 
                         size={100} 
                         level="H"
                         fgColor="#050505"
@@ -388,42 +472,124 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
                 <p className="font-sans text-[9px] md:text-[11px] uppercase tracking-[0.5em] text-[#D4AF37] mb-4">{data.gift.bankName}</p>
                 <p className="text-[10px] sm:text-2xl md:text-4xl tracking-[0.1em] md:tracking-[0.2em] mb-4 font-serif text-white/80">{data.gift.accountNumber}</p>
                 <p className="text-[10px] text-gray-500 uppercase tracking-[0.3em] font-light mb-12">A/N {data.gift.accountName}</p>
-                <button onClick={() => handleCopy(data.gift.accountNumber)} className="w-full py-4 bg-[#D4AF37]/5 text-[#D4AF37] border border-[#D4AF37]/20 hover:bg-[#D4AF37] hover:text-black transition-all duration-700 font-sans text-[8px] uppercase tracking-[0.3em] font-bold">
-                  Salin Nomor
-                </button>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button 
+                    onClick={() => handleCopy(data.gift.accountNumber)} 
+                    className="flex-1 py-4 bg-[#D4AF37]/5 text-[#D4AF37] border border-[#D4AF37]/20 hover:bg-[#D4AF37] hover:text-black transition-all duration-700 font-sans text-[8px] uppercase tracking-[0.3em] font-bold"
+                  >
+                    Salin Nomor
+                  </button>
+                  {data.gift.qrUrl && (
+                    <button 
+                      onClick={() => setIsQRISOpen(true)} 
+                      className="flex-1 py-4 bg-white/[0.03] text-white border border-white/10 hover:border-[#D4AF37]/40 transition-all duration-700 font-sans text-[8px] uppercase tracking-[0.3em] font-bold"
+                    >
+                      Lihat QRIS
+                    </button>
+                  )}
+                </div>
               </div>
             </motion.div>
 
-            {/* RSVP */}
+            {/* RSVP SECTION */}
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h3 className="text-xl md:text-4xl mb-10 font-serif text-white/90 tracking-wide uppercase tracking-[0.2em]">Reservation</h3>
               <p className="text-base text-gray-500 mb-16 leading-relaxed font-light tracking-wide max-w-md">Mohon konfirmasi kehadiran Anda untuk membantu kami menyambut Anda dengan persiapan terbaik.</p>
               
-              <form id="rsvp-form" action={handleRSVP} className="space-y-12">
-                <div className="relative group">
-                  <input type="text" name="name" required placeholder="NAMA LENGKAP" className="w-full bg-transparent border-b border-white/10 py-5 font-sans text-[11px] uppercase tracking-[0.3em] text-white focus:border-[#D4AF37] focus:outline-none transition-all duration-500" />
-                  <div className="absolute bottom-0 left-0 h-px bg-[#D4AF37] w-0 group-focus-within:w-full transition-all duration-700"></div>
-                </div>
-                <div className="relative group">
-                  <select name="attendance" className="w-full bg-transparent border-b border-white/10 py-5 font-sans text-[11px] uppercase tracking-[0.3em] text-white focus:border-[#D4AF37] focus:outline-none transition-all duration-500 cursor-pointer appearance-none">
-                    <option value="Hadir" className="bg-[#050505]">MENYATAKAN HADIR</option>
-                    <option value="Tidak Hadir" className="bg-[#050505]">TIDAK BISA HADIR</option>
-                  </select>
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">
-                    <svg className="w-4 h-4 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M19 9l-7 7-7-7" /></svg>
-                  </div>
-                </div>
-                <div className="relative group">
-                  <textarea name="message" rows={4} required placeholder="UCAPAN & DOA TULUS" className="w-full bg-transparent border-b border-white/10 py-5 font-sans text-[11px] uppercase tracking-[0.3em] text-white focus:border-[#D4AF37] focus:outline-none transition-all duration-500 resize-none"></textarea>
-                </div>
-                <button type="submit" disabled={isSubmitting} className="group relative w-full py-3 md:py-6 overflow-hidden bg-white/5 border border-white/10 text-white font-sans text-[8px] md:text-[10px] font-bold uppercase tracking-[0.5em] transition-all duration-700 hover:border-[#D4AF37] disabled:opacity-50">
-                  <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
-                  <span className="relative z-10 group-hover:text-black">{isSubmitting ? "MENGIRIM..." : "KIRIM"}</span>
-                </button>
-              </form>
+              <button 
+                onClick={() => setIsRSVPOpen(true)}
+                className="group relative w-full py-8 md:py-12 overflow-hidden bg-white/[0.03] border border-white/10 text-[#D4AF37] font-sans text-[10px] font-bold uppercase tracking-[0.6em] transition-all duration-700 hover:border-[#D4AF37]/40"
+              >
+                <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out opacity-10"></span>
+                <span className="relative z-10">Confirm Attendance</span>
+              </button>
             </motion.div>
           </div>
         </section>
+
+        {/* BOTTOM SHEET RSVP FORM (ULTRA LUXURY STYLE) */}
+        <BottomSheet 
+          isOpen={isRSVPOpen} 
+          onClose={() => setIsRSVPOpen(false)} 
+          title="ULTRA LUXURY RESERVATION"
+        >
+          <form action={handleRSVP} className="space-y-12 py-8">
+            <div className="hidden">
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+            </div>
+            
+            <div className="relative group">
+              <label className="text-[9px] uppercase tracking-[0.4em] text-[#D4AF37] ml-1 font-bold">Your Distinguished Name</label>
+              <input 
+                type="text" 
+                name="name" 
+                required 
+                placeholder="PLEASE ENTER YOUR FULL NAME" 
+                className="w-full bg-transparent border-b border-white/10 py-5 font-sans text-[11px] uppercase tracking-[0.3em] text-white focus:border-[#D4AF37] focus:outline-none transition-all duration-500" 
+              />
+            </div>
+
+            <div className="relative group">
+              <label className="text-[9px] uppercase tracking-[0.4em] text-[#D4AF37] ml-1 font-bold">Attendance Status</label>
+              <select 
+                name="attendance" 
+                className="w-full bg-transparent border-b border-white/10 py-5 font-sans text-[11px] uppercase tracking-[0.3em] text-white focus:border-[#D4AF37] focus:outline-none transition-all duration-500 cursor-pointer appearance-none"
+              >
+                <option value="Hadir" className="bg-[#121212]">I WILL ATTEND THE CELEBRATION</option>
+                <option value="Tidak Hadir" className="bg-[#121212]">UNFORTUNATELY UNABLE TO ATTEND</option>
+              </select>
+            </div>
+
+            <div className="relative group">
+              <label className="text-[9px] uppercase tracking-[0.4em] text-[#D4AF37] ml-1 font-bold">Sacred Message</label>
+              <textarea 
+                name="message" 
+                rows={5} 
+                required 
+                placeholder="YOUR SINCERE WISHES & PRAYERS" 
+                className="w-full bg-transparent border-b border-white/10 py-5 font-sans text-[11px] uppercase tracking-[0.3em] text-white focus:border-[#D4AF37] focus:outline-none transition-all duration-500 resize-none"
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="group relative w-full py-6 overflow-hidden bg-white/5 border border-white/10 text-white font-sans text-[10px] font-bold uppercase tracking-[0.5em] transition-all duration-700 hover:border-[#D4AF37] disabled:opacity-50 shadow-[0_0_30px_rgba(212,175,55,0.1)]"
+            >
+              <span className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-700 ease-out"></span>
+              <span className="relative z-10 group-hover:text-black">{isSubmitting ? "SENDING..." : "CONFIRM NOW"}</span>
+            </button>
+          </form>
+        </BottomSheet>
+        
+        {/* ULTRA LUXURY QRIS */}
+        <BottomSheet 
+          isOpen={isQRISOpen} 
+          onClose={() => setIsQRISOpen(false)} 
+          title="ULTRA LUXURY GIFT"
+        >
+          <div className="p-8 text-center space-y-12">
+            <div className="relative w-full aspect-square max-w-[320px] mx-auto bg-white p-6 rounded-[2rem] shadow-[0_0_80px_rgba(212,175,55,0.15)] overflow-hidden border border-[#D4AF37]/30">
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/5 to-transparent pointer-events-none" />
+              {data.gift.qrUrl && (
+                <Image src={data.gift.qrUrl} alt="QRIS" fill className="object-contain p-6" />
+              )}
+            </div>
+            <div className="space-y-4">
+              <p className="text-[#D4AF37] font-sans text-[10px] uppercase tracking-[0.6em] font-bold">{data.gift.bankName}</p>
+              <div className="bg-white/[0.03] border border-white/10 p-6 rounded-[1.5rem]">
+                <p className="text-white text-2xl font-sans tracking-[0.2em] font-light">{data.gift.accountNumber}</p>
+                <p className="text-gray-500 text-[9px] uppercase tracking-[0.4em] mt-2 font-bold">A/N {data.gift.accountName}</p>
+              </div>
+            </div>
+            <button 
+              onClick={() => setIsQRISOpen(false)}
+              className="w-full py-6 bg-white/5 border border-white/10 text-white text-[9px] font-bold uppercase tracking-[0.5em] rounded-xl hover:bg-white hover:text-black transition-all duration-500"
+            >
+              Close Gift Portal
+            </button>
+          </div>
+        </BottomSheet>
 
         {/* 6. GUESTBOOK */}
         <section className="py-48 px-4 bg-[#030303] border-t border-white/5 relative overflow-hidden">
@@ -519,7 +685,6 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
               {data.groom.name}
             </motion.h1>
             <div className="w-12 h-px bg-[#D4AF37]/30 mx-auto mb-12 mt-12"></div>
-            <p className="font-sans text-[11px] uppercase tracking-[1em] text-[#D4AF37]/60 ml-[1em]">UNDANGIN PREMIUM</p>
           </motion.div>
         </footer>
       </div>

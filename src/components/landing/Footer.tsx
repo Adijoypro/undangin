@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="py-24 px-4 bg-white dark:bg-wedding-base border-t border-wedding-gold/20 transition-colors duration-500 relative overflow-hidden">
+    <footer className="py-12 md:py-24 px-4 bg-white dark:bg-wedding-base border-t border-wedding-gold/20 transition-colors duration-500 relative overflow-hidden">
       {/* Repeating Luxury Batik Pattern Base */}
       <div 
         className="absolute inset-0 opacity-[0.2] md:opacity-[0.08] pointer-events-none z-0"
@@ -16,8 +16,8 @@ export default function Footer() {
         }}
       />
 
-      <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-16 relative z-10">
-        <div className="col-span-2">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 md:gap-16 relative z-10">
+        <div className="col-span-2 mb-4 md:mb-0">
           <Link href="/" className="flex items-center gap-3 mb-8 group w-fit">
             <Image src="/logo.webp" alt="Undangin Logo" width={40} height={40} className="w-10 h-10 object-contain group-hover:rotate-12 transition-transform" />
             <span className="font-serif text-2xl font-bold tracking-widest text-wedding-text uppercase group-hover:text-wedding-gold transition-colors">Undangin</span>
@@ -28,7 +28,7 @@ export default function Footer() {
         </div>
         
         <div>
-          <h4 className="font-serif text-lg mb-8 text-wedding-gold font-bold italic">Navigasi</h4>
+          <h4 className="font-serif text-lg mb-4 md:mb-8 text-wedding-gold font-bold italic">Navigasi</h4>
           <ul className="space-y-4 text-xs text-wedding-text/50 font-bold uppercase tracking-widest">
             <li><a href="#" className="hover:text-wedding-gold transition-all">Beranda</a></li>
             <li><a href="#fitur" className="hover:text-wedding-gold transition-all">Fitur Utama</a></li>
@@ -38,7 +38,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-serif text-lg mb-8 text-wedding-gold font-bold italic">Layanan</h4>
+          <h4 className="font-serif text-lg mb-4 md:mb-8 text-wedding-gold font-bold italic">Layanan</h4>
           <ul className="space-y-4 text-xs text-wedding-text/50 font-bold uppercase tracking-widest">
             <li><a href="/login" className="hover:text-wedding-gold transition-all">Akses Akun</a></li>
             <li><a href="/dashboard" className="hover:text-wedding-gold transition-all">Dasbor Editor</a></li>
@@ -48,7 +48,7 @@ export default function Footer() {
         </div>
       </div>
       
-      <div className="max-w-7xl mx-auto mt-24 pt-12 border-t border-wedding-gold/10 text-center flex flex-col items-center">
+      <div className="max-w-7xl mx-auto mt-12 md:mt-24 pt-8 md:pt-12 border-t border-wedding-gold/10 text-center flex flex-col items-center">
         {/* 🛡️ SEKSI KERIS DIVIDER - Atur 'h-[700px]' untuk panjang & 'w-24' untuk ketebalan */}
         <div className="mb-12 mt-8 h-24 flex items-center justify-center relative w-full overflow-visible">
           <div className="relative w-24 h-[700px] rotate-90 translate-y-[-10px] transition-all duration-500">

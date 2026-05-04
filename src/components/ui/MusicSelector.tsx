@@ -15,7 +15,7 @@ interface MusicSelectorProps {
 
 
 export default function MusicSelector({ id, slug, currentMusicUrl, onClose }: MusicSelectorProps) {
-  const [selectedUrl] = useState(currentMusicUrl);
+  const [selectedUrl, setSelectedUrl] = useState(currentMusicUrl);
   const [isUploading, setIsUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const audioPreviewRef = useRef<HTMLAudioElement | null>(null);
@@ -28,13 +28,15 @@ export default function MusicSelector({ id, slug, currentMusicUrl, onClose }: Mu
     } else {
       setPreviewUrl(url);
       if (audioPreviewRef.current) {
-        audioPreviewRef.current.src = url;
-        audioPreviewRef.current.play();
+        audioPreviewRef.current.src = encodeURI(url);
+        audioPreviewRef.current.load();
+        audioPreviewRef.current.play().catch(err => console.error("Preview error:", err));
       }
     }
   };
 
   const handleSave = async (url: string, file?: File) => {
+    setSelectedUrl(url);
     setIsUploading(true);
     const res = await updateInvitationMusic(id, slug, url, file);
     setIsUploading(false);
@@ -62,7 +64,7 @@ export default function MusicSelector({ id, slug, currentMusicUrl, onClose }: Mu
       initial={{ opacity: 0 }} 
       animate={{ opacity: 1 }} 
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[11000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
     >
       <audio ref={audioPreviewRef} />
       
@@ -81,7 +83,7 @@ export default function MusicSelector({ id, slug, currentMusicUrl, onClose }: Mu
           </button>
         </div>
 
-        <div className="p-6 space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin">
+        <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto scrollbar-thin overscroll-contain">
           {PRESET_MUSIC.map((music, idx) => (
             <div 
               key={idx} 

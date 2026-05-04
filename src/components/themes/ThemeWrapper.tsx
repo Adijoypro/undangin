@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect, createContext } from "react";
 import { deleteGuestbookEntry } from "@/app/api/guestbook/delete/actions";
 import MusicSelector from "../ui/MusicSelector";
+import { InvitationData } from "@/data/invitations";
+import PoweredByUndangin from "@/components/ui/PoweredByUndangin";
 import { AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import ConfirmModal from "../ui/ConfirmModal";
@@ -50,18 +52,58 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
     }
   };
 
+  useEffect(() => {
+    if (isOpened && audioRef.current) {
+      // Tunggu sebentar biar src-nya nempel dulu
+      const timer = setTimeout(() => {
+        audioRef.current?.play().catch(err => console.log("Playback error:", err));
+        setIsPlaying(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpened]);
+
+  useEffect(() => {
+    if (audioRef.current && isOpened) {
+      audioRef.current.load();
+      if (isPlaying) {
+        audioRef.current.play().catch(err => console.log("Play on URL change error:", err));
+      }
+    }
+  }, [data.musicUrl, isOpened]);
+
   const handleOpen = () => {
     setIsOpened(true);
-    if (audioRef.current) {
-      audioRef.current.play().catch(err => console.log("Autoplay blocked or error:", err));
-      setIsPlaying(true);
-    }
+  };
+
+  const getSafeMusicUrl = (url?: string) => {
+    if (!url) return "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+    
+    // Mapping lagu lama ke nama file baru yang sudah di-rename
+    const legacyMap: Record<string, string> = {
+      "A Thousand Years – Piano.mp3": "thousand_years_piano.mp3",
+      "Akad-Payung-Teduh-Piano.mp3": "akad_piano.mp3",
+      "Ed Sheeran - Perfect - Piano.mp3": "perfect_piano.mp3",
+      "Karaoke-Glen-Fredly-Kisah-romantis.mp3": "kisah_romantis.mp3",
+      "Nothing_s Gonna Change MyLove.mp3": "nothings_gonna_change.mp3",
+      "Sempurna-Andra-And-The-Backbone-piano.mp3": "sempurna_piano.mp3",
+      "Shane Filan-Beautiful In White-Piano.mp3": "beautiful_in_white_piano.mp3"
+    };
+
+    let processedUrl = url;
+    Object.keys(legacyMap).forEach(oldName => {
+      if (url.includes(oldName)) {
+        processedUrl = `/music/${legacyMap[oldName]}`;
+      }
+    });
+
+    return encodeURI(processedUrl);
   };
 
   const toggleMusic = () => {
     if (audioRef.current) {
       if (audioRef.current.paused) {
-        audioRef.current.play();
+        audioRef.current.play().catch(err => console.log("Toggle play error:", err));
         setIsPlaying(true);
       } else {
         audioRef.current.pause();
@@ -70,18 +112,30 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
     }
   };
 
+  // Warna background dasar biar nggak belang sama footer
+  const getThemeBg = () => {
+    switch (data.theme) {
+      case 'majestic-eternity': return 'bg-[#06120C]';
+      case 'ultra-luxury': return 'bg-[#0A0A0A]';
+      case 'premium': return 'bg-[#111111]';
+      case 'renaissance-garden': return 'bg-[#F5EFE6]';
+      case 'cinematic-dark': return 'bg-black';
+      case 'celestial-harmony': return 'bg-black';
+      default: return 'bg-black';
+    }
+  };
+
   return (
-    <div className="relative theme-isolate">
-      {/* GLOBAL AUDIO TAG - Optimized: Only load source after user opens the invitation */}
+    <div className={`min-h-screen ${getThemeBg()} text-white selection:bg-wedding-gold selection:text-black`}>
       <audio 
         ref={audioRef} 
         loop 
-        src={isOpened ? (data.musicUrl || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3") : undefined} 
+        src={isOpened ? getSafeMusicUrl(data.musicUrl) : undefined} 
       />
 
       {/* ADMIN PANEL (Only for Owner) */}
       {isOwner && (
-        <div className="fixed top-4 left-4 z-[999] bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-wedding-gold/20 flex flex-col gap-2 scale-90 origin-top-left">
+        <div className="fixed top-4 left-4 z-[10000] bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-wedding-gold/20 flex flex-col gap-2 scale-90 origin-top-left transition-all hover:scale-100">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-wedding-text">Admin Dashboard</span>
@@ -99,7 +153,11 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
           <p className="text-[8px] text-gray-400 mt-1 italic">*Tombol hapus aktif di Buku Tamu</p>
           
           <button 
-            onClick={() => setShowMusicSelector(true)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowMusicSelector(true);
+            }}
             className="mt-2 w-full py-2 bg-wedding-gold text-white text-[10px] font-bold uppercase tracking-widest rounded-lg hover:bg-wedding-text transition-all flex items-center justify-center gap-2"
           >
             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
@@ -110,13 +168,13 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
 
       {/* MUSIC TOGGLE (Always visible after open) */}
       {isOpened && (
-        <div className="fixed bottom-6 left-6 z-[99] flex flex-col items-center gap-3">
+        <div className="fixed bottom-6 left-6 z-[10001] flex flex-col items-center gap-3">
           <div className="bg-white/30 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
             <MusicVisualizer isPlaying={isPlaying} />
           </div>
           <button 
             onClick={toggleMusic}
-            className="w-12 h-12 bg-white/50 backdrop-blur-md rounded-full border border-wedding-gold/30 flex items-center justify-center shadow-lg hover:scale-110 transition-all text-wedding-gold"
+            className="w-12 h-12 bg-white/50 backdrop-blur-md rounded-full border border-wedding-gold/30 flex items-center justify-center shadow-lg hover:scale-110 transition-all text-wedding-gold pointer-events-auto cursor-pointer z-[10002]"
           >
             {isPlaying ? (
               <svg className="w-6 h-6 animate-spin-slow" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
@@ -132,6 +190,7 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
       {/* THEME CONTENT */}
       <ThemeContext.Provider value={{ isOpened, onOpen: handleOpen }}>
         {children}
+        {isOpened && <PoweredByUndangin theme={data.theme} />}
       </ThemeContext.Provider>
 
       {/* MODERATION OVERLAY (Injecting styles for delete buttons) */}

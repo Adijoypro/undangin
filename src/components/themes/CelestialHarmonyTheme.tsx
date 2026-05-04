@@ -10,6 +10,7 @@ import { submitRSVP } from "@/app/[slug]/actions";
 import { toast } from "sonner";
 import MapSimulation from "@/components/ui/MapSimulation";
 import { GoldenGateCover } from "@/components/covers";
+import BottomSheet from "@/components/ui/BottomSheet";
 
 /* ── SCROLL SECTION HOOK ── */
 function useSec(p: MotionValue<number>, range: [number, number, number, number]) {
@@ -62,6 +63,9 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
     if (submitted) setHasSubmitted(true);
   }, [data.slug]);
 
+  const [isRSVPOpen, setIsRSVPOpen] = useState(false);
+  const [isQRISOpen, setIsQRISOpen] = useState(false);
+
   const handleRSVP = async (fd: FormData) => {
     setIsSubmitting(true);
     fd.append("invitation_id", data.id);
@@ -72,7 +76,7 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
       toast.success("Terima kasih!"); 
       localStorage.setItem(`rsvp_${data.slug}`, "true");
       setHasSubmitted(true);
-      (document.getElementById("rsvp-form-ch") as HTMLFormElement)?.reset(); 
+      setIsRSVPOpen(false);
     } else {
       toast.error(r.error || "Gagal mengirim.");
     }
@@ -208,14 +212,7 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
                     <p className="text-[10px] text-[#D4AF37] font-black uppercase tracking-[0.3em]">{data.gift.bankName}</p>
                   </div>
                   
-                  {data.gift.qrUrl && (
-                    <div className="w-20 h-20 bg-white p-1 rounded-lg shadow-2xl relative group-hover:scale-110 transition-transform duration-500">
-                      <div className="absolute -inset-1 bg-gradient-to-br from-[#D4AF37] to-transparent opacity-50 rounded-lg blur-[2px]" />
-                      <div className="relative w-full h-full bg-white rounded flex items-center justify-center overflow-hidden">
-                         <Image src={data.gift.qrUrl} alt="QR" fill className="object-contain p-0.5" />
-                      </div>
-                    </div>
-                  )}
+
                 </div>
 
                 {/* Account Number - Scaled for mockup precision */}
@@ -241,67 +238,41 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
                 </div>
               </div>
             </div>
-            <button onClick={() => handleCopy(data.gift.accountNumber)} className="w-full py-3 md:py-5 bg-white/5 border border-white/10 text-[#D4AF37] text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-[#D4AF37] hover:text-black transition-all shadow-xl active:scale-95">Salin Rekening</button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button 
+                onClick={() => handleCopy(data.gift.accountNumber)} 
+                className="flex-1 py-3 md:py-5 bg-white/5 border border-white/10 text-[#D4AF37] text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-[#D4AF37] hover:text-black transition-all shadow-xl active:scale-95"
+              >
+                Salin Rekening
+              </button>
+              {data.gift.qrUrl && (
+                <button 
+                  onClick={() => setIsQRISOpen(true)} 
+                  className="flex-1 py-3 md:py-5 bg-[#D4AF37]/10 border border-[#D4AF37]/20 text-[#D4AF37] text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-[#D4AF37] hover:text-black transition-all shadow-xl active:scale-95"
+                >
+                  Lihat QRIS
+                </button>
+              )}
+            </div>
           </Card>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 1 }} className="space-y-10">
           <SectionTitle>Buku Tamu</SectionTitle>
-          <Card id="rsvp-section-static" className="space-y-8 bg-black/40 backdrop-blur-3xl border-white/5 relative overflow-hidden group">
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
-            
-            <AnimatePresence mode="wait">
-              {!hasSubmitted ? (
-                <motion.form 
-                  key="form"
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0, y: -20 }}
-                  action={handleRSVP} 
-                  className="space-y-6"
-                >
-                  <div className="space-y-2">
-                    <label className="text-[9px] text-[#D4AF37] uppercase tracking-[0.3em] font-black ml-1">Nama Lengkap</label>
-                    <input name="name" required placeholder="Masukkan nama Anda..." className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-white placeholder:text-white/20 outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all text-sm" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] text-[#D4AF37] uppercase tracking-[0.3em] font-black ml-1">Konfirmasi Kehadiran</label>
-                    <select name="attendance" required className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-white outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all text-sm appearance-none">
-                      <option value="Hadir" className="bg-[#1a1a1a]">Saya Akan Hadir</option>
-                      <option value="Tidak Hadir" className="bg-[#1a1a1a]">Maaf, Saya Tidak Bisa Hadir</option>
-                    </select>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] text-[#D4AF37] uppercase tracking-[0.3em] font-black ml-1">Pesan & Doa</label>
-                    <textarea name="message" placeholder="Tuliskan ucapan selamat..." rows={4} className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-white placeholder:text-white/20 outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all text-sm" />
-                  </div>
-                  <button type="submit" disabled={isSubmitting} className="relative w-full py-4 md:py-5 bg-[#D4AF37] text-black text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] rounded-2xl shadow-[0_10px_30px_rgba(212,175,87,0.3)] hover:shadow-[0_15px_40px_rgba(212,175,87,0.5)] active:scale-[0.98] transition-all overflow-hidden group/btn">
-                    <span className="relative z-10">{isSubmitting ? "Mengirim..." : "Kirim Kehadiran"}</span>
-                    <motion.div initial={{ x: '-100%' }} animate={{ x: '100%' }} transition={{ duration: 3, repeat: Infinity, ease: 'linear' }} className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-30" />
-                  </button>
-                </motion.form>
-              ) : (
-                <motion.div 
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.9 }} 
-                  animate={{ opacity: 1, scale: 1 }} 
-                  className="py-10 text-center space-y-6"
-                >
-                  <div className="w-20 h-20 mx-auto rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 flex items-center justify-center relative">
-                    <div className="absolute inset-0 rounded-full bg-[#D4AF37]/20 animate-ping" />
-                    <svg className="w-10 h-10 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-white font-serif text-2xl">Konfirmasi Terkirim</h4>
-                    <p className="text-white/40 text-xs leading-relaxed max-w-[200px] mx-auto">Terima kasih atas doa dan konfirmasi kehadirannya.</p>
-                  </div>
-                  <p className="text-[8px] text-[#D4AF37] font-black uppercase tracking-[0.3em]">Sampai Jumpa di Hari Bahagia Kami</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
+          <Card id="rsvp-section-static" className="space-y-8 bg-black/40 backdrop-blur-3xl border-white/5 text-center py-16">
+            <div className="w-20 h-20 mx-auto rounded-full bg-[#D4AF37]/10 flex items-center justify-center mb-6">
+              <svg className="w-10 h-10 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+            </div>
+            <h4 className="text-white font-serif text-2xl mb-4">Berikan Doa Restu</h4>
+            <p className="text-white/40 text-sm max-w-sm mx-auto mb-10 leading-relaxed italic">Kehadiran serta doa restu Anda adalah kado terindah bagi kami.</p>
+            <button 
+              onClick={() => setIsRSVPOpen(true)} 
+              className="px-12 py-5 bg-[#D4AF37] text-black text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-[0_10px_30px_rgba(212,175,87,0.3)] active:scale-95 transition-all"
+            >
+              Isi RSVP & Ucapan
+            </button>
             {/* Live Wishes Wall (Limited to 10 latest) */}
             {(data.guestbook || []).length > 0 && (
               <div className="pt-10 border-t border-white/5 space-y-6">
@@ -541,48 +512,20 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
         <Sec s={s9}>
           <div className="space-y-8 w-full max-w-sm mx-auto">
             <SectionTitle>RSVP & Wish</SectionTitle>
-            <Card className="bg-black/40 backdrop-blur-3xl border-white/5">
-              <AnimatePresence mode="wait">
-                {!hasSubmitted ? (
-                  <motion.form 
-                    key="form-sc"
-                    initial={{ opacity: 0 }} 
-                    animate={{ opacity: 1 }} 
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    action={handleRSVP} 
-                    className="space-y-4"
-                  >
-                    <input name="name" required placeholder="Nama Lengkap" className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-[#D4AF37]/50 transition-all text-sm" />
-                    <select name="attendance" required className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-[#D4AF37]/50 transition-all text-sm appearance-none">
-                      <option value="Hadir" className="bg-[#1a1a1a]">Hadir</option>
-                      <option value="Tidak Hadir" className="bg-[#1a1a1a]">Tidak Hadir</option>
-                    </select>
-                    <button type="submit" disabled={isSubmitting} className="w-full py-3 md:py-4 bg-[#D4AF37] text-black text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-xl active:scale-95 transition-all">
-                      {isSubmitting ? "Mengirim..." : "Kirim Sekarang"}
-                    </button>
-                  </motion.form>
-                ) : (
-                  <motion.div 
-                    key="success-sc"
-                    initial={{ opacity: 0, y: 20 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    className="py-10 text-center space-y-4"
-                  >
-                    <div className="w-16 h-16 mx-auto rounded-full border border-[#D4AF37]/30 flex items-center justify-center">
-                       <svg className="w-8 h-8 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <p className="text-white text-lg font-serif">Terima Kasih!</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <Card className="bg-black/40 backdrop-blur-3xl border-white/5 text-center py-12">
+              <p className="text-white/60 text-sm italic font-serif mb-8">Konfirmasikan kehadiran Anda untuk melengkapi kebahagiaan kami.</p>
+              <button 
+                onClick={() => setIsRSVPOpen(true)}
+                className="w-full py-5 bg-[#D4AF37] text-black text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-[0_10px_30px_rgba(212,175,87,0.3)] active:scale-95 transition-all"
+              >
+                Confirm Now
+              </button>
             </Card>
           </div>
         </Sec>
 
-        <motion.div style={{ opacity: s10.opacity, scale: s10.scale, y: s10.y }} className="fixed inset-0 z-20 flex items-center justify-center pointer-events-none">
-          <div className="text-center space-y-10 px-8 pointer-events-auto">
+        <motion.div style={{ opacity: s10.opacity, scale: s10.scale, y: s10.y }} className="fixed inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
+          <div className="text-center space-y-10 px-8 pointer-events-auto w-full max-w-lg mb-20">
             <h2 className="font-serif text-4xl text-white">{data.bride.name} & {data.groom.name}</h2>
             <p className="text-[11px] text-[#D4AF37]/50 uppercase tracking-[0.6em]">Kami yang berbahagia</p>
           </div>
@@ -599,7 +542,7 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
         className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100]"
       >
         <button 
-          onClick={() => document.getElementById('rsvp-section-static')?.scrollIntoView({ behavior: 'smooth' })} 
+          onClick={() => setIsRSVPOpen(true)} 
           className="group relative flex items-center gap-3 md:gap-4 px-6 md:px-8 py-3 md:py-4 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] active:scale-95 transition-all overflow-hidden"
         >
           <div className="absolute inset-0 bg-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -609,6 +552,70 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
           <div className="absolute inset-0 border border-[#D4AF37]/20 rounded-full group-hover:border-[#D4AF37]/50 transition-colors" />
         </button>
       </motion.div>
+
+      {/* CELESTIAL BOTTOM SHEET */}
+      <BottomSheet 
+        isOpen={isRSVPOpen} 
+        onClose={() => setIsRSVPOpen(false)} 
+        title="CELESTIAL RESERVATION"
+      >
+        <form action={handleRSVP} className="space-y-8 py-10">
+          <div className="hidden">
+            <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+          </div>
+          
+          <div className="space-y-3 text-left">
+            <label className="text-[9px] text-[#D4AF37] uppercase tracking-[0.4em] font-black ml-1">Nama Lengkap</label>
+            <input name="name" required placeholder="Masukkan nama Anda..." className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-white placeholder:text-white/20 outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all text-sm" />
+          </div>
+          
+          <div className="space-y-3 text-left">
+            <label className="text-[9px] text-[#D4AF37] uppercase tracking-[0.4em] font-black ml-1">Konfirmasi Kehadiran</label>
+            <select name="attendance" required className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-white outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all text-sm appearance-none">
+              <option value="Hadir" className="bg-[#1a1a1a]">Saya Akan Hadir</option>
+              <option value="Tidak Hadir" className="bg-[#1a1a1a]">Maaf, Saya Tidak Bisa Hadir</option>
+            </select>
+          </div>
+          
+          <div className="space-y-3 text-left">
+            <label className="text-[9px] text-[#D4AF37] uppercase tracking-[0.4em] font-black ml-1">Pesan & Doa</label>
+            <textarea name="message" placeholder="Tuliskan ucapan selamat..." rows={4} className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-white placeholder:text-white/20 outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all text-sm resize-none" />
+          </div>
+          
+          <button type="submit" disabled={isSubmitting} className="relative w-full py-5 bg-[#D4AF37] text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-2xl shadow-[0_10px_30px_rgba(212,175,87,0.3)] hover:shadow-[0_15px_40px_rgba(212,175,87,0.5)] active:scale-[0.98] transition-all overflow-hidden">
+            <span className="relative z-10">{isSubmitting ? "MENGIRIM..." : "KIRIM SEKARANG"}</span>
+          </button>
+        </form>
+      </BottomSheet>
+      
+      {/* QRIS BottomSheet */}
+      <BottomSheet 
+        isOpen={isQRISOpen} 
+        onClose={() => setIsQRISOpen(false)} 
+        title="QRIS Pembayaran"
+      >
+        <div className="p-8 text-center space-y-8">
+          <div className="relative w-full aspect-square max-w-[300px] mx-auto bg-white p-4 rounded-3xl shadow-2xl overflow-hidden border-4 border-[#D4AF37]/20">
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/10 to-transparent pointer-events-none" />
+            {data.gift.qrUrl && (
+              <Image src={data.gift.qrUrl} alt="QRIS" fill className="object-contain p-4" />
+            )}
+          </div>
+          <div className="space-y-3">
+            <p className="text-white/80 font-serif text-xl tracking-wide">{data.gift.bankName}</p>
+            <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
+              <p className="text-[#D4AF37] text-lg font-mono tracking-widest">{data.gift.accountNumber}</p>
+              <p className="text-white/40 text-[10px] uppercase tracking-widest mt-1">A/N {data.gift.accountName}</p>
+            </div>
+          </div>
+          <button 
+            onClick={() => setIsQRISOpen(false)}
+            className="w-full py-5 bg-[#D4AF37] text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-2xl shadow-xl active:scale-95 transition-all"
+          >
+            Tutup
+          </button>
+        </div>
+      </BottomSheet>
     </div>
   );
 }

@@ -11,6 +11,8 @@ import CountdownTimer from "@/components/ui/CountdownTimer";
 import { submitRSVP } from "@/app/[slug]/actions";
 import MapSimulation from "@/components/ui/MapSimulation";
 import { QRCodeSVG } from "qrcode.react";
+import { toast } from "sonner";
+import BottomSheet from "@/components/ui/BottomSheet";
 
 export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   const { isOpened, onOpen } = useContext(ThemeContext);
@@ -23,6 +25,8 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [isRSVPOpen, setIsRSVPOpen] = useState(false);
+  const [isQRISOpen, setIsQRISOpen] = useState(false);
 
   const createCalendarLink = () => {
     const text = encodeURIComponent(`Pernikahan ${data.bride.name} & ${data.groom.name}`);
@@ -37,10 +41,6 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   const heroScale = useTransform(smoothProgress, [0, 0.3], [1, 1.2]);
   const heroBgScale = useTransform(smoothProgress, [0, 0.4], [1.1, 1.4]);
 
-  // Parallax for Profile Photos
-  const leftPhotoY = useTransform(smoothProgress, [0.1, 0.4], ["100px", "-50px"]);
-  const rightPhotoY = useTransform(smoothProgress, [0.1, 0.4], ["200px", "0px"]);
-
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -54,8 +54,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
+      toast.success("Nomor rekening tersalin.");
     });
   };
 
@@ -68,10 +67,10 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
     
     setIsSubmitting(false);
     if (result.success) {
-      alert("Terima kasih atas doa dan kehadiran Anda!");
-      (document.getElementById("rsvp-form") as HTMLFormElement).reset();
+      toast.success("Terima kasih atas doa dan kehadiran Anda!");
+      setIsRSVPOpen(false);
     } else {
-      alert("Gagal mengirim pesan, silakan coba lagi.");
+      toast.error("Gagal mengirim pesan, silakan coba lagi.");
     }
   };
 
@@ -134,9 +133,6 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       {/* Noise Texture Overlay - Using optimized paper-texture class */}
       <div className="paper-texture opacity-[0.05]"></div>
 
-
-
-
       <motion.section 
         className="h-screen flex flex-col items-center justify-center text-center px-4 relative z-10"
         style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
@@ -149,416 +145,187 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           }}
           className="flex flex-col items-center"
         >
-          {data.guestName && (
-            <motion.div
-              variants={fadeUpVariant}
-              className="mb-10 text-center"
-            >
-              <p className="font-sans uppercase tracking-[0.4em] text-[9px] text-gray-500 mb-2">Special Guest</p>
-              <h2 className="font-serif italic text-2xl md:text-3xl text-wedding-gold tracking-wide">
-                {data.guestName}
-              </h2>
-            </motion.div>
-          )}
-
-          <motion.p 
-            variants={fadeUpVariant}
-            className="font-sans uppercase tracking-[0.6em] text-xs text-gray-400 mb-8 ml-[0.6em]"
-          >
-            The Wedding Celebration
-          </motion.p>
-          
-          <div className="overflow-hidden mb-4">
-              <motion.h1 
-                variants={{
-                  hidden: { y: "100%", opacity: 0 },
-                  visible: { y: 0, opacity: 1, transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] } }
-                }}
-                className="font-serif text-2xl sm:text-6xl md:text-9xl font-bold tracking-tighter"
-              >
-                {data.bride.name}
-              </motion.h1>
-          </div>
-                    <motion.span 
-              variants={{
-                hidden: { opacity: 0, scale: 0.5 },
-                visible: { opacity: 1, scale: 1, transition: { duration: 1 } }
-              }}
-              className="font-script text-2xl md:text-7xl text-gray-500 my-4"
-            >
-              &
-            </motion.span>
-          
-          <div className="overflow-hidden">
-              <motion.h1 
-                variants={{
-                  hidden: { y: "-100%", opacity: 0 },
-                  visible: { y: 0, opacity: 1, transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] } }
-                }}
-                className="font-serif text-2xl sm:text-6xl md:text-9xl font-bold tracking-tighter"
-              >
-                {data.groom.name}
-              </motion.h1>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2.2 }}
-          className="absolute bottom-12 flex flex-col items-center"
-        >
-          <span className="text-[10px] uppercase tracking-widest text-gray-500 mb-4">Scroll to Explore</span>
-          <div className="w-px h-16 bg-gradient-to-b from-gray-500 to-transparent animate-pulse"></div>
+          <motion.p variants={fadeUpVariant} className="font-sans uppercase tracking-[0.6em] text-[10px] text-gray-500 mb-8 ml-[0.6em]">The Wedding Celebration of</motion.p>
+          <motion.h1 variants={fadeUpVariant} className="font-serif text-5xl md:text-8xl lg:text-9xl uppercase tracking-tighter leading-none mb-12">
+            {data.bride.name} <span className="text-gray-600">&</span> {data.groom.name}
+          </motion.h1>
+          <motion.div variants={fadeUpVariant} className="flex items-center gap-6">
+            <div className="h-px w-12 bg-white/20"></div>
+            <p className="font-sans text-xs uppercase tracking-[0.4em] text-wedding-gold">{new Date(data.event.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+            <div className="h-px w-12 bg-white/20"></div>
+          </motion.div>
         </motion.div>
       </motion.section>
 
-      {/* 2. QUOTE SECTION */}
-      <section className="py-32 px-4 relative z-10 flex items-center justify-center min-h-screen">
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeUpVariant}
-          className="max-w-4xl mx-auto text-center"
-        >
-          <p className="font-serif italic text-2xl md:text-4xl text-gray-300 leading-relaxed tracking-wide">
-            "{data.quote}"
-          </p>
-        </motion.div>
-      </section>
+      {/* 2. PROFILE SECTION (Parallel Scenes) */}
+      <section className="py-32 px-4 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-24 items-center">
+            {/* Bride */}
+            <motion.div 
+              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}
+              className="flex flex-col items-center md:items-end text-center md:text-right"
+            >
+              <div className="relative w-full aspect-[4/5] mb-12 overflow-hidden rounded-sm grayscale hover:grayscale-0 transition-all duration-1000">
+                {data.bride.photo && <Image src={data.bride.photo} fill className="object-cover" alt={data.bride.name} />}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+              </div>
+              <h2 className="font-serif text-4xl md:text-6xl uppercase tracking-tighter mb-4">{data.bride.name}</h2>
+              <p className="font-sans text-xs uppercase tracking-widest text-gray-400 mb-6">{data.bride.fullName}</p>
+              <p className="font-serif italic text-gray-500 text-sm max-w-xs leading-relaxed">
+                Putri terkasih dari {data.bride.parents || `Bapak ${data.bride_father} & Ibu ${data.bride_mother}`}
+              </p>
+            </motion.div>
 
-      {/* 3. PROFILES */}
-      <section className="min-h-screen relative z-10 flex items-center px-4 py-32 max-w-6xl mx-auto">
-        <div className="w-full grid md:grid-cols-2 gap-12 md:gap-24 items-center">
-          
-          {/* BRIDE */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUpVariant}
-            className="relative"
-          >
-            <div className="relative aspect-[3/4] w-full max-w-md mx-auto group">
-              {/* Decorative Arch Frame */}
-              <div className="absolute -inset-4 border border-white/10 rounded-t-full pointer-events-none group-hover:border-white/30 transition-colors duration-700"></div>
-              <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20 relative">
-                <motion.div style={{ y: leftPhotoY }} className="absolute inset-0 scale-125">
-                  <Image 
-                    src={data.bride.photo} 
-                    fill
-                    className="object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
-                    alt={data.bride.name} 
-                  />
-                </motion.div>
+            {/* Groom */}
+            <motion.div 
+              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}
+              className="flex flex-col items-center md:items-start text-center md:text-left"
+            >
+              <div className="relative w-full aspect-[4/5] mb-12 overflow-hidden rounded-sm grayscale hover:grayscale-0 transition-all duration-1000">
+                {data.groom.photo && <Image src={data.groom.photo} fill className="object-cover" alt={data.groom.name} />}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               </div>
-              <div className="mt-8 text-center">
-                  <h3 className="font-serif text-2xl md:text-5xl mb-2 tracking-tight text-white">{data.bride.name}</h3>
-                <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-4 font-bold">Mempelai Wanita</p>
-                <div className="w-10 h-px bg-white/20 mx-auto mb-4"></div>
-                <p className="font-serif italic text-gray-400 text-sm leading-relaxed">{data.bride.parents}</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* GROOM */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUpVariant}
-            className="relative md:mt-32"
-          >
-            <div className="relative aspect-[3/4] w-full max-w-md mx-auto group">
-              {/* Decorative Arch Frame */}
-              <div className="absolute -inset-4 border border-white/10 rounded-t-full pointer-events-none group-hover:border-white/30 transition-colors duration-700"></div>
-              <div className="w-full h-full overflow-hidden rounded-t-full border border-white/20 relative">
-                <motion.div style={{ y: rightPhotoY }} className="absolute inset-0 scale-125">
-                  <Image 
-                    src={data.groom.photo} 
-                    fill
-                    className="object-cover filter grayscale hover:grayscale-0 transition-all duration-1000" 
-                    alt={data.groom.name} 
-                  />
-                </motion.div>
-              </div>
-              <div className="mt-8 text-center">
-                  <h3 className="font-serif text-2xl md:text-5xl mb-2 tracking-tight text-white">{data.groom.name}</h3>
-                <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-4 font-bold">Mempelai Pria</p>
-                <div className="w-10 h-px bg-white/20 mx-auto mb-4"></div>
-                <p className="font-serif italic text-gray-400 text-sm leading-relaxed">{data.groom.parents}</p>
-              </div>
-            </div>
-          </motion.div>
-          
+              <h2 className="font-serif text-4xl md:text-6xl uppercase tracking-tighter mb-4">{data.groom.name}</h2>
+              <p className="font-sans text-xs uppercase tracking-widest text-gray-400 mb-6">{data.groom.fullName}</p>
+              <p className="font-serif italic text-gray-500 text-sm max-w-xs leading-relaxed">
+                Putra terkasih dari {data.groom.parents || `Bapak ${data.groom_father} & Ibu ${data.groom_mother}`}
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* 4. LOVE STORY (Timeline) */}
-      <section className="py-32 px-4 relative z-10 border-t border-white/5 bg-[#080808]">
-        <div className="max-w-4xl mx-auto">
-          <motion.div 
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-            className="text-center mb-24"
-          >
-            <h3 className="font-serif text-5xl md:text-6xl text-white mb-4">Our Story</h3>
-            <div className="w-20 h-px bg-white/20 mx-auto"></div>
-          </motion.div>
+      {/* 3. EVENT DETAILS (The Grand Hall) */}
+      <section className="py-48 px-4 relative z-10 bg-black/40 backdrop-blur-sm border-y border-white/5 overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
+              <p className="font-sans uppercase tracking-[0.5em] text-[10px] text-gray-500 mb-12">The Celebration Details</p>
+              <h2 className="font-serif text-4xl md:text-7xl uppercase tracking-widest mb-24 italic">Malam Resepsi</h2>
+            </motion.div>
 
-          <div className="relative">
-            {/* Vertical Line */}
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-white/10 hidden md:block"></div>
+            <div className="grid md:grid-cols-2 gap-16 md:gap-px md:bg-white/5">
+                <motion.div 
+                  initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
+                  className="bg-black/40 md:bg-transparent p-12 flex flex-col items-center justify-center border border-white/5 md:border-none"
+                >
+                    <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-6">When</p>
+                    <p className="font-serif text-2xl uppercase tracking-widest mb-2">{new Date(data.event.date).toLocaleDateString('id-ID', { weekday: 'long' })}</p>
+                    <p className="font-serif text-4xl mb-4 tracking-tighter">{new Date(data.event.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long' })}</p>
+                    <p className="font-sans text-xs tracking-[0.2em]">{data.event.time}</p>
+                </motion.div>
+
+                <motion.div 
+                  initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
+                  className="bg-black/40 md:bg-transparent p-12 flex flex-col items-center justify-center border border-white/5 md:border-none"
+                >
+                    <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-6">Where</p>
+                    <p className="font-serif text-2xl uppercase tracking-widest mb-4 italic leading-tight">{data.event.locationName}</p>
+                    <p className="font-sans text-[10px] text-gray-400 uppercase tracking-widest leading-relaxed mb-8">{data.event.locationAddress}</p>
+                    
+                    <button 
+                      onClick={() => window.open(data.event.mapsLink, '_blank')}
+                      className="px-8 py-3 border border-white/20 font-sans text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500"
+                    >
+                      View Production Map
+                    </button>
+                </motion.div>
+            </div>
+
+            <motion.div 
+              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
+              className="mt-24"
+            >
+                <a 
+                  href={createCalendarLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-sans text-[10px] uppercase tracking-[0.4em] text-wedding-gold hover:text-white transition-colors flex items-center justify-center gap-4 group"
+                >
+                  <div className="w-8 h-px bg-wedding-gold/30 group-hover:w-12 transition-all"></div>
+                  Add to Master Schedule
+                  <div className="w-8 h-px bg-wedding-gold/30 group-hover:w-12 transition-all"></div>
+                </a>
+            </motion.div>
+        </div>
+      </section>
+
+      {/* 4. STORY SECTION (The Narrative) */}
+      {data.loveStory && data.loveStory.length > 0 && (
+        <section className="py-48 px-4 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <p className="font-sans uppercase tracking-[0.5em] text-[10px] text-gray-500 mb-24 text-center">Our Cinematic Journey</p>
             
-            <div className="space-y-16">
-              {data.loveStory.map((item: any, i: number) => {
-                const isStructured = typeof item === 'object' && item !== null;
-                const title = isStructured ? item.title : `Chapter ${i + 1}`;
-                const date = isStructured ? item.date : "";
-                const story = isStructured ? item.story : item;
-
+            <div className="space-y-48">
+              {data.loveStory.map((story: any, idx: number) => {
+                const isObject = typeof story === 'object' && story !== null;
                 return (
                   <motion.div 
-                    key={i} 
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8, delay: i * 0.1 }}
-                    className={`relative flex flex-col md:flex-row items-center gap-8 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                    key={idx}
+                    initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUpVariant}
+                    className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 md:gap-24 items-center`}
                   >
-                    {/* Dot */}
-                    <div className="absolute left-4 md:left-1/2 w-3 h-3 bg-white/40 rounded-full -translate-x-1.5 shadow-[0_0_15px_rgba(255,255,255,0.5)] z-10 hidden md:block"></div>
-                    
-                    <div className={`w-full md:w-1/2 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                      <div className="p-8 bg-white/5 rounded-2xl border border-white/5 hover:border-white/20 transition-all group">
-                        {date && <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-2 block">{date}</span>}
-                        <h4 className="font-serif text-2xl text-white mb-3 group-hover:text-white transition-colors">{title}</h4>
-                        <p className="font-sans font-light text-gray-400 leading-relaxed text-sm group-hover:text-gray-300 transition-colors">{story}</p>
-                      </div>
+                    <div className="w-full md:w-1/2 aspect-[3/4] relative overflow-hidden rounded-sm grayscale hover:grayscale-0 transition-all duration-1000">
+                      <Image src={isObject ? story.image : (data.couplePhoto || '')} fill className="object-cover" alt={isObject ? story.title : 'Our Story'} />
                     </div>
-                    <div className="hidden md:block md:w-1/2"></div>
+                    <div className="w-full md:w-1/2 text-center md:text-left">
+                      <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-wedding-gold mb-6">{isObject ? story.date : ''}</p>
+                      <h3 className="font-serif text-3xl md:text-5xl uppercase tracking-tighter mb-8 italic leading-tight">{isObject ? story.title : 'Chapter'}</h3>
+                      <p className="font-sans font-light text-gray-400 text-sm leading-relaxed tracking-wide italic">{isObject ? story.content : story}</p>
+                    </div>
                   </motion.div>
                 );
               })}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* GALLERY SECTION (Cinematic Parallax Masonry) */}
-      <section className="py-32 px-4 relative z-10 bg-black overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <motion.div 
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-            className="text-center mb-24"
-          >
-            <p className="text-[#D4AF37] uppercase tracking-[0.6em] text-[10px] mb-4 font-bold ml-[0.6em]">Captured Moments</p>
-            <h2 className="font-serif text-5xl md:text-7xl text-white">Our Gallery</h2>
-          </motion.div>
-
-          {/* Masonry Layout with Bokeh Group Hover */}
-          <div className="columns-2 md:columns-3 gap-6 space-y-6 group/gallery">
-            {data.gallery?.map((photo: string, index: number) => (
-              <GalleryItem key={index} photo={photo} index={index} />
-            ))}
+      {/* 5. GALLERY SECTION (The Montage) */}
+      {data.gallery && data.gallery.length > 0 && (
+        <section className="py-48 px-4 relative z-10 bg-black">
+          <div className="max-w-7xl mx-auto">
+            <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
+              {data.gallery.map((photo, idx) => (
+                <GalleryItem key={idx} photo={photo} index={idx} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* 5. EVENT DETAILS (Multi-Event) */}
-      <section className="relative z-10 px-4 py-32 border-t border-white/5 space-y-32">
-        {(data.events && data.events.length > 0 ? data.events : [data.event]).map((event: any, index: number) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: index * 0.2 }}
-            className="relative flex flex-col items-center"
-          >
-            {/* Event Card - Ultra Premium */}
-            <div className="w-full relative group max-w-4xl">
-              {/* Backdrop Blur Card */}
-              <div className="relative z-10 overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent backdrop-blur-xl p-10 md:p-20 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
-                
-                {/* Decorative Elements */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-wedding-gold/40 to-transparent"></div>
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-wedding-gold/40 to-transparent"></div>
-                
-                <div className="flex flex-col items-center text-center">
-                  {/* Event Header */}
-                  <motion.div 
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="mb-12"
-                  >
-                      <h2 className="text-2xl sm:text-4xl md:text-6xl font-serif tracking-[0.2em] text-wedding-gold uppercase mb-6 drop-shadow-2xl">
-                        {event.title || (index === 0 ? "Akad Nikah" : "Resepsi")}
-                      </h2>
-                    <div className="h-px w-12 bg-wedding-gold/30 mx-auto mb-6"></div>
-                    <div className="flex flex-col items-center gap-2">
-                      <p className="font-sans text-xl md:text-2xl uppercase tracking-[0.4em] text-white/90">
-                        {event.date || data.event.date}
-                      </p>
-                      <p className="font-serif text-2xl text-wedding-gold/80 italic tracking-widest">
-                        {event.time || data.event.time}
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  {/* INDIVIDUAL MINI COUNTDOWN */}
-                  <div className="mb-16 py-8 px-12 rounded-3xl bg-black/40 border border-white/5 relative overflow-hidden group/timer">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-wedding-gold/5 to-transparent opacity-0 group-hover/timer:opacity-100 transition-opacity duration-1000"></div>
-                    <p className="text-[9px] uppercase tracking-[0.5em] text-gray-500 mb-6 font-bold">Counting down to this event</p>
-                    <CountdownTimer 
-                      targetDate={event.date || data.event.date} 
-                      theme="mini" 
-                      color="text-wedding-gold"
-                    />
-                  </div>
-
-                  {/* Venue & Location */}
-                  <div className="space-y-6 max-w-xl mx-auto">
-                    <div className="space-y-3">
-                      <h3 className="text-2xl md:text-3xl font-serif text-white tracking-wide">
-                        {event.location || event.locationName}
-                      </h3>
-                      <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light">
-                        {event.address || event.locationAddress}
-                      </p>
-                    </div>
-
-                    {/* Map Simulation - Integrated */}
-                    <div className="mt-12 w-full rounded-2xl overflow-hidden border border-white/10 h-48 md:h-64 relative">
-                      <iframe
-                        width="100%"
-                        height="100%"
-                        frameBorder="0"
-                        scrolling="no"
-                        marginHeight={0}
-                        marginWidth={0}
-                        src={`https://maps.google.com/maps?q=${event.latitude || -6.2088},${event.longitude || 106.8456}&hl=id&z=14&output=embed`}
-                        className="grayscale contrast-[1.1] invert opacity-30 hover:opacity-60 transition-all duration-1000 scale-110 hover:scale-100"
-                      ></iframe>
-                    </div>
-
-                    {/* Action Links */}
-                    <div className="pt-12 flex flex-wrap justify-center gap-4">
-                      <a 
-                        href={event.maps_link || event.mapsLink} 
-                        target="_blank" 
-                        className="px-10 py-4 bg-transparent border border-wedding-gold/40 text-wedding-gold font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-wedding-gold hover:text-black transition-all duration-500 rounded-full"
-                      >
-                        Google Maps
-                      </a>
-                      <button 
-                        onClick={createCalendarLink} 
-                        className="px-10 py-4 bg-white/5 border border-white/10 text-white/70 font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-white hover:text-black transition-all duration-500 rounded-full"
-                      >
-                        Save Date
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Glow Behind Card */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-wedding-gold/[0.03] blur-[120px] rounded-full pointer-events-none -z-0"></div>
-            </div>
-
-            {/* Digital Navigation Helper */}
-            <div className="mt-12 flex flex-col items-center gap-4 opacity-40">
-              <div className="w-16 h-16 p-2 bg-white rounded-xl">
-                <QRCodeSVG value={event.maps_link || event.mapsLink} size={48} />
-              </div>
-              <p className="text-[8px] uppercase tracking-widest text-gray-500">Scan for direct navigation</p>
-            </div>
-          </motion.div>
-        ))}
-      </section>
-
-      {/* 6. WEDDING GIFT */}
-      <section className="py-32 px-4 relative z-10 bg-[#080808] border-t border-white/5">
+      {/* 6. GIFT SECTION (Digital Credits) */}
+      <section className="py-48 px-4 relative z-10 border-t border-white/5">
         <motion.div 
           initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-          className="max-w-2xl mx-auto text-center"
+          className="max-w-4xl mx-auto text-center"
         >
-            <h3 className="font-serif text-2xl md:text-5xl mb-6 uppercase tracking-widest text-[#D4AF37]">Wedding Gift</h3>
-          <p className="font-sans font-light text-gray-400 mb-12 leading-relaxed text-sm max-w-md mx-auto">
-            Kehadiran Anda adalah anugerah terbesar. Namun, apabila Anda ingin memberikan tanda kasih, Anda dapat mengirimkannya melalui rekening berikut:
-          </p>
+          <p className="font-sans uppercase tracking-[0.5em] text-[10px] text-gray-500 mb-12">Wedding Gift</p>
+          <h2 className="font-serif text-4xl md:text-7xl uppercase tracking-widest italic mb-24">Tanda Kasih</h2>
           
-          {/* ELITE BANK CARD DESIGN */}
-          <motion.div 
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="relative max-w-sm mx-auto group perspective-1000"
-          >
-            {/* The Card */}
-            <div className="relative aspect-[1.586/1] w-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/20 p-5 md:p-8 text-left overflow-hidden shadow-2xl transition-all duration-500 group-hover:border-white/40 group-hover:shadow-[0_0_50px_rgba(255,255,255,0.1)]">
-              
-              {/* Metallic Shine Animation */}
-              <motion.div 
-                animate={{ x: ['-100%', '200%'] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg] pointer-events-none"
-              />
-
-              {/* Card Chip */}
-              <div className="w-12 h-10 bg-gradient-to-br from-[#D4AF37] via-[#F9E498] to-[#B8860B] rounded-md mb-8 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-30 grid grid-cols-3 grid-rows-3 border border-black/20">
-                  <div className="border border-black/10"></div><div className="border border-black/10"></div><div className="border border-black/10"></div>
-                  <div className="border border-black/10"></div><div className="border border-black/10"></div><div className="border border-black/10"></div>
-                </div>
-              </div>
-
-              {/* Card Numbers */}
-                <p className="font-serif text-[10px] sm:text-xl md:text-3xl text-white mb-6 tracking-[0.1em] md:tracking-[0.2em] drop-shadow-lg">{data.gift.accountNumber}</p>
-              
-              {/* Card Holder */}
-              <div className="flex justify-between items-end">
-                <div>
-                  <p className="text-[8px] uppercase tracking-widest text-gray-500 mb-1">Account Holder</p>
-                  <p className="text-[10px] md:text-sm font-sans font-bold uppercase tracking-widest text-white/90">{data.gift.accountName}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-[8px] uppercase tracking-widest text-gray-500 mb-1">Bank Name</p>
-                  <p className="text-xs font-bold tracking-widest text-[#D4AF37]">{data.gift.bankName}</p>
-                </div>
-              </div>
-
-              {/* NFC Icon Decor */}
-              <div className="absolute top-8 right-8 text-white/20">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M4 20h2v-2H4v2zm0-4h2v-2H4v2zm0-4h2v-2H4v2zm0-4h2V6H4v2zm4 12h2v-2H8v2zm0-4h2v-2H8v2zm0-4h2v-2H8v2zm0-4h2V6H8v2zm4 12h2v-2h-2v2zm0-4h2v-2h-2v2zm0-4h2v-2h-2v2zm0-4h2V6h-2v2zm4 12h2v-2h-2v2zm0-4h2v-2h-2v2zm0-4h2v-2h-2v2zm0-4h2V6h-2v2z"/></svg>
-              </div>
-            </div>
-
-              {/* Floating Copy Button */}
-              <motion.button 
-                whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
-                onClick={() => handleCopy(data.gift.accountNumber)} 
-                className="absolute -bottom-6 left-1/2 -translate-x-1/2 px-6 md:px-10 py-2.5 md:py-4 bg-white text-black rounded-full shadow-2xl hover:bg-gray-100 transition-all text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] z-20 flex items-center gap-3 whitespace-nowrap"
+          <div className="max-w-md mx-auto p-12 bg-white/5 border border-white/10 rounded-sm hover:border-white/20 transition-all duration-700">
+            <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-8">{data.gift.bankName}</p>
+            <p className="font-serif text-3xl md:text-4xl tracking-widest mb-4 selection:bg-wedding-gold selection:text-black">{data.gift.accountNumber}</p>
+            <p className="font-sans text-xs uppercase tracking-widest text-gray-400 mb-12">A/N {data.gift.accountName}</p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={() => handleCopy(data.gift.accountNumber)}
+                className="flex-1 py-4 border border-white/10 font-sans text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500"
               >
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-                Copy
-              </motion.button>
-          </motion.div>
+                Copy Credentials
+              </button>
+              {data.gift.qrUrl && (
+                <button 
+                  onClick={() => setIsQRISOpen(true)}
+                  className="flex-1 py-4 bg-white/5 border border-white/20 font-sans text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500"
+                >
+                  View QRIS
+                </button>
+              )}
+            </div>
+          </div>
 
-          {/* QRIS SECTION */}
-          {data.gift.qrUrl && (
-            <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-              className="mt-20 flex flex-col items-center"
-            >
-              <div className="p-4 bg-white rounded-3xl shadow-2xl shadow-white/5">
-                <div className="p-2 border-2 border-black/5 rounded-2xl">
-                   <img src={data.gift.qrUrl} alt="QRIS" className="w-48 h-48 md:w-64 md:h-64 object-contain" />
-                </div>
-              </div>
-              <p className="mt-6 text-[9px] uppercase tracking-[0.4em] text-gray-500 font-bold">Scan to Give a Gift</p>
-            </motion.div>
-          )}
         </motion.div>
       </section>
 
@@ -567,33 +334,18 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-16">
           <motion.div 
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-            className="text-center md:text-left"
+            className="text-center md:text-left flex flex-col justify-center"
           >
-            <h3 className="font-serif text-2xl mb-4 uppercase tracking-widest">RSVP</h3>
-            <p className="font-sans font-light text-gray-400 mb-12 text-sm">Berikan doa dan konfirmasi kehadiran Anda.</p>
+            <h3 className="font-serif text-2xl mb-4 uppercase tracking-[0.3em]">RSVP</h3>
+            <p className="font-sans font-light text-gray-500 mb-12 text-sm tracking-widest">Sampaikan doa dan konfirmasi kehadiran Anda untuk malam penganugerahan cinta kami.</p>
             
-            <form id="rsvp-form" action={handleRSVP} className="space-y-6 text-left">
-                <div>
-                    <input type="text" name="name" required placeholder="NAMA LENGKAP" className="w-full bg-transparent border-b border-white/20 py-4 font-sans text-xs uppercase tracking-widest focus:border-white focus:outline-none transition-colors text-white placeholder:text-gray-600"/>
-                </div>
-                <div>
-                    <select name="attendance" className="w-full bg-transparent border-b border-white/20 py-4 font-sans text-xs uppercase tracking-widest focus:border-white focus:outline-none transition-colors text-gray-300 appearance-none">
-                        <option value="Hadir" className="bg-[#050505] text-white">AKAN HADIR</option>
-                        <option value="Tidak Hadir" className="bg-[#050505] text-white">MAAF, TIDAK BISA HADIR</option>
-                    </select>
-                </div>
-                <div>
-                    <textarea name="message" rows={4} required placeholder="UCAPAN & DOA" className="w-full bg-transparent border-b border-white/20 py-4 font-sans text-xs uppercase tracking-widest focus:border-white focus:outline-none transition-colors text-white placeholder:text-gray-600 resize-none"></textarea>
-                </div>
-                  <motion.button 
-                    whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className="w-full py-3 md:py-5 mt-4 bg-white text-black font-sans font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs disabled:opacity-50"
-                  >
-                      {isSubmitting ? "MENGIRIM..." : "KIRIM"}
-                  </motion.button>
-            </form>
+            <button 
+              onClick={() => setIsRSVPOpen(true)}
+              className="group relative w-full py-8 md:py-12 border border-white/10 overflow-hidden transition-all duration-700 hover:border-white/30"
+            >
+              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-[0.03] transition-opacity" />
+              <span className="relative z-10 font-sans font-bold uppercase tracking-[0.5em] text-[10px] md:text-xs">Confirm Presence</span>
+            </button>
           </motion.div>
 
           {/* GUESTBOOK DISPLAY */}
@@ -634,6 +386,89 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           </motion.div>
         </div>
       </section>
+
+      {/* CINEMATIC BOTTOM SHEET */}
+      <BottomSheet 
+        isOpen={isRSVPOpen} 
+        onClose={() => setIsRSVPOpen(false)} 
+        title="FILM NOIR RESERVATION"
+      >
+        <form action={handleRSVP} className="space-y-12 py-12">
+          <div className="hidden">
+            <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+          </div>
+          
+          <div className="relative group">
+            <label className="text-[9px] uppercase tracking-[0.4em] text-gray-500 ml-1 font-bold">Your Name</label>
+            <input 
+              type="text" 
+              name="name" 
+              required 
+              placeholder="ENTER FULL NAME" 
+              className="w-full bg-transparent border-b border-white/20 py-4 font-sans text-xs uppercase tracking-widest focus:border-white focus:outline-none transition-all text-white placeholder:text-gray-800" 
+            />
+          </div>
+
+          <div className="relative group">
+            <label className="text-[9px] uppercase tracking-[0.4em] text-gray-500 ml-1 font-bold">Attendance</label>
+            <select 
+              name="attendance" 
+              className="w-full bg-transparent border-b border-white/20 py-4 font-sans text-xs uppercase tracking-widest focus:border-white focus:outline-none transition-all text-gray-400 appearance-none cursor-pointer"
+            >
+              <option value="Hadir" className="bg-[#0A0A0A]">I AM COMING</option>
+              <option value="Tidak Hadir" className="bg-[#0A0A0A]">I AM SORRY, I CAN'T</option>
+            </select>
+          </div>
+
+          <div className="relative group">
+            <label className="text-[9px] uppercase tracking-[0.4em] text-gray-500 ml-1 font-bold">Message</label>
+            <textarea 
+              name="message" 
+              rows={5} 
+              required 
+              placeholder="YOUR SINCERE WISHES" 
+              className="w-full bg-transparent border-b border-white/20 py-4 font-sans text-xs uppercase tracking-widest focus:border-white focus:outline-none transition-all text-white placeholder:text-gray-800 resize-none"
+            ></textarea>
+          </div>
+
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="w-full py-5 bg-white text-black font-sans font-bold uppercase tracking-[0.4em] text-[10px] active:scale-95 transition-all disabled:opacity-50"
+          >
+            {isSubmitting ? "TRANSMITTING..." : "SEND CONFIRMATION"}
+          </button>
+        </form>
+      </BottomSheet>
+      
+      {/* CINEMATIC QRIS */}
+      <BottomSheet 
+        isOpen={isQRISOpen} 
+        onClose={() => setIsQRISOpen(false)} 
+        title="DIGITAL GIFT QRIS"
+      >
+        <div className="p-8 text-center space-y-12 bg-black">
+          <div className="relative w-full aspect-square max-w-[320px] mx-auto bg-white p-6 rounded-sm shadow-[0_0_50px_rgba(255,255,255,0.05)] overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-tr from-black/5 to-transparent pointer-events-none" />
+            {data.gift.qrUrl && (
+              <Image src={data.gift.qrUrl} alt="QRIS" fill className="object-contain p-6 grayscale" />
+            )}
+          </div>
+          <div className="space-y-4">
+            <p className="text-gray-500 font-sans text-[10px] uppercase tracking-[0.6em] font-bold">{data.gift.bankName}</p>
+            <div className="bg-white/5 border border-white/10 p-8 rounded-sm">
+              <p className="text-white text-3xl font-serif tracking-[0.2em] font-light italic">{data.gift.accountNumber}</p>
+              <p className="text-gray-600 text-[10px] uppercase tracking-[0.4em] mt-4">Recipient: {data.gift.accountName}</p>
+            </div>
+          </div>
+          <button 
+            onClick={() => setIsQRISOpen(false)}
+            className="w-full py-6 bg-white text-black text-[10px] font-bold uppercase tracking-[0.5em] hover:bg-gray-200 transition-all duration-500"
+          >
+            End Transaction
+          </button>
+        </div>
+      </BottomSheet>
 
       {/* 8. CLOSING STATEMENT (Final Scene) */}
       <section className="py-48 px-4 relative z-10 overflow-hidden">
@@ -694,7 +529,6 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
       <footer className="pt-32 text-center text-white relative z-10">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
             <h2 className="font-script text-4xl md:text-8xl mb-8 text-white/80">{data.bride.name} & {data.groom.name}</h2>
-            <p className="font-sans text-[10px] uppercase tracking-widest text-gray-600 border-t border-white/10 pt-8 inline-block">Theme by Undangin Platform</p>
           </motion.div>
       </footer>
 
@@ -744,5 +578,3 @@ function GalleryItem({ photo, index }: { photo: string; index: number }) {
     </motion.div>
   );
 }
-
-

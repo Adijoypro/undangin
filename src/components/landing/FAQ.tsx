@@ -31,7 +31,7 @@ export default function FAQ() {
   const displayedFaqs = showAll ? faqs : faqs.slice(0, 2);
 
   return (
-    <section className="py-20 md:py-32 px-4 bg-wedding-base border-t border-wedding-gold/10">
+    <section className="py-12 md:py-32 px-4 bg-wedding-base border-t border-wedding-gold/10">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 md:mb-16 px-4">
           <motion.span 

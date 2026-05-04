@@ -193,3 +193,13 @@ body {
     -webkit-backdrop-filter: none !important;
   }
 }
+
+/* 12. HORIZONTAL SCROLL ANIMATION */
+@keyframes scroll-linear {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-scroll-linear {
+  animation: scroll-linear 45s linear infinite;
+}

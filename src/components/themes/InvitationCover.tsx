@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useMotionValue, useSpring } from "framer-motion";
+import Image from "next/image";
 
 interface InvitationCoverProps {
   bride: string;
@@ -93,100 +94,165 @@ export default function InvitationCover({ bride, groom, onOpen, forcedOpen = fal
   }
 
   // -------------------------
-  // VARIANT: MAJESTIC
+  // VARIANT: MAJESTIC (Realistic Theater Curtain)
   // -------------------------
   if (variant === 'majestic') {
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+      const { clientX, clientY } = e;
+      const moveX = (clientX - window.innerWidth / 2) / 25;
+      const moveY = (clientY - window.innerHeight / 2) / 25;
+      mouseX.set(moveX);
+      mouseY.set(moveY);
+    };
+
+    const tiltX = useSpring(mouseX, { stiffness: 150, damping: 20 });
+    const tiltY = useSpring(mouseY, { stiffness: 150, damping: 20 });
+
+    const Valance = () => (
+      <svg viewBox="0 0 800 120" preserveAspectRatio="none" className="w-full h-full drop-shadow-2xl">
+        <defs>
+          <linearGradient id="valanceGradMajestic" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#0D251B" />
+            <stop offset="60%" stopColor="#0A1C14" />
+            <stop offset="100%" stopColor="#050D0A" />
+          </linearGradient>
+          <filter id="silkTextureDetailed">
+            <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="4" result="noise" />
+            <feDiffuseLighting in="noise" lightingColor="#D4AF37" surfaceScale="2">
+              <feDistantLight azimuth="45" elevation="60" />
+            </feDiffuseLighting>
+            <feComposite operator="in" in2="SourceGraphic" />
+            <feBlend mode="multiply" in2="SourceGraphic" />
+          </filter>
+        </defs>
+        <path d="M0 0 L800 0 L800 60 Q700 110 600 70 Q500 30 400 75 Q300 120 200 70 Q100 20 0 65 Z" fill="url(#valanceGradMajestic)" />
+        <path d="M0 65 Q100 20 200 70 Q300 120 400 75 Q500 30 600 70 Q700 110 800 60" fill="none" stroke="#D4AF37" strokeWidth="3" opacity="0.8" />
+        <path d="M0 0 L800 0 L800 60 Q700 110 600 70 Q500 30 400 75 Q300 120 200 70 Q100 20 0 65 Z" fill="white" opacity="0.08" filter="url(#silkTextureDetailed)" />
+      </svg>
+    );
+
+    const GoldRope = () => (
+      <div className="absolute top-[75px] left-0 right-0 h-4 z-[41] overflow-hidden">
+        <svg viewBox="0 0 800 20" preserveAspectRatio="none" className="w-full h-full opacity-80">
+          <pattern id="ropePattern" x="0" y="0" width="40" height="20" patternUnits="userSpaceOnUse">
+            <path d="M0 10 Q10 0 20 10 T40 10" fill="none" stroke="#D4AF37" strokeWidth="4" />
+            <path d="M0 15 Q10 5 20 15 T40 15" fill="none" stroke="#B38728" strokeWidth="2" opacity="0.5" />
+          </pattern>
+          <rect width="800" height="20" fill="url(#ropePattern)" />
+        </svg>
+      </div>
+    );
+
+    const CurtainFolds = ({ side }: { side: "left" | "right" }) => (
+      <div className="absolute inset-0 w-full h-full overflow-hidden" style={{ transform: side === "right" ? "scaleX(-1)" : undefined }}>
+        <svg viewBox="0 0 100 600" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+          <defs>
+            <linearGradient id={`emerald-${side}`} x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#030806" />
+              <stop offset="10%" stopColor="#0D251B" />
+              <stop offset="25%" stopColor="#050D0A" />
+              <stop offset="40%" stopColor="#12291C" />
+              <stop offset="55%" stopColor="#081810" />
+              <stop offset="75%" stopColor="#153023" />
+              <stop offset="100%" stopColor="#050D0A" />
+            </linearGradient>
+          </defs>
+          <rect width="100" height="600" fill={`url(#emerald-${side})`} />
+          <rect width="100" height="600" fill="white" opacity="0.06" filter="url(#silkTextureDetailed)" />
+          
+          {/* Enhanced Vertical Shadow Folds */}
+          {[15, 45, 75].map((x, i) => (
+            <rect key={i} x={x} y="0" width="12" height="600" fill="black" opacity="0.5" filter="blur(16px)" />
+          ))}
+          
+          {/* Bright Silk Highlights */}
+          {[25, 60, 85].map((x, i) => (
+            <rect key={i} x={x} y="0" width="6" height="600" fill="white" opacity="0.15" filter="blur(8px)" />
+          ))}
+        </svg>
+      </div>
+    );
+
     return (
       <AnimatePresence>
         {!isActuallyOpen && (
           <motion.div 
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 1.5 }}
-            className="fixed inset-0 z-[9999] bg-[#0A1C14] flex flex-col items-center justify-center overflow-hidden"
+            onMouseMove={handleMouseMove}
+            initial={{ opacity: 1 }} 
+            exit={{ opacity: 0, transition: { duration: 1, delay: 2 } }} 
+            className="fixed inset-0 z-[9999] bg-[#050D0A] flex items-center justify-center overflow-hidden"
           >
-            {/* Gate Leaves for Exit Animation */}
-            <motion.div 
-              exit={{ rotateY: -110, x: "-100%", opacity: 0 }}
-              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-y-0 left-0 w-1/2 bg-[#0A1C14] z-10 border-r border-[#D4AF37]/20 origin-left shadow-2xl"
-            >
-               <div className="absolute inset-0 opacity-10 bg-[url('/assets/noise.png')]"></div>
-            </motion.div>
-            <motion.div 
-              exit={{ rotateY: 110, x: "100%", opacity: 0 }}
-              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-y-0 right-0 w-1/2 bg-[#0A1C14] z-10 border-l border-[#D4AF37]/20 origin-right shadow-2xl"
-            >
-               <div className="absolute inset-0 opacity-10 bg-[url('/assets/noise.png')]"></div>
-            </motion.div>
+            <div className="absolute top-0 left-0 right-0 h-[100px] z-[45]"><Valance /></div>
+            <GoldRope />
+            
+            <div className="absolute inset-0 z-[46] pointer-events-none">
+              {[12, 88].map((x) => (
+                <motion.div
+                  key={x}
+                  animate={{ y: [0, 8, 0], rotate: [-2, 2, -2] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute"
+                  style={{ left: `${x}%`, top: "85px", x: tiltX, y: tiltY }}
+                >
+                  <div className="flex flex-col items-center">
+                    <div className="w-1.5 h-16 bg-gradient-to-b from-[#D4AF37] to-transparent opacity-80 shadow-lg" />
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#FBF5B7] to-[#D4AF37] shadow-xl border border-[#D4AF37]/50" />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-            {/* Content Container - Raised z-index to be above leaves */}
             <motion.div 
-              initial="hidden"
-              animate="visible"
-              variants={{
-                visible: { transition: { staggerChildren: 0.2 } }
-              }}
-              className="relative z-20 text-center px-6 flex flex-col items-center"
+              style={{ x: tiltX, y: tiltY, rotateY: tiltX }}
+              exit={{ x: "-95%", skewX: -3, scaleX: 0.85, filter: "brightness(0.5)" }} 
+              transition={{ duration: 3.5, ease: [0.45, 0, 0.55, 1] }} 
+              className="absolute inset-y-0 left-0 w-[60%] z-[30] shadow-[30px_0_60px_rgba(0,0,0,0.8)] origin-left"
             >
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] } }
-                }}
-                className="mb-12"
-              >
-                <div className="w-24 h-24 border-2 border-[#D4AF37]/40 rounded-full mx-auto mb-10 flex items-center justify-center relative">
-                   <motion.div 
-                     animate={{ rotate: 360 }}
-                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                     className="absolute inset-[-4px] border-t-2 border-[#D4AF37]/20 rounded-full"
-                   />
-                   <span className="font-serif italic text-[#D4AF37] text-4xl">M</span>
+              <CurtainFolds side="left" />
+            </motion.div>
+            
+            <motion.div 
+              style={{ x: tiltX, y: tiltY, rotateY: tiltX }}
+              exit={{ x: "95%", skewX: 3, scaleX: 0.85, filter: "brightness(0.5)" }} 
+              transition={{ duration: 3.5, ease: [0.45, 0, 0.55, 1] }} 
+              className="absolute inset-y-0 right-0 w-[60%] z-[30] shadow-[-30px_0_60px_rgba(0,0,0,0.8)] origin-right"
+            >
+              <CurtainFolds side="right" />
+            </motion.div>
+            
+            <motion.div initial="hidden" animate="visible" exit={{ opacity: 0, scale: 0.85, y: -30 }} variants={{ visible: { transition: { staggerChildren: 0.2 } } }} className="relative z-[35] text-center px-6 flex flex-col items-center">
+              <motion.div style={{ x: tiltX, y: tiltY }} variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 1.5 } } }}>
+                <div className="mb-10 relative">
+                   <div className="w-24 h-24 mx-auto relative flex items-center justify-center">
+                      <Image 
+                        src="/logo.webp" 
+                        alt="Logo" 
+                        width={100} 
+                        height={100} 
+                        className="object-contain relative z-10 brightness-110 contrast-125 drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+                      />
+                      <motion.div 
+                        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+                        transition={{ duration: 4, repeat: Infinity }}
+                        className="absolute inset-0 bg-[#D4AF37] rounded-full blur-2xl z-0"
+                      />
+                   </div>
                 </div>
-                <motion.p 
-                  variants={{
-                    hidden: { opacity: 0, letterSpacing: "0.2em" },
-                    visible: { opacity: 1, letterSpacing: "0.6em" }
-                  }}
-                  className="text-[#D4AF37] uppercase text-[10px] mb-8 font-bold"
-                >
-                  The Royal Invitation
-                </motion.p>
-                <motion.h1 
-                  variants={{
-                    hidden: { opacity: 0, scale: 0.9 },
-                    visible: { opacity: 1, scale: 1 }
-                  }}
-                  className="font-script text-4xl sm:text-6xl md:text-8xl text-white mb-6 drop-shadow-2xl"
-                >
+                <p className="text-[#D4AF37] uppercase text-[10px] mb-6 font-black tracking-[0.6em] drop-shadow-sm">The Wedding Invitation</p>
+                <h1 className="font-script text-6xl sm:text-8xl text-white mb-6 drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
                    {bride} <span className="text-[#D4AF37]">&</span> {groom}
-                </motion.h1>
-                <motion.p 
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: { opacity: 1 }
-                  }}
-                  className="font-serif text-[#D4AF37] text-lg italic tracking-widest mt-8 opacity-60"
-                >
-                  For Eternity and Beyond
-                </motion.p>
+                </h1>
+                <div className="mt-8 mb-14 text-center">
+                  <p className="text-[#D4AF37]/70 text-[9px] uppercase tracking-[0.5em] mb-3">Exclusively Invited</p>
+                  <p className="text-white text-2xl font-serif italic tracking-wide">{guestName || "Tamu Undangan"}</p>
+                </div>
+                <motion.button onClick={handleOpen} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="px-12 py-5 bg-[#D4AF37] text-black font-sans text-[11px] uppercase tracking-[0.4em] font-black rounded-sm shadow-[0_15px_30px_rgba(0,0,0,0.6)] hover:bg-[#FBF5B7] transition-colors">Buka Undangan</motion.button>
               </motion.div>
-
-              <motion.button
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 }
-                }}
-                onClick={handleOpen}
-                whileHover={{ scale: 1.05, letterSpacing: "0.6em", backgroundColor: "rgba(212,175,55,0.1)" }}
-                whileTap={{ scale: 0.95 }}
-                className="px-12 py-5 bg-transparent border-2 border-[#D4AF37] text-[#D4AF37] font-sans text-[10px] uppercase tracking-[0.4em] font-bold transition-all duration-700 relative overflow-hidden group"
-              >
-                <span className="relative z-10">Enter the Kingdom</span>
-              </motion.button>
             </motion.div>
+            <div className="absolute inset-0 z-[25] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.1)_0%,transparent_80%)] pointer-events-none" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -691,4 +757,3 @@ export function ScrollIndicator({ color = "#D4AF37" }: { color?: string }) {
     </AnimatePresence>
   );
 }
-

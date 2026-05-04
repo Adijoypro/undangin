@@ -52,7 +52,7 @@ export default function ExperienceShowcase() {
   }, []);
 
   return (
-    <section className="py-24 md:py-32 bg-wedding-base relative overflow-hidden border-t border-wedding-gold/10">
+    <section className="py-16 md:py-32 bg-wedding-base relative overflow-hidden border-t border-wedding-gold/10">
       {/* Background Decorative Text - Infinite Marquee (Hidden on Mobile for Performance) */}
       <div className="absolute top-0 md:top-10 left-0 w-full overflow-hidden pointer-events-none opacity-[0.03] select-none hidden lg:flex">
         <motion.div 
@@ -100,7 +100,7 @@ export default function ExperienceShowcase() {
           </motion.p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-20 items-center">
           {/* Left: Interactive Mockup Display */}
           <div className="relative order-2 lg:order-1 flex justify-center">
             <div className="relative aspect-[4/3] flex items-center justify-center">
@@ -169,7 +169,7 @@ export default function ExperienceShowcase() {
             </div>
           </div>
           {/* Right: Selection Details */}
-          <div className="space-y-6 md:space-y-8 order-1 lg:order-2">
+          <div className="space-y-4 md:space-y-8 order-1 lg:order-2">
             {EXPERIENCES.map((exp, index) => (
               <motion.div
                 key={exp.id}

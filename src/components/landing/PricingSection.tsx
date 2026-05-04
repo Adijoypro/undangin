@@ -166,7 +166,7 @@ function PriceCard({ plan, i, user }: { plan: typeof plans[0], i: number, user: 
 
 export default function PricingSection({ user }: { user: any }) {
   return (
-    <section id="harga" className="py-20 md:py-32 px-4 relative overflow-hidden bg-white/50 dark:bg-black/50">
+    <section id="harga" className="py-12 md:py-32 px-4 relative overflow-hidden bg-white/50 dark:bg-black/50">
       {/* Decorative Blurs */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-wedding-gold/5 blur-[120px] pointer-events-none" />
 
