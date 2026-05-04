@@ -1,5 +1,6 @@
 {
   "name": "Undangin - Mahakarya Undangan Digital",
+  "id": "/",
   "short_name": "Undangin",
   "description": "Platform Undangan Digital Pernikahan Premium & Eksklusif",
   "start_url": "/dashboard",
