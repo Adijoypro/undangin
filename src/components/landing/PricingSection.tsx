@@ -94,6 +94,7 @@ function PriceCard({ plan, i, user }: { plan: typeof plans[0], i: number, user: 
             ease: "easeInOut",
             delay: i * 0.5
           }}
+          style={{ transform: "translateZ(0)", willChange: "transform" }}
           className="relative z-10 w-full h-full"
         >
           <Image 
@@ -102,6 +103,7 @@ function PriceCard({ plan, i, user }: { plan: typeof plans[0], i: number, user: 
             fill
             sizes="(max-width: 768px) 112px, 144px"
             priority={i === 1}
+            style={{ willChange: "transform" }}
             className="object-contain drop-shadow-[0_15px_30px_rgba(180,140,80,0.3)] group-hover:scale-110 transition-transform duration-700"
           />
         </motion.div>

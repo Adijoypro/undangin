@@ -45,11 +45,12 @@ export default function ExperienceShowcase() {
 
   return (
     <section className="py-24 md:py-32 bg-wedding-base relative overflow-hidden border-t border-wedding-gold/10">
-      {/* Background Decorative Text - Infinite Marquee */}
-      <div className="absolute top-0 md:top-10 left-0 w-full overflow-hidden pointer-events-none opacity-[0.03] select-none flex">
+      {/* Background Decorative Text - Infinite Marquee (Hidden on Mobile for Performance) */}
+      <div className="absolute top-0 md:top-10 left-0 w-full overflow-hidden pointer-events-none opacity-[0.03] select-none hidden lg:flex">
         <motion.div 
           animate={{ x: ["0%", "-50%"] }}
           transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
+          style={{ willChange: "transform" }}
           className="flex whitespace-nowrap"
         >
           <h2 className="text-[12rem] md:text-[18rem] font-serif font-black leading-none pr-12">
@@ -92,15 +93,17 @@ export default function ExperienceShowcase() {
           {/* Left: Interactive Mockup Display */}
           <div className="relative order-2 lg:order-1 flex justify-center">
             <div className="relative aspect-[4/3] flex items-center justify-center">
-              {/* Decorative Rings */}
+              {/* Decorative Rings - Optimized with will-change */}
               <motion.div 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                style={{ willChange: "transform" }}
                 className="absolute w-[80%] h-[80%] border border-wedding-gold/10 rounded-full"
               />
               <motion.div 
                 animate={{ rotate: -360 }}
                 transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                style={{ willChange: "transform" }}
                 className="absolute w-[60%] h-[60%] border border-wedding-gold/5 rounded-full"
               />
 
@@ -110,6 +113,7 @@ export default function ExperienceShowcase() {
                 initial={{ opacity: 0, scale: 0.9, rotateY: -20 }}
                 animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                style={{ transformStyle: "preserve-3d", willChange: "transform" }}
                 className="relative z-20 w-[300px] h-[600px] md:w-[380px] md:h-[760px] bg-black rounded-[3rem] md:rounded-[4rem] p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border-[8px] border-[#1a1a1a]"
               >
                 {/* Screen Content */}
@@ -125,7 +129,7 @@ export default function ExperienceShowcase() {
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-2xl z-[30]" />
               </motion.div>
               
-              {/* Floating Decorative Elements - 3D Rendered Icons */}
+              {/* Floating Decorative Elements - Optimized */}
               <motion.div 
                 key={`icon-${EXPERIENCES[activeIndex].id}`}
                 initial={{ opacity: 0, x: -20, scale: 0.8 }}
@@ -136,6 +140,7 @@ export default function ExperienceShowcase() {
                   y: { duration: 5, repeat: Infinity },
                   rotate: { duration: 5, repeat: Infinity }
                 }}
+                style={{ willChange: "transform" }}
                 className="absolute -top-10 -left-10 md:-top-20 md:-left-20 p-2 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.3)] z-[25] w-24 h-24 md:w-32 md:h-32 flex items-center justify-center overflow-hidden"
               >
                 <Image 

@@ -70,7 +70,7 @@ const SHOWCASE_THEMES = [
     desc: "Klasik Eropa dengan ornamen bunga vintage.",
     bgClass: "bg-[#F9F6F0]",
     frameClass: "border-[#D4AF37]/20 group-hover:border-[#D4AF37] shadow-xl",
-    bgImage: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
+    bgImage: "/assets/branding/final/ai_prewedding_comparison.webp",
     seriesColor: "text-[#7C8C77] uppercase",
     titleClass: "font-display text-5xl text-[#2B2B2B] font-bold",
     btnClass: "bg-[#7C8C77] text-white",
@@ -232,7 +232,10 @@ export default function ThemeShowcase() {
             ref={scrollRef}
             className="relative overflow-x-auto md:overflow-hidden pb-10 no-scrollbar snap-x snap-mandatory px-8 md:px-0"
           >
-            <div className="flex gap-6 md:gap-8 w-max md:animate-marquee md:hover:[animation-play-state:paused] py-8 md:py-12 md:justify-center">
+            <div 
+              className="flex gap-6 md:gap-8 w-max md:animate-marquee md:hover:[animation-play-state:paused] py-8 md:py-12 md:justify-center"
+              style={{ transform: "translateZ(0)", willChange: "transform" }}
+            >
               {[...SHOWCASE_THEMES, ...SHOWCASE_THEMES].map((t, i) => {
                 const uniqueKey = `${t.id}-${i}`;
                 const isThisHovered = hoveredId === uniqueKey;
@@ -243,13 +246,13 @@ export default function ThemeShowcase() {
                     className={`snap-center transition-all duration-700 ${isThisHovered ? 'scale-105 z-30' : 'scale-100 z-10'}`}
                     onMouseEnter={() => setHoveredId(uniqueKey)}
                     onMouseLeave={() => setHoveredId(null)}
+                    style={{ willChange: "transform" }}
                     animate={{
-                      y: isThisHovered ? -10 : [0, -5, 0],
+                      y: isThisHovered ? -10 : 0,
                     }}
                     transition={{
-                      duration: 4 + (i % 3),
-                      repeat: Infinity,
-                      ease: "easeInOut"
+                      duration: 0.5,
+                      ease: "easeOut"
                     }}
                   >
                     <ThemeCard t={t} onHoverChange={() => {}} />

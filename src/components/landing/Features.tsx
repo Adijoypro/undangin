@@ -155,6 +155,7 @@ export default function Features() {
                 <Image 
                   src="/luxury_kutai_dayak_wedding_final.webp" 
                   fill
+                  style={{ willChange: "transform" }}
                   className="object-cover hover:scale-105 transition-transform duration-1000" 
                   alt="Premium Experience"
                 />

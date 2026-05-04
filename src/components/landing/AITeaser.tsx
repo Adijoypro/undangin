@@ -9,9 +9,9 @@ import { Sparkles, Camera, Zap, ChevronRight, PenTool } from "lucide-react";
 export default function AITeaser() {
   return (
     <section className="py-24 lg:py-32 px-4 relative overflow-hidden bg-white dark:bg-wedding-base transition-colors duration-500">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-wedding-gold/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-wedding-gold/5 rounded-full blur-[120px] pointer-events-none" />
+      {/* Decorative background elements - Optimized for mobile */}
+      <div className="absolute top-0 right-0 w-64 lg:w-[500px] h-64 lg:h-[500px] bg-wedding-gold/5 rounded-full blur-[80px] lg:blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 lg:w-[500px] h-64 lg:h-[500px] bg-wedding-gold/5 rounded-full blur-[80px] lg:blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -50,18 +50,19 @@ export default function AITeaser() {
               </div>
             </div>
 
-            {/* Floating Wand Asset */}
+            {/* Floating Wand Asset - Optimized with will-change */}
             <motion.div 
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -right-8 -top-16 lg:-right-12 lg:-top-28 w-32 h-32 lg:w-64 lg:h-64 pointer-events-none drop-shadow-2xl z-20"
+              style={{ willChange: "transform" }}
+              className="absolute -right-8 -top-16 lg:-right-12 lg:-top-28 w-32 h-32 lg:w-64 lg:h-64 pointer-events-none drop-shadow-xl z-20"
             >
               <Image 
                 src="/assets/branding/final/ai_magic_wand_v2_white_bg_1777347671021.webp"
                 alt="AI Magic Wand"
                 width={400}
                 height={400}
-                className="object-contain rotate-[145deg] drop-shadow-[0_20px_40px_rgba(212,175,55,0.4)]"
+                className="object-contain rotate-[145deg] opacity-90"
               />
             </motion.div>
           </motion.div>
