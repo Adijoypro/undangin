@@ -68,7 +68,7 @@ export default async function CreateInvitationPage({ searchParams }: { searchPar
         )}
 
         {isLimitReached ? (
-          <div className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-12 rounded-[2.5rem] shadow-xl border border-white/50 dark:border-wedding-gold/20 text-center space-y-6 transition-all duration-500">
+          <div className="bg-white/95 dark:bg-wedding-base/95 lg:backdrop-blur-xl p-12 rounded-[2.5rem] shadow-xl border border-white/50 dark:border-wedding-gold/20 text-center space-y-6 transition-all duration-500 transform-gpu">
             <div className="w-24 h-24 bg-wedding-gold/10 rounded-full flex items-center justify-center mx-auto border border-wedding-gold/20">
               <AlertTriangle className="w-12 h-12 text-wedding-gold" />
             </div>
@@ -84,19 +84,19 @@ export default async function CreateInvitationPage({ searchParams }: { searchPar
                 Hapus Draft Lama
               </a>
               {credits < 10 && (
-                <a href="/dashboard/topup" className="px-8 py-3 bg-gradient-to-r from-wedding-gold to-[#B8962E] text-white rounded-xl font-bold shadow-lg hover:scale-105 transition-all">
+                <a href="/dashboard/topup" className="px-8 py-3 bg-gradient-to-r from-wedding-gold to-[#B8962E] text-white rounded-xl font-bold shadow-lg lg:hover:scale-105 transition-all">
                   Upgrade Paket (Dapatkan s/d 30 Draft)
                 </a>
               )}
             </div>
           </div>
         ) : (
-          <div className="bg-white/40 dark:bg-wedding-base/40 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] border border-white/50 dark:border-wedding-gold/20 transition-all duration-500 shadow-xl relative overflow-hidden">
+          <div className="bg-white/95 dark:bg-wedding-base/95 lg:backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] border border-white/50 dark:border-wedding-gold/20 transition-all duration-500 shadow-xl relative overflow-hidden transform-gpu">
              <div className="absolute top-0 right-0 w-64 h-64 bg-wedding-gold/5 rounded-full blur-3xl pointer-events-none" />
              
              {/* AI Coming Soon Banner */}
              <Link href="/dashboard/ai-studio" className="block mb-10 group">
-               <div className="p-5 bg-gradient-to-r from-wedding-gold/10 via-transparent to-transparent border border-wedding-gold/20 rounded-2xl flex items-center justify-between overflow-hidden relative hover:border-wedding-gold/40 transition-all duration-500 hover:shadow-lg hover:shadow-wedding-gold/5">
+               <div className="p-5 bg-gradient-to-r from-wedding-gold/10 via-transparent to-transparent border border-wedding-gold/20 rounded-2xl flex items-center justify-between overflow-hidden relative lg:hover:border-wedding-gold/40 transition-all duration-500 lg:hover:shadow-lg lg:hover:shadow-wedding-gold/5">
                  <div className="absolute -right-4 -top-4 w-24 h-24 bg-wedding-gold/5 rounded-full blur-2xl group-hover:bg-wedding-gold/10 transition-all duration-700" />
                  <div className="flex items-center gap-4 relative z-10">
                    <div className="w-12 h-12 bg-wedding-gold/20 rounded-xl flex items-center justify-center border border-wedding-gold/30 group-hover:scale-110 transition-transform duration-500">

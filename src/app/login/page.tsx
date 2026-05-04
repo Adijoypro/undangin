@@ -1,13 +1,12 @@
 "use client";
 
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import LoginButtons from "./LoginButtons";
 import SocialLogin from "./SocialLogin";
 import { motion } from "framer-motion";
 import Image from "next/image";
-
-import { Suspense } from "react";
 
 export default function LoginPage() {
   return (
@@ -24,18 +23,26 @@ export default function LoginPage() {
 function LoginForm() {
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-wedding-base text-wedding-text px-4 font-sans selection:bg-wedding-gold selection:text-black overflow-hidden relative transition-colors duration-500">
       
       {/* Background Decorative Blurs - Optimized for Mobile */}
-      <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-wedding-gold/10 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-wedding-gold/5 rounded-full blur-[80px] md:blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[200px] h-[200px] md:w-[600px] md:h-[600px] bg-wedding-gold/10 rounded-full blur-[60px] md:blur-[150px] pointer-events-none transform-gpu" />
+      <div className="absolute bottom-0 left-0 w-[200px] h-[200px] md:w-[600px] md:h-[600px] bg-wedding-gold/5 rounded-full blur-[60px] md:blur-[150px] pointer-events-none transform-gpu" />
 
       {/* Floating 3D Mask Asset - Optimized for Mobile */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-20 md:z-0">
         <motion.div
-          animate={{ 
+          animate={isMobile ? {} : { 
             y: [0, -20, 0],
             rotate: [5, -5, 5],
             scale: [1, 1.05, 1]
@@ -45,7 +52,7 @@ function LoginForm() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute -top-10 -left-10 md:-left-20 md:top-1/2 md:-translate-y-1/2 w-[250px] h-[250px] md:w-[400px] md:h-[400px] opacity-25 md:opacity-40"
+          className="absolute -top-10 -left-10 md:-left-20 md:top-1/2 md:-translate-y-1/2 w-[250px] h-[250px] md:w-[400px] md:h-[400px] opacity-25 md:opacity-40 transform-gpu"
         >
           <Image 
             src="/assets/branding/final/nusantara_topeng_gold.webp"
@@ -57,7 +64,7 @@ function LoginForm() {
         </motion.div>
         
         <motion.div
-          animate={{ 
+          animate={isMobile ? {} : { 
             y: [0, 20, 0],
             rotate: [-10, 10, -10],
             scale: [0.9, 1, 0.9]
@@ -67,7 +74,7 @@ function LoginForm() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute -bottom-10 -right-10 md:-right-20 md:bottom-0 w-[200px] h-[200px] md:w-[350px] md:h-[350px] opacity-20 md:opacity-30"
+          className="absolute -bottom-10 -right-10 md:-right-20 md:bottom-0 w-[200px] h-[200px] md:w-[350px] md:h-[350px] opacity-20 md:opacity-30 transform-gpu"
         >
           <Image 
             src="/assets/branding/final/nusantara_topeng_gold.webp"
@@ -85,11 +92,11 @@ function LoginForm() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-md w-full relative z-10"
       >
-        {/* Luxury Glass Card */}
-        <div className="bg-white/40 dark:bg-black/80 backdrop-blur-2xl p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] shadow-2xl border border-wedding-gold/20 dark:border-wedding-gold/20 transition-all duration-500 relative overflow-hidden">
+        {/* Luxury Glass Card - Optimized for Mobile */}
+        <div className="bg-white/90 dark:bg-black/90 lg:backdrop-blur-2xl p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] shadow-xl md:shadow-2xl border border-wedding-gold/20 dark:border-wedding-gold/20 transition-all duration-500 relative overflow-hidden transform-gpu">
           
           <div className="text-center mb-10">
-            <Link href="/" className="inline-block mb-6 hover:scale-105 transition-transform duration-300">
+            <Link href="/" className="inline-block mb-6 lg:hover:scale-105 transition-transform duration-300">
               <img src="/logo.webp" alt="Undangin" className="w-12 h-12 object-contain mx-auto" />
             </Link>
             
@@ -116,7 +123,7 @@ function LoginForm() {
                 name="email"
                 type="email" 
                 placeholder="nama@email.com" 
-                className="w-full bg-white/40 dark:bg-white/5 backdrop-blur-sm px-5 py-4 rounded-xl border border-wedding-gold/20 focus:border-wedding-gold focus:ring-4 focus:ring-wedding-gold/10 outline-none transition-all text-sm text-wedding-text dark:text-white shadow-inner placeholder:text-wedding-text/30"
+                className="w-full bg-white/60 dark:bg-white/5 lg:backdrop-blur-sm px-5 py-4 rounded-xl border border-wedding-gold/20 focus:border-wedding-gold focus:ring-4 focus:ring-wedding-gold/10 outline-none transition-all text-sm text-wedding-text dark:text-white shadow-inner placeholder:text-wedding-text/30"
                 required
               />
             </div>
@@ -134,7 +141,7 @@ function LoginForm() {
                 name="password"
                 type="password" 
                 placeholder="••••••••" 
-                className="w-full bg-white/40 dark:bg-white/5 backdrop-blur-sm px-5 py-4 rounded-xl border border-wedding-gold/20 focus:border-wedding-gold focus:ring-4 focus:ring-wedding-gold/10 outline-none transition-all text-sm text-wedding-text dark:text-white shadow-inner placeholder:text-wedding-text/30"
+                className="w-full bg-white/60 dark:bg-white/5 lg:backdrop-blur-sm px-5 py-4 rounded-xl border border-wedding-gold/20 focus:border-wedding-gold focus:ring-4 focus:ring-wedding-gold/10 outline-none transition-all text-sm text-wedding-text dark:text-white shadow-inner placeholder:text-wedding-text/30"
                 required
               />
             </div>

@@ -109,14 +109,14 @@ export default function KatalogClient({ user }: { user: any }) {
                 transition={{ delay: index * 0.1 }}
                 className="group relative"
               >
-                <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border border-white/5 bg-[#0a0a0a] transition-all duration-700 group-hover:border-wedding-gold/50 group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]">
+                <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border border-white/5 bg-[#0a0a0a] transition-all duration-700 lg:group-hover:border-wedding-gold/50 lg:group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] transform-gpu">
                   {/* Background Image */}
                   <Image 
                     src={theme.image}
                     alt={theme.title}
                     fill
                     priority={index < 3}
-                    className="object-cover opacity-60 transition-transform duration-1000 group-hover:scale-110 transform-gpu"
+                    className="object-cover opacity-60 transition-transform duration-1000 lg:group-hover:scale-110 transform-gpu"
                   />
                   
                   {/* Overlay Gradient */}
@@ -139,17 +139,17 @@ export default function KatalogClient({ user }: { user: any }) {
                       {theme.desc}
                     </p>
                     
-                    <div className="flex gap-4">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                       <a 
                         href={`/demo/${theme.id}?mode=demo`}
                         target="_blank"
-                        className="flex-1 px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-full text-[10px] font-bold uppercase tracking-widest text-center hover:bg-white hover:text-black transition-all"
+                        className="flex-1 px-6 py-3 bg-white/10 lg:backdrop-blur-md border border-white/20 text-white rounded-full text-[10px] font-bold uppercase tracking-widest text-center hover:bg-white hover:text-black transition-all"
                       >
                         Lihat Demo
                       </a>
                       <a 
                         href="/dashboard"
-                        className="flex-1 px-6 py-3 bg-wedding-gold text-white rounded-full text-[10px] font-bold uppercase tracking-widest text-center hover:scale-105 transition-all shadow-lg"
+                        className="flex-1 px-6 py-3 bg-wedding-gold text-white rounded-full text-[10px] font-bold uppercase tracking-widest text-center lg:hover:scale-105 transition-all shadow-lg"
                       >
                         Pilih Tema
                       </a>

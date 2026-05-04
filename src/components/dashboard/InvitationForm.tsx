@@ -429,7 +429,7 @@ export default function InvitationForm({ action, deductCreditAction, initialData
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/90 lg:backdrop-blur-md z-[100] flex items-center justify-center p-4 transform-gpu"
           >
             <motion.div 
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -477,7 +477,7 @@ export default function InvitationForm({ action, deductCreditAction, initialData
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-wedding-base/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-2xl"
+            className="absolute inset-0 bg-wedding-base/95 lg:backdrop-blur-sm z-50 flex items-center justify-center rounded-2xl transform-gpu"
           >
             <div className="flex flex-col items-center gap-4">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-wedding-gold"></div>
@@ -488,7 +488,7 @@ export default function InvitationForm({ action, deductCreditAction, initialData
       </AnimatePresence>
 
       {/* Progress Indicator & Quick Save */}
-      <div className="bg-wedding-base p-4 md:p-6 rounded-2xl shadow-xl border border-wedding-gold/10 mb-6 md:mb-8 sticky top-2 z-40 backdrop-blur-md bg-wedding-base/90 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-500">
+      <div className="bg-wedding-base p-4 md:p-6 rounded-2xl shadow-xl border border-wedding-gold/10 mb-6 md:mb-8 sticky top-2 z-40 lg:backdrop-blur-md bg-wedding-base/95 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all duration-500 transform-gpu">
         <div className="w-full md:w-auto">
           <div className="flex justify-between items-center mb-2">
             <span className="text-[10px] md:text-xs font-bold text-wedding-text/40 uppercase tracking-widest">Langkah {step} / {totalSteps}</span>
@@ -759,10 +759,10 @@ export default function InvitationForm({ action, deductCreditAction, initialData
                       key={index} 
                       className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-wedding-gold/20 shadow-sm group bg-black/5"
                     >
-                      <Image src={url} fill className="object-cover transition-transform duration-700 group-hover:scale-110" alt={`Gallery ${index}`} />
+                      <Image src={url} fill className="object-cover transition-transform duration-700 lg:group-hover:scale-110" alt={`Gallery ${index}`} />
                       
                       {/* Delete Overlay */}
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                      <div className="absolute inset-0 bg-black/40 opacity-0 lg:group-hover:opacity-100 transition-opacity flex items-center justify-center lg:backdrop-blur-[2px]">
                         <button 
                           type="button"
                           onClick={() => {
@@ -776,7 +776,7 @@ export default function InvitationForm({ action, deductCreditAction, initialData
                       </div>
                       
                       {/* Badge Number */}
-                      <div className="absolute top-2 left-2 w-5 h-5 bg-black/60 backdrop-blur-md rounded-md flex items-center justify-center text-[10px] font-bold text-wedding-gold border border-wedding-gold/20">
+                      <div className="absolute top-2 left-2 w-5 h-5 bg-black/80 lg:backdrop-blur-md rounded-md flex items-center justify-center text-[10px] font-bold text-wedding-gold border border-wedding-gold/20">
                         {index + 1}
                       </div>
                     </motion.div>

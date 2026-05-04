@@ -48,10 +48,10 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
       <main className="max-w-6xl mx-auto px-4 py-12">
         {/* AI Studio Banner - Consistency Fix */}
         <Link href="/dashboard/ai-studio" className="block mb-10 group">
-          <div className="p-5 bg-gradient-to-r from-wedding-gold/10 via-transparent to-transparent border border-wedding-gold/20 rounded-2xl flex items-center justify-between overflow-hidden relative backdrop-blur-xl hover:border-wedding-gold/40 transition-all duration-500 hover:shadow-lg hover:shadow-wedding-gold/5">
+          <div className="p-5 bg-gradient-to-r from-wedding-gold/10 via-transparent to-transparent border border-wedding-gold/20 rounded-2xl flex items-center justify-between overflow-hidden relative lg:backdrop-blur-xl bg-wedding-base/95 lg:hover:border-wedding-gold/40 transition-all duration-500 lg:hover:shadow-lg lg:hover:shadow-wedding-gold/5 transform-gpu">
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-wedding-gold/5 rounded-full blur-2xl group-hover:bg-wedding-gold/10 transition-all duration-700" />
             <div className="flex items-center gap-4 relative z-10">
-              <div className="w-12 h-12 bg-wedding-gold/20 rounded-xl flex items-center justify-center border border-wedding-gold/30 group-hover:scale-110 transition-transform duration-500">
+              <div className="w-12 h-12 bg-wedding-gold/20 rounded-xl flex items-center justify-center border border-wedding-gold/30 lg:group-hover:scale-110 transition-transform duration-500">
                 <Sparkles className="w-6 h-6 text-wedding-gold animate-pulse" />
               </div>
               <div>
