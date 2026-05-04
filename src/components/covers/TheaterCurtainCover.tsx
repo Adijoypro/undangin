@@ -20,28 +20,21 @@ const CurtainFolds = ({ side }: { side: "left" | "right" }) => (
     style={{ transform: side === "right" ? "scaleX(-1)" : undefined }}
   >
     <defs>
+      {/* Simplified Velvet Gradient */}
       <linearGradient id={`velvet-${side}`} x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" stopColor="#12050b" />
-        <stop offset="10%" stopColor="#4a0820" />
-        <stop offset="25%" stopColor="#1a040d" />
-        <stop offset="45%" stopColor="#630d2d" />
-        <stop offset="55%" stopColor="#2d0615" />
-        <stop offset="75%" stopColor="#4a0820" />
-        <stop offset="90%" stopColor="#1a040d" />
+        <stop offset="15%" stopColor="#4a0820" />
+        <stop offset="35%" stopColor="#1a040d" />
+        <stop offset="50%" stopColor="#630d2d" />
+        <stop offset="65%" stopColor="#2d0615" />
+        <stop offset="85%" stopColor="#4a0820" />
         <stop offset="100%" stopColor="#0a0206" />
       </linearGradient>
-      {/* Noise texture pattern for cloth grain */}
-      <filter id="clothGrain">
-        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
-        <feColorMatrix type="saturate" values="0" />
-        <feComponentTransfer>
-          <feFuncA type="linear" slope="0.05" />
-        </feComponentTransfer>
-      </filter>
     </defs>
-    {/* Base Velvet with Grain */}
+    {/* Base Velvet */}
     <rect width="100" height="600" fill={`url(#velvet-${side})`} />
-    <rect width="100" height="600" filter="url(#clothGrain)" opacity="0.4" style={{ mixBlendMode: 'overlay' }} />
+    {/* Light Vertical Lustre (Replacement for heavy grain) */}
+    <rect width="100" height="600" fill="white" opacity="0.02" style={{ mixBlendMode: 'soft-light' }} />
     
     {/* Deep Vertical Fold Shadows */}
     {[20, 45, 75].map((x, i) => (
@@ -128,8 +121,8 @@ export default function TheaterCurtainCover({ bride, groom, date, onOpen, guestN
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent blur-[1px]" />
       </div>
 
-      {/* ── ATMOSPHERIC DUST (Subtle) ── */}
-      <div className="absolute inset-0 pointer-events-none z-[6] opacity-[0.03] mix-blend-screen bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
+      {/* ── ATMOSPHERIC HAZE (Replacement for external stardust) ── */}
+      <div className="absolute inset-0 pointer-events-none z-[6] opacity-[0.4] bg-[radial-gradient(circle_at_center,rgba(180,140,80,0.03)_0%,transparent_70%)]" />
 
       {/* ── SPOTLIGHTS ── */}
       <motion.div

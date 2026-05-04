@@ -28,7 +28,7 @@ export async function generateMetadata(
   const title = `The Wedding of ${data.bride_name} & ${data.groom_name}`;
   const description = data.quote || "Kami mengundang Anda untuk hadir dan memberikan doa restu di hari bahagia kami.";
   const origin = "https://undanginaja.vercel.app";
-  const image = data.couple_photo || "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop"; 
+  const image = data.couple_photo || `${origin}/og-image.png`; 
 
   return {
     title,
@@ -41,8 +41,8 @@ export async function generateMetadata(
       images: [
         {
           url: image,
-          width: 800,
-          height: 600,
+          width: 1200,
+          height: 630,
         },
       ],
       locale: "id_ID",
@@ -106,7 +106,7 @@ export default async function InvitationPage({
       parents: (dbData.bride_father && dbData.bride_mother) 
         ? `Putri dari Bapak ${dbData.bride_father} & Ibu ${dbData.bride_mother}` 
         : (dbData.bride_parents || "Bapak Budi & Ibu Siti"),
-      photo: dbData.bride_photo || "https://images.unsplash.com/photo-1546804784-81647414ee00?q=80&w=800&auto=format&fit=crop",
+      photo: dbData.bride_photo || "/assets/branding/final/ai_prewedding_comparison.webp",
     },
     groom: {
       name: dbData.groom_name,
@@ -114,7 +114,7 @@ export default async function InvitationPage({
       parents: (dbData.groom_father && dbData.groom_mother) 
         ? `Putra dari Bapak ${dbData.groom_father} & Ibu ${dbData.groom_mother}` 
         : (dbData.groom_parents || "Bapak Joko & Ibu Sri"),
-      photo: dbData.groom_photo || "https://images.unsplash.com/photo-1550005809-91ad75fb315f?q=80&w=800&auto=format&fit=crop",
+      photo: dbData.groom_photo || "/assets/branding/final/ai_prewedding_comparison.webp",
     },
     bride_father: dbData.bride_father,
     bride_mother: dbData.bride_mother,

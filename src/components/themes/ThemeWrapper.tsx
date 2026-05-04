@@ -72,11 +72,11 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
 
   return (
     <div className="relative theme-isolate">
-      {/* GLOBAL AUDIO TAG */}
+      {/* GLOBAL AUDIO TAG - Optimized: Only load source after user opens the invitation */}
       <audio 
         ref={audioRef} 
         loop 
-        src={data.musicUrl || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"} 
+        src={isOpened ? (data.musicUrl || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3") : ""} 
       />
 
       {/* ADMIN PANEL (Only for Owner) */}
