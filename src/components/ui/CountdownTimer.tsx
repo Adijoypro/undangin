@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 interface CountdownTimerProps {
   targetDate: string; // e.g. "14 Februari 2027"
-  theme?: "premium" | "cinematic" | "cinematic-dark" | "mini";
+  theme?: "premium" | "cinematic" | "cinematic-dark" | "mini" | "minimal";
   color?: string; // Optional custom color
 }
 
@@ -96,6 +96,22 @@ export default function CountdownTimer({ targetDate, theme = "premium", color }:
               {unit.value.toString().padStart(2, '0')}
             </span>
             <span className="text-[6px] uppercase tracking-[0.2em] text-gray-500 mt-0.5">{unit.labelEn}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (theme === "minimal") {
+    return (
+      <div className="flex gap-8 justify-center items-center">
+        {units.map((unit, i) => (
+          <div key={unit.label} className="flex flex-col items-center">
+            <span className="text-4xl md:text-5xl font-serif text-[#1A1A2E] leading-none mb-3">
+              {unit.value.toString().padStart(2, '0')}
+            </span>
+            <div className="w-4 h-[1px] bg-[#5B7B9D]/30 mb-2" />
+            <span className="text-[7px] uppercase tracking-[0.4em] text-[#5B7B9D] font-black">{unit.labelEn}</span>
           </div>
         ))}
       </div>

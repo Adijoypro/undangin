@@ -3,11 +3,6 @@
 import { useState } from "react";
 
 const THEME_PREVIEWS: Record<string, { name: string; desc: string; color: string }> = {
-  "premium": { 
-    name: "Premium Sage & Gold", 
-    desc: "Desain minimalis dengan perpaduan warna hijau sage dan aksen emas yang menenangkan.",
-    color: "bg-[#7C8C77]"
-  },
   "cinematic-dark": { 
     name: "Cinematic Dark", 
     desc: "Nuansa gelap yang dramatis dengan tipografi besar dan animasi yang elegan.",
@@ -32,10 +27,15 @@ const THEME_PREVIEWS: Record<string, { name: string; desc: string; color: string
     name: "Celestial Harmony", 
     desc: "Scroll parallax sinematik — foto utama jadi latar, konten mengalir seamless seperti film.",
     color: "bg-black"
+  },
+  "modern-blue": {
+    name: "Modern Blue",
+    desc: "Desain asimetris Modern dengan Bento Grid gallery dan palet Steel Blue yang premium.",
+    color: "bg-[#F8F9FB]"
   }
 };
 
-export default function ThemeSelector({ defaultValue = "premium", onChange }: { defaultValue?: string, onChange?: (val: string) => void }) {
+export default function ThemeSelector({ defaultValue = "cinematic-dark", onChange }: { defaultValue?: string, onChange?: (val: string) => void }) {
   const [selectedTheme, setSelectedTheme] = useState(defaultValue);
 
   const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -58,12 +58,12 @@ export default function ThemeSelector({ defaultValue = "premium", onChange }: { 
               value={selectedTheme}
               onChange={handleThemeChange}
             >
-              <option value="premium" className="bg-wedding-base">Premium (Sage & Gold)</option>
-              <option value="cinematic-dark" className="bg-wedding-base">Cinematic Dark (Black & White)</option>
-              <option value="ultra-luxury" className="bg-wedding-base">The Ultra Luxury (Onyx & Rose Gold)</option>
-              <option value="renaissance-garden" className="bg-wedding-base">The Renaissance Garden (Vintage Floral)</option>
-              <option value="majestic-eternity" className="bg-wedding-base">Majestic Eternity (Emerald & Gold) - DEWA TIER</option>
-              <option value="celestial-harmony" className="bg-wedding-base">Celestial Harmony (Scroll Parallax) - BARU!</option>
+              <option value="cinematic-dark" className="bg-wedding-base">Cinematic Dark</option>
+              <option value="ultra-luxury" className="bg-wedding-base">The Ultra Luxury</option>
+              <option value="renaissance-garden" className="bg-wedding-base">The Renaissance Garden</option>
+              <option value="majestic-eternity" className="bg-wedding-base">Majestic Eternity</option>
+              <option value="celestial-harmony" className="bg-wedding-base">Celestial Harmony</option>
+              <option value="modern-blue" className="bg-wedding-base">Modern Blue</option>
             </select>
             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-wedding-gold">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>

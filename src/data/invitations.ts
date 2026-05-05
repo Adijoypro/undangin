@@ -1,7 +1,7 @@
 export interface InvitationData {
   id: string; // Added for DB reference
   slug: string;
-  theme: "premium" | "cinematic" | "ultra-luxury" | "majestic-eternity" | "renaissance-garden" | "celestial-harmony";
+  theme: "premium" | "cinematic" | "cinematic-dark" | "ultra-luxury" | "majestic-eternity" | "renaissance-garden" | "celestial-harmony" | "sage" | "modern-blue";
   bride: {
     name: string;
     nickname?: string;

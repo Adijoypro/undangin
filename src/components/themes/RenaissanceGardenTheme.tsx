@@ -20,6 +20,12 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRSVPOpen, setIsRSVPOpen] = useState(false);
   const [isQRISOpen, setIsQRISOpen] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  useEffect(() => {
+    const submitted = localStorage.getItem(`rsvp_${data.slug}`);
+    if (submitted) setHasSubmitted(true);
+  }, [data.slug]);
 
   const { scrollYProgress } = useScroll({ target: containerRef });
   const smoothProgress = useSpring(scrollYProgress, { damping: 20, stiffness: 100 });
@@ -35,6 +41,8 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
     setIsSubmitting(false);
     if (result.success) {
       toast.success("Terima kasih atas konfirmasi Anda.");
+      localStorage.setItem(`rsvp_${data.slug}`, "true");
+      setHasSubmitted(true);
       setIsRSVPOpen(false);
     } else { toast.error("Gagal mengirim, silakan coba lagi."); }
   };
@@ -395,14 +403,26 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
               <p className="mt-8 text-sm italic" style={{ color: palette.textMuted }}>Sampaikan konfirmasi kehadiran Anda untuk merayakan hari bahagia ini bersama kami.</p>
             </motion.div>
 
-            <button 
-              onClick={() => setIsRSVPOpen(true)}
-              className="group relative w-full py-10 border transition-all duration-700 hover:border-opacity-100"
-              style={{ borderColor: palette.accent + '30', backgroundColor: palette.card }}
-            >
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity" style={{ backgroundColor: palette.accent }} />
-              <span className="relative z-10 text-[10px] md:text-xs tracking-[0.5em] uppercase font-bold" style={{ color: palette.accent }}>Kirim Konfirmasi Kehadiran</span>
-            </button>
+            {hasSubmitted ? (
+              <div className="py-12 bg-white/50 border border-opacity-10 rounded-2xl text-center" style={{ borderColor: palette.accent + '30' }}>
+                <div className="w-16 h-16 bg-[#5B7B9D]/10 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: palette.accent + '10' }}>
+                  <svg className="w-8 h-8" style={{ color: palette.accent }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h4 className="font-serif text-2xl mb-2 italic" style={{ color: palette.text }}>Terima Kasih</h4>
+                <p className="text-[10px] uppercase tracking-widest font-black" style={{ color: palette.textMuted }}>Konfirmasi Anda Telah Kami Terima</p>
+              </div>
+            ) : (
+              <button 
+                onClick={() => setIsRSVPOpen(true)}
+                className="group relative w-full py-10 border transition-all duration-700 hover:border-opacity-100"
+                style={{ borderColor: palette.accent + '30', backgroundColor: palette.card }}
+              >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity" style={{ backgroundColor: palette.accent }} />
+                <span className="relative z-10 text-[10px] md:text-xs tracking-[0.5em] uppercase font-bold" style={{ color: palette.accent }}>Kirim Konfirmasi Kehadiran</span>
+              </button>
+            )}
           </div>
         </section>
 

@@ -1,11 +1,6 @@
 import { formatWeddingDate } from "@/lib/formatters";
-import PremiumTheme from "@/components/themes/PremiumTheme";
-import CinematicDarkTheme from "@/components/themes/CinematicDarkTheme";
-import UltraLuxuryTheme from "@/components/themes/UltraLuxuryTheme";
-import MajesticEternityTheme from "@/components/themes/MajesticEternityTheme";
-import RenaissanceGardenTheme from "@/components/themes/RenaissanceGardenTheme";
-import CelestialHarmonyTheme from "@/components/themes/CelestialHarmonyTheme";
 import ThemeWrapper from "@/components/themes/ThemeWrapper";
+import ThemeRouter from "@/components/themes/ThemeRouter";
 import DraftMarketingPage from "@/components/themes/DraftMarketingPage";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -96,7 +91,7 @@ export default async function InvitationPage({
     .order("created_at", { ascending: false });
 
   // Map Supabase data to our component structure
-  const mappedData = {
+  const mappedData: any = {
     id: dbData.id,
     slug: dbData.slug,
     theme: dbData.theme,
@@ -150,29 +145,9 @@ export default async function InvitationPage({
     guestName: guestName || ""
   };
 
-  const renderTheme = () => {
-    switch (mappedData.theme) {
-      case "cinematic":
-      case "cinematic-dark":
-        return <CinematicDarkTheme data={mappedData} />;
-      case "ultra-luxury":
-        return <UltraLuxuryTheme data={mappedData} />;
-      case "majestic-eternity":
-        return <MajesticEternityTheme data={mappedData} />;
-      case "renaissance-garden":
-        return <RenaissanceGardenTheme data={mappedData} />;
-      case "celestial-harmony":
-        return <CelestialHarmonyTheme data={mappedData} />;
-      case "premium":
-      default:
-        console.warn(`Unknown theme: ${mappedData.theme}, falling back to premium.`);
-        return <PremiumTheme data={mappedData} />;
-    }
-  };
-
   return (
     <ThemeWrapper data={mappedData} isOwner={isOwner}>
-      {renderTheme()}
+      <ThemeRouter data={mappedData} />
     </ThemeWrapper>
   );
 }

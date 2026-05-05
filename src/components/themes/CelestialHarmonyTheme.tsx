@@ -57,10 +57,17 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     const submitted = localStorage.getItem(`rsvp_${data.slug}`);
     if (submitted) setHasSubmitted(true);
+
+    return () => window.removeEventListener('resize', checkMobile);
   }, [data.slug]);
 
   const [isRSVPOpen, setIsRSVPOpen] = useState(false);
@@ -95,7 +102,11 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
   });
 
   const Card = ({ children, id, className = "" }: { children: React.ReactNode; id?: string; className?: string }) => (
-    <div id={id} className={`bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl will-change-transform ${className}`} style={{ transform: "translateZ(0)" }}>
+    <div 
+      id={id} 
+      className={`${isMobile ? 'bg-black/40' : 'bg-white/[0.03] backdrop-blur-3xl'} border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl will-change-transform ${className}`} 
+      style={{ transform: "translateZ(0)" }}
+    >
       {children}
     </div>
   );
@@ -287,7 +298,16 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
                     >
                       <div className="flex justify-between items-start">
                         <p className="text-[#D4AF37] text-[10px] font-black uppercase tracking-wider">{rsvp.name}</p>
-                        <span className="text-[8px] text-white/20 uppercase font-bold">{rsvp.attendance}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[8px] text-white/20 uppercase font-bold">{rsvp.attendance}</span>
+                          {/* Hidden Delete Button (Visible via ThemeWrapper for Owner) */}
+                          <button 
+                            onClick={() => (window as any).handleDeleteEntry?.(rsvp.id)}
+                            className="guest-entry-delete hidden p-1 text-red-400 hover:text-red-600 transition-colors"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                          </button>
+                        </div>
                       </div>
                       <p className="text-white/60 text-xs italic leading-relaxed">"{rsvp.message}"</p>
                     </motion.div>
@@ -514,12 +534,24 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
             <SectionTitle>RSVP & Wish</SectionTitle>
             <Card className="bg-black/40 backdrop-blur-3xl border-white/5 text-center py-12">
               <p className="text-white/60 text-sm italic font-serif mb-8">Konfirmasikan kehadiran Anda untuk melengkapi kebahagiaan kami.</p>
+            {hasSubmitted ? (
+              <div className="py-12 bg-white/5 border border-white/10 rounded-2xl text-center">
+                <div className="w-12 h-12 border border-[#D4AF37]/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-6 h-6 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h4 className="font-serif text-xl mb-2 text-white italic tracking-widest">Confirmed</h4>
+                <p className="text-white/40 text-[9px] uppercase tracking-widest font-black">Your response has been received.</p>
+              </div>
+            ) : (
               <button 
                 onClick={() => setIsRSVPOpen(true)}
                 className="w-full py-5 bg-[#D4AF37] text-black text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-[0_10px_30px_rgba(212,175,87,0.3)] active:scale-95 transition-all"
               >
                 Confirm Now
               </button>
+            )}
             </Card>
           </div>
         </Sec>
@@ -534,24 +566,26 @@ function CelestialHarmonyContent({ data }: { data: InvitationData }) {
 
       <StaticView />
 
-      <motion.div 
-        style={{ 
-          opacity: useTransform(smoothProgress, [0, 0.05, 0.95, 0.98], [0, 1, 1, 0]), 
-          pointerEvents: useTransform(smoothProgress, (v) => v < 0.05 || v > 0.98 ? "none" : "auto") 
-        }}
-        className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100]"
-      >
-        <button 
-          onClick={() => setIsRSVPOpen(true)} 
-          className="group relative flex items-center gap-3 md:gap-4 px-6 md:px-8 py-3 md:py-4 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] active:scale-95 transition-all overflow-hidden"
+      {!hasSubmitted && (
+        <motion.div 
+          style={{ 
+            opacity: useTransform(smoothProgress, [0, 0.05, 0.95, 0.98], [0, 1, 1, 0]), 
+            pointerEvents: useTransform(smoothProgress, (v) => v < 0.05 || v > 0.98 ? "none" : "auto") 
+          }}
+          className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100]"
         >
-          <div className="absolute inset-0 bg-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-          <div className="absolute inset-0 w-full h-full rounded-full bg-[#D4AF37]/20 animate-ping opacity-30" />
-          <div className="relative w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse shadow-[0_0_10px_#D4AF37]" />
-          <span className="text-white text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em]">RSVP Now</span>
-          <div className="absolute inset-0 border border-[#D4AF37]/20 rounded-full group-hover:border-[#D4AF37]/50 transition-colors" />
-        </button>
-      </motion.div>
+          <button 
+            onClick={() => setIsRSVPOpen(true)} 
+            className="group relative flex items-center gap-3 md:gap-4 px-6 md:px-8 py-3 md:py-4 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] active:scale-95 transition-all overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 w-full h-full rounded-full bg-[#D4AF37]/20 animate-ping opacity-30" />
+            <div className="relative w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse shadow-[0_0_10px_#D4AF37]" />
+            <span className="text-white text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em]">RSVP Now</span>
+            <div className="absolute inset-0 border border-[#D4AF37]/20 rounded-full group-hover:border-[#D4AF37]/50 transition-colors" />
+          </button>
+        </motion.div>
+      )}
 
       {/* CELESTIAL BOTTOM SHEET */}
       <BottomSheet 

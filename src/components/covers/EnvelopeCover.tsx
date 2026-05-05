@@ -9,27 +9,30 @@ interface EnvelopeCoverProps {
   date: string;
   onOpen: () => void;
   guestName?: string;
-  variant?: 'dark' | 'renaissance';
+  variant?: 'dark' | 'renaissance' | 'modern-blue';
 }
 
 export default function EnvelopeCover({ bride, groom, date, onOpen, guestName, variant = 'dark' }: EnvelopeCoverProps) {
   const [step, setStep] = useState(0);
   const [cardInFront, setCardInFront] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const isAnimating = useRef(false);
 
   // Theme configuration
   const isRenaissance = variant === 'renaissance';
+  const isModernBlue = variant === 'modern-blue';
+  
   const colors = {
-    screenBg: isRenaissance ? "#F5EFE6" : "#020202",
-    envBg: isRenaissance ? "#EAE0D5" : "#0c0c0c",
-    envSide: isRenaissance ? "#DCD0C0" : "#0e0e0e",
-    envBottom: isRenaissance ? "#D0C0B0" : "#111",
-    envTop: isRenaissance ? "linear-gradient(to bottom, #F5EFE6, #EAE0D5)" : "linear-gradient(to bottom, #141414, #0a0a0a)",
-    waxBase: isRenaissance ? "from-[#D4AF37] via-[#B38728] to-[#8a6d1f]" : "from-[#D4AF37] via-[#B38728] to-[#8a6d1f]",
-    waxInner: isRenaissance ? "from-[#FFDF70] to-[#B38728]" : "from-[#FFDF70] to-[#B38728]",
-    waxText: "#2C2C2C", // Dark text on gold looks more 3D/engraved
-    guestText: isRenaissance ? "#3D3229" : "white",
-    guestLabel: isRenaissance ? "#8B7355" : "#D4AF37"
+    screenBg: isModernBlue ? "#1A1A2E" : (isRenaissance ? "#F5EFE6" : "#020202"),
+    envBg: isModernBlue ? "#F8F9FB" : (isRenaissance ? "#EAE0D5" : "#0c0c0c"),
+    envSide: isModernBlue ? "#F0F2F5" : (isRenaissance ? "#DCD0C0" : "#0e0e0e"),
+    envBottom: isModernBlue ? "#E1E5EA" : (isRenaissance ? "#D0C0B0" : "#111"),
+    envTop: isModernBlue ? "linear-gradient(to bottom, #FFFFFF, #F8F9FB)" : (isRenaissance ? "linear-gradient(to bottom, #F5EFE6, #EAE0D5)" : "linear-gradient(to bottom, #141414, #0a0a0a)"),
+    waxBase: isModernBlue ? "from-[#5B7B9D] via-[#8AADCF] to-[#5B7B9D]" : "from-[#D4AF37] via-[#B38728] to-[#8a6d1f]",
+    waxInner: isModernBlue ? "from-[#8AADCF] to-[#5B7B9D]" : "from-[#FFDF70] to-[#B38728]",
+    waxText: isModernBlue ? "#FFFFFF" : "#2C2C2C",
+    guestText: isModernBlue ? "#1A1A2E" : (isRenaissance ? "#3D3229" : "white"),
+    guestLabel: isModernBlue ? "#5B7B9D" : (isRenaissance ? "#8B7355" : "#D4AF37")
   };
 
   useEffect(() => {
@@ -46,12 +49,24 @@ export default function EnvelopeCover({ bride, groom, date, onOpen, guestName, v
   const tiltY = useSpring(rawY, { stiffness: 80, damping: 20 });
 
   useEffect(() => {
-    const move = (e: MouseEvent) => {
-      rawX.set((e.clientX / window.innerWidth - 0.5) * 40);
-      rawY.set(-(e.clientY / window.innerHeight - 0.5) * 20);
-    };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    
+    if (window.innerWidth >= 1024) {
+      const move = (e: MouseEvent) => {
+        rawX.set((e.clientX / window.innerWidth - 0.5) * 40);
+        rawY.set(-(e.clientY / window.innerHeight - 0.5) * 20);
+      };
+      window.addEventListener("mousemove", move);
+      window.addEventListener('resize', checkMobile);
+      return () => {
+        window.removeEventListener("mousemove", move);
+        window.removeEventListener('resize', checkMobile);
+      };
+    }
+    
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, [rawX, rawY]);
 
   const tap = () => {
@@ -92,8 +107,21 @@ export default function EnvelopeCover({ bride, groom, date, onOpen, guestName, v
     >
       <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.05),transparent_60%)]" />
       
+      {isModernBlue && (
+        <>
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#5B7B9D]/10 rounded-full blur-[120px]" />
+            <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#8AADCF]/10 rounded-full blur-[120px]" />
+          </div>
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{
+            backgroundImage: "linear-gradient(#FFFFFF 1px, transparent 1px), linear-gradient(90deg, #FFFFFF 1px, transparent 1px)",
+            backgroundSize: "60px 60px"
+          }}></div>
+        </>
+      )}
+      
       <motion.div
-        style={{ rotateY: tiltX, rotateX: tiltY, transformPerspective: 1200, transformStyle: "preserve-3d" }}
+        style={!isMobile ? { rotateY: tiltX, rotateX: tiltY, transformPerspective: 1200, transformStyle: "preserve-3d" } : {}}
         className="relative w-[300px] md:w-[380px] aspect-[4/3] drop-shadow-[0_35px_50px_rgba(0,0,0,0.5)]"
       >
         <div className="absolute inset-0" style={{ transformStyle: "flat" }}>

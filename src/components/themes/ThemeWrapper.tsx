@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, createContext } from "react";
+import { useState, useRef, useEffect, createContext, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { deleteGuestbookEntry } from "@/app/api/guestbook/delete/actions";
 import MusicSelector from "../ui/MusicSelector";
 import { InvitationData } from "@/data/invitations";
@@ -9,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import ConfirmModal from "../ui/ConfirmModal";
 import MusicVisualizer from "../ui/MusicVisualizer";
+import SmoothScroll from "../ui/SmoothScroll";
 
 interface ThemeWrapperProps {
   data: any;
@@ -27,10 +29,14 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
   const [showMusicSelector, setShowMusicSelector] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const router = useRouter();
 
-  // Analytics Calculation
-  const totalRSVP = data.guestbook?.length || 0;
-  const totalAttending = data.guestbook?.filter((g: any) => g.attendance === 'Hadir').length || 0;
+  // Analytics Calculation - Memoized for performance
+  const totalRSVP = useMemo(() => data.guestbook?.length || 0, [data.guestbook]);
+  const totalAttending = useMemo(() => 
+    data.guestbook?.filter((g: any) => g.attendance === 'Hadir').length || 0, 
+    [data.guestbook]
+  );
 
   useEffect(() => {
     (window as any).handleDeleteEntry = (id: string) => {
@@ -45,7 +51,8 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
     if (res.success) {
       toast.success("Ucapan berhasil dihapus");
       setDeletingId(null);
-      setTimeout(() => window.location.reload(), 1000);
+      // Use router.refresh() instead of full page reload for better performance
+      router.refresh();
     } else {
       toast.error("Gagal menghapus ucapan");
       setDeletingId(null);
@@ -115,13 +122,23 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
   // Warna background dasar biar nggak belang sama footer
   const getThemeBg = () => {
     switch (data.theme) {
-      case 'majestic-eternity': return 'bg-[#06120C]';
-      case 'ultra-luxury': return 'bg-[#0A0A0A]';
-      case 'premium': return 'bg-[#111111]';
-      case 'renaissance-garden': return 'bg-[#F5EFE6]';
-      case 'cinematic-dark': return 'bg-black';
-      case 'celestial-harmony': return 'bg-black';
-      default: return 'bg-black';
+      case "cinematic-dark":
+        return "bg-black text-white";
+      case "ultra-luxury":
+        return "bg-wedding-base text-wedding-text";
+      case "majestic-eternity":
+        return "bg-[#0A0A0B] text-[#D4AF37]";
+      case "renaissance-garden":
+        return "bg-[#Fdfbf7] text-[#2c3d2e]";
+      case "celestial-harmony":
+        return "bg-[#090B10] text-[#E0E5FF]";
+      case "sage":
+      case "modern-blue":
+        return "bg-[#F8F9FB] text-[#1A1A2E]";
+      case "premium":
+        return "bg-[#111111]";
+      default:
+        return "bg-wedding-base text-wedding-text";
     }
   };
 
@@ -189,8 +206,10 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
 
       {/* THEME CONTENT */}
       <ThemeContext.Provider value={{ isOpened, onOpen: handleOpen }}>
-        {children}
-        {isOpened && <PoweredByUndangin theme={data.theme} />}
+        <SmoothScroll>
+          {children}
+          {isOpened && <PoweredByUndangin theme={data.theme} />}
+        </SmoothScroll>
       </ThemeContext.Provider>
 
       {/* MODERATION OVERLAY (Injecting styles for delete buttons) */}

@@ -38,7 +38,7 @@ export default function InvitationForm({ action, deductCreditAction, initialData
   // Form State to keep data across steps
   const [formData, setFormData] = useState({
     slug: initialData?.slug || "",
-    theme: initialData?.theme || "premium",
+    theme: initialData?.theme || "cinematic-dark",
     bride_name: initialData?.bride_name || "",
     bride_fullname: initialData?.bride_fullname || "",
     bride_father: initialData?.bride_father || "",
@@ -281,7 +281,7 @@ export default function InvitationForm({ action, deductCreditAction, initialData
       // Explicitly append all values from state to avoid DOM hidden input mismatch
       fd.append("id", initialData?.id || "");
       fd.append("slug", formData.slug || "");
-      fd.append("theme", formData.theme || "premium");
+      fd.append("theme", formData.theme || "cinematic-dark");
       
       fd.append("bride_name", formData.bride_name || "");
       fd.append("bride_fullname", formData.bride_fullname || "");

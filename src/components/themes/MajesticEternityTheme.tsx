@@ -33,11 +33,21 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRSVPOpen, setIsRSVPOpen] = useState(false);
   const [isQRISOpen, setIsQRISOpen] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-  }, []);
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    const submitted = localStorage.getItem(`rsvp_${data.slug}`);
+    if (submitted) setHasSubmitted(true);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [data.slug]);
 
   // Scroll animations
   const { scrollYProgress } = useScroll({ target: containerRef });
@@ -52,6 +62,8 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
     setIsSubmitting(false);
     if (result.success) {
       toast.success("Terima kasih atas doa dan konfirmasi Anda.");
+      localStorage.setItem(`rsvp_${data.slug}`, "true");
+      setHasSubmitted(true);
       setIsRSVPOpen(false);
     } else {
       toast.error("Gagal mengirim, silakan coba lagi.");
@@ -67,8 +79,13 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
   };
 
   const fadeUp: Variants = {
-    hidden: { opacity: 0, y: 20, filter: "blur(10px)" },
-    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }
+    hidden: { opacity: 0, y: 20, filter: isMobile ? "none" : "blur(10px)" },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      filter: "none", 
+      transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } 
+    }
   };
 
   const colors = {
@@ -587,13 +604,25 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
               <p className="text-gray-400 text-sm italic">Merupakan suatu kehormatan jika Anda dapat hadir memberikan doa restu.</p>
             </div>
 
-            <button 
-              onClick={() => setIsRSVPOpen(true)}
-              className="group relative w-full py-8 overflow-hidden bg-white/5 border border-[#D4AF37]/20 text-white font-serif italic text-xl transition-all duration-700 hover:border-[#D4AF37]"
-            >
-              <div className="absolute inset-0 bg-[#D4AF37] opacity-0 group-hover:opacity-10 transition-opacity" />
-              <span className="relative z-10">Reservasi Kehadiran</span>
-            </button>
+            {hasSubmitted ? (
+              <div className="py-12 bg-[#06120C] border border-[#D4AF37]/20 rounded-2xl text-center">
+                <div className="w-16 h-16 bg-[#D4AF37]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-8 h-8 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h4 className="font-serif text-2xl mb-2 text-[#D4AF37] italic">Confirmed</h4>
+                <p className="text-gray-500 text-[10px] uppercase tracking-widest font-black">Kehadiran Anda Telah Terkonfirmasi</p>
+              </div>
+            ) : (
+              <button 
+                onClick={() => setIsRSVPOpen(true)}
+                className="group relative w-full py-8 overflow-hidden bg-white/5 border border-[#D4AF37]/20 text-white font-serif italic text-xl transition-all duration-700 hover:border-[#D4AF37]"
+              >
+                <div className="absolute inset-0 bg-[#D4AF37] opacity-0 group-hover:opacity-10 transition-opacity" />
+                <span className="relative z-10">Reservasi Kehadiran</span>
+              </button>
+            )}
           </div>
         </section>
 

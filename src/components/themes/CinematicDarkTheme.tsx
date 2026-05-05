@@ -27,6 +27,12 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
   const [showToast, setShowToast] = useState(false);
   const [isRSVPOpen, setIsRSVPOpen] = useState(false);
   const [isQRISOpen, setIsQRISOpen] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  useEffect(() => {
+    const submitted = localStorage.getItem(`rsvp_${data.slug}`);
+    if (submitted) setHasSubmitted(true);
+  }, [data.slug]);
 
   const createCalendarLink = () => {
     const text = encodeURIComponent(`Pernikahan ${data.bride.name} & ${data.groom.name}`);
@@ -68,6 +74,8 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
     setIsSubmitting(false);
     if (result.success) {
       toast.success("Terima kasih atas doa dan kehadiran Anda!");
+      localStorage.setItem(`rsvp_${data.slug}`, "true");
+      setHasSubmitted(true);
       setIsRSVPOpen(false);
     } else {
       toast.error("Gagal mengirim pesan, silakan coba lagi.");
@@ -104,23 +112,9 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
         className={`transition-opacity duration-1000 w-full bg-[#050505] text-white selection:bg-white/30 relative ${isOpened ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}
       >
         {isOpened && <ScrollIndicator color="#FFFFFF" />}
-      {/* Background Image */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {data.couplePhoto && (
-          <motion.div 
-            style={{ scale: heroBgScale }}
-            className="absolute inset-0"
-          >
-            <Image 
-              src={data.couplePhoto} 
-              fill
-              className="object-cover opacity-[0.15] grayscale mix-blend-luminosity" 
-              alt="Background"
-              priority
-            />
-          </motion.div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80"></div>
+      {/* Background Overlay */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-black">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0a0a0a] to-black opacity-60"></div>
       </div>
       {/* Dynamic Spotlight Background */}
       <div 
@@ -156,6 +150,20 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           </motion.div>
         </motion.div>
       </motion.section>
+      
+      {/* QS AR-RUM 21 SECTION */}
+      <section className="py-32 px-4 relative z-10 border-y border-white/5 bg-black/20">
+        <motion.div 
+          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
+          className="max-w-3xl mx-auto text-center"
+        >
+          <div className="w-12 h-px bg-wedding-gold/40 mx-auto mb-12"></div>
+          <p className="font-serif italic text-lg md:text-2xl text-gray-300 leading-relaxed tracking-wide mb-10">
+            "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."
+          </p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-wedding-gold font-bold">QS. Ar-Rum: 21</p>
+        </motion.div>
+      </section>
 
       {/* 2. PROFILE SECTION (Parallel Scenes) */}
       <section className="py-32 px-4 relative z-10">
@@ -223,6 +231,15 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
                     <p className="font-serif text-2xl uppercase tracking-widest mb-4 italic leading-tight">{data.event.locationName}</p>
                     <p className="font-sans text-[10px] text-gray-400 uppercase tracking-widest leading-relaxed mb-8">{data.event.locationAddress}</p>
                     
+                    <div className="w-full h-48 mb-8 relative rounded-sm overflow-hidden border border-white/10 grayscale">
+                      <MapSimulation 
+                        lat={data.event.latitude || 0} 
+                        lng={data.event.longitude || 0} 
+                        locationName={data.event.locationName} 
+                      />
+                      <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
+                    </div>
+
                     <button 
                       onClick={() => window.open(data.event.mapsLink, '_blank')}
                       className="px-8 py-3 border border-white/20 font-sans text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500"
@@ -266,7 +283,18 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
                     className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 md:gap-24 items-center`}
                   >
                     <div className="w-full md:w-1/2 aspect-[3/4] relative overflow-hidden rounded-sm grayscale hover:grayscale-0 transition-all duration-1000">
-                      <Image src={isObject ? story.image : (data.couplePhoto || '')} fill className="object-cover" alt={isObject ? story.title : 'Our Story'} />
+                      {(isObject ? story.image : data.couplePhoto) ? (
+                        <Image 
+                          src={isObject ? story.image : data.couplePhoto} 
+                          fill 
+                          className="object-cover" 
+                          alt={isObject ? story.title : 'Our Story'} 
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-white/5 flex items-center justify-center">
+                          <span className="text-[10px] uppercase tracking-widest text-gray-600">No Image Available</span>
+                        </div>
+                      )}
                     </div>
                     <div className="w-full md:w-1/2 text-center md:text-left">
                       <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-wedding-gold mb-6">{isObject ? story.date : ''}</p>
@@ -339,13 +367,25 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
             <h3 className="font-serif text-2xl mb-4 uppercase tracking-[0.3em]">RSVP</h3>
             <p className="font-sans font-light text-gray-500 mb-12 text-sm tracking-widest">Sampaikan doa dan konfirmasi kehadiran Anda untuk malam penganugerahan cinta kami.</p>
             
-            <button 
-              onClick={() => setIsRSVPOpen(true)}
-              className="group relative w-full py-8 md:py-12 border border-white/10 overflow-hidden transition-all duration-700 hover:border-white/30"
-            >
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-[0.03] transition-opacity" />
-              <span className="relative z-10 font-sans font-bold uppercase tracking-[0.5em] text-[10px] md:text-xs">Confirm Presence</span>
-            </button>
+            {hasSubmitted ? (
+              <div className="py-12 bg-white/5 border border-white/10 rounded-sm text-center">
+                <div className="w-12 h-12 border border-wedding-gold/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-6 h-6 text-wedding-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h4 className="font-serif text-xl mb-2 uppercase tracking-widest italic">Confirmed</h4>
+                <p className="font-sans text-[10px] text-gray-500 uppercase tracking-widest font-bold">Your presence has been recorded.</p>
+              </div>
+            ) : (
+              <button 
+                onClick={() => setIsRSVPOpen(true)}
+                className="group relative w-full py-8 md:py-12 border border-white/10 overflow-hidden transition-all duration-700 hover:border-white/30"
+              >
+                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-[0.03] transition-opacity" />
+                <span className="relative z-10 font-sans font-bold uppercase tracking-[0.5em] text-[10px] md:text-xs">Confirm Presence</span>
+              </button>
+            )}
           </motion.div>
 
           {/* GUESTBOOK DISPLAY */}

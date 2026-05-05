@@ -6,7 +6,7 @@ interface PoweredByUndanginProps {
 }
 
 export default function PoweredByUndangin({ theme }: PoweredByUndanginProps) {
-  const isLight = theme === 'renaissance-garden';
+  const isLight = theme === 'renaissance-garden' || theme === 'ultra-luxury';
 
   return (
     <div className="w-full py-6 flex flex-col items-center justify-center relative z-[10001] pointer-events-auto bg-transparent">
