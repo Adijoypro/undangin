@@ -26,7 +26,7 @@ export default function AITeaser() {
           >
             <div className="relative rounded-[3rem] overflow-hidden border border-wedding-gold/20 shadow-2xl aspect-[4/5] md:aspect-square lg:aspect-[4/5] group">
               <Image 
-                src="/assets/branding/final/ai_prewedding_comparison.webp"
+                src="/assets/branding/final/ai_prewedding_comparison_local.webp"
                 alt="AI Prewedding Comparison"
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-105"
