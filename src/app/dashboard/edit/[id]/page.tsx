@@ -73,7 +73,7 @@ export default async function EditInvitationPage({ params }: { params: Promise<{
           </div>
         </Link>
 
-        <div className="bg-wedding-base p-8 rounded-3xl border border-wedding-gold/10 transition-all duration-500 shadow-sm">
+        <div className="bg-wedding-base p-4 sm:p-8 rounded-3xl border border-wedding-gold/10 transition-all duration-500 shadow-sm">
           <InvitationForm 
             action={updateInvitation} 
             deductCreditAction={deductCredit}

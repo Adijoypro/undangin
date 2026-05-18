@@ -99,9 +99,9 @@ export default function ThemeSelector({ defaultValue = "cinematic-dark", onChang
         </div>
 
         {/* Live Preview - Premium iPhone 15 Pro Mockup */}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-full overflow-hidden">
           <label className="block text-xs font-bold text-wedding-text/40 mb-3 w-full text-center uppercase tracking-widest">Preview Tema</label>
-          <div className="relative w-[280px] h-[583px] bg-black rounded-[3rem] p-[10px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border-[2px] border-[#2a2a2a] group transition-all duration-500">
+          <div className="relative w-[280px] h-[583px] bg-black rounded-[3rem] p-[10px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border-[2px] border-[#2a2a2a] group transition-all duration-500 scale-[0.85] sm:scale-100 origin-center my-[-40px] sm:my-0">
             {/* Screen Content */}
             <div className="w-[260px] h-[563px] rounded-[2.5rem] overflow-hidden bg-black relative">
                <div className={`absolute inset-0 ${THEME_PREVIEWS[selectedTheme]?.color || 'bg-wedding-base'} opacity-20 z-10 pointer-events-none`}></div>

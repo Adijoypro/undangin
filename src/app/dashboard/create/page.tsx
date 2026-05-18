@@ -91,7 +91,7 @@ export default async function CreateInvitationPage({ searchParams }: { searchPar
             </div>
           </div>
         ) : (
-          <div className="bg-white/95 dark:bg-wedding-base/95 lg:backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] border border-white/50 dark:border-wedding-gold/20 transition-all duration-500 shadow-xl relative overflow-hidden transform-gpu">
+          <div className="bg-white/95 dark:bg-wedding-base/95 lg:backdrop-blur-xl p-4 sm:p-8 md:p-12 rounded-[2.5rem] border border-white/50 dark:border-wedding-gold/20 transition-all duration-500 shadow-xl relative overflow-hidden transform-gpu">
              <div className="absolute top-0 right-0 w-64 h-64 bg-wedding-gold/5 rounded-full blur-3xl pointer-events-none" />
              
              {/* AI Coming Soon Banner */}

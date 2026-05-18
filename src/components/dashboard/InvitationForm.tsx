@@ -563,7 +563,7 @@ export default function InvitationForm({ action, deductCreditAction, initialData
             </div>
             
             <div className="grid gap-10">
-              <div className="bg-wedding-text/[0.02] border border-wedding-gold/10 rounded-3xl p-6 md:p-8 space-y-8">
+              <div className="bg-wedding-text/[0.02] border border-wedding-gold/10 rounded-3xl p-4 sm:p-6 md:p-8 space-y-8">
                 <SlugInput defaultValue={formData.slug} onChange={(val) => updateField("slug", val)} />
                 <ThemeSelector defaultValue={formData.theme} onChange={(val) => updateField("theme", val)} />
               </div>
