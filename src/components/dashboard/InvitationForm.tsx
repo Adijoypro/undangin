@@ -11,7 +11,7 @@ import SlugInput from "@/components/dashboard/SlugInput";
 import SubmitButton from "@/components/dashboard/SubmitButton";
 import { toast } from "sonner";
 import { QRCodeSVG } from "qrcode.react";
-import { Plus, Search, Check, Calendar, Clock, MapPin, ExternalLink, Sparkles } from "lucide-react";
+import { Plus, Search, Check, Calendar, Clock, MapPin, ExternalLink, Sparkles, Shirt, X } from "lucide-react";
 
 import LoveStorySection from "./LoveStorySection";
 import MapPicker from "./MapPicker";
@@ -36,51 +36,69 @@ export default function InvitationForm({ action, deductCreditAction, initialData
   const isPublished = initialData?.status === 'published';
 
   // Form State to keep data across steps
-  const [formData, setFormData] = useState({
-    slug: initialData?.slug || "",
-    theme: initialData?.theme || "cinematic-dark",
-    bride_name: initialData?.bride_name || "",
-    bride_fullname: initialData?.bride_fullname || "",
-    bride_father: initialData?.bride_father || "",
-    bride_mother: initialData?.bride_mother || "",
-    bride_photo: initialData?.bride_photo || "",
-    groom_name: initialData?.groom_name || "",
-    groom_fullname: initialData?.groom_fullname || "",
-    groom_father: initialData?.groom_father || "",
-    groom_mother: initialData?.groom_mother || "",
-    groom_photo: initialData?.groom_photo || "",
-    couple_photo: initialData?.couple_photo || "",
-    event_date: initialData?.event_date || "",
-    event_time: initialData?.event_time || "",
-    event_location: initialData?.event_location || "",
-    event_address: initialData?.event_address || "",
-    maps_link: initialData?.maps_link || "",
-    latitude: initialData?.latitude || -6.2088,
-    longitude: initialData?.longitude || 106.8456,
-    love_story: initialData?.love_story || [],
-    quote: initialData?.quote || "",
-    bank_name: initialData?.bank_name || "",
-    account_number: initialData?.account_number || "",
-    account_name: initialData?.account_name || "",
-    music_url: initialData?.music_url || "",
-    turut_mengundang: initialData?.turut_mengundang || "",
-    closing_statement: initialData?.closing_statement || "",
-    gift_qr_url: initialData?.gift_qr_url || "",
-    gallery: initialData?.gallery || [],
-    // Multi-event support
-    events: initialData?.events || [
-      {
-        title: "Akad Nikah / Pemberkatan",
-        date: initialData?.event_date || "",
-        time: initialData?.event_time || "",
-        location: initialData?.event_location || "",
-        address: initialData?.event_address || "",
-        maps_link: initialData?.maps_link || "",
-        latitude: initialData?.latitude || -6.2088,
-        longitude: initialData?.longitude || 106.8456,
-        is_location_confirmed: !!initialData?.latitude
+  const [formData, setFormData] = useState(() => {
+    const rawEvents = initialData?.events 
+      ? (typeof initialData.events === "string" ? JSON.parse(initialData.events) : initialData.events)
+      : [];
+    
+    const dbEvents = Array.isArray(rawEvents) ? rawEvents.filter((e: any) => !e.isDressCode) : [];
+    const dbDresscode = Array.isArray(rawEvents) ? rawEvents.find((e: any) => e.isDressCode) : null;
+
+    return {
+      slug: initialData?.slug || "",
+      theme: initialData?.theme || "cinematic-dark",
+      bride_name: initialData?.bride_name || "",
+      bride_fullname: initialData?.bride_fullname || "",
+      bride_father: initialData?.bride_father || "",
+      bride_mother: initialData?.bride_mother || "",
+      bride_photo: initialData?.bride_photo || "",
+      groom_name: initialData?.groom_name || "",
+      groom_fullname: initialData?.groom_fullname || "",
+      groom_father: initialData?.groom_father || "",
+      groom_mother: initialData?.groom_mother || "",
+      groom_photo: initialData?.groom_photo || "",
+      couple_photo: initialData?.couple_photo || "",
+      event_date: initialData?.event_date || "",
+      event_time: initialData?.event_time || "",
+      event_location: initialData?.event_location || "",
+      event_address: initialData?.event_address || "",
+      maps_link: initialData?.maps_link || "",
+      latitude: initialData?.latitude || -6.2088,
+      longitude: initialData?.longitude || 106.8456,
+      love_story: initialData?.love_story || [],
+      quote: initialData?.quote || "",
+      bank_name: initialData?.bank_name || "",
+      account_number: initialData?.account_number || "",
+      account_name: initialData?.account_name || "",
+      music_url: initialData?.music_url || "",
+      turut_mengundang: initialData?.turut_mengundang || "",
+      closing_statement: initialData?.closing_statement || "",
+      gift_qr_url: initialData?.gift_qr_url || "",
+      gallery: initialData?.gallery || [],
+      // Multi-event support
+      events: dbEvents.length > 0 ? dbEvents : [
+        {
+          title: "Akad Nikah / Pemberkatan",
+          date: initialData?.event_date || "",
+          time: initialData?.event_time || "",
+          location: initialData?.event_location || "",
+          address: initialData?.event_address || "",
+          maps_link: initialData?.maps_link || "",
+          latitude: initialData?.latitude || -6.2088,
+          longitude: initialData?.longitude || 106.8456,
+          is_location_confirmed: !!initialData?.latitude
+        }
+      ],
+      dresscode: dbDresscode ? {
+        show: dbDresscode.show,
+        description: dbDresscode.description,
+        colors: dbDresscode.colors || []
+      } : {
+        show: false,
+        description: "",
+        colors: []
       }
-    ]
+    };
   });
 
   const updateField = (name: string, value: any) => {
@@ -318,7 +336,18 @@ export default function InvitationForm({ action, deductCreditAction, initialData
       fd.append("turut_mengundang", formData.turut_mengundang || "");
       fd.append("closing_statement", formData.closing_statement || "");
       fd.append("gallery", JSON.stringify(formData.gallery || []));
-      fd.append("events", JSON.stringify(formData.events || []));
+      
+      // Combine events and virtual dresscode
+      const mergedEvents = [...formData.events];
+      if (formData.dresscode) {
+        mergedEvents.push({
+          isDressCode: true,
+          show: formData.dresscode.show,
+          description: formData.dresscode.description,
+          colors: formData.dresscode.colors || []
+        });
+      }
+      fd.append("events", JSON.stringify(mergedEvents));
       
       if (initialData?.id) {
         fd.append("id", initialData.id);
@@ -1070,6 +1099,163 @@ export default function InvitationForm({ action, deductCreditAction, initialData
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* DRESS CODE SETTINGS */}
+            <div className="mt-8 border border-white/10 bg-white/5 rounded-3xl p-6 md:p-8 backdrop-blur-md shadow-2xl relative overflow-hidden group">
+              {/* Light reflection accent */}
+              <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[100px] -z-10 group-hover:bg-amber-500/10 transition-all duration-700" />
+              
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 text-amber-400">
+                    <Shirt className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg text-white tracking-wide">Dress Code Acara (Opsional)</h4>
+                    <p className="text-xs text-zinc-400">Rekomendasikan pakaian & palet warna bagi para tamu undangan.</p>
+                  </div>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    checked={formData.dresscode.show} 
+                    onChange={(e) => {
+                      setFormData(prev => ({
+                        ...prev,
+                        dresscode: {
+                          ...prev.dresscode,
+                          show: e.target.checked
+                        }
+                      }));
+                    }}
+                    className="sr-only peer" 
+                  />
+                  <div className="w-14 h-7 bg-zinc-800 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-amber-500"></div>
+                </label>
+              </div>
+
+              <AnimatePresence>
+                {formData.dresscode.show && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-6 pt-6"
+                  >
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-amber-500">Panduan & Deskripsi Dresscode</label>
+                      <textarea
+                        value={formData.dresscode.description}
+                        onChange={(e) => {
+                          setFormData(prev => ({
+                            ...prev,
+                            dresscode: {
+                              ...prev.dresscode,
+                              description: e.target.value
+                            }
+                          }));
+                        }}
+                        placeholder="Contoh: Kami sangat menghargai jika para tamu undangan mengenakan pakaian formal bernuansa bumi (Earth Tones) seperti Sage Green, Ivory, atau Beige."
+                        rows={3}
+                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:outline-none focus:border-amber-500 transition-all placeholder:text-zinc-600 focus:ring-1 focus:ring-amber-500"
+                      />
+                    </div>
+
+                    <div className="space-y-4">
+                      <label className="text-xs font-bold uppercase tracking-wider text-amber-500 block">Palet Warna Rekomendasi</label>
+                      
+                      {/* Swatches Grid */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                        {formData.dresscode.colors.map((color: { name: string; hex: string }, idx: number) => (
+                          <div 
+                            key={idx} 
+                            className="bg-white/5 border border-white/10 rounded-2xl p-3 relative flex flex-col items-center gap-2 group/swatch hover:border-amber-500/30 transition-all duration-300"
+                          >
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newColors = [...formData.dresscode.colors];
+                                newColors.splice(idx, 1);
+                                setFormData(prev => ({
+                                  ...prev,
+                                  dresscode: {
+                                    ...prev.dresscode,
+                                    colors: newColors
+                                  }
+                                }));
+                              }}
+                              className="absolute top-2 right-2 p-1 rounded-lg bg-red-500/10 text-red-400 opacity-0 group-hover/swatch:opacity-100 transition-opacity hover:bg-red-500 hover:text-white z-10"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+
+                            {/* Color preview circle with hidden native picker input overlay */}
+                            <div className="relative w-12 h-12 rounded-full border border-white/15 overflow-hidden shadow-lg cursor-pointer">
+                              <input
+                                type="color"
+                                value={color.hex}
+                                onChange={(e) => {
+                                  const newColors = [...formData.dresscode.colors];
+                                  newColors[idx].hex = e.target.value;
+                                  setFormData(prev => ({
+                                    ...prev,
+                                    dresscode: {
+                                      ...prev.dresscode,
+                                      colors: newColors
+                                    }
+                                  }));
+                                }}
+                                className="absolute inset-0 opacity-0 cursor-pointer scale-150 z-20"
+                              />
+                              <div className="w-full h-full" style={{ backgroundColor: color.hex }} />
+                            </div>
+
+                            <input
+                              type="text"
+                              value={color.name}
+                              onChange={(e) => {
+                                const newColors = [...formData.dresscode.colors];
+                                newColors[idx].name = e.target.value;
+                                setFormData(prev => ({
+                                  ...prev,
+                                  dresscode: {
+                                    ...prev.dresscode,
+                                    colors: newColors
+                                  }
+                                }));
+                              }}
+                              placeholder="Nama Warna"
+                              className="w-full bg-transparent border-b border-transparent focus:border-amber-500/50 text-center text-xs text-white placeholder:text-zinc-600 focus:outline-none py-1"
+                            />
+                          </div>
+                        ))}
+
+                        {/* Add Swatch Button */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData(prev => ({
+                              ...prev,
+                              dresscode: {
+                                ...prev.dresscode,
+                                colors: [...prev.dresscode.colors, { name: "Warna Baru", hex: "#D4AF37" }]
+                              }
+                            }));
+                          }}
+                          className="bg-white/5 border border-dashed border-white/10 hover:border-amber-500/30 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 text-zinc-400 hover:text-amber-400 transition-all duration-300 min-h-[110px]"
+                        >
+                          <div className="w-10 h-10 rounded-full border border-dashed border-zinc-700 flex items-center justify-center group-hover:border-amber-500/30">
+                            <span className="text-xl">+</span>
+                          </div>
+                          <span className="text-xs font-semibold">Tambah Warna</span>
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.section>
         )}

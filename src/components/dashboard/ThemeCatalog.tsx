@@ -8,8 +8,18 @@ import CornerOrnaments from '@/components/ui/CornerOrnaments';
 
 const themes = [
   { 
+    id: "royal-elegance", 
+    name: "ROYAL ELEGANCE", 
+    series: "THE SOVEREIGN SERIES",
+    desc: "Kemegahan klasik aristokrat dengan latar beludru hitam pekat, ornamen emas mewah, dan efek sentuhan stardust trail yang ajaib.",
+    color: "bg-[#020202]", 
+    text: "text-white",
+    status: "Premium"
+  },
+  { 
     id: "celestial-harmony", 
     name: "CELESTIAL HARMONY", 
+    series: "THE AVANT-GARDE SERIES",
     desc: "Mahakarya scrollytelling sinematik dengan transisi 3D yang megah, nuansa malam berbintang, dan performa ultra-smooth.",
     color: "bg-[#020202]", 
     text: "text-white",
@@ -18,6 +28,7 @@ const themes = [
   { 
     id: "ultra-luxury", 
     name: "ULTRA LUXURY", 
+    series: "THE SOVEREIGN SERIES",
     desc: "Kasta tertinggi kemewahan digital dengan mawar emas animasi dan latar onyx onyx gelap yang eksklusif.",
     color: "bg-black", 
     text: "text-white",
@@ -26,6 +37,7 @@ const themes = [
   { 
     id: "majestic-eternity", 
     name: "MAJESTIC ETERNITY", 
+    series: "THE SOVEREIGN SERIES",
     desc: "Perpaduan warna emerald royal dan emas megah, memberikan kesan agung bak pernikahan kerajaan.",
     color: "bg-[#0A1C14]", 
     text: "text-white",
@@ -34,6 +46,7 @@ const themes = [
   { 
     id: "cinematic-dark", 
     name: "CINEMATIC DARK", 
+    series: "THE AVANT-GARDE SERIES",
     desc: "Nuansa monokromatik yang dramatis dengan tipografi besar, cocok untuk pasangan modern yang elegan.",
     color: "bg-[#0f172a]", 
     text: "text-white",
@@ -42,6 +55,7 @@ const themes = [
   { 
     id: "renaissance-garden", 
     name: "RENAISSANCE", 
+    series: "THE SOVEREIGN SERIES",
     desc: "Gaya klasik Eropa dengan ornamen bunga vintage dan tekstur kertas tua yang artistik serta abadi.",
     color: "bg-[#F9F6F0]", 
     text: "text-black",
@@ -50,6 +64,7 @@ const themes = [
   { 
     id: "premium", 
     name: "PREMIUM SAGE", 
+    series: "THE AVANT-GARDE SERIES",
     desc: "Minimalisme yang menenangkan dengan paduan warna hijau sage dan aksen emas tipis yang sangat estetik.",
     color: "bg-[#7C8C77]", 
     text: "text-white",
@@ -58,6 +73,7 @@ const themes = [
   { 
     id: "classic-royal", 
     name: "CLASSIC ROYAL", 
+    series: "THE SOVEREIGN SERIES",
     desc: "Koleksi mendatang dengan fokus pada kemegahan arsitektur klasik dan detail emas emboss.",
     color: "bg-[#4B3621]", 
     text: "text-white",
@@ -66,6 +82,7 @@ const themes = [
   { 
     id: "modern-minimalist", 
     name: "MODERN CLEAN", 
+    series: "THE AVANT-GARDE SERIES",
     desc: "Konsep bersih tanpa batas dengan penggunaan white space yang berani dan layout yang sangat responsif.",
     color: "bg-[#F5F5F5]", 
     text: "text-black",
@@ -149,6 +166,9 @@ const ThemeCatalog = () => {
 
                     {/* Content Overlay */}
                     <div className="absolute inset-0 flex flex-col justify-end p-8 z-10">
+                      <span className="text-wedding-gold text-[8px] font-black uppercase tracking-[0.3em] mb-2 drop-shadow">
+                        {theme.series}
+                      </span>
                       <h3 className={`text-2xl font-serif font-black tracking-wider mb-2 ${theme.text}`}>
                         {theme.name}
                       </h3>

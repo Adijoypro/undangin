@@ -7,8 +7,22 @@ import CornerOrnaments from "@/components/ui/CornerOrnaments";
 
 const SHOWCASE_THEMES = [
   {
+    id: "royal-elegance",
+    series: "THE SOVEREIGN SERIES",
+    title: "Royal Elegance",
+    name: "Royal Elegance",
+    desc: "Kemegahan klasik aristokrat dengan latar beludru hitam pekat, ornamen emas mewah, dan efek stardust trail.",
+    bgClass: "bg-[#020202]",
+    frameClass: "border-white/10 group-hover:border-[#D4AF37]/50 shadow-2xl",
+    gradientClass: "bg-gradient-to-t from-black via-transparent to-transparent opacity-90 z-10",
+    seriesColor: "text-[#D4AF37]",
+    titleClass: "font-serif text-4xl text-white font-black uppercase tracking-tighter",
+    btnClass: "bg-[#D4AF37] text-black",
+    iframeBg: "bg-black"
+  },
+  {
     id: "celestial-harmony",
-    series: "The Cinematic Series",
+    series: "THE AVANT-GARDE SERIES",
     title: "Celestial Harmony",
     name: "Celestial Harmony",
     desc: "Scrollytelling sinematik dengan transisi 3D yang megah.",
@@ -22,7 +36,7 @@ const SHOWCASE_THEMES = [
   },
   {
     id: "ultra-luxury",
-    series: "The VVIP Series",
+    series: "THE SOVEREIGN SERIES",
     title: "Ultra Luxury",
     name: "Onyx & Rose Gold",
     desc: "Mawar emas animasi, gelap yang megah.",
@@ -36,7 +50,7 @@ const SHOWCASE_THEMES = [
   },
   {
     id: "cinematic-dark",
-    series: "The Dark Series",
+    series: "THE AVANT-GARDE SERIES",
     title: "Cinematic",
     name: "Midnight Elegance",
     desc: "Tipografi kuat dengan transisi mulus.",
@@ -50,7 +64,7 @@ const SHOWCASE_THEMES = [
   },
   {
     id: "premium",
-    series: "The Premium Series",
+    series: "THE AVANT-GARDE SERIES",
     title: "Premium Sage",
     name: "Sage Splendor",
     desc: "Desain bersih dengan sentuhan warna alam.",
@@ -64,7 +78,7 @@ const SHOWCASE_THEMES = [
   },
   {
     id: "renaissance-garden",
-    series: "The Heritage Series",
+    series: "THE SOVEREIGN SERIES",
     title: "Renaissance",
     name: "Renaissance Garden",
     desc: "Klasik Eropa dengan ornamen bunga vintage.",
@@ -78,7 +92,7 @@ const SHOWCASE_THEMES = [
   },
   {
     id: "majestic-eternity",
-    series: "The Royal Series",
+    series: "THE SOVEREIGN SERIES",
     title: "Majestic Eternity",
     name: "Majestic Eternity",
     desc: "Kemegahan abadi dengan palet emerald & gold.",
@@ -138,6 +152,7 @@ function ThemeCard({ t, onHoverChange }: { t: typeof SHOWCASE_THEMES[0], onHover
               title={t.name}
               allow="autoplay"
               loading="lazy"
+              style={{ borderRadius: 'inherit' }}
             />
           )}
         </div>

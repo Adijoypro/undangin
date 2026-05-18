@@ -30,7 +30,7 @@ export function LuxuryThemeToggle() {
       animate={{ opacity: 1, x: 0 }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      className="fixed bottom-8 right-8 z-[9999] w-10 h-10 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-wedding-gold/30 shadow-sm flex items-center justify-center transition-all duration-300"
+      className="fixed bottom-8 right-24 md:right-28 z-[9999] w-10 h-10 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-wedding-gold/30 shadow-sm flex items-center justify-center transition-all duration-300"
       aria-label="Toggle Theme"
     >
       <AnimatePresence mode="wait" initial={false}>

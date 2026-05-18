@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
     "@studio-freight/lenis": "^1.0.42",
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.103.3",
@@ -27,7 +29,8 @@
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
     "sharp": "^0.34.5",
-    "sonner": "^2.0.7"
+    "sonner": "^2.0.7",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.15.9",

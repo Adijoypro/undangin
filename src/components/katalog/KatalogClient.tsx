@@ -9,56 +9,65 @@ import CornerOrnaments from "@/components/ui/CornerOrnaments";
 
 const KATALOG_THEMES = [
   {
+    id: "royal-elegance",
+    series: "The Sovereign Series",
+    title: "Royal Elegance",
+    desc: "Kemegahan aristokrat dengan latar onyx hitam pekat, ornamen emas ukir mewah, segel lilin 3D, dan efek sentuh stardust.",
+    tag: "SOVEREIGN",
+    color: "#020202",
+    image: "/assets/branding/final/royal_elegance_preview.webp"
+  },
+  {
     id: "celestial-harmony",
-    series: "The Cinematic Series",
+    series: "The Avant-Garde Series",
     title: "Celestial Harmony",
     desc: "Scrollytelling sinematik dengan transisi 3D yang megah dan entrance animasi gerbang emas.",
-    tag: "ULTRA LUXURY",
+    tag: "AVANT-GARDE",
     color: "#D4AF37",
     image: "/assets/branding/final/celestial_harmony_preview.webp"
   },
   {
     id: "cinematic-dark",
-    series: "The Dramatic Series",
+    series: "The Avant-Garde Series",
     title: "Cinematic Dark",
     desc: "Tirai beludru yang tersingkap perlahan dengan sorotan lampu panggung yang dramatis.",
-    tag: "DRAMATIC",
+    tag: "AVANT-GARDE",
     color: "#800020",
     image: "/assets/branding/final/cinematic_dark_preview.webp"
   },
   {
     id: "renaissance-garden",
-    series: "The Heritage Series",
+    series: "The Sovereign Series",
     title: "Renaissance Garden",
     desc: "Klasik Eropa dengan ornamen bunga vintage dan entrance amplop eksklusif dengan segel lilin.",
-    tag: "TIMELESS",
+    tag: "SOVEREIGN",
     color: "#7C8C77",
     image: "/assets/branding/final/renaissance_garden_preview.webp"
   },
   {
     id: "premium",
-    series: "The Premium Series",
+    series: "The Avant-Garde Series",
     title: "Premium Sage",
     desc: "Desain bersih dengan sentuhan warna alam yang memberikan kesan tenang dan elegan.",
-    tag: "PREMIUM",
+    tag: "AVANT-GARDE",
     color: "#9baca0",
     image: "/assets/branding/final/premium_sage_preview.webp"
   },
   {
     id: "ultra-luxury",
-    series: "The VVIP Series",
+    series: "The Sovereign Series",
     title: "Onyx & Rose Gold",
     desc: "Mawar emas animasi, tekstur marble gelap yang memberikan kesan VVIP eksklusif.",
-    tag: "VVIP",
+    tag: "SOVEREIGN",
     color: "#D4AF37",
     image: "/assets/branding/final/onyx_rose_gold_preview.webp"
   },
   {
     id: "majestic-eternity",
-    series: "The Royal Series",
+    series: "The Sovereign Series",
     title: "Majestic Eternity",
     desc: "Kemegahan abadi dengan palet emerald & gold, fokus pada tipografi kerajaan yang elegan.",
-    tag: "ROYAL",
+    tag: "SOVEREIGN",
     color: "#0A1C14",
     image: "/assets/branding/final/majestic_eternity_preview.webp"
   }

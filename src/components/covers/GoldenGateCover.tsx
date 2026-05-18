@@ -141,24 +141,24 @@ export default function GoldenGateCover({ bride, groom, date, onOpen, guestName,
       {/* 3D Scene Container */}
       <motion.div
         style={{ rotateY: tiltX, rotateX: tiltY, transformPerspective: 1200, transformStyle: "preserve-3d" }}
-        className="relative w-[340px] md:w-[420px] h-[500px] md:h-[600px]"
+        className="relative w-[220px] min-[375px]:w-[260px] md:w-[420px] h-[360px] min-[375px]:h-[420px] md:h-[600px]"
       >
         {/* ── STONE PILLARS (Left & Right) ── */}
-        <div className="absolute -left-6 top-[40px] bottom-0 w-6 z-[35]" style={{ transform: "translateZ(-10px)" }}>
+        <div className="absolute -left-4 md:-left-6 top-[30px] md:top-[40px] bottom-0 w-4 md:w-6 z-[35]" style={{ transform: "translateZ(-10px)" }}>
           <div className="h-full bg-gradient-to-r from-[#D5CCB8] to-[#E0D8C8] rounded-l-sm shadow-[-3px_0_15px_rgba(44,24,16,0.12)]">
-            <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#C9A96E]/20 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#2C1810]/10 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-6 md:h-8 bg-gradient-to-b from-[#C9A96E]/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-12 md:h-16 bg-gradient-to-t from-[#2C1810]/10 to-transparent" />
           </div>
         </div>
-        <div className="absolute -right-6 top-[40px] bottom-0 w-6 z-[35]" style={{ transform: "translateZ(-10px)" }}>
+        <div className="absolute -right-4 md:-right-6 top-[30px] md:top-[40px] bottom-0 w-4 md:w-6 z-[35]" style={{ transform: "translateZ(-10px)" }}>
           <div className="h-full bg-gradient-to-l from-[#D5CCB8] to-[#E0D8C8] rounded-r-sm shadow-[3px_0_15px_rgba(44,24,16,0.12)]">
-            <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#C9A96E]/20 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#2C1810]/10 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-6 md:h-8 bg-gradient-to-b from-[#C9A96E]/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-12 md:h-16 bg-gradient-to-t from-[#2C1810]/10 to-transparent" />
           </div>
         </div>
 
         {/* ── GROUND SHADOW (beneath gates) ── */}
-        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[120%] h-8 bg-[#2C1810]/[0.08] rounded-[50%] blur-md z-[20]" />
+        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[120%] h-6 md:h-8 bg-[#2C1810]/[0.08] rounded-[50%] blur-md z-[20]" />
         {/* ── TOP ARCH (Ivory with Champagne Gold Trim) ── */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[110%] z-[40]">
           <svg viewBox="0 0 500 90" fill="none" className="w-full">
@@ -260,7 +260,7 @@ export default function GoldenGateCover({ bride, groom, date, onOpen, guestName,
         </motion.div>
 
         {/* ── CONTENT BEHIND GATES (Visible after open) ── */}
-        <div className="absolute inset-0 top-[70px] flex flex-col items-center justify-center text-center px-8 z-[10]">
+        <div className="absolute inset-0 top-[50px] md:top-[70px] flex flex-col items-center justify-center text-center px-4 md:px-8 z-[10]">
           {/* Couple Photo - Cinematic Zoom In */}
           {(bridePhoto || groomPhoto) && (
             <motion.div
@@ -270,15 +270,15 @@ export default function GoldenGateCover({ bride, groom, date, onOpen, guestName,
                 : { scale: 0.3, opacity: 0, filter: "blur(8px)" }
               }
               transition={{ duration: 2.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative mb-6"
+              className="relative mb-4 md:mb-6"
             >
-              <div className="flex items-center justify-center gap-3">
+              <div className="flex items-center justify-center gap-2 md:gap-3">
                 {bridePhoto && (
                   <motion.div 
                     initial={{ x: -20 }}
                     animate={isOpening ? { x: 0 } : { x: -20 }}
                     transition={{ duration: 2, delay: 1.2, ease: "easeOut" }}
-                    className="relative w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-[#C9A96E]/40 shadow-lg"
+                    className="relative w-14 h-14 min-[375px]:w-16 min-[375px]:h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-[#C9A96E]/40 shadow-lg"
                   >
                     <Image src={bridePhoto} fill className="object-cover" alt="Bride" />
                   </motion.div>
@@ -288,7 +288,7 @@ export default function GoldenGateCover({ bride, groom, date, onOpen, guestName,
                     initial={{ scale: 0, rotate: -45 }}
                     animate={isOpening ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -45 }}
                     transition={{ duration: 1, delay: 1.8 }}
-                    className="text-[#C9A96E] text-lg font-script italic z-10 -mx-2"
+                    className="text-[#C9A96E] text-sm md:text-lg font-script italic z-10 -mx-1 md:-mx-2"
                   >
                     &
                   </motion.div>
@@ -298,7 +298,7 @@ export default function GoldenGateCover({ bride, groom, date, onOpen, guestName,
                     initial={{ x: 20 }}
                     animate={isOpening ? { x: 0 } : { x: 20 }}
                     transition={{ duration: 2, delay: 1.2, ease: "easeOut" }}
-                    className="relative w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-[#C9A96E]/40 shadow-lg"
+                    className="relative w-14 h-14 min-[375px]:w-16 min-[375px]:h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-[#C9A96E]/40 shadow-lg"
                   >
                     <Image src={groomPhoto} fill className="object-cover" alt="Groom" />
                   </motion.div>
@@ -311,15 +311,15 @@ export default function GoldenGateCover({ bride, groom, date, onOpen, guestName,
             initial={{ opacity: 0, y: 20 }}
             animate={isOpening ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 1.5, delay: 1.5 }}
-            className="space-y-6"
+            className="space-y-4 md:space-y-6"
           >
-            <div className="w-16 h-px bg-[#C9A96E]/40 mx-auto" />
-            <p className="text-[8px] uppercase tracking-[0.5em] text-[#C9A96E] font-bold">The Wedding of</p>
-            <h1 className="font-serif text-4xl md:text-5xl text-[#2C1810]">
-              {bride} <span className="text-[#C9A96E] mx-2 italic font-script">&</span> {groom}
+            <div className="w-12 md:w-16 h-px bg-[#C9A96E]/40 mx-auto" />
+            <p className="text-[7px] md:text-[8px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-[#C9A96E] font-bold">The Wedding of</p>
+            <h1 className="font-serif text-2xl min-[375px]:text-3xl md:text-5xl text-[#2C1810]">
+              {bride} <span className="text-[#C9A96E] mx-1 md:mx-2 italic font-script">&</span> {groom}
             </h1>
-            <p className="text-[9px] text-[#6B5E55] font-bold uppercase tracking-[0.3em]">{date}</p>
-            <div className="w-16 h-px bg-[#C9A96E]/40 mx-auto" />
+            <p className="text-[7px] md:text-[9px] text-[#6B5E55] font-bold uppercase tracking-[0.2em] md:tracking-[0.3em]">{date}</p>
+            <div className="w-12 md:w-16 h-px bg-[#C9A96E]/40 mx-auto" />
           </motion.div>
         </div>
 
@@ -332,11 +332,11 @@ export default function GoldenGateCover({ bride, groom, date, onOpen, guestName,
               className="absolute left-1/2 top-[55%] -translate-x-1/2 -translate-y-1/2 z-[50]"
             >
               {/* Outer Ring */}
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#F0EBE3] to-[#E4DDD0] border-2 border-[#C9A96E]/50 flex items-center justify-center shadow-[0_4px_30px_rgba(44,24,16,0.15),0_0_0_4px_rgba(201,169,110,0.12)]">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-[#F0EBE3] to-[#E4DDD0] border-2 border-[#C9A96E]/50 flex items-center justify-center shadow-[0_4px_30px_rgba(44,24,16,0.15),0_0_0_4px_rgba(201,169,110,0.12)]">
                 {/* Inner Crest Circle */}
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#C9A96E]/15 to-[#C9A96E]/5 border border-[#C9A96E]/40 flex items-center justify-center">
+                <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-[#C9A96E]/15 to-[#C9A96E]/5 border border-[#C9A96E]/40 flex items-center justify-center">
                   <div className="text-center">
-                    <span className="text-[#2C1810] text-[11px] font-serif tracking-[0.2em] opacity-80">
+                    <span className="text-[#2C1810] text-[8px] md:text-[11px] font-serif tracking-[0.2em] opacity-80">
                       {bride[0]}<span className="text-[#C9A96E] mx-px">&</span>{groom[0]}
                     </span>
                   </div>

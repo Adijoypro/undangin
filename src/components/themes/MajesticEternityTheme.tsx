@@ -509,6 +509,65 @@ export default function MajesticEternityTheme({ data }: { data: InvitationData }
           </section>
         )}
 
+        {/* DRESSCODE SECTION (MAJESTIC STYLE) */}
+        {(() => {
+          const hasCustomDresscode = data.dresscode !== undefined;
+          const showDresscode = hasCustomDresscode ? data.dresscode?.show : true;
+          const dresscodeDescription = hasCustomDresscode ? data.dresscode?.description : 'Kami sangat menghargai jika para tamu undangan mengenakan pakaian formal bernuansa hijau sage, champagne, atau emas lembut sesuai dengan palet warna rekomendasi kami.';
+          const dresscodeColors = hasCustomDresscode ? (data.dresscode?.colors || []) : [
+            { name: 'Sage Green', hex: '#87A987' },
+            { name: 'Champagne', hex: '#F0E6D2' },
+            { name: 'Soft Gold', hex: '#E6C280' },
+            { name: 'Ivory', hex: '#FAF9F6' }
+          ];
+
+          return showDresscode && dresscodeColors.length > 0 ? (
+            <section className="py-24 px-6 bg-[#06120C] border-t border-[#D4AF37]/10 relative overflow-hidden">
+              <div className="max-w-4xl mx-auto text-center relative z-10">
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeUp}
+                  className="space-y-12"
+                >
+                  <div>
+                    <p className="text-[10px] text-[#D4AF37] uppercase tracking-[0.5em] font-black mb-4">The Attire</p>
+                    <h2 className="font-serif text-3xl text-white mb-6 italic">Dress Code</h2>
+                    <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent mx-auto"></div>
+                  </div>
+
+                  {dresscodeDescription && (
+                    <p className="text-gray-400 text-sm italic font-light max-w-xl mx-auto leading-relaxed">
+                      {dresscodeDescription}
+                    </p>
+                  )}
+
+                  {/* Swatches */}
+                  <div className="flex flex-wrap justify-center gap-8 md:gap-12 mt-12">
+                    {dresscodeColors.map((color, idx) => (
+                      <motion.div
+                        key={idx}
+                        whileHover={{ y: -5 }}
+                        className="flex flex-col items-center gap-4"
+                      >
+                        <div
+                          className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-[#D4AF37]/30 shadow-md group hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-700 relative overflow-hidden"
+                          style={{ backgroundColor: color.hex }}
+                        >
+                          <div className="absolute inset-0 bg-white/5 group-hover:opacity-0 transition-opacity" />
+                        </div>
+                        <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+                          {color.name}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            </section>
+          ) : null;
+        })()}
 
         <Divider />
 

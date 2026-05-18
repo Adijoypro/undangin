@@ -10,9 +10,10 @@ export default function PoweredByUndangin({ theme }: PoweredByUndanginProps) {
 
   return (
     <div className="w-full py-6 flex flex-col items-center justify-center relative z-[10001] pointer-events-auto bg-transparent">
-      <Link 
+      <a 
         href="/"
         target="_blank"
+        rel="noopener noreferrer"
         className="group flex flex-col items-center gap-3 hover:opacity-100 transition-all duration-700 cursor-pointer"
       >
         <div className="flex flex-col items-center gap-0.5 opacity-20 group-hover:opacity-80 transition-opacity">
@@ -32,7 +33,7 @@ export default function PoweredByUndangin({ theme }: PoweredByUndanginProps) {
             <span className="font-serif text-[8px] tracking-[0.4em] uppercase">Create Yours</span>
           </div>
         </div>
-      </Link>
+      </a>
     </div>
   );
 }

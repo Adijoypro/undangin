@@ -394,6 +394,68 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
           </section>
         )}
 
+        {/* ═══ DRESSCODE SECTION (RENAISSANCE GARDEN STYLE) ═══ */}
+        {(() => {
+          const hasCustomDresscode = data.dresscode !== undefined;
+          const showDresscode = hasCustomDresscode ? data.dresscode?.show : true;
+          const dresscodeDescription = hasCustomDresscode ? data.dresscode?.description : 'Kami sangat menghargai jika para tamu undangan mengenakan pakaian formal bernuansa warna bumi (Earth Tones) atau palet pastel lembut sesuai dengan rekomendasi kami.';
+          const dresscodeColors = hasCustomDresscode ? (data.dresscode?.colors || []) : [
+            { name: 'Warm Terracotta', hex: '#C4867A' },
+            { name: 'Sage Green', hex: '#8FA68A' },
+            { name: 'Soft Ivory', hex: '#FFFDF8' },
+            { name: 'Warm Beige', hex: '#F5EFE6' }
+          ];
+
+          return showDresscode && dresscodeColors.length > 0 ? (
+            <section className="py-24 px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
+              {/* Subtle Botanical corner decor */}
+              <div className="absolute top-0 right-0 w-48 h-48 opacity-15 pointer-events-none -scale-x-100">
+                <Image src="/assets/renaissance/botanical-corner.webp" fill className="object-contain" alt="Botanical Corner" />
+              </div>
+
+              <div className="max-w-4xl mx-auto text-center relative z-10">
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeUp}
+                  className="space-y-10"
+                >
+                  <h2 className="text-3xl md:text-5xl italic mb-4">Dress Code</h2>
+                  <Ornament className="mx-auto" />
+
+                  {dresscodeDescription && (
+                    <p className="text-sm italic leading-[2] max-w-xl mx-auto px-4" style={{ color: palette.textMuted }}>
+                      {dresscodeDescription}
+                    </p>
+                  )}
+
+                  {/* Swatches */}
+                  <div className="flex flex-wrap justify-center gap-8 md:gap-12 mt-12">
+                    {dresscodeColors.map((color, idx) => (
+                      <motion.div
+                        key={idx}
+                        whileHover={{ y: -5 }}
+                        className="flex flex-col items-center gap-4"
+                      >
+                        <div
+                          className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-wedding-gold/20 shadow-md group hover:shadow-[0_0_20px_rgba(184,150,62,0.3)] transition-all duration-700 relative overflow-hidden"
+                          style={{ backgroundColor: color.hex }}
+                        >
+                          <div className="absolute inset-0 bg-white/5 group-hover:opacity-0 transition-opacity" />
+                        </div>
+                        <span className="text-xs tracking-widest font-bold uppercase" style={{ color: palette.textMuted }}>
+                          {color.name}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            </section>
+          ) : null;
+        })()}
+
         {/* ═══ RSVP ═══ */}
         <section className="py-24 md:py-32 px-4" style={{ backgroundColor: palette.bg }}>
           <div className="max-w-xl mx-auto text-center">
@@ -660,7 +722,7 @@ export default function RenaissanceGardenTheme({ data }: { data: InvitationData 
         </section>
 
         {/* ═══ FOOTER ═══ */}
-        <footer className="py-24 text-center px-4 relative overflow-hidden" style={{ backgroundColor: palette.card }}>
+        <footer className="py-24 text-center px-4 relative overflow-hidden" style={{ backgroundColor: palette.bg }}>
           {/* Floral Pattern Border */}
           <div className="absolute bottom-0 left-0 right-0 h-16 opacity-30 mix-blend-multiply">
             <div className="flex w-[200%] animate-scroll-linear">

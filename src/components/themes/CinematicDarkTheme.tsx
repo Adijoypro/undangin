@@ -34,10 +34,12 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
     if (submitted) setHasSubmitted(true);
   }, [data.slug]);
 
-  const createCalendarLink = () => {
-    const text = encodeURIComponent(`Pernikahan ${data.bride.name} & ${data.groom.name}`);
+  const createCalendarLink = (ev?: any) => {
+    const activeEvent = ev || data.event;
+    const eventTitle = activeEvent.title || "Acara Pernikahan";
+    const text = encodeURIComponent(`${eventTitle} - ${data.bride.name} & ${data.groom.name}`);
     const details = encodeURIComponent(`Acara pernikahan ${data.bride.fullName} dan ${data.groom.fullName}.`);
-    const location = encodeURIComponent(data.event.locationAddress);
+    const location = encodeURIComponent(activeEvent.address || activeEvent.locationAddress || data.event.locationAddress);
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&details=${details}&location=${location}`;
   };
 
@@ -209,61 +211,76 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
         <div className="max-w-4xl mx-auto text-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
               <p className="font-sans uppercase tracking-[0.5em] text-[10px] text-gray-500 mb-12">The Celebration Details</p>
-              <h2 className="font-serif text-4xl md:text-7xl uppercase tracking-widest mb-24 italic">Malam Resepsi</h2>
+              <h2 className="font-serif text-4xl md:text-7xl uppercase tracking-widest mb-24 italic">Malam Resepsi & Akad</h2>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-16 md:gap-px md:bg-white/5">
-                <motion.div 
-                  initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-                  className="bg-black/40 md:bg-transparent p-12 flex flex-col items-center justify-center border border-white/5 md:border-none"
-                >
-                    <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-6">When</p>
-                    <p className="font-serif text-2xl uppercase tracking-widest mb-2">{new Date(data.event.date).toLocaleDateString('id-ID', { weekday: 'long' })}</p>
-                    <p className="font-serif text-4xl mb-4 tracking-tighter">{new Date(data.event.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long' })}</p>
-                    <p className="font-sans text-xs tracking-[0.2em]">{data.event.time}</p>
-                </motion.div>
+            <div className="space-y-24">
+              {(data.events && data.events.length > 0 ? data.events : [data.event]).map((event: any, i: number) => {
+                const eventTitle = event.title || (i === 0 ? "Akad Nikah" : "Resepsi Pernikahan");
+                const eventDate = event.date || data.event.date;
+                const eventTime = event.time || data.event.time;
+                const eventLocation = event.location || event.locationName || data.event.locationName;
+                const eventAddress = event.address || event.locationAddress || data.event.locationAddress;
+                const eventMapsLink = event.maps_link || event.mapsLink || data.event.mapsLink;
+                const eventLat = event.latitude || data.event.latitude || 0;
+                const eventLng = event.longitude || data.event.longitude || 0;
 
-                <motion.div 
-                  initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-                  className="bg-black/40 md:bg-transparent p-12 flex flex-col items-center justify-center border border-white/5 md:border-none"
-                >
-                    <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-6">Where</p>
-                    <p className="font-serif text-2xl uppercase tracking-widest mb-4 italic leading-tight">{data.event.locationName}</p>
-                    <p className="font-sans text-[10px] text-gray-400 uppercase tracking-widest leading-relaxed mb-8">{data.event.locationAddress}</p>
-                    
-                    <div className="w-full h-48 mb-8 relative rounded-sm overflow-hidden border border-white/10 grayscale">
-                      <MapSimulation 
-                        lat={data.event.latitude || 0} 
-                        lng={data.event.longitude || 0} 
-                        locationName={data.event.locationName} 
-                      />
-                      <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
+                return (
+                  <div key={i} className="border border-white/5 bg-black/20 p-8 md:p-12 rounded-sm space-y-12">
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}>
+                      <h3 className="font-serif text-3xl md:text-5xl uppercase tracking-widest italic text-wedding-gold">{eventTitle}</h3>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 gap-12 md:gap-px md:bg-white/5">
+                        <motion.div 
+                          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
+                          className="p-4 flex flex-col items-center justify-center"
+                        >
+                            <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-6">When</p>
+                            <p className="font-serif text-2xl uppercase tracking-widest mb-2">{eventDate}</p>
+                            <p className="font-sans text-xs tracking-[0.2em]">{eventTime}</p>
+                        </motion.div>
+
+                        <motion.div 
+                          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
+                          className="p-4 flex flex-col items-center justify-center"
+                        >
+                            <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-6">Where</p>
+                            <p className="font-serif text-2xl uppercase tracking-widest mb-4 italic leading-tight">{eventLocation}</p>
+                            <p className="font-sans text-[10px] text-gray-400 uppercase tracking-widest leading-relaxed mb-8">{eventAddress}</p>
+                            
+                            <div className="w-full h-48 mb-8 relative rounded-sm overflow-hidden border border-white/10 grayscale">
+                              <MapSimulation 
+                                lat={eventLat} 
+                                lng={eventLng} 
+                                locationName={eventLocation} 
+                              />
+                              <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
+                            </div>
+
+                            <button 
+                              onClick={() => window.open(eventMapsLink, '_blank')}
+                              className="px-8 py-3 border border-white/20 font-sans text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500 mb-6"
+                            >
+                              View Production Map
+                            </button>
+
+                            <a 
+                              href={createCalendarLink(event)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-sans text-[10px] uppercase tracking-[0.4em] text-wedding-gold hover:text-white transition-colors flex items-center justify-center gap-4 group"
+                            >
+                              <div className="w-8 h-px bg-wedding-gold/30 group-hover:w-12 transition-all"></div>
+                              Add to Schedule
+                              <div className="w-8 h-px bg-wedding-gold/30 group-hover:w-12 transition-all"></div>
+                            </a>
+                        </motion.div>
                     </div>
-
-                    <button 
-                      onClick={() => window.open(data.event.mapsLink, '_blank')}
-                      className="px-8 py-3 border border-white/20 font-sans text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500"
-                    >
-                      View Production Map
-                    </button>
-                </motion.div>
+                  </div>
+                );
+              })}
             </div>
-
-            <motion.div 
-              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUpVariant}
-              className="mt-24"
-            >
-                <a 
-                  href={createCalendarLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-sans text-[10px] uppercase tracking-[0.4em] text-wedding-gold hover:text-white transition-colors flex items-center justify-center gap-4 group"
-                >
-                  <div className="w-8 h-px bg-wedding-gold/30 group-hover:w-12 transition-all"></div>
-                  Add to Master Schedule
-                  <div className="w-8 h-px bg-wedding-gold/30 group-hover:w-12 transition-all"></div>
-                </a>
-            </motion.div>
         </div>
       </section>
 
@@ -331,7 +348,7 @@ export default function CinematicDarkTheme({ data }: { data: InvitationData }) {
           <p className="font-sans uppercase tracking-[0.5em] text-[10px] text-gray-500 mb-12">Wedding Gift</p>
           <h2 className="font-serif text-4xl md:text-7xl uppercase tracking-widest italic mb-24">Tanda Kasih</h2>
           
-          <div className="max-w-md mx-auto p-12 bg-white/5 border border-white/10 rounded-sm hover:border-white/20 transition-all duration-700">
+          <div className="max-w-md mx-auto p-6 sm:p-12 bg-white/5 border border-white/10 rounded-sm hover:border-white/20 transition-all duration-700">
             <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-8">{data.gift.bankName}</p>
             <p className="font-serif text-3xl md:text-4xl tracking-widest mb-4 selection:bg-wedding-gold selection:text-black">{data.gift.accountNumber}</p>
             <p className="font-sans text-xs uppercase tracking-widest text-gray-400 mb-12">A/N {data.gift.accountName}</p>

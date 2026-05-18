@@ -3,8 +3,18 @@
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
+import { Sun, Moon } from "lucide-react";
 
 export default function LandingNavbar({ user }: { user: any }) {
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  const isDark = resolvedTheme === "dark";
+
   const navVariants: Variants = {
     hidden: { y: -100, opacity: 0 },
     visible: { 
@@ -28,10 +38,20 @@ export default function LandingNavbar({ user }: { user: any }) {
             <span className="font-serif text-2xl font-bold tracking-widest text-wedding-text group-hover:text-wedding-gold transition-colors duration-300">Undangin</span>
           </Link>
           
-          <div className="hidden md:flex space-x-8 items-center">
+          <div className="hidden md:flex space-x-6 items-center">
             <a href="#fitur" className="text-xs font-bold uppercase tracking-widest text-wedding-text/60 hover:text-wedding-gold transition-colors">Fitur</a>
             <Link href="/katalog" className="text-xs font-bold uppercase tracking-widest text-wedding-text/60 hover:text-wedding-gold transition-colors">Katalog</Link>
  
+            {mounted && (
+              <button
+                onClick={() => setTheme(isDark ? "light" : "dark")}
+                className="p-2.5 rounded-xl border border-wedding-gold/20 hover:border-wedding-gold/50 bg-wedding-base/40 text-wedding-gold transition-all hover:scale-105 active:scale-95"
+                aria-label="Toggle Theme"
+              >
+                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+            )}
+
             <Link 
               href={user ? "/dashboard" : "/login"}
               className="px-8 py-3.5 bg-wedding-gold text-white rounded-xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-wedding-gold/20 hover:scale-[1.05] active:scale-95 transition-all"
@@ -40,7 +60,17 @@ export default function LandingNavbar({ user }: { user: any }) {
             </Link>
           </div>
 
-          <div className="md:hidden">
+          <div className="flex md:hidden items-center gap-3">
+            {mounted && (
+              <button
+                onClick={() => setTheme(isDark ? "light" : "dark")}
+                className="p-2 rounded-xl border border-wedding-gold/20 bg-wedding-base/40 text-wedding-gold transition-all"
+                aria-label="Toggle Theme"
+              >
+                {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+              </button>
+            )}
+
             <Link href={user ? "/dashboard" : "/login"} className="px-6 py-2.5 bg-wedding-gold text-white rounded-xl font-black text-[9px] uppercase tracking-widest shadow-lg shadow-wedding-gold/20">
               {user ? "Dasbor" : "Mulai"}
             </Link>

@@ -102,15 +102,15 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
 
       {/* ▸ QUOTE */}
       <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
-        className="py-48 px-8 md:px-20 text-center bg-[#F8F9FB]">
+        className="py-20 md:py-48 px-4 sm:px-8 md:px-20 text-center bg-[#F8F9FB]">
         <div className="max-w-4xl mx-auto">
-          <svg className="w-12 h-12 text-[#5B7B9D]/20 mx-auto mb-16" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-8 h-8 md:w-12 md:h-12 text-[#5B7B9D]/20 mx-auto mb-8 md:mb-16" fill="currentColor" viewBox="0 0 24 24">
             <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H11.017C10.4647 12 10.017 11.5523 10.017 11V7C10.017 5.89543 10.9124 5 12.017 5H19.017C20.6739 5 22.017 6.34315 22.017 8V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM4.017 21L4.017 18C4.017 16.8954 4.91243 16 6.017 16H9.017C9.56928 16 10.017 15.5523 10.017 15V9C10.017 8.44772 9.56928 8 9.017 8H5.017C4.46472 8 4.017 8.44772 4.017 9V11C4.017 11.5523 3.56928 12 3.017 12H1.017C0.464722 12 0.017 11.5523 0.017 11V7C0.017 5.89543 0.912439 5 2.017 5H9.017C10.6739 5 12.017 6.34315 12.017 8V15C12.017 18.3137 9.33072 21 6.017 21H4.017Z" />
           </svg>
-          <p className="font-serif text-2xl md:text-4xl leading-relaxed text-[#1A1A2E]/80 italic">
+          <p className="font-serif text-xl sm:text-2xl md:text-4xl leading-relaxed text-[#1A1A2E]/80 italic">
             "{data.quote || 'Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya.'}"
           </p>
-          <div className="w-12 h-[1px] bg-[#5B7B9D]/20 mx-auto mt-16 mb-8" />
+          <div className="w-12 h-[1px] bg-[#5B7B9D]/20 mx-auto mt-8 md:mt-16 mb-6 md:mb-8" />
           <p className="font-sans text-[10px] uppercase tracking-[0.6em] text-[#5B7B9D] font-black">The Sacred Bond</p>
         </div>
       </motion.section>
@@ -124,51 +124,51 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
           <motion.div key={i} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
             className={`flex flex-col ${item.align === 'right' ? 'md:flex-row-reverse' : 'md:flex-row'} min-h-[90vh]`}>
             {/* Photo */}
-            <div className="w-full md:w-1/2 relative h-[70vh] md:h-auto overflow-hidden">
+            <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto overflow-hidden">
               <Image src={item.person.photo} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" alt={item.role} />
               <div className="absolute inset-0 bg-[#1A1A2E]/10" />
             </div>
             {/* Info */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center px-12 md:px-24 py-24">
-              <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-8 font-black">{item.role}</p>
-              <h2 className="font-serif text-6xl md:text-8xl text-[#1A1A2E] tracking-tight mb-8 leading-none">{item.person.fullName}</h2>
-              <div className="w-16 h-[2px] bg-[#5B7B9D] mb-12" />
-              <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-[#5B7B9D]/60 mb-3 font-bold">
+            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 sm:px-12 md:px-24 py-12 md:py-24">
+              <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-4 md:mb-8 font-black">{item.role}</p>
+              <h2 className="font-serif text-4xl sm:text-6xl md:text-8xl text-[#1A1A2E] tracking-tight mb-4 md:mb-8 leading-none">{item.person.fullName}</h2>
+              <div className="w-16 h-[2px] bg-[#5B7B9D] mb-6 md:mb-12" />
+              <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-[#5B7B9D]/60 mb-2 md:mb-3 font-bold">
                 {i === 0 ? "Putri Tercinta dari" : "Putra Tercinta dari"}
               </p>
-              <p className="font-serif text-2xl text-[#1A1A2E]/70 italic leading-relaxed">{item.person.parents}</p>
+              <p className="font-serif text-xl sm:text-2xl text-[#1A1A2E]/70 italic leading-relaxed">{item.person.parents}</p>
             </div>
           </motion.div>
         ))}
       </section>
 
       {/* ▸ LOVE STORY */}
-      <section className="py-48 px-8 md:px-20 bg-[#F8F9FB]">
+      <section className="py-20 md:py-48 px-4 sm:px-8 md:px-20 bg-[#F8F9FB]">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-40">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-40">
             <div>
-              <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-6 font-black">Our Journey</p>
-              <h3 className="font-serif text-7xl md:text-9xl text-[#1A1A2E] tracking-tighter">Love Story</h3>
+              <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-4 md:mb-6 font-black">Our Journey</p>
+              <h3 className="font-serif text-4xl sm:text-7xl md:text-9xl text-[#1A1A2E] tracking-tighter">Love Story</h3>
             </div>
-            <div className="w-32 h-[1px] bg-[#5B7B9D]/20 mt-12 md:mt-0 md:mb-6" />
+            <div className="w-32 h-[1px] bg-[#5B7B9D]/20 mt-6 md:mt-0 md:mb-6" />
           </div>
 
-          <div className="grid gap-32">
+          <div className="grid gap-16 md:gap-32">
             {data.loveStory.map((item: any, i: number) => (
               <motion.div key={i} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeUp}
-                className="grid grid-cols-12 gap-12 items-center">
+                className="flex flex-col md:grid md:grid-cols-12 gap-6 md:gap-12 items-center">
                 <div className="col-span-12 md:col-span-4">
-                  <span className="font-serif text-9xl text-[#5B7B9D]/10 leading-none block mb-4">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="font-serif text-6xl sm:text-9xl text-[#5B7B9D]/10 leading-none block mb-2 md:mb-4">{String(i + 1).padStart(2, '0')}</span>
                   <p className="font-sans text-[10px] uppercase tracking-[0.5em] text-[#C4A87C] font-black">
                     {typeof item === 'object' ? item.date : `Chapter ${i + 1}`}
                   </p>
-                  <h4 className="font-serif text-3xl text-[#1A1A2E] mt-2 font-medium">
+                  <h4 className="font-serif text-2xl sm:text-3xl text-[#1A1A2E] mt-2 font-medium">
                     {typeof item === 'object' ? item.title : "Our Story"}
                   </h4>
                 </div>
                 <div className="hidden md:block md:col-span-1 h-32 w-[1px] bg-[#5B7B9D]/10 mx-auto" />
                 <div className="col-span-12 md:col-span-7">
-                  <p className="font-serif text-xl md:text-2xl text-[#1A1A2E]/60 leading-relaxed italic">
+                  <p className="font-serif text-lg sm:text-xl md:text-2xl text-[#1A1A2E]/60 leading-relaxed italic">
                     "{typeof item === 'object' ? item.story : item}"
                   </p>
                 </div>
@@ -179,15 +179,15 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
       </section>
 
       {/* ▸ GALLERY */}
-      <section className="py-48 px-8 md:px-20 bg-white">
+      <section className="py-20 md:py-48 px-4 sm:px-8 md:px-20 bg-white">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="max-w-7xl mx-auto">
-          <div className="text-center mb-32">
-            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-6 font-black">Moments</p>
-            <h3 className="font-serif text-7xl md:text-9xl text-[#1A1A2E] tracking-tighter">Gallery</h3>
+          <div className="text-center mb-16 md:mb-32">
+            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-4 md:mb-6 font-black">Moments</p>
+            <h3 className="font-serif text-4xl sm:text-7xl md:text-9xl text-[#1A1A2E] tracking-tighter">Gallery</h3>
           </div>
           
           {data.gallery && data.gallery.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 auto-rows-[250px] md:auto-rows-[350px]">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 auto-rows-[150px] sm:auto-rows-[250px] md:auto-rows-[350px]">
               {data.gallery.map((img, i) => {
                 let spanClass = "col-span-1 row-span-1";
                 if (i === 0) spanClass = "col-span-2 row-span-2";
@@ -207,35 +207,35 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
       </section>
 
       {/* ▸ EVENTS */}
-      <section className="py-48 px-8 md:px-20 bg-[#F8F9FB]">
+      <section className="py-20 md:py-48 px-4 sm:px-8 md:px-20 bg-[#F8F9FB]">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="max-w-6xl mx-auto">
-          <div className="text-center mb-40">
-            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-8 font-black">Save the Date</p>
-            <h3 className="font-serif text-7xl md:text-9xl text-[#1A1A2E] tracking-tighter">The Celebration</h3>
+          <div className="text-center mb-16 md:mb-40">
+            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-4 md:mb-8 font-black">Save the Date</p>
+            <h3 className="font-serif text-4xl sm:text-6xl md:text-9xl text-[#1A1A2E] tracking-tighter">The Celebration</h3>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
             {(data.events && data.events.length > 0 ? data.events : [data.event]).map((event: any, i: number) => (
               <motion.div key={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-                className="bg-white p-16 md:p-24 relative group border border-[#5B7B9D]/5 shadow-xl hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] transition-all duration-700">
+                className="bg-white p-6 sm:p-12 md:p-24 relative group border border-[#5B7B9D]/5 shadow-xl hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] transition-all duration-700">
                 <div className="absolute top-0 left-0 w-full h-[4px] bg-[#5B7B9D] scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
 
-                <p className="font-sans text-[10px] uppercase tracking-[0.6em] text-[#C4A87C] font-black mb-12">
+                <p className="font-sans text-[10px] uppercase tracking-[0.6em] text-[#C4A87C] font-black mb-6 md:mb-12">
                   {event.title || (i === 0 ? "Akad Nikah" : "Resepsi")}
                 </p>
-                <h4 className="font-serif text-5xl text-[#1A1A2E] mb-6 tracking-tight">{event.date || data.event.date}</h4>
-                <p className="font-sans text-xs tracking-[0.5em] text-[#5B7B9D] uppercase mb-16 font-black">{event.time || data.event.time}</p>
+                <h4 className="font-serif text-2xl sm:text-5xl text-[#1A1A2E] mb-4 md:mb-6 tracking-tight">{event.date || data.event.date}</h4>
+                <p className="font-sans text-xs tracking-[0.5em] text-[#5B7B9D] uppercase mb-8 md:mb-16 font-black">{event.time || data.event.time}</p>
 
-                <div className="w-12 h-[1px] bg-[#5B7B9D]/15 mb-16" />
+                <div className="w-12 h-[1px] bg-[#5B7B9D]/15 mb-8 md:mb-16" />
 
-                <h5 className="font-serif text-3xl text-[#1A1A2E] mb-4">{event.location || event.locationName || data.event.locationName}</h5>
-                <p className="font-sans text-[10px] text-[#1A1A2E]/40 uppercase tracking-[0.4em] leading-relaxed mb-20 max-w-sm">
+                <h5 className="font-serif text-xl sm:text-3xl text-[#1A1A2E] mb-3 md:mb-4">{event.location || event.locationName || data.event.locationName}</h5>
+                <p className="font-sans text-[10px] text-[#1A1A2E]/40 uppercase tracking-[0.4em] leading-relaxed mb-10 md:mb-20 max-w-sm">
                   {event.address || event.locationAddress || data.event.locationAddress}
                 </p>
 
                 <button
                   onClick={() => window.open(event.maps_link || event.mapsLink || data.event.mapsLink, '_blank')}
-                  className="w-full py-6 bg-[#5B7B9D] text-white font-sans text-[10px] font-black uppercase tracking-[0.6em] hover:bg-[#1A1A2E] transition-all duration-500 shadow-xl shadow-[#5B7B9D]/20">
+                  className="w-full py-4 md:py-6 bg-[#5B7B9D] text-white font-sans text-[10px] font-black uppercase tracking-[0.6em] hover:bg-[#1A1A2E] transition-all duration-500 shadow-xl shadow-[#5B7B9D]/20">
                   Google Maps
                 </button>
               </motion.div>
@@ -245,33 +245,33 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
       </section>
 
       {/* ▸ GUESTBOOK */}
-      <section className="py-48 px-8 md:px-20 bg-white">
+      <section className="py-20 md:py-48 px-4 sm:px-8 md:px-20 bg-white">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="max-w-5xl mx-auto">
-          <div className="text-center mb-32">
-            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-6 font-black">Wishes</p>
-            <h3 className="font-serif text-7xl text-[#1A1A2E] tracking-tighter">Guestbook</h3>
+          <div className="text-center mb-16 md:mb-32">
+            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-4 md:mb-6 font-black">Wishes</p>
+            <h3 className="font-serif text-4xl sm:text-7xl text-[#1A1A2E] tracking-tighter">Guestbook</h3>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             {data.guestbook && data.guestbook.length > 0 ? (
               data.guestbook.slice(0, 6).map((guest: any, idx: number) => (
                 <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-                  className="p-12 bg-[#F8F9FB] border-l-[3px] border-[#5B7B9D]/20 hover:border-[#5B7B9D] transition-all duration-500">
-                  <div className="flex justify-between items-start mb-8">
+                  className="p-6 sm:p-12 bg-[#F8F9FB] border-l-[3px] border-[#5B7B9D]/20 hover:border-[#5B7B9D] transition-all duration-500">
+                  <div className="flex justify-between items-start mb-4 md:mb-8">
                     <div>
-                      <p className="font-serif text-2xl text-[#1A1A2E] mb-1">{guest.name}</p>
+                      <p className="font-serif text-lg sm:text-2xl text-[#1A1A2E] mb-1">{guest.name}</p>
                       <span className="text-[9px] uppercase tracking-[0.4em] text-[#5B7B9D] font-black">{guest.attendance}</span>
                     </div>
                     <span className="text-[10px] text-[#C4A87C] font-sans tracking-[0.2em] font-bold">
                       {new Date(guest.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
-                  <p className="font-serif italic text-[#1A1A2E]/50 text-xl leading-relaxed">"{guest.message}"</p>
+                  <p className="font-serif italic text-[#1A1A2E]/50 text-base sm:text-xl leading-relaxed">"{guest.message}"</p>
                 </motion.div>
               ))
             ) : (
-              <div className="col-span-2 text-center py-40 border border-dashed border-[#5B7B9D]/15 rounded-[2rem]">
-                <p className="font-serif italic text-[#1A1A2E]/30 text-2xl">Waiting for your beautiful wishes...</p>
+              <div className="col-span-2 text-center py-24 border border-dashed border-[#5B7B9D]/15 rounded-[2rem]">
+                <p className="font-serif italic text-[#1A1A2E]/30 text-xl sm:text-2xl">Waiting for your beautiful wishes...</p>
               </div>
             )}
           </div>
@@ -279,36 +279,36 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
       </section>
 
       {/* ▸ RSVP & GIFT */}
-      <section className="py-48 px-8 md:px-20 bg-[#F8F9FB]">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-32 items-center">
+      <section className="py-20 md:py-48 px-4 sm:px-8 md:px-20 bg-[#F8F9FB]">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 md:gap-32 items-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-8 font-black">Reservation</p>
-            <h3 className="font-serif text-7xl text-[#1A1A2E] tracking-tighter mb-10">RSVP</h3>
-            <p className="font-serif text-2xl text-[#1A1A2E]/50 italic mb-16 leading-relaxed">
+            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-4 md:mb-8 font-black">Reservation</p>
+            <h3 className="font-serif text-4xl sm:text-7xl text-[#1A1A2E] tracking-tighter mb-6 md:mb-10">RSVP</h3>
+            <p className="font-serif text-lg sm:text-2xl text-[#1A1A2E]/50 italic mb-8 md:mb-16 leading-relaxed">
               Konfirmasi kehadiran Anda adalah sebuah kehormatan besar bagi kami.
             </p>
             <button onClick={() => setIsRSVPOpen(true)}
-              className="w-full py-8 bg-[#5B7B9D] text-white font-sans text-[11px] font-black uppercase tracking-[0.7em] hover:bg-[#1A1A2E] transition-all shadow-2xl shadow-[#5B7B9D]/20">
+              className="w-full py-6 md:py-8 bg-[#5B7B9D] text-white font-sans text-[11px] font-black uppercase tracking-[0.7em] hover:bg-[#1A1A2E] transition-all shadow-2xl shadow-[#5B7B9D]/20">
               Confirm Presence
             </button>
           </motion.div>
 
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-8 font-black">Wedding Gift</p>
-            <h3 className="font-serif text-7xl text-[#1A1A2E] tracking-tighter mb-10">Envelope</h3>
-            <div className="p-16 bg-white shadow-2xl border border-[#5B7B9D]/5 relative overflow-hidden">
+            <p className="font-sans text-[10px] uppercase tracking-[0.8em] text-[#5B7B9D] mb-4 md:mb-8 font-black">Wedding Gift</p>
+            <h3 className="font-serif text-4xl sm:text-7xl text-[#1A1A2E] tracking-tighter mb-6 md:mb-10">Envelope</h3>
+            <div className="p-6 sm:p-16 bg-white shadow-2xl border border-[#5B7B9D]/5 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#5B7B9D]/5 rounded-full blur-3xl" />
-              <p className="font-sans text-[11px] uppercase tracking-[0.5em] text-[#C4A87C] mb-6 font-black">{data.gift.bankName}</p>
-              <p className="font-serif text-4xl text-[#1A1A2E] mb-3 tracking-[0.2em]">{data.gift.accountNumber}</p>
-              <p className="font-sans text-[11px] text-[#1A1A2E]/40 uppercase tracking-[0.4em] mb-16 font-bold">A/N {data.gift.accountName}</p>
-              <div className="flex flex-col sm:flex-row gap-6">
+              <p className="font-sans text-[11px] uppercase tracking-[0.5em] text-[#C4A87C] mb-3 md:mb-6 font-black">{data.gift.bankName}</p>
+              <p className="font-serif text-2xl sm:text-4xl text-[#1A1A2E] mb-2 md:mb-3 tracking-[0.2em]">{data.gift.accountNumber}</p>
+              <p className="font-sans text-[11px] text-[#1A1A2E]/40 uppercase tracking-[0.4em] mb-8 md:mb-16 font-bold">A/N {data.gift.accountName}</p>
+              <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
                 <button onClick={() => handleCopy(data.gift.accountNumber)}
-                  className="flex-1 py-6 border-2 border-[#5B7B9D] text-[#5B7B9D] font-sans text-[10px] font-black uppercase tracking-[0.5em] hover:bg-[#5B7B9D] hover:text-white transition-all">
+                  className="flex-1 py-4 md:py-6 border-2 border-[#5B7B9D] text-[#5B7B9D] font-sans text-[10px] font-black uppercase tracking-[0.5em] hover:bg-[#5B7B9D] hover:text-white transition-all">
                   Copy
                 </button>
                 {data.gift.qrUrl && (
                   <button onClick={() => setIsQRISOpen(true)}
-                    className="flex-1 py-6 bg-[#5B7B9D] text-white font-sans text-[10px] font-black uppercase tracking-[0.5em] hover:bg-[#1A1A2E] transition-all">
+                    className="flex-1 py-4 md:py-6 bg-[#5B7B9D] text-white font-sans text-[10px] font-black uppercase tracking-[0.5em] hover:bg-[#1A1A2E] transition-all">
                     QRIS
                   </button>
                 )}
@@ -319,14 +319,14 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
       </section>
 
       {/* ▸ WISHES / GUESTBOOK */}
-      <section className="py-48 px-8 md:px-20 bg-white relative overflow-hidden">
+      <section className="py-20 md:py-48 px-4 sm:px-8 md:px-20 bg-white relative overflow-hidden">
         <div className="max-w-4xl mx-auto">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-24">
-            <p className="font-sans text-[10px] uppercase tracking-[1em] text-[#5B7B9D] mb-8 font-black">Guestbook</p>
-            <h2 className="font-serif text-5xl md:text-7xl text-[#1A1A2E] tracking-tighter">Wishes & Prayers</h2>
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-12 md:mb-24">
+            <p className="font-sans text-[10px] uppercase tracking-[1em] text-[#5B7B9D] mb-4 md:mb-8 font-black">Guestbook</p>
+            <h2 className="font-serif text-3xl sm:text-5xl md:text-7xl text-[#1A1A2E] tracking-tighter">Wishes & Prayers</h2>
           </motion.div>
 
-          <div className="space-y-12">
+          <div className="space-y-8 md:space-y-12">
             {data.guestbook?.map((entry: any, i: number) => (
               <motion.div 
                 key={i}
@@ -334,18 +334,18 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group relative pb-12 border-b border-[#5B7B9D]/10"
+                className="group relative pb-6 md:pb-12 border-b border-[#5B7B9D]/10"
               >
-                <div className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-8">
+                <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
                   <div className="flex-shrink-0">
-                    <p className="font-serif text-2xl text-[#1A1A2E]">{entry.name}</p>
-                    <div className="flex items-center gap-2 mt-2">
+                    <p className="font-serif text-xl sm:text-2xl text-[#1A1A2E]">{entry.name}</p>
+                    <div className="flex items-center gap-2 mt-1 md:mt-2">
                       <span className={`w-2 h-2 rounded-full ${entry.attendance === 'Hadir' ? 'bg-[#5B7B9D]' : 'bg-gray-300'}`}></span>
                       <p className="font-sans text-[9px] uppercase tracking-widest text-[#5B7B9D]/60 font-bold">{entry.attendance}</p>
                     </div>
                   </div>
                   <div className="flex-grow">
-                    <p className="font-serif text-lg md:text-xl text-[#1A1A2E]/70 leading-relaxed italic">"{entry.message}"</p>
+                    <p className="font-serif text-base sm:text-lg md:text-xl text-[#1A1A2E]/70 leading-relaxed italic">"{entry.message}"</p>
                   </div>
                 </div>
                 
@@ -360,21 +360,21 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
             ))}
           </div>
 
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mt-24 text-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mt-16 md:mt-24 text-center">
             {hasSubmitted ? (
-              <div className="py-12 bg-white/50 backdrop-blur-sm border border-[#5B7B9D]/10 rounded-2xl max-w-sm mx-auto">
-                <div className="w-16 h-16 bg-[#5B7B9D]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-8 h-8 text-[#5B7B9D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="py-8 md:py-12 bg-white/50 backdrop-blur-sm border border-[#5B7B9D]/10 rounded-2xl max-w-sm mx-auto">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-[#5B7B9D]/10 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                  <svg className="w-6 h-6 md:w-8 md:h-8 text-[#5B7B9D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h4 className="text-[#1A1A2E] font-serif text-2xl mb-2">Terima Kasih!</h4>
+                <h4 className="text-[#1A1A2E] font-serif text-xl sm:text-2xl mb-1 md:mb-2">Terima Kasih!</h4>
                 <p className="text-[#1A1A2E]/40 text-[9px] uppercase tracking-widest font-black">Konfirmasi Anda telah kami terima.</p>
               </div>
             ) : (
               <button 
                 onClick={() => setIsRSVPOpen(true)}
-                className="px-16 py-6 border border-[#5B7B9D] text-[#5B7B9D] font-sans text-[10px] font-black uppercase tracking-[0.6em] hover:bg-[#5B7B9D] hover:text-white transition-all duration-500">
+                className="px-12 py-4 border border-[#5B7B9D] text-[#5B7B9D] font-sans text-[10px] font-black uppercase tracking-[0.6em] hover:bg-[#5B7B9D] hover:text-white transition-all duration-500">
                 Send Your Wishes
               </button>
             )}
@@ -382,17 +382,17 @@ export default function ModernBlueTheme({ data }: { data: InvitationData }) {
         </div>
       </section>
 
-      <footer className="py-48 text-center bg-[#1A1A2E] relative overflow-hidden">
+      <footer className="py-20 md:py-48 text-center bg-[#1A1A2E] relative overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{
           backgroundImage: "radial-gradient(#8AADCF 1px, transparent 1px)",
           backgroundSize: "40px 40px"
         }} />
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative z-10">
-          <p className="font-sans text-[10px] uppercase tracking-[1em] text-[#8AADCF] mb-12 font-bold">Thank You</p>
-          <h2 className="font-serif text-6xl md:text-9xl text-white tracking-tighter">
-            {data.bride.name} <span className="text-[#8AADCF] text-3xl md:text-5xl">&</span> {data.groom.name}
+          <p className="font-sans text-[10px] uppercase tracking-[1em] text-[#8AADCF] mb-8 md:mb-12 font-bold">Thank You</p>
+          <h2 className="font-serif text-4xl sm:text-6xl md:text-9xl text-white tracking-tighter">
+            {data.bride.name} <span className="text-[#8AADCF] text-2xl sm:text-3xl md:text-5xl">&amp;</span> {data.groom.name}
           </h2>
-          <div className="w-16 h-[1px] bg-[#8AADCF]/30 mx-auto mt-16" />
+          <div className="w-16 h-[1px] bg-[#8AADCF]/30 mx-auto mt-8 md:mt-16" />
         </motion.div>
       </footer>
 

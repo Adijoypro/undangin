@@ -11,6 +11,7 @@ const MajesticEternityTheme = dynamic(() => import("./MajesticEternityTheme"), {
 const RenaissanceGardenTheme = dynamic(() => import("./RenaissanceGardenTheme"), { ssr: false });
 const CelestialHarmonyTheme = dynamic(() => import("./CelestialHarmonyTheme"), { ssr: false });
 const ModernBlueTheme = dynamic(() => import("./ModernBlueTheme"), { ssr: false });
+const RoyalEleganceTheme = dynamic(() => import("./RoyalEleganceTheme"), { ssr: false });
 
 interface ThemeRouterProps {
   data: InvitationData;
@@ -32,6 +33,8 @@ export default function ThemeRouter({ data }: ThemeRouterProps) {
     case "modern-blue":
     case "sage":
       return <ModernBlueTheme data={data} />;
+    case "royal-elegance":
+      return <RoyalEleganceTheme data={data} />;
     case "premium":
     default:
       console.warn(`Unknown theme: ${data.theme}, falling back to premium.`);

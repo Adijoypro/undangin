@@ -177,7 +177,7 @@ export default async function DashboardPage() {
                   </div>
 
                   <div className="grid grid-cols-3 gap-3 mb-6">
-                    <a href={`/${invitation.slug}`} target="_blank" className="flex flex-col items-center justify-center py-3 bg-white/50 dark:bg-white/5 border border-white/50 dark:border-white/10 rounded-2xl hover:bg-wedding-gold hover:text-white transition-colors group/btn">
+                    <a href={`/${invitation.slug}?preview=true`} target="_blank" className="flex flex-col items-center justify-center py-3 bg-white/50 dark:bg-white/5 border border-white/50 dark:border-white/10 rounded-2xl hover:bg-wedding-gold hover:text-white transition-colors group/btn">
                       <ExternalLink className="w-4 h-4 mb-1 text-wedding-text/50 group-hover/btn:text-white" />
                       <span className="text-[9px] font-bold uppercase tracking-widest">LIHAT</span>
                     </a>

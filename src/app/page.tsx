@@ -10,6 +10,7 @@ import Testimonials from "@/components/landing/Testimonials";
 import FAQ from "@/components/landing/FAQ";
 import PricingSection from "@/components/landing/PricingSection";
 import Footer from "@/components/landing/Footer";
+import NusantaraChatbot from "@/components/landing/NusantaraChatbot";
 
 export default async function LandingPage() {
   const supabase = await createClient();
@@ -61,6 +62,7 @@ export default async function LandingPage() {
       </main>
 
       <Footer />
+      <NusantaraChatbot />
     </div>
   );
 }

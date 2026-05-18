@@ -134,7 +134,6 @@ export default function RootLayout({
         >
           <SmoothScroll>
             <GoldenAura />
-            <LuxuryThemeToggle />
             <Toaster 
               position="top-center" 
               expand={false}

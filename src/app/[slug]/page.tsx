@@ -57,10 +57,10 @@ export default async function InvitationPage({
   searchParams 
 }: { 
   params: Promise<{ slug: string }>, 
-  searchParams: Promise<{ to?: string }> 
+  searchParams: Promise<{ to?: string, preview?: string }> 
 }) {
   const resolvedParams = await params;
-  const { to: guestName } = await searchParams;
+  const { to: guestName, preview } = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -74,7 +74,8 @@ export default async function InvitationPage({
     notFound();
   }
 
-  const isOwner = user?.id === dbData.user_id;
+  const isPreview = preview === "true";
+  const isOwner = user?.id === dbData.user_id || isPreview;
   const isGuest = !!guestName;
 
   // Security: Only owner can see non-published invitations,
@@ -126,9 +127,23 @@ export default async function InvitationPage({
       latitude: dbData.latitude ?? -6.2088,
       longitude: dbData.longitude ?? 106.8456
     },
-    events: typeof dbData.events === 'string' 
-      ? JSON.parse(dbData.events) 
-      : (dbData.events || []),
+    events: (() => {
+      const parsed = typeof dbData.events === 'string' 
+        ? JSON.parse(dbData.events) 
+        : (dbData.events || []);
+      return Array.isArray(parsed) ? parsed.filter((e: any) => !e.isDressCode) : [];
+    })(),
+    dresscode: (() => {
+      const parsed = typeof dbData.events === 'string' 
+        ? JSON.parse(dbData.events) 
+        : (dbData.events || []);
+      const dc = Array.isArray(parsed) ? parsed.find((e: any) => e.isDressCode) : null;
+      return dc ? {
+        show: dc.show,
+        description: dc.description,
+        colors: dc.colors || []
+      } : undefined;
+    })(),
     loveStory: dbData.love_story || [],
     quote: dbData.quote || "Dan di antara tanda-tanda kebesaran-Nya...",
     gift: {

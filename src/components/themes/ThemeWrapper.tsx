@@ -122,6 +122,8 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
   // Warna background dasar biar nggak belang sama footer
   const getThemeBg = () => {
     switch (data.theme) {
+      case "royal-elegance":
+        return "bg-[#020202] text-[#FDFBF7]";
       case "cinematic-dark":
         return "bg-black text-white";
       case "ultra-luxury":
@@ -207,8 +209,14 @@ export default function ThemeWrapper({ data, isOwner, children }: ThemeWrapperPr
       {/* THEME CONTENT */}
       <ThemeContext.Provider value={{ isOpened, onOpen: handleOpen }}>
         <SmoothScroll>
-          {children}
-          {isOpened && <PoweredByUndangin theme={data.theme} />}
+          <div className="relative">
+            {children}
+            {isOpened && (
+              <div className={data.theme === "royal-elegance" ? "absolute bottom-0 left-0 right-0 z-40 pointer-events-none" : ""}>
+                <PoweredByUndangin theme={data.theme} />
+              </div>
+            )}
+          </div>
         </SmoothScroll>
       </ThemeContext.Provider>
 

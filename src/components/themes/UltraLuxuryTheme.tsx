@@ -482,6 +482,71 @@ export default function UltraLuxuryTheme({ data }: { data: InvitationData }) {
           </div>
         </section>
 
+        {/* DRESSCODE SECTION (ULTRA LUXURY STYLE) */}
+        {(() => {
+          const hasCustomDresscode = data.dresscode !== undefined;
+          const showDresscode = hasCustomDresscode ? data.dresscode?.show : true;
+          const dresscodeDescription = hasCustomDresscode ? data.dresscode?.description : 'Kami sangat menghargai jika para tamu undangan mengenakan pakaian formal bernuansa bumi (Earth Tones) sesuai dengan palet warna rekomendasi kami.';
+          const dresscodeColors = hasCustomDresscode ? (data.dresscode?.colors || []) : [
+            { name: 'Ivory', hex: '#FAF9F6' },
+            { name: 'Sage Green', hex: '#87A987' },
+            { name: 'Warm Beige', hex: '#D2B48C' },
+            { name: 'Soft Gold', hex: '#E6C280' }
+          ];
+
+          return showDresscode && dresscodeColors.length > 0 ? (
+            <section className="py-32 px-4 relative overflow-hidden" style={{ backgroundColor: palette.bg }}>
+              {/* Subtle linen texture backdrop */}
+              <div className="absolute inset-0 opacity-10 mix-blend-multiply pointer-events-none">
+                <Image src="/assets/ultra-luxury/paper.webp" fill className="object-cover" alt="Paper Texture" />
+              </div>
+
+              <div className="max-w-4xl mx-auto text-center relative z-10">
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeUp}
+                  className="space-y-12"
+                >
+                  <div>
+                    <p className="font-sans text-[10px] uppercase tracking-[0.6em] text-[#C9A96E] mb-6">The Attire</p>
+                    <h3 className="text-2xl md:text-5xl text-[#2C1810] font-serif tracking-widest uppercase">Dress Code</h3>
+                    <div className="w-16 h-[1px] bg-[#C9A96E] mx-auto mt-6" />
+                  </div>
+
+                  {dresscodeDescription && (
+                    <p className="text-base text-[#6B5E55] max-w-xl mx-auto leading-relaxed font-light tracking-wide">
+                      {dresscodeDescription}
+                    </p>
+                  )}
+
+                  {/* Swatches */}
+                  <div className="flex flex-wrap justify-center gap-8 md:gap-12 mt-12">
+                    {dresscodeColors.map((color, idx) => (
+                      <motion.div
+                        key={idx}
+                        whileHover={{ y: -5 }}
+                        className="flex flex-col items-center gap-4"
+                      >
+                        <div
+                          className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-[#C9A96E]/20 shadow-md group hover:shadow-[0_0_20px_rgba(201,169,110,0.3)] transition-all duration-700 relative overflow-hidden"
+                          style={{ backgroundColor: color.hex }}
+                        >
+                          <div className="absolute inset-0 bg-white/5 group-hover:opacity-0 transition-opacity" />
+                        </div>
+                        <span className="font-sans text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-[#6B5E55] font-bold">
+                          {color.name}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            </section>
+          ) : null;
+        })()}
+
         {/* 5. GIFT & RSVP */}
         <section className="py-48 px-4 relative overflow-hidden" style={{ backgroundColor: palette.bgSecondary }}>
           {/* Subtle linen texture backdrop */}

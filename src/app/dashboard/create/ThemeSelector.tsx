@@ -3,6 +3,16 @@
 import { useState } from "react";
 
 const THEME_PREVIEWS: Record<string, { name: string; desc: string; color: string }> = {
+  "premium": { 
+    name: "Sage Splendor", 
+    desc: "Desain minimalis modern yang menenangkan dengan paduan warna hijau sage dan aksen emas tipis yang sangat estetik.",
+    color: "bg-[#7C8C77]"
+  },
+  "royal-elegance": { 
+    name: "Royal Elegance", 
+    desc: "Kemegahan klasik aristokrat dengan latar beludru hitam pekat, ornamen emas mewah, dan efek sentuhan stardust trail yang ajaib.",
+    color: "bg-[#020202]"
+  },
   "cinematic-dark": { 
     name: "Cinematic Dark", 
     desc: "Nuansa gelap yang dramatis dengan tipografi besar dan animasi yang elegan.",
@@ -58,58 +68,80 @@ export default function ThemeSelector({ defaultValue = "cinematic-dark", onChang
               value={selectedTheme}
               onChange={handleThemeChange}
             >
-              <option value="cinematic-dark" className="bg-wedding-base">Cinematic Dark</option>
-              <option value="ultra-luxury" className="bg-wedding-base">The Ultra Luxury</option>
-              <option value="renaissance-garden" className="bg-wedding-base">The Renaissance Garden</option>
-              <option value="majestic-eternity" className="bg-wedding-base">Majestic Eternity</option>
-              <option value="celestial-harmony" className="bg-wedding-base">Celestial Harmony</option>
-              <option value="modern-blue" className="bg-wedding-base">Modern Blue</option>
+              <optgroup label="🎬 THE AVANT-GARDE SERIES (Modern & Kontemporer)" className="bg-wedding-base text-wedding-gold font-bold">
+                <option value="premium" className="bg-wedding-base text-wedding-text font-normal">Sage Splendor</option>
+                <option value="modern-blue" className="bg-wedding-base text-wedding-text font-normal">Modern Blue</option>
+                <option value="celestial-harmony" className="bg-wedding-base text-wedding-text font-normal">Celestial Harmony</option>
+                <option value="cinematic-dark" className="bg-wedding-base text-wedding-text font-normal">Cinematic Dark</option>
+              </optgroup>
+              
+              <optgroup label="👑 THE SOVEREIGN SERIES (Klasik & Aristokrat)" className="bg-wedding-base text-wedding-gold font-bold">
+                <option value="royal-elegance" className="bg-wedding-base text-wedding-text font-normal">Royal Elegance</option>
+                <option value="majestic-eternity" className="bg-wedding-base text-wedding-text font-normal">Majestic Eternity</option>
+                <option value="ultra-luxury" className="bg-wedding-base text-wedding-text font-normal">The Ultra Luxury</option>
+                <option value="renaissance-garden" className="bg-wedding-base text-wedding-text font-normal">The Renaissance Garden</option>
+              </optgroup>
+
+              <optgroup label="🏺 THE NUSANTARA HERITAGE (Tradisional - Coming Soon)" className="bg-wedding-base text-wedding-text/40 font-bold" disabled>
+                <option value="" disabled className="bg-wedding-base text-wedding-text/30 font-normal">Classic Javanese Royal</option>
+                <option value="" disabled className="bg-wedding-base text-wedding-text/30 font-normal">Golden Minang Heritage</option>
+              </optgroup>
             </select>
             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-wedding-gold">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
           </div>
+
           <div className="mt-4 p-5 bg-wedding-text/[0.03] rounded-xl border border-wedding-gold/10 transition-all">
             <h4 className="font-bold text-sm text-wedding-gold">{THEME_PREVIEWS[selectedTheme]?.name || "Premium Theme"}</h4>
             <p className="text-xs text-wedding-text/60 mt-1 leading-relaxed">{THEME_PREVIEWS[selectedTheme]?.desc || "Tema elegan untuk hari bahagia Anda."}</p>
           </div>
         </div>
 
-        {/* Live Preview - Phone Frame Aesthetic */}
+        {/* Live Preview - Premium iPhone 15 Pro Mockup */}
         <div className="flex flex-col items-center">
           <label className="block text-xs font-bold text-wedding-text/40 mb-3 w-full text-center uppercase tracking-widest">Preview Tema</label>
-          <div className="relative w-[240px] aspect-[9/16] rounded-[2.5rem] border-[8px] border-wedding-text bg-wedding-text shadow-2xl overflow-hidden group transition-all duration-500">
-            {/* Speaker hole */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-wedding-text z-50 rounded-b-2xl">
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-wedding-text/20 rounded-full"></div>
+          <div className="relative w-[280px] h-[583px] bg-black rounded-[3rem] p-[10px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border-[2px] border-[#2a2a2a] group transition-all duration-500">
+            {/* Screen Content */}
+            <div className="w-[260px] h-[563px] rounded-[2.5rem] overflow-hidden bg-black relative">
+               <div className={`absolute inset-0 ${THEME_PREVIEWS[selectedTheme]?.color || 'bg-wedding-base'} opacity-20 z-10 pointer-events-none`}></div>
+               
+               {/* 375px virtual viewport scaled down proportionally */}
+               <div 
+                 className="absolute inset-0 origin-top-left"
+                 style={{ 
+                   width: '375px', 
+                   height: '812px', 
+                   transform: 'scale(0.693333)', // 260px / 375px
+                 }}
+               >
+                 <iframe 
+                    src={`/demo/${selectedTheme}`} 
+                    className="w-full h-full border-none pointer-events-auto"
+                    title="Theme Preview"
+                 />
+               </div>
             </div>
             
-            <div className={`absolute inset-0 ${THEME_PREVIEWS[selectedTheme]?.color || 'bg-wedding-base'} opacity-20`}></div>
+            {/* Dynamic Island */}
+            <div className="absolute top-[22px] left-1/2 -translate-x-1/2 w-[85px] h-[26px] bg-black rounded-full z-[30] pointer-events-none" />
             
-            {/* Precision Mobile Scaling Container */}
-            <div 
-              className="absolute inset-0 origin-top-left"
-              style={{ 
-                width: '375px', 
-                height: '667px', 
-                transform: 'scale(0.64)', /* 240px / 375px = 0.64 */
-              }}
-            >
-              <iframe 
-                src={`/demo/${selectedTheme}`} 
-                className="w-full h-full border-none"
-                title="Theme Preview"
-              ></iframe>
-            </div>
+            {/* Hardware Buttons */}
+            <div className="absolute top-[120px] -left-[2px] w-[2px] h-[20px] bg-[#2a2a2a] rounded-l-md" /> {/* Action */}
+            <div className="absolute top-[160px] -left-[2px] w-[2px] h-[40px] bg-[#2a2a2a] rounded-l-md" /> {/* Vol Up */}
+            <div className="absolute top-[220px] -left-[2px] w-[2px] h-[40px] bg-[#2a2a2a] rounded-l-md" /> {/* Vol Down */}
+            <div className="absolute top-[180px] -right-[2px] w-[2px] h-[60px] bg-[#2a2a2a] rounded-r-md" /> {/* Power */}
 
             {/* Overlay Gradient for Badge */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-40"></div>
+            <div className="absolute bottom-[10px] left-[10px] right-[10px] h-32 bg-gradient-to-t from-black/80 to-transparent z-40 rounded-b-[2.5rem] pointer-events-none"></div>
             
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
-              <div className="text-white text-[10px] font-bold uppercase tracking-widest bg-wedding-gold/80 px-4 py-2 rounded-full backdrop-blur-md shadow-lg border border-white/20 whitespace-nowrap">
-                Live Preview
-              </div>
-            </div>
+            <button 
+              type="button"
+              onClick={() => window.open(`/demo/${selectedTheme}`, '_blank')}
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 text-white text-[10px] font-bold uppercase tracking-widest bg-wedding-gold hover:bg-wedding-gold/90 active:scale-95 transition-all px-5 py-2.5 rounded-full backdrop-blur-md shadow-lg border border-white/20 whitespace-nowrap cursor-pointer hover:shadow-wedding-gold/20 hover:shadow-xl"
+            >
+              Live Preview
+            </button>
           </div>
         </div>
       </div>

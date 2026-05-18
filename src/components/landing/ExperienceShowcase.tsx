@@ -125,19 +125,26 @@ export default function ExperienceShowcase() {
                 animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 style={{ transformStyle: "preserve-3d", willChange: "transform" }}
-                className="relative z-20 w-[300px] h-[600px] md:w-[380px] md:h-[760px] bg-black rounded-[3rem] md:rounded-[4rem] p-3 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border-[8px] border-[#1a1a1a] transform-gpu"
+                className="relative z-20 w-[300px] h-[620px] md:w-[360px] md:h-[740px] bg-black rounded-[3rem] md:rounded-[3.5rem] p-[10px] md:p-[12px] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border-[2px] border-[#2a2a2a] transform-gpu"
               >
                 {/* Screen Content */}
-                <div className="w-full h-full rounded-[2.2rem] md:rounded-[3.2rem] overflow-hidden bg-[#050103] relative group">
+                <div className="w-full h-full rounded-[2.5rem] md:rounded-[3rem] overflow-hidden bg-black relative flex items-center justify-center">
                    <iframe 
                       src={EXPERIENCES[activeIndex].demoUrl} 
-                      className="w-full h-full border-none scale-[1.01]"
+                      className="absolute inset-0 w-full h-full border-none pointer-events-auto"
                       title="Experience Preview"
+                      style={{ borderRadius: 'inherit' }}
                    />
                 </div>
                 
-                {/* Hardware Details */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-2xl z-[30]" />
+                {/* Dynamic Island */}
+                <div className="absolute top-[22px] md:top-[26px] left-1/2 -translate-x-1/2 w-[90px] md:w-[110px] h-[28px] md:h-[32px] bg-black rounded-full z-[30] pointer-events-none" />
+                
+                {/* Hardware Buttons */}
+                <div className="absolute top-[140px] -left-[2px] w-[2px] h-[25px] bg-[#2a2a2a] rounded-l-md" /> {/* Action */}
+                <div className="absolute top-[190px] -left-[2px] w-[2px] h-[50px] bg-[#2a2a2a] rounded-l-md" /> {/* Vol Up */}
+                <div className="absolute top-[250px] -left-[2px] w-[2px] h-[50px] bg-[#2a2a2a] rounded-l-md" /> {/* Vol Down */}
+                <div className="absolute top-[210px] -right-[2px] w-[2px] h-[75px] bg-[#2a2a2a] rounded-r-md" /> {/* Power */}
               </motion.div>
               
               {/* Floating Decorative Elements - Optimized */}

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useContext } from "react";
 import { ThemeContext } from "./ThemeWrapper";
-import ModernBlueCover from "../covers/ModernBlueCover";
+import EnvelopeCover from "../covers/EnvelopeCover";
 import { ScrollIndicator } from "./InvitationCover";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -89,7 +89,8 @@ export default function PremiumTheme({ data }: { data: InvitationData }) {
     <>
       <AnimatePresence>
         {!isOpened && (
-          <ModernBlueCover 
+          <EnvelopeCover 
+            variant="premium"
             guestName={data.guestName} 
             onOpen={onOpen}
             bride={data.bride.name}

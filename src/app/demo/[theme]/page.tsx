@@ -1,10 +1,4 @@
-import PremiumTheme from "@/components/themes/PremiumTheme";
-import CinematicDarkTheme from "@/components/themes/CinematicDarkTheme";
-import UltraLuxuryTheme from "@/components/themes/UltraLuxuryTheme";
-import MajesticEternityTheme from "@/components/themes/MajesticEternityTheme";
-import RenaissanceGardenTheme from "@/components/themes/RenaissanceGardenTheme";
-import CelestialHarmonyTheme from "@/components/themes/CelestialHarmonyTheme";
-import ModernBlueTheme from "@/components/themes/ModernBlueTheme";
+import ThemeRouter from "@/components/themes/ThemeRouter";
 import ThemeWrapper from "@/components/themes/ThemeWrapper";
 import { notFound } from "next/navigation";
 import { dummyData } from "@/data/invitations";
@@ -20,30 +14,9 @@ export default async function DemoPage({ params }: { params: Promise<{ theme: st
     theme: resolvedParams.theme
   };
 
-  const renderTheme = () => {
-    switch (resolvedParams.theme) {
-      case "premium":
-        return <PremiumTheme data={data} />;
-      case "cinematic-dark":
-        return <CinematicDarkTheme data={data} />;
-      case "ultra-luxury":
-        return <UltraLuxuryTheme data={data} />;
-      case "majestic-eternity":
-        return <MajesticEternityTheme data={data} />;
-      case "renaissance-garden":
-        return <RenaissanceGardenTheme data={data} />;
-      case "celestial-harmony":
-        return <CelestialHarmonyTheme data={data} />;
-      case "modern-blue":
-        return <ModernBlueTheme data={data} />;
-      default:
-        notFound();
-    }
-  };
-
   return (
     <ThemeWrapper data={data} isOwner={false}>
-      {renderTheme()}
+      <ThemeRouter data={data} />
     </ThemeWrapper>
   );
 }
