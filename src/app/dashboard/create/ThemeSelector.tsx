@@ -101,18 +101,18 @@ export default function ThemeSelector({ defaultValue = "cinematic-dark", onChang
         {/* Live Preview - Premium iPhone 15 Pro Mockup */}
         <div className="flex flex-col items-center w-full overflow-hidden">
           <label className="block text-xs font-bold text-wedding-text/40 mb-3 w-full text-center uppercase tracking-widest">Preview Tema</label>
-          <div className="relative w-[280px] h-[583px] bg-black rounded-[3rem] p-[10px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border-[2px] border-[#2a2a2a] group transition-all duration-500 scale-[0.85] sm:scale-100 origin-center my-[-40px] sm:my-0">
+          <div className="relative w-[240px] sm:w-[280px] h-[498px] sm:h-[583px] bg-black rounded-[2.5rem] sm:rounded-[3rem] p-[8px] sm:p-[10px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border-[2px] border-[#2a2a2a] group transition-all duration-500">
             {/* Screen Content */}
-            <div className="w-[260px] h-[563px] rounded-[2.5rem] overflow-hidden bg-black relative">
+            <div className="w-[220px] sm:w-[260px] h-[478px] sm:h-[563px] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-black relative">
                <div className={`absolute inset-0 ${THEME_PREVIEWS[selectedTheme]?.color || 'bg-wedding-base'} opacity-20 z-10 pointer-events-none`}></div>
                
                {/* 375px virtual viewport scaled down proportionally */}
                <div 
-                 className="absolute inset-0 origin-top-left"
+                 className="absolute inset-0 origin-top-left [--scale-factor:0.586667] sm:[--scale-factor:0.693333]"
                  style={{ 
                    width: '375px', 
                    height: '812px', 
-                   transform: 'scale(0.693333)', // 260px / 375px
+                   transform: 'scale(var(--scale-factor))',
                  }}
                >
                  <iframe 
@@ -124,21 +124,21 @@ export default function ThemeSelector({ defaultValue = "cinematic-dark", onChang
             </div>
             
             {/* Dynamic Island */}
-            <div className="absolute top-[22px] left-1/2 -translate-x-1/2 w-[85px] h-[26px] bg-black rounded-full z-[30] pointer-events-none" />
+            <div className="absolute top-[18px] sm:top-[22px] left-1/2 -translate-x-1/2 w-[72px] sm:w-[85px] h-[22px] sm:h-[26px] bg-black rounded-full z-[30] pointer-events-none" />
             
             {/* Hardware Buttons */}
-            <div className="absolute top-[120px] -left-[2px] w-[2px] h-[20px] bg-[#2a2a2a] rounded-l-md" /> {/* Action */}
-            <div className="absolute top-[160px] -left-[2px] w-[2px] h-[40px] bg-[#2a2a2a] rounded-l-md" /> {/* Vol Up */}
-            <div className="absolute top-[220px] -left-[2px] w-[2px] h-[40px] bg-[#2a2a2a] rounded-l-md" /> {/* Vol Down */}
-            <div className="absolute top-[180px] -right-[2px] w-[2px] h-[60px] bg-[#2a2a2a] rounded-r-md" /> {/* Power */}
+            <div className="absolute top-[102px] sm:top-[120px] -left-[2px] w-[2px] h-[17px] sm:h-[20px] bg-[#2a2a2a] rounded-l-md" /> {/* Action */}
+            <div className="absolute top-[136px] sm:top-[160px] -left-[2px] w-[2px] h-[34px] sm:h-[40px] bg-[#2a2a2a] rounded-l-md" /> {/* Vol Up */}
+            <div className="absolute top-[187px] sm:top-[220px] -left-[2px] w-[2px] h-[34px] sm:h-[40px] bg-[#2a2a2a] rounded-l-md" /> {/* Vol Down */}
+            <div className="absolute top-[153px] sm:top-[180px] -right-[2px] w-[2px] h-[51px] sm:h-[60px] bg-[#2a2a2a] rounded-r-md" /> {/* Power */}
 
             {/* Overlay Gradient for Badge */}
-            <div className="absolute bottom-[10px] left-[10px] right-[10px] h-32 bg-gradient-to-t from-black/80 to-transparent z-40 rounded-b-[2.5rem] pointer-events-none"></div>
+            <div className="absolute bottom-[8px] sm:bottom-[10px] left-[8px] sm:left-[10px] right-[8px] sm:right-[10px] h-28 sm:h-32 bg-gradient-to-t from-black/80 to-transparent z-40 rounded-b-[2rem] sm:rounded-b-[2.5rem] pointer-events-none"></div>
             
             <button 
               type="button"
               onClick={() => window.open(`/demo/${selectedTheme}`, '_blank')}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 text-white text-[10px] font-bold uppercase tracking-widest bg-wedding-gold hover:bg-wedding-gold/90 active:scale-95 transition-all px-5 py-2.5 rounded-full backdrop-blur-md shadow-lg border border-white/20 whitespace-nowrap cursor-pointer hover:shadow-wedding-gold/20 hover:shadow-xl"
+              className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-50 text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-widest bg-wedding-gold hover:bg-wedding-gold/90 active:scale-95 transition-all px-4 sm:px-5 py-2 sm:py-2.5 rounded-full backdrop-blur-md shadow-lg border border-white/20 whitespace-nowrap cursor-pointer hover:shadow-wedding-gold/20 hover:shadow-xl"
             >
               Live Preview
             </button>
